@@ -1,0 +1,29 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "main": ".open-next/worker.js",
+  "name": "huesflowers",
+  "compatibility_date": "2026-01-19",
+  "compatibility_flags": ["nodejs_compat"],
+  "assets": {
+    "directory": ".open-next/assets",
+    "binding": "ASSETS",
+  },
+  "routes": [
+    {
+      "pattern": "huesflowers.com",
+      "custom_domain": true,
+    },
+    {
+      "pattern": "www.huesflowers.com",
+      "custom_domain": true,
+    },
+    {
+      "pattern": "hues.flowers",
+      "custom_domain": true,
+    },
+    {
+      "pattern": "www.hues.flowers",
+      "custom_domain": true,
+    },
+  ],
+}
