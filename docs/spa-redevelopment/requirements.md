@@ -61,6 +61,58 @@ update-in-place as possible with live updates." Scope ruling, same evening:
 Out of scope: Sharon Kushner properties (client lane, already on their own
 WordPress→Cloudflare SPA migration).
 
+## Route-shape rulings (Dustin, 2026-11-23)
+
+- **N1 — season details: `/season/:slug`** (spring/summer/fall promoted
+  to top-level, per Bea's evidence and the plan's recommendation; the
+  `/whats-in-season` hub stands as the overview).
+- **N2 — games hub: `/arcade` is canonical** (Dustin's ruling over the
+  plan's /play recommendation; `/play` 301s to `/arcade` one hop, and
+  `/play/admin` moves to `/arcade/admin` with its own 301 — the
+  addendum settles the admin path in the redirect table).
+- **N9 — transactional email: Cloudflare Email Sending** (Dustin,
+  2026-11-23). Volunteer confirmations (and transactional mail
+  generally) send from the Worker via the `send_email` binding —
+  Resend is retired as a plan, no third-party key. The volunteer copy
+  may therefore promise a confirmation email. Caveats on record:
+  public beta, Workers Paid plan, conservative starting daily quota.
+
+## Best-practice amendments — ADOPTED IN FULL (Dustin, 2026-11-23)
+
+The four-cluster gap audit (72 gaps) is adopted wholesale: every
+amendment written in `gaps-performance-pwa.md`, `gaps-security-ops.md`,
+`gaps-a11y-ux-mechanics.md`, and `gaps-seo-data-testing.md` (this
+folder) is binding spec, at its stated severity, for every property
+build and for the bench's plan addendum. Headline obligations: numeric
+performance budgets with CI enforcement and CWV ownership; CSP +
+security-header suite; CSRF posture and Turnstile + rate limits on
+public write endpoints; R2 media backup/overwrite protection with a
+restore drill as a cutover gate; caching strategy incl. edge-cached
+public API reads; service-worker policy per route class + legacy /m
+worker deregistration; route-transition focus management, route
+announcements, skip links, programmatic state semantics, per-game
+accessibility annex; `verify` (lint + typecheck + tests) as the bench
+gate floor; per-property structured-data inventories incl. the seeds
+no-price JSON-LD guard; a named client data layer; filter/pagination
+URL policy; and the media move's image-SEO half (filename map, image
+redirects, image sitemaps, media-subdomain Search Console
+verification).
+
+## Media layer — R2 + CDN (Dustin, 2026-11-22)
+
+All images for every property are hosted from **Cloudflare R2 and served
+through the CDN** (a media domain on Dustin's own infrastructure — this
+IS self-hosting under the no-hotlink rule, not an exception to it). Apps
+ship without image bulk: the current trees carry ~232 MB of public/
+assets (cultivar photos, season plates, game art, videos) inside the
+deploy; that weight moves to the media layer. The music library already
+sets the precedent (R2 bucket `hues-music-drops`). The plan should use
+CDN image transformations for responsive sizes/formats where they earn
+their keep (efficient-computing mandate). Phase-1 note: the bench's
+architecture run was already in flight when this landed — it is a
+binding review criterion for its plan PR; if the plan lacks the media
+layer, it goes back.
+
 ## What does NOT change
 
 - All backend Workers, APIs, Durable Objects, and stored data.
