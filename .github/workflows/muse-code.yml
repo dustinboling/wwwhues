@@ -1,0 +1,184 @@
+# Muse — manual workflow for wwwhues (hues.flowers).
+#
+# Manual-dispatch ONLY: nothing in this repo runs Muse Code automatically.
+# A human starts a run from the Actions tab and names the task file to run.
+#
+# The Meta API key comes from this repository's Secrets (secrets.META_API_KEY)
+# and is passed to the run only as the META_API_KEY environment variable.
+# It is never printed, committed, or passed as a command-line flag.
+#
+# Exit code 0 from `muse exec` means the turn finished — NOT that the work
+# is correct. Correctness is gated on this repo building cleanly: the
+# workflow runs `npm ci` and `npm run build` after the Muse run, and no
+# pull request is created unless that gate passes in full.
+#
+# Fix-up loop (same pattern as hues-ops-dashboard, 2026-11-20): when the
+# gate is red, the workflow runs up to THREE further `muse exec` repair
+# turns whose prompt is the gate output itself, re-running the gate after
+# each. The PR step is reached only with a green gate. If the gate is
+# still red after the third repair turn, the job fails and no PR is
+# created.
+#
+# The run is bounded two ways: the job timeout (120 minutes) and the
+# `max_model_steps` input passed to `muse exec`. A headless run cannot
+# answer approval prompts, so the run uses `--approval-mode never`;
+# the Muse sandbox still contains the run.
+
+name: Muse
+
+on:
+  workflow_dispatch:
+    inputs:
+      task_file:
+        description: "Task prompt file for Muse to run"
+        type: string
+        required: true
+        default: "muse-tasks/spa-architecture-plan.md"
+      max_model_steps:
+        description: "Maximum model steps for the headless Muse run"
+        type: number
+        required: true
+        default: 100
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: muse-code
+  cancel-in-progress: false
+
+jobs:
+  muse-task:
+    name: Muse task
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install bubblewrap (required for the Muse sandbox on Linux)
+        run: sudo apt-get update && sudo apt-get install -y bubblewrap
+
+      - name: Install Muse Code
+        run: |
+          curl -fsSL https://dev.meta.ai/install.sh | bash
+          echo "$HOME/.local/bin" >> "$GITHUB_PATH"
+          "$HOME/.local/bin/muse" --version
+
+      - name: Install dependencies (so Muse can run the repo's build itself)
+        run: npm ci
+
+      - name: Run the Muse task
+        env:
+          META_API_KEY: ${{ secrets.META_API_KEY }}
+        run: |
+          set -o pipefail
+          muse exec \
+            --prompt-file "${{ inputs.task_file }}" \
+            --approval-mode never \
+            --max-model-steps ${{ inputs.max_model_steps }} \
+            --json | tee muse-run.jsonl
+
+      - name: Fail if Muse made no changes
+        run: |
+          # muse-run.jsonl is a run log, not work product — ignore it here.
+          if [ -z "$(git status --porcelain -- . ':(exclude)muse-run.jsonl')" ]; then
+            echo "::error::Muse finished but the working tree has no changes. Failing visibly instead of opening an empty PR."
+            exit 1
+          fi
+          git status --porcelain
+
+      - name: Upload the Muse run log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: muse-run-log
+          path: muse-run.jsonl
+          if-no-files-found: warn
+          retention-days: 14
+
+      - name: Gate on the repo's build, with fix-up turns
+        env:
+          META_API_KEY: ${{ secrets.META_API_KEY }}
+        run: |
+          npm ci
+          for attempt in 1 2 3 4; do
+            if npm run build > gate-output.txt 2>&1; then
+              echo "Gate green on attempt $attempt."
+              break
+            fi
+            if [ "$attempt" -eq 4 ]; then
+              echo "::error::Gate still red after three repair turns. Failing without a PR; gate output is uploaded as an artifact."
+              tail -n 100 gate-output.txt
+              exit 1
+            fi
+            echo "Gate red on attempt $attempt — running repair turn $attempt of 3 with the gate output as the prompt."
+            {
+              echo "You are continuing work in the wwwhues repo (the hues.flowers website). A previous Muse run worked on the task in \`${{ inputs.task_file }}\` (read it, and the files it points to, for scope) but left the tree failing the repo's gate, \`npm run build\`. The gate output is below."
+              echo ""
+              echo "Fix ONLY what the gate output reports. Do not widen scope, do not start new features, and do not re-do work that already passes. Finish every handler or function you reference — a referenced-but-missing function is what failed the last run. Leave no unused imports. You may fix a test file only where the test itself is broken (a syntax or runtime error in the test); never weaken or delete an assertion to make the gate pass. Your shell sandbox may fail with bwrap errors — if it does, keep working from the gate output below; the workflow re-runs the gate after your turn, so you do not need to run it yourself."
+              echo ""
+              echo '```'
+              tail -n 300 gate-output.txt
+              echo '```'
+            } > fix-prompt.md
+            set -o pipefail
+            muse exec \
+              --prompt-file fix-prompt.md \
+              --approval-mode never \
+              --max-model-steps ${{ inputs.max_model_steps }} \
+              --json | tee -a muse-fix.jsonl
+          done
+
+      - name: Upload gate output and fix-up logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: gate-and-fix-logs
+          path: |
+            gate-output.txt
+            muse-fix.jsonl
+          if-no-files-found: ignore
+          retention-days: 14
+
+      - name: Open a pull request with the changes
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          # The run log was already uploaded as an artifact above.
+          # Delete it — and the gate/fix-up scratch files — so none of
+          # them can ever be committed.
+          rm -f muse-run.jsonl muse-fix.jsonl gate-output.txt fix-prompt.md
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          BRANCH="muse/${{ github.run_id }}"
+          git switch -c "$BRANCH"
+          git add -A
+
+          if git diff --cached --quiet; then
+            echo "::error::Nothing staged after removing the run log. Refusing to open an empty PR."
+            exit 1
+          fi
+
+          git commit -m "Muse: $(basename "${{ inputs.task_file }}")"
+          git push origin "$BRANCH"
+
+          gh pr create \
+            --base main \
+            --head "$BRANCH" \
+            --title "Muse: $(basename "${{ inputs.task_file }}")" \
+            --body "Produced by the manually dispatched \`Muse\` workflow (run ${{ github.run_id }}).
+
+          - Task file used: \`${{ inputs.task_file }}\`
+          - The full Muse run log is attached to that workflow run as the \`muse-run-log\` artifact; gate output and any fix-up turns are in \`gate-and-fix-logs\`.
+          - Gate: \`npm run build\` passed in the workflow (after fix-up turns if any were needed) — no PR is created when the gate stays red.
+          - Not auto-merged. Hue reviews the diff against the task file before any merge."
