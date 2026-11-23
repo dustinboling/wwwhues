@@ -3,9 +3,9 @@ import clsx from 'clsx'
 
 const variantStyles = {
   primary:
-    'bg-lime-800 font-semibold text-lime-100 hover:bg-lime-700 active:bg-lime-800 active:text-lime-100/70 dark:bg-lime-700 dark:hover:bg-lime-700 dark:active:bg-lime-700 dark:active:text-lime-100/70',
+    'bg-[#23362b] font-semibold text-[#f7f1de] shadow-md ring-1 ring-[#b08d37]/60 hover:bg-[#2e4438] active:bg-[#23362b] active:text-[#f7f1de]/70',
   secondary:
-    'bg-lime-50 font-medium text-lime-900 hover:bg-lime-100 active:bg-lime-100 active:text-lime-900/60 dark:bg-lime-800/50 dark:text-lime-300 dark:hover:bg-lime-800 dark:hover:text-lime-50 dark:active:bg-lime-800/50 dark:active:text-lime-50/70',
+    'bg-[#fffdf4] font-medium text-[#23362b] ring-1 ring-[#e0d5b8] hover:ring-[#b08d37] active:bg-[#f7f1de] active:text-[#23362b]/60',
 }
 
 type ButtonProps = {
@@ -21,7 +21,7 @@ export function Button({
   ...props
 }: ButtonProps) {
   className = clsx(
-    'inline-flex items-center gap-2 justify-center rounded-md py-2 px-3 text-sm outline-offset-2 transition active:transition-none',
+    'inline-flex items-center gap-2 justify-center rounded-full py-2.5 px-5 text-sm outline-offset-2 transition active:transition-none',
     variantStyles[variant],
     className,
   )

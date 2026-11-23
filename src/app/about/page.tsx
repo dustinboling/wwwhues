@@ -14,6 +14,18 @@ export const metadata: Metadata = {
     description:
       'Meet Dusty Hues and the story behind Hues Floral Park, a u-pick flower farm and garden park in Junction City, Oregon.',
     url: '/about',
+    images: [
+      {
+        url: '/m-og/og-story.jpg',
+        width: 1200,
+        height: 630,
+        alt: 'Dusty, the farmer and creator of Hues Floral Park',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    images: ['/m-og/og-story.jpg'],
   },
 }
 

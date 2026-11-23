@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Hues — A Little World Apart · Web Prototype v1</title>
+<style>
+:root{--cream:#FAF2E0;--deep:#295738;--meadow:#9EC785;--lawn:#BDDB9E;--soil:#735438;--gold:#EDB53D;--pink:#ED7394;--pond:#73AECC;--river:#8CBFD9;--ink:#33302A;--dim:#7A7264;}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+html,body{margin:0;padding:0;}
+body{background:#E9E0C8;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;color:var(--ink);}
+#app{max-width:430px;margin:0 auto;background:var(--cream);min-height:100vh;padding:14px 14px 34px;}
+h1,h2,h3,.serif{font-family:Georgia,"Times New Roman",serif;}
+.masthead{text-align:center;padding:6px 0 2px;}
+.masthead h1{margin:0;font-size:44px;font-weight:700;color:var(--deep);line-height:1;}
+.masthead .seasonline{margin-top:4px;font-size:11px;font-weight:700;letter-spacing:2px;color:var(--soil);}
+.pills{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin:12px 0;}
+.pill{background:rgba(255,255,255,.75);border-radius:999px;padding:5px 9px;font-size:12px;font-weight:700;white-space:nowrap;}
+#map{position:relative;width:100%;height:440px;background:var(--meadow);border-radius:20px;overflow:hidden;box-shadow:inset 0 0 0 2px rgba(41,87,56,.15);}
+#river{position:absolute;top:0;bottom:0;right:0;width:5.5%;background:var(--river);}
+#river span{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%) rotate(90deg);font-size:8px;letter-spacing:2px;color:#fff;white-space:nowrap;opacity:.9;}
+.lawn{position:absolute;width:20%;aspect-ratio:1;background:var(--lawn);border-radius:50%;transform:translate(-50%,-50%);}
+.pathV{position:absolute;background:rgba(250,242,224,.85);width:3.5%;top:9%;height:86%;left:31.75%;}
+.pathH{position:absolute;background:rgba(250,242,224,.85);height:4.5%;top:45.25%;left:33%;width:60%;}
+.tile{position:absolute;transform:translate(-50%,-50%);border-radius:10px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;cursor:pointer;padding:3px;text-align:center;border:none;font-family:inherit;}
+.tile .tname{font-size:10px;font-weight:700;line-height:1.15;}
+.tile.bed{background:rgba(115,84,56,.88);color:#fff;}
+.tile.plain{background:rgba(250,242,224,.92);color:var(--deep);}
+.tile.pond{background:rgba(160,160,160,.45);color:var(--deep);}
+.tile.entrance{background:rgba(237,181,61,.9);color:var(--deep);}
+.tile .markers{font-size:10px;line-height:1;min-height:12px;}
+.tile .sub{font-size:9px;font-weight:600;}
+.dots{display:flex;gap:3px;min-height:8px;align-items:center;}
+.dot{width:8px;height:8px;border-radius:50%;box-shadow:0 0 0 1px rgba(255,255,255,.5);}
+.pondwater{width:66%;height:58%;background:var(--pond);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:17px;}
+#eveningVeil{position:absolute;inset:0;background:rgba(38,38,110,.38);pointer-events:none;display:none;}
+#map.evening #eveningVeil{display:block;}
+.lightdot{position:absolute;width:6px;height:6px;border-radius:50%;transform:translate(-50%,-50%);}
+.btnrow{display:flex;gap:12px;margin-top:14px;}
+button{font-family:inherit;cursor:pointer;}
+.btn{border-radius:10px;border:2px solid var(--deep);background:#fff;color:var(--deep);font-weight:700;font-size:14px;padding:10px 12px;}
+.btn.primary{background:var(--deep);color:#fff;}
+.btn.pink{background:var(--pink);border-color:var(--pink);color:#fff;}
+.btn.goldbtn{background:var(--gold);border-color:var(--gold);color:var(--ink);}
+.btn.soilbtn{background:var(--soil);border-color:var(--soil);color:#fff;}
+.btn:disabled{opacity:.38;cursor:default;}
+.btn.flex{flex:1;}
+.card{background:rgba(255,255,255,.6);border-radius:16px;padding:14px;margin-top:14px;}
+.card h3{margin:0 0 6px;font-size:17px;}
+</style>
+<style>
+.huecard{display:flex;gap:12px;align-items:flex-start;}
+.hueface{font-size:30px;background:rgba(255,255,255,.75);border-radius:50%;width:52px;height:52px;display:flex;align-items:center;justify-content:center;flex:none;}
+.huecard .who{font-size:11px;font-weight:700;color:var(--soil);letter-spacing:.4px;}
+.huecard .says{font-family:Georgia,serif;font-style:italic;font-size:15px;margin-top:2px;}
+.frostcard{background:rgba(237,140,50,.16);text-align:center;}
+.diaryline{font-size:13.5px;color:var(--dim);margin:3px 0;}
+.controls{display:flex;gap:10px;align-items:center;}
+.footnote{font-size:11.5px;color:var(--dim);text-align:center;margin-top:14px;line-height:1.45;}
+#panel{display:none;margin-top:16px;background:rgba(255,255,255,.72);border:2px solid rgba(41,87,56,.25);border-radius:18px;padding:14px;}
+#panel.open{display:block;}
+#panel h2{margin:2px 0 4px;font-size:21px;color:var(--deep);}
+.backbtn{background:none;border:none;color:var(--deep);font-weight:700;font-size:14px;padding:4px 0;}
+.bedmeta{display:flex;justify-content:space-between;font-size:13px;color:var(--dim);margin:6px 0 10px;}
+.bedactions{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:10px;}
+.plantmenu{display:flex;flex-wrap:wrap;gap:6px;width:100%;}
+.plantbtn{font-size:12px;padding:7px 9px;border-radius:999px;border:1.5px solid var(--deep);background:#fff;color:var(--deep);font-weight:600;}
+.plantbtn:disabled{opacity:.38;}
+.plantrow{display:flex;gap:12px;align-items:center;background:rgba(255,255,255,.8);border-radius:14px;padding:10px 12px;margin-top:8px;}
+.plantorb{width:40px;height:40px;border-radius:50%;flex:none;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;color:var(--soil);border:2px solid rgba(255,255,255,.7);}
+.plantinfo{flex:1;min-width:0;}
+.plantinfo .pname{font-family:Georgia,serif;font-weight:700;font-size:15.5px;}
+.plantinfo .pstage{font-size:12px;color:var(--dim);}
+.plantinfo .pflags{font-size:11px;color:var(--dim);margin-top:1px;}
+.weedflag{color:#E07B00;font-weight:700;}
+.houserule{font-size:12px;color:var(--soil);text-align:center;margin-top:10px;}
+.emptybed{font-family:Georgia,serif;font-style:italic;color:var(--dim);font-size:14.5px;padding:8px 2px;}
+.bigemoji{font-size:48px;text-align:center;}
+.serifbody{font-family:Georgia,serif;font-size:15.5px;text-align:center;line-height:1.5;}
+.bucketrow{display:flex;align-items:center;gap:8px;font-size:14.5px;padding:4px 0;}
+.colordot{width:13px;height:13px;border-radius:50%;flex:none;box-shadow:0 0 0 1px rgba(0,0,0,.12);}
+.guestcard{background:rgba(255,255,255,.75);border-radius:16px;padding:12px 14px;margin-top:10px;}
+.guesthead{display:flex;justify-content:space-between;align-items:baseline;gap:8px;}
+.guesthead .gname{font-family:Georgia,serif;font-weight:700;font-size:16.5px;}
+.guesthead .grewards{font-size:12px;font-weight:800;white-space:nowrap;}
+.gueststory{font-size:14px;margin-top:3px;}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px;}
+.chip{display:inline-flex;align-items:center;gap:5px;background:rgba(255,255,255,.85);border-radius:999px;padding:4px 9px;font-size:12px;font-weight:700;}
+.notyet{font-size:12px;color:var(--dim);margin-top:8px;}
+.deliveredrow{display:flex;gap:9px;align-items:flex-start;background:rgba(255,255,255,.6);border-radius:14px;padding:10px 12px;margin-top:8px;font-size:14px;}
+.deliveredrow .thanks{font-style:italic;color:var(--dim);font-size:13.5px;}
+.progresswrap{margin:12px 0 4px;}
+.progressrail{height:10px;background:rgba(0,0,0,.12);border-radius:999px;overflow:hidden;}
+.progressbar{height:100%;background:var(--pond);}
+.progresslabel{font-size:12px;color:var(--dim);text-align:center;margin-bottom:4px;}
+.pondscene{background:var(--pond);border-radius:50%;height:150px;display:flex;flex-direction:column;align-items:center;justify-content:center;margin:6px 12px;}
+#modalWrap{position:fixed;inset:0;background:rgba(40,35,20,.45);display:none;align-items:center;justify-content:center;padding:24px;z-index:50;}
+#modalWrap.open{display:flex;}
+#modalCard{background:var(--cream);border-radius:20px;padding:24px 20px;max-width:360px;text-align:center;box-shadow:0 12px 40px rgba(0,0,0,.3);}
+#modalCard h2{margin:0 0 10px;color:var(--deep);}
+#modalCard p{font-size:14.5px;line-height:1.55;}
+</style>
+</head>
+<body>
+<div id="app">
+  <div class="masthead">
+    <h1>Hues</h1>
+    <div class="seasonline" id="seasonLine">A LITTLE WORLD APART · SEASON 1</div>
+  </div>
+  <div class="pills" id="pills"></div>
+  <div id="map">
+    <div class="lawn" style="left:79%;top:38%;"></div>
+    <div class="lawn" style="left:79%;top:64%;"></div>
+    <div class="pathV"></div>
+    <div class="pathH"></div>
+    <div id="river"><span>WILLAMETTE RIVER</span></div>
+    <div id="mapTiles"></div>
+    <div id="eveningVeil"></div>
+  </div>
+  <div class="btnrow">
+    <button class="btn primary flex" id="boardBtn" onclick="openArea('board')">📋 Wish Board</button>
+    <button class="btn flex" id="bucketBtn" onclick="openArea('bucket')">🧺 Bucket (0)</button>
+  </div>
+  <div id="panel"></div>
+  <div class="card huecard">
+    <div class="hueface">🐇</div>
+    <div><div class="who">HUE SAYS</div><div class="says" id="hueHint"></div></div>
+  </div>
+  <div class="card frostcard" id="frostCard" style="display:none;">
+    <h3>❄️ Tonight brings the first frost</h3>
+    <div style="font-size:14px;">Pick everything you can today. When you're ready, we'll dig the tubers together and turn the season.</div>
+    <div style="margin-top:10px;"><button class="btn soilbtn" onclick="doBringInSeason()">Bring In the Season</button></div>
+  </div>
+  <div class="card">
+    <h3>Park Diary</h3>
+    <div id="diaryMain"></div>
+  </div>
+  <div class="card controls">
+    <button class="btn soilbtn" id="nextDayBtn" onclick="doNextDay()">⏭ Next Day ▸ (debug)</button>
+    <button class="btn" id="sunsetBtn" onclick="toggleSunset()">🌇 Sunset</button>
+    <span style="flex:1"></span>
+    <button class="btn" title="Start the park over" onclick="doStartOver()">↩️ Start Over</button>
+  </div>
+  <div class="footnote">Web prototype v1 — the browser twin of the Swift Playgrounds build, in Print Edition dress with placeholder paint. Grown with real days; use Next Day to time-travel while testing.</div>
+</div>
+<div id="modalWrap"><div id="modalCard">
+  <h2>The Season Turns</h2>
+  <p id="modalText"></p>
+  <button class="btn primary" id="modalBtn" onclick="closeModal()">Begin Season 2</button>
+</div></div>
+<script id="game-logic">
+/* HuesPark game logic — a faithful port of the Swift Models.swift + GameEngine.swift.
+   Pure logic on the global state object S. No DOM access in this script. */
+var CROPS = {
+  sweetPea:     {name:"Sweet Pea & Ranunculus", stem:"Blush",   bloomAge:2,  maxBlooms:3, isDahlia:false, paint:"#F5B5C7"},
+  zinnia:       {name:"Zinnia",                 stem:"Coral",   bloomAge:4,  maxBlooms:3, isDahlia:false, paint:"#FA8C73"},
+  sunflower:    {name:"Sunflower",              stem:"Gold",    bloomAge:6,  maxBlooms:1, isDahlia:false, paint:"#F9C740"},
+  dahliaCoral:  {name:"Coral Dahlia",           stem:"Coral",   bloomAge:7,  maxBlooms:3, isDahlia:true,  paint:"#FA8C73"},
+  dahliaCream:  {name:"Cream Dahlia",           stem:"Cream",   bloomAge:9,  maxBlooms:3, isDahlia:true,  paint:"#FCF2D1"},
+  dahliaGold:   {name:"Gold Dahlia",            stem:"Gold",    bloomAge:9,  maxBlooms:3, isDahlia:true,  paint:"#F9C740"},
+  dahliaCrimson:{name:"Crimson Dahlia",         stem:"Crimson", bloomAge:10, maxBlooms:3, isDahlia:true,  paint:"#C73852"}
+};
+var STEM_PAINT = {Blush:"#F5B5C7", Coral:"#FA8C73", Cream:"#FCF2D1", Gold:"#F9C740", Crimson:"#C73852"};
+var POND_COST = 120;
+var S = null;
+var lastSeasonSummary = null;
+var plantSeq = 0;
+
+function todayString(){
+  var d = new Date();
+  function p(n){ return (n<10?"0":"")+n; }
+  return d.getFullYear() + "-" + p(d.getMonth()+1) + "-" + p(d.getDate());
+}
+function daysBetween(aStr, bStr){
+  function parse(s){ var p=s.split("-"); return new Date(+p[0], +p[1]-1, +p[2]); }
+  var a = parse(aStr), b = parse(bStr);
+  return Math.round((b - a) / 86400000);
+}
+function mkGuest(id,name,story,needs,coins,hearts,day,pond,thanks){
+  return {id:id, name:name, story:story, needs:needs, rewardCoins:coins, rewardHearts:hearts,
+          availableDay:day, requiresPond:!!pond, isDelivered:false, thanks:thanks};
+}
+function freshState(){
+  var s = { season:1, day:1, coins:50, hearts:0, bucket:{}, gearOut:false,
+            pondBuilt:false, eggsReady:true, ducksFedDay:-1, tuberBank:8, lastRealDate:"", log:[] };
+  s.beds = [
+    {id:"springBed",  name:"Spring Bed",  areaID:"spring",  allowedCropRaws:["sweetPea"],                 slotCount:4, plants:[]},
+    {id:"cottageBed", name:"Cottage Bed", areaID:"cottage", allowedCropRaws:["zinnia","sunflower"],       slotCount:4, plants:[]},
+    {id:"dahliaA",    name:"Dahlia Bed A",areaID:"dahliaA", allowedCropRaws:["dahliaCoral","dahliaCream"],slotCount:4, plants:[]},
+    {id:"dahliaB",    name:"Dahlia Bed B",areaID:"dahliaB", allowedCropRaws:["dahliaGold","dahliaCrimson"],slotCount:4, plants:[]}
+  ];
+  s.guests = [
+    mkGuest("g1","Maya","Six blush stems for my mom's birthday — she grows sweet peas too.",{"Blush":3},40,1,3,false,"She cried. The good kind."),
+    mkGuest("g2","Tom & Ana","Cream and blush for our wedding table, whenever they're ready. No rush at all.",{"Cream":2,"Blush":1},60,2,5,false,"The table looked like a painting."),
+    mkGuest("g3","Priya, a nurse","Anything cheerful and coral for the ward, please.",{"Coral":3},50,1,6,false,"The whole ward brightened up."),
+    mkGuest("g4","The Alvarez Family","We came for the ducks! Gold stems for grandma while the kids feed them.",{"Gold":2},55,1,4,true,"Best day of the summer, they said."),
+    mkGuest("g5","June, a photographer","Two crimson dahlias at peak, for a portrait session at golden hour.",{"Crimson":2},65,2,8,true,"That crimson against the evening light — magic.")
+  ];
+  s.log = ["Welcome to your park. Hue is waiting by the entrance."];
+  return s;
+}
+function phaseName(day){
+  if(day>=1 && day<=3) return "Spring";
+  if(day>=4 && day<=7) return "Summer";
+  if(day>=8 && day<=11) return "Dahlias Begin";
+  return "Peak Season";
+}
+function cropOf(plant){ return CROPS[plant.cropRaw] || CROPS.zinnia; }
+function plantAge(plant, day){ return Math.max(0, day - plant.plantedDay); }
+function stageName(plant, day){
+  var a = plantAge(plant, day), c = cropOf(plant);
+  if(plant.bloomsReady > 0) return "In bloom";
+  if(a === 0) return "Planted today";
+  if(a < c.bloomAge - 2) return "Sprouting";
+  if(a < c.bloomAge) return "Budding";
+  return "In bloom";
+}
+function bucketCount(){ var n=0; for(var k in S.bucket) n += S.bucket[k]; return n; }
+function addLog(line){
+  S.log.unshift(line);
+  if(S.log.length > 12) S.log = S.log.slice(0,12);
+}
+</script>
+<script id="game-logic-2">
+function bedByID(bedID){
+  for(var i=0;i<S.beds.length;i++) if(S.beds[i].id===bedID) return S.beds[i];
+  return null;
+}
+function bedForArea(areaID){
+  for(var i=0;i<S.beds.length;i++) if(S.beds[i].areaID===areaID) return S.beds[i];
+  return null;
+}
+function advanceOneDay(){
+  S.day += 1;
+  var opened = [];
+  for(var b=0;b<S.beds.length;b++){
+    var bed = S.beds[b];
+    for(var p=0;p<bed.plants.length;p++){
+      var plant = bed.plants[p], c = cropOf(plant);
+      if(plant.wateredToday) plant.tendedDays += 1;
+      var a = plantAge(plant, S.day);
+      if(a === c.bloomAge){
+        plant.bloomsReady = Math.min(c.maxBlooms, 2);
+        opened.push(c.name);
+      } else if(a > c.bloomAge && plant.bloomsReady < c.maxBlooms && !plant.weedy){
+        plant.bloomsReady += 1;
+      }
+      if( (S.day + p + b) % 4 === 0 && a > 0 ) plant.weedy = true;
+      plant.wateredToday = false;
+    }
+  }
+  S.eggsReady = true;
+  opened.forEach(function(n){ addLog(n + " opened today."); });
+  if(S.day === 14) addLog("Peak is here — and tonight brings the first frost. Pick big today.");
+}
+function debugNextDay(){
+  if(S.day >= 14){ bringInTheSeason(); }
+  else { advanceOneDay(); S.lastRealDate = todayString(); persist(); }
+}
+function bringInTheSeason(){
+  var dahliaCount=0, wellTended=0, totalPicked=0;
+  S.beds.forEach(function(bed){ bed.plants.forEach(function(plant){
+    if(cropOf(plant).isDahlia){
+      dahliaCount += 1; totalPicked += plant.totalPicked;
+      if(plant.tendedDays >= 5) wellTended += 1;
+    }
+  });});
+  var gained = dahliaCount + wellTended;
+  S.tuberBank = Math.max(S.tuberBank, 4) + gained;
+  lastSeasonSummary = "Frost came in the night, gentle as ever. You picked " + totalPicked +
+    " dahlia stems this season. Your " + dahliaCount + " dahlia plants were dug and divided — you begin Season " +
+    (S.season + 1) + " with " + S.tuberBank + " tubers in the bank, plus every coin, heart, and built corner of the park.";
+  S.season += 1; S.day = 1; S.bucket = {}; S.gearOut = false;
+  S.eggsReady = true; S.ducksFedDay = -1;
+  S.beds.forEach(function(bed){ bed.plants = []; });
+  S.guests.forEach(function(g){ g.isDelivered = false; });
+  S.lastRealDate = todayString();
+  addLog("Season " + S.season + ", Day 1. The beds are ready when you are.");
+  persist();
+}
+function applyRealDaysElapsed(){
+  if(!S.lastRealDate) return;
+  var elapsed = daysBetween(S.lastRealDate, todayString());
+  if(!(elapsed > 0)) return;
+  var steps = Math.min(elapsed, 14 - S.day);
+  if(steps > 0){
+    for(var i=0;i<steps;i++) advanceOneDay();
+    addLog("While you were away, " + steps + " day" + (steps===1?"":"s") + " passed in the park.");
+  }
+  S.lastRealDate = todayString();
+  persist();
+}
+function plant(bedID, cropRaw){
+  var bed = bedByID(bedID); if(!bed) return;
+  if(bed.plants.length >= bed.slotCount) return;
+  var c = CROPS[cropRaw]; if(!c) return;
+  if(c.isDahlia){ if(S.tuberBank <= 0) return; S.tuberBank -= 1; }
+  plantSeq += 1;
+  bed.plants.push({ id:"p"+Date.now()+"-"+plantSeq, cropRaw:cropRaw, plantedDay:S.day,
+                    wateredToday:false, weedy:false, bloomsReady:0, tendedDays:0, totalPicked:0 });
+  addLog("Planted " + c.name + " in " + bed.name + ".");
+  persist();
+}
+function water(bedID){
+  var bed = bedByID(bedID); if(!bed) return;
+  bed.plants.forEach(function(p){ p.wateredToday = true; });
+  persist();
+}
+function weed(bedID){
+  var bed = bedByID(bedID); if(!bed) return;
+  bed.plants.forEach(function(p){ p.weedy = false; });
+  persist();
+}
+function pick(bedID, plantID){
+  if(!S.gearOut) return;
+  var bed = bedByID(bedID); if(!bed) return;
+  for(var i=0;i<bed.plants.length;i++){
+    var p = bed.plants[i];
+    if(p.id === plantID){
+      if(p.bloomsReady <= 0) return;
+      p.bloomsReady -= 1; p.totalPicked += 1;
+      var col = cropOf(p).stem;
+      S.bucket[col] = (S.bucket[col] || 0) + 1;
+      persist(); return;
+    }
+  }
+}
+function toggleGear(){
+  S.gearOut = !S.gearOut;
+  if(S.gearOut) addLog("Snips and bucket checked out at the gear stand — Hues provides everything.");
+  persist();
+}
+function collectEggs(){
+  if(!S.eggsReady) return;
+  S.eggsReady = false; S.coins += 8;
+  addLog("Gathered the morning eggs — sold at the stand for 8 coins.");
+  persist();
+}
+function feedDucks(){
+  if(!S.pondBuilt || S.ducksFedDay === S.day) return;
+  S.ducksFedDay = S.day;
+  S.coins = Math.max(0, S.coins - 2);
+  S.hearts += 1;
+  addLog("Fed the ducks. Pure joy, both directions.");
+  persist();
+}
+function buildPond(){
+  if(S.pondBuilt || S.coins < POND_COST) return;
+  S.coins -= POND_COST; S.pondBuilt = true;
+  addLog("The duck pond is built, in its true place at the north end of the parking.");
+  persist();
+}
+</script>
+<script id="game-logic-3">
+function guestIsAvailable(g){
+  return !g.isDelivered && S.day >= g.availableDay && (!g.requiresPond || S.pondBuilt);
+}
+function canDeliver(g){
+  for(var col in g.needs){ if((S.bucket[col] || 0) < g.needs[col]) return false; }
+  return true;
+}
+function deliver(guestID){
+  var g = null;
+  S.guests.forEach(function(x){ if(x.id===guestID) g = x; });
+  if(!g) return;
+  if(!guestIsAvailable(g) || !canDeliver(g)) return;
+  for(var col in g.needs){
+    S.bucket[col] = (S.bucket[col] || 0) - g.needs[col];
+    if(S.bucket[col] === 0) delete S.bucket[col];
+  }
+  g.isDelivered = true;
+  S.coins += g.rewardCoins;
+  S.hearts += g.rewardHearts;
+  addLog(g.name + " left delighted. \u201C" + g.thanks + "\u201D");
+  persist();
+}
+function areaNeedsWater(areaID){
+  var bed = bedForArea(areaID); if(!bed) return false;
+  return bed.plants.some(function(p){ return !p.wateredToday; });
+}
+function areaHasBlooms(areaID){
+  var bed = bedForArea(areaID); if(!bed) return false;
+  return bed.plants.some(function(p){ return p.bloomsReady > 0; });
+}
+function areaHasWeeds(areaID){
+  var bed = bedForArea(areaID); if(!bed) return false;
+  return bed.plants.some(function(p){ return p.weedy; });
+}
+function deliverableGuestCount(){
+  return S.guests.filter(function(g){ return guestIsAvailable(g) && canDeliver(g); }).length;
+}
+function hueHint(){
+  var anyPlants = S.beds.some(function(b){ return b.plants.length > 0; });
+  if(S.day === 1 && !anyPlants)
+    return "Morning! Let's plant — tubers in the dahlia beds, seeds in the spring and cottage beds. Then water everything.";
+  if(deliverableGuestCount() > 0)
+    return "A bouquet is ready in your bucket — the wish board at the entrance is glowing.";
+  var anyBlooms = S.beds.some(function(b){ return b.plants.some(function(p){ return p.bloomsReady > 0; }); });
+  if(anyBlooms){
+    if(!S.gearOut) return "Something's blooming! Check out your snips and bucket at the gear stand first — house rule.";
+    return "Blooms are ready to pick. Remember: picking dahlias makes more dahlias.";
+  }
+  if(!S.pondBuilt && S.coins >= POND_COST)
+    return "You've earned the duck pond, friend. It's waiting up by the parking.";
+  if(S.eggsReady)
+    return "Eggs in the coop, ducks to dream about, beds to tend. A good morning.";
+  if(S.day >= 12)
+    return "Peak days. Pick big, give it all away, and watch this place glow.";
+  if(S.day === 14)
+    return "Last day before the frost. Make it count, then we dig tubers together.";
+  return "Water what needs it, clear a weed or two, and the park does the rest. Cocoa says hi.";
+}
+function resetGame(){
+  S = freshState();
+  S.lastRealDate = todayString();
+  lastSeasonSummary = null;
+  persist();
+}
+</script>
+<script>
+/* ================= UI layer (browser only) ================= */
+var SAVE_KEY = 'huesParkGameStateV1';
+var currentArea = null;
+var evening = false;
+
+function persist(){ try{ localStorage.setItem(SAVE_KEY, JSON.stringify(S)); }catch(e){} }
+
+function loadGame(){
+  var raw = null;
+  try{ raw = localStorage.getItem(SAVE_KEY); }catch(e){}
+  if(raw){
+    try{
+      var parsed = JSON.parse(raw);
+      if(parsed && Array.isArray(parsed.beds) && Array.isArray(parsed.guests)){ S = parsed; }
+    }catch(e){}
+  }
+  if(!S){ S = freshState(); }
+  applyRealDaysElapsed();
+  if(!S.lastRealDate){ S.lastRealDate = todayString(); persist(); }
+}
+function esc(s){
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+function render(){
+  document.getElementById('seasonLine').textContent = 'A LITTLE WORLD APART · SEASON ' + S.season;
+  var pills = ['📅 Day ' + S.day + ' of 14','☀️ ' + phaseName(S.day),'🪙 ' + S.coins,'❤️ ' + S.hearts,'🌿 ' + S.tuberBank];
+  document.getElementById('pills').innerHTML = pills.map(function(p){ return '<span class="pill">'+esc(p)+'</span>'; }).join('');
+  var dc = deliverableGuestCount();
+  document.getElementById('boardBtn').textContent = '📋 Wish Board' + (dc>0 ? ' ('+dc+' ready)' : '');
+  document.getElementById('bucketBtn').textContent = '🧺 Bucket (' + bucketCount() + ')';
+  document.getElementById('hueHint').textContent = hueHint();
+  document.getElementById('frostCard').style.display = (S.day===14) ? 'block' : 'none';
+  document.getElementById('diaryMain').innerHTML =
+    S.log.slice(0,5).map(function(l){ return '<div class="diaryline">· '+esc(l)+'</div>'; }).join('');
+  document.getElementById('nextDayBtn').textContent = (S.day>=14) ? '❄️ Frost Night ▸ (debug)' : '⏭ Next Day ▸ (debug)';
+  document.getElementById('sunsetBtn').textContent = evening ? '🌅 Morning' : '🌇 Sunset';
+  renderMap();
+  renderPanel();
+  if(lastSeasonSummary){
+    document.getElementById('modalText').textContent = lastSeasonSummary;
+    document.getElementById('modalBtn').textContent = 'Begin Season ' + S.season;
+    document.getElementById('modalWrap').classList.add('open');
+  } else {
+    document.getElementById('modalWrap').classList.remove('open');
+  }
+}
+var TILES = [
+  {id:'animals', name:'Coop & Rabbits', x:17.5, y:11, w:27, h:15, cls:'plain'},
+  {id:'pond',    name:'Duck Pond',      x:76,   y:11, w:30, h:15, cls:'pond'},
+  {id:'spring',  name:'Spring Bed',     x:17.5, y:33, w:27, h:16, cls:'bed'},
+  {id:'cottage', name:'Cottage Bed',    x:17.5, y:58, w:27, h:16, cls:'bed'},
+  {id:'dahliaA', name:'Dahlia Bed A',   x:50,   y:30, w:27, h:20, cls:'bed'},
+  {id:'dahliaB', name:'Dahlia Bed B',   x:50,   y:60, w:27, h:20, cls:'bed'},
+  {id:'gear',    name:'Gear Stand',     x:14,   y:90, w:22, h:11, cls:'plain'},
+  {id:'stand',   name:'Farm Stand',     x:80,   y:90, w:24, h:11, cls:'plain'}
+];
+function tileMarkers(areaID){
+  var out = '';
+  if(areaID==='animals' && S.eggsReady) out += '🥚';
+  var bed = bedForArea(areaID);
+  if(bed){
+    if(areaNeedsWater(areaID)) out += '💧';
+    if(areaHasBlooms(areaID)) out += '✨';
+    if(areaHasWeeds(areaID)) out += '⚠️';
+  }
+  return out;
+}
+function renderMap(){
+  var lights = '';
+  for(var j=0;j<12;j++){
+    lights += '<span class="lightdot" style="left:'+(8+j*7.5)+'%;top:'+(20+(j%3)*5)+'%;background:'+(j%2===0?'#EDB53D':'#ED7394')+'"></span>';
+  }
+  document.getElementById('eveningVeil').innerHTML = lights;
+  document.getElementById('map').classList.toggle('evening', evening);
+  var dc = deliverableGuestCount();
+  var html = TILES.map(function(t){
+    var inner = '';
+    if(t.id==='pond'){
+      inner = S.pondBuilt ? '<div class="pondwater">🦆</div>'
+                          : '<div class="tname">Duck Pond</div><div class="sub">a future build</div>';
+    } else {
+      inner = '<div class="tname">'+esc(t.name)+'</div>';
+      var bed = bedForArea(t.id);
+      if(bed){
+        var blooming = bed.plants.filter(function(p){ return p.bloomsReady>0; }).slice(0,5);
+        inner += '<div class="dots">' + blooming.map(function(p){
+          return '<span class="dot" style="background:'+CROPS[p.cropRaw].paint+'"></span>';
+        }).join('') + '</div>';
+      }
+      inner += '<div class="markers">'+tileMarkers(t.id)+'</div>';
+    }
+    return '<button class="tile '+t.cls+'" style="left:'+t.x+'%;top:'+t.y+'%;width:'+t.w+'%;height:'+t.h+'%" onclick="openArea(\''+t.id+'\')">'+inner+'</button>';
+  }).join('');
+  html += '<button class="tile entrance" style="left:47%;top:90%;width:30%;height:9%" onclick="openArea(\'board\')">' +
+          '<div class="tname">Entrance · Wish Board</div>' +
+          (dc>0 ? '<div class="sub">'+dc+' bouquet'+(dc===1?'':'s')+' ready</div>' : '') + '</button>';
+  document.getElementById('mapTiles').innerHTML = html;
+}
+function openArea(id){
+  currentArea = id; renderPanel();
+  document.getElementById('panel').scrollIntoView({behavior:'smooth', block:'nearest'});
+}
+function closePanel(){ currentArea = null; renderPanel(); }
+function renderPanel(){
+  var panel = document.getElementById('panel');
+  if(!currentArea){ panel.classList.remove('open'); panel.innerHTML=''; return; }
+  var html = '<button class="backbtn" onclick="closePanel()">← Park Map</button>';
+  if(currentArea==='board') html += '<h2>The Wish Board</h2>' + boardHTML();
+  else if(currentArea==='bucket') html += '<h2>Your Bucket</h2>' + bucketHTML();
+  else if(currentArea==='gear') html += '<h2>The Gear Stand</h2>' + gearHTML();
+  else if(currentArea==='stand') html += '<h2>Farm Stand</h2>' + standHTML();
+  else if(currentArea==='animals') html += '<h2>Coop, Chickens &amp; Rabbits</h2>' + animalsHTML();
+  else if(currentArea==='pond') html += '<h2>The Duck Pond</h2>' + pondHTML();
+  else {
+    var bed = bedForArea(currentArea);
+    if(bed) html += '<h2>'+esc(bed.name)+'</h2>' + bedHTML(bed);
+    else html += '<p>A quiet corner of the park.</p>';
+  }
+  panel.innerHTML = html;
+  panel.classList.add('open');
+}
+</script>
+<script>
+/* ================= Panels: beds ================= */
+function bedHTML(bed){
+  var isDahliaBed = bed.allowedCropRaws.some(function(r){ return CROPS[r].isDahlia; });
+  var free = bed.slotCount - bed.plants.length;
+  var allWatered = bed.plants.length>0 && bed.plants.every(function(p){ return p.wateredToday; });
+  var anyWeedy = bed.plants.some(function(p){ return p.weedy; });
+  var anyBlooms = bed.plants.some(function(p){ return p.bloomsReady>0; });
+  var html = '<div class="bedmeta"><span>'+bed.plants.length+' of '+bed.slotCount+' spots planted</span>' +
+             (isDahliaBed ? '<span><b>🌿 Tubers: '+S.tuberBank+'</b></span>' : '') + '</div>';
+  html += '<div class="bedactions"><div class="plantmenu">';
+  bed.allowedCropRaws.forEach(function(raw){
+    var c = CROPS[raw];
+    var dis = (free<=0 || (c.isDahlia && S.tuberBank<=0)) ? ' disabled' : '';
+    html += '<button class="plantbtn"'+dis+' onclick="doPlant(\''+bed.id+'\',\''+raw+'\')">＋ '+esc(c.name)+' — first bloom Day '+(S.day + c.bloomAge)+'</button>';
+  });
+  html += '</div>';
+  html += '<button class="btn" onclick="doWater(\''+bed.id+'\')"'+((bed.plants.length===0||allWatered)?' disabled':'')+'>💧 Water</button>';
+  html += '<button class="btn" onclick="doWeed(\''+bed.id+'\')"'+(!anyWeedy?' disabled':'')+'>🧤 Weed</button>';
+  html += '</div>';
+  if(bed.plants.length===0){
+    html += '<div class="emptybed">Fresh soil, full of promise. Plant something up above — spring things for spring beds, tubers for the dahlia beds.</div>';
+  }
+  bed.plants.forEach(function(p){ html += plantRowHTML(bed, p); });
+  if(anyBlooms && !S.gearOut){
+    html += '<div class="houserule">Blooms are ready — but picking happens with the park\'s own snips and bucket. Check them out at the Gear Stand first.</div>';
+  }
+  return html;
+}
+function plantRowHTML(bed, p){
+  var c = cropOf(p);
+  var stage = stageName(p, S.day);
+  var orbBg = p.bloomsReady>0 ? c.paint : '#9EC785';
+  var orbTxt = p.bloomsReady>0 ? String(p.bloomsReady) : (stage==='Budding' ? '◉' : '🌿');
+  var flags = (p.wateredToday ? '💧 watered' : '○ dry');
+  if(p.weedy) flags += ' · <span class="weedflag">⚠️ weeds</span>';
+  if(p.totalPicked>0) flags += ' · picked '+p.totalPicked;
+  var pickBtn = p.bloomsReady>0
+    ? '<button class="btn pink" onclick="doPick(\''+bed.id+'\',\''+p.id+'\')"'+(S.gearOut?'':' disabled')+'>Pick</button>'
+    : '';
+  return '<div class="plantrow"><div class="plantorb" style="background:'+orbBg+'">'+orbTxt+'</div>' +
+    '<div class="plantinfo"><div class="pname">'+esc(c.name)+'</div>' +
+    '<div class="pstage">'+esc(stage)+' · planted Day '+p.plantedDay+'</div>' +
+    '<div class="pflags">'+flags+'</div></div>' + pickBtn + '</div>';
+}
+</script>
+<script>
+/* ================= Panels: gear, stand, animals, pond ================= */
+function bucketListHTML(){
+  var keys = Object.keys(S.bucket).sort();
+  if(keys.length===0) return '';
+  var html = '<div style="text-align:left;"><b>In your bucket now:</b>';
+  keys.forEach(function(col){
+    html += '<div class="bucketrow"><span class="colordot" style="background:'+(STEM_PAINT[col]||'#ED7394')+'"></span>'+esc(col)+' × '+S.bucket[col]+'</div>';
+  });
+  return html + '</div>';
+}
+function gearHTML(){
+  var html = '<div class="bigemoji">🧺</div>' +
+    '<p class="serifbody">Everything you need for picking is right here — snips, bucket, gloves — and it all stays with the park. That\'s the Hues way: you just bring yourself.</p>' +
+    '<button class="btn primary" style="width:100%;" onclick="doToggleGear()">' + (S.gearOut ? '↩ Return Snips &amp; Bucket' : '✂️ Check Out Snips &amp; Bucket') + '</button>';
+  if(bucketCount()>0) html += '<div class="card" style="margin-top:12px;">'+bucketListHTML()+'</div>';
+  return html;
+}
+function standHTML(){
+  var html = '<div class="pills" style="margin-top:2px;">' +
+    '<span class="pill">🪙 '+S.coins+' coins</span><span class="pill">❤️ '+S.hearts+' hearts</span><span class="pill">🌿 '+S.tuberBank+' tubers</span></div>' +
+    '<p class="serifbody">Bouquets are arranged and delivered from the Wish Board at the entrance. Eggs sell themselves. Everything earned here goes back into the park — the next build is the duck pond, for '+POND_COST+' coins.</p>' +
+    '<div style="text-align:left;"><h3>Park Diary</h3>' +
+    S.log.map(function(l){ return '<div class="diaryline">· '+esc(l)+'</div>'; }).join('') + '</div>';
+  return html;
+}
+var GREETINGS = [
+  "Hue and Cocoa are loafing in the shade, supervising.",
+  "Cocoa followed a butterfly all morning. Hue watched Cocoa.",
+  "The rabbits approve of the beds today. High praise.",
+  "Hue thumped once, which in rabbit means everything is fine."
+];
+function animalsHTML(){
+  var html = '<div class="bigemoji">🐇 🐇</div>' +
+    '<p class="serifbody"><i>'+esc(GREETINGS[S.day % GREETINGS.length])+'</i></p>' +
+    '<div class="card" style="text-align:center;"><h3>The Chickens</h3>';
+  if(S.eggsReady){
+    html += '<button class="btn goldbtn" style="width:100%;" onclick="doCollectEggs()">🧺 Gather the Morning Eggs (+8 coins)</button>';
+  } else {
+    html += '<div style="font-size:14px;color:var(--dim);">Eggs gathered. The hens are already working on tomorrow\'s.</div>';
+  }
+  return html + '</div>';
+}
+function pondHTML(){
+  if(S.pondBuilt){
+    var html = '<div class="pondscene"><div style="font-size:36px;">🦆 🦆 🦆</div><div style="font-size:24px;">🦆</div></div>' +
+      '<p class="serifbody">The pond sits at the north end of the parking, exactly where it belongs, ringed with flowers.</p>';
+    if(S.ducksFedDay === S.day){
+      html += '<div style="font-size:14px;color:var(--dim);text-align:center;">Fed and happy. They\'ll be just as pleased to see you tomorrow.</div>';
+    } else {
+      html += '<button class="btn primary" style="width:100%;" onclick="doFeedDucks()">🖐 Feed the Ducks (2 coins of park feed, +1 heart)</button>';
+    }
+    return html;
+  }
+  var pct = Math.min(100, Math.round(S.coins / POND_COST * 100));
+  return '<div class="bigemoji" style="opacity:.35;">🦆</div>' +
+    '<p class="serifbody">Right now this is the gravel north end of the parking, with a dirt donut dreaming of water. Build the pond and the ducks move in — and duck people start visiting.</p>' +
+    '<div class="progresswrap"><div class="progresslabel">'+S.coins+' of '+POND_COST+' coins</div>' +
+    '<div class="progressrail"><div class="progressbar" style="width:'+pct+'%"></div></div></div>' +
+    '<button class="btn primary" style="width:100%;" onclick="doBuildPond()"'+(S.coins<POND_COST?' disabled':'')+'>🔨 Build the Duck Pond — '+POND_COST+' coins</button>';
+}
+</script>
+<script>
+/* ================= Panels: wish board & bucket ================= */
+function boardHTML(){
+  var waiting = S.guests.filter(guestIsAvailable);
+  var delivered = S.guests.filter(function(g){ return g.isDelivered; });
+  var yet = S.guests.filter(function(g){ return !g.isDelivered && !guestIsAvailable(g); });
+  var html = '<p class="serifbody" style="font-size:14px;"><i>Wishes pinned at the entrance. No timers, no hurry — a guest whose flowers aren\'t open yet just wanders the park and smiles.</i></p>';
+  if(waiting.length===0 && delivered.length===0)
+    html += '<div style="color:var(--dim);text-align:center;">No wishes yet. Plant, tend, and they will come.</div>';
+  waiting.forEach(function(g){ html += guestCardHTML(g); });
+  if(delivered.length>0){
+    html += '<h3 style="margin:16px 0 2px;">Delighted this season</h3>';
+    delivered.forEach(function(g){
+      html += '<div class="deliveredrow"><span>✅</span><div><b>'+esc(g.name)+'</b><br><span class="thanks">\u201C'+esc(g.thanks)+'\u201D</span></div></div>';
+    });
+  }
+  if(yet.length>0){
+    html += '<div class="notyet" style="text-align:center;">Still to come this season: ' +
+      yet.map(function(g){ return esc(g.name); }).join(', ') +
+      '. Some guests only visit a park with a duck pond…</div>';
+  }
+  return html;
+}
+function guestCardHTML(g){
+  var chips = Object.keys(g.needs).sort().map(function(col){
+    var have = Math.min(S.bucket[col] || 0, g.needs[col]);
+    return '<span class="chip"><span class="colordot" style="background:'+(STEM_PAINT[col]||'#ED7394')+'"></span>'+esc(col)+' '+have+'/'+g.needs[col]+'</span>';
+  }).join('');
+  var action = canDeliver(g)
+    ? '<button class="btn pink" style="width:100%;margin-top:10px;" onclick="doDeliver(\''+g.id+'\')">🎁 Arrange &amp; Deliver This Bouquet</button>'
+    : '<div class="notyet">Not in the bucket yet — the right blooms will come.</div>';
+  return '<div class="guestcard"><div class="guesthead"><span class="gname">'+esc(g.name)+'</span>' +
+    '<span class="grewards">🪙 '+g.rewardCoins+' · <span style="color:var(--pink);">❤️ '+g.rewardHearts+'</span></span></div>' +
+    '<div class="gueststory">'+esc(g.story)+'</div><div class="chips">'+chips+'</div>' + action + '</div>';
+}
+function bucketHTML(){
+  if(bucketCount()===0){
+    return '<div class="bigemoji">🧺</div><p class="serifbody"><i>Empty, rinsed, and ready. Blooms you pick land here, stems in water.</i></p>';
+  }
+  var html = '<div class="bigemoji">🧺</div>' + bucketListHTML() +
+    '<div class="notyet" style="text-align:center;">'+bucketCount()+' stems in water. Bouquets are delivered from the Wish Board.</div>';
+  return html;
+}
+/* ================= Actions ================= */
+function doPlant(bedID, raw){ plant(bedID, raw); render(); }
+function doWater(bedID){ water(bedID); render(); }
+function doWeed(bedID){ weed(bedID); render(); }
+function doPick(bedID, plantID){ pick(bedID, plantID); render(); }
+function doToggleGear(){ toggleGear(); render(); }
+function doCollectEggs(){ collectEggs(); render(); }
+function doFeedDucks(){ feedDucks(); render(); }
+function doBuildPond(){ buildPond(); render(); }
+function doDeliver(id){ deliver(id); render(); }
+function doNextDay(){ debugNextDay(); render(); }
+function doBringInSeason(){ bringInTheSeason(); render(); }
+function toggleSunset(){ evening = !evening; render(); }
+function doStartOver(){
+  if(confirm('Start the park over? Season, coins, hearts and the pond will all reset.')){
+    resetGame(); currentArea = null; evening = false; render();
+  }
+}
+function closeModal(){ lastSeasonSummary = null; render(); }
+/* ================= Init ================= */
+loadGame();
+render();
+</script>
+</body>
+</html>

@@ -1,0 +1,258 @@
+{
+ "drops": [
+  {
+   "id": "christmas-park-loop",
+   "playlist": "Christmas Park Loop",
+   "notes": "Mureka takes",
+   "tracks": [
+    {
+     "file": "01-snowfall-opener.mp3",
+     "url": "https://hues-music-checkin.dustin-boling.workers.dev/drop/christmas-park-loop/01-snowfall-opener.mp3",
+     "sha256": "e0d36492b1283cecc5303943a36bf9d7cd7cf038c6287f8e0d7ed3468d79f3ca",
+     "bytes": 7119007
+    },
+    {
+     "file": "02-evergreen-waltz.mp3",
+     "url": "https://hues-music-checkin.dustin-boling.workers.dev/drop/christmas-park-loop/02-evergreen-waltz.mp3",
+     "sha256": "0a538883c44a09c930e4f4c0da92f381971082a374de70b4b476cf540c970357",
+     "bytes": 8100182
+    },
+    {
+     "file": "03-santa-down-the-lane.mp3",
+     "url": "https://hues-music-checkin.dustin-boling.workers.dev/drop/christmas-park-loop/03-santa-down-the-lane.mp3",
+     "sha256": "891809e39cb96f70c530057ba0a660c733b48ce20b7e243d0c947ef26c9fd5a6",
+     "bytes": 7581901
+    },
+    {
+     "file": "04-sleighride-promenade.mp3",
+     "url": "https://hues-music-checkin.dustin-boling.workers.dev/drop/christmas-park-loop/04-sleighride-promenade.mp3",
+     "sha256": "1be75c16e53600046a79e856fd6a7a944d73858caca80ed36b182773704a98f3",
+     "bytes": 7829558
+    },
+    {
+     "file": "05-candlelight-and-holly.mp3",
+     "url": "https://hues-music-checkin.dustin-boling.workers.dev/drop/christmas-park-loop/05-candlelight-and-holly.mp3",
+     "sha256": "e2a315ad458310d9fb983dc6aa54993acba642f3662b511ef53fc94ea54fa007",
+     "bytes": 7375013
+    },
+    {
+     "file": "06-fireside-piano.mp3",
+     "url": "https://hues-music-checkin.dustin-boling.workers.dev/drop/christmas-park-loop/06-fireside-piano.mp3",
+     "sha256": "4d4ad43622319407652ce9cbbc00a9320ddf045b977e088ec2d0355d7eef8dcd",
+     "bytes": 6314450
+    },
+    {
+     "file": "07-touring-the-lights.mp3",
+     "url": "https://hues-music-checkin.dustin-boling.workers.dev/drop/christmas-park-loop/07-touring-the-lights.mp3",
+     "sha256": "50ef32fd94127494c98afb8ab9ebd2b5939d27545ba30943f11ff810a9079d1e",
+     "bytes": 8131517
+    },
+    {
+     "file": "08-starlight-strings.mp3",
+     "url": "https://hues-music-checkin.dustin-boling.workers.dev/drop/christmas-park-loop/08-starlight-strings.mp3",
+     "sha256": "ee6e0ed80c036d3c529c9911f18fb7279c8467111e6c344a286aa8652cd02cb3",
+     "bytes": 6381327
+    },
+    {
+     "file": "09-warmth-of-december.mp3",
+     "url": "https://hues-music-checkin.dustin-boling.workers.dev/drop/christmas-park-loop/09-warmth-of-december.mp3",
+     "sha256": "50e6f7c849c784938d4015c37b1d7fee502044fbc54b94f8af2bc4ff45242cdb",
+     "bytes": 6847337
+    },
+    {
+     "file": "10-tinsel-and-tea.mp3",
+     "url": "https://hues-music-checkin.dustin-boling.workers.dev/drop/christmas-park-loop/10-tinsel-and-tea.mp3",
+     "sha256": "63253603a12105db9c10464ae60ef843713a0578922fc254474a4b10dde74cd9",
+     "bytes": 6115920
+    },
+    {
+     "file": "11-gingerbread-and-peppermint.mp3",
+     "url": "https://hues-music-checkin.dustin-boling.workers.dev/drop/christmas-park-loop/11-gingerbread-and-peppermint.mp3",
+     "sha256": "f7601aeb25600667f5da6cd581fe2d8e796f30f1916145e3abda34aa319403af",
+     "bytes": 6889142
+    },
+    {
+     "file": "12-midnight-clear.mp3",
+     "url": "https://hues-music-checkin.dustin-boling.workers.dev/drop/christmas-park-loop/12-midnight-clear.mp3",
+     "sha256": "54126b43b602977f548d3ab3e0887a5d2b78c4c13a4dbe49cad53b6f6a0a9a42",
+     "bytes": 6383414
+    },
+    {
+     "file": "13-paper-stars.mp3",
+     "url": "https://hues-music-checkin.dustin-boling.workers.dev/drop/christmas-park-loop/13-paper-stars.mp3",
+     "sha256": "4f853f25064716da78d41fcc47ff428428a34ec588477fe125bd3865bc0f1cd8",
+     "bytes": 7031233
+    },
+    {
+     "file": "14-carol-bells.mp3",
+     "url": "https://hues-music-checkin.dustin-boling.workers.dev/drop/christmas-park-loop/14-carol-bells.mp3",
+     "sha256": "6e006bb238f7d851c43358deeb661d876ae5b223fdd2742cd7785f3664b1912f",
+     "bytes": 7063640
+    },
+    {
+     "file": "15-evergreen-tree.mp3",
+     "url": "https://hues-music-checkin.dustin-boling.workers.dev/drop/christmas-park-loop/15-evergreen-tree.mp3",
+     "sha256": "5eddf655bf8eb60b09da4b8e7bde4efb9b7c2f8deba9e528fc3ca589041d8065",
+     "bytes": 7447105
+    },
+    {
+     "file": "16-garden-under-snow.mp3",
+     "url": "https://hues-music-checkin.dustin-boling.workers.dev/drop/christmas-park-loop/16-garden-under-snow.mp3",
+     "sha256": "febd1916ddb7c6943013a3d17054c06671700348ecb5584b17266e5312a457b1",
+     "bytes": 6229817
+    },
+    {
+     "file": "17-lanterns-down-the-lane.mp3",
+     "url": "https://hues-music-checkin.dustin-boling.workers.dev/drop/christmas-park-loop/17-lanterns-down-the-lane.mp3",
+     "sha256": "5417ac8c25723c8af17fbe6ce9254410c6983bf0b77d71cbc017affb9af2f510",
+     "bytes": 7955979
+    },
+    {
+     "file": "18-holly-promenade.mp3",
+     "url": "https://hues-music-checkin.dustin-boling.workers.dev/drop/christmas-park-loop/18-holly-promenade.mp3",
+     "sha256": "baeaaacc66b38765d33bde448b451b97695e1aee0b31b76ef48bdb1a6c2788af",
+     "bytes": 7212019
+    },
+    {
+     "file": "19-merry-greetings.mp3",
+     "url": "https://hues-music-checkin.dustin-boling.workers.dev/drop/christmas-park-loop/19-merry-greetings.mp3",
+     "sha256": "c3eb15f0d61f4ccd59f11368fce7afd12142e22b54fd1d330e39c659058d424d",
+     "bytes": 6143074
+    },
+    {
+     "file": "20-snowfall-reprise.mp3",
+     "url": "https://hues-music-checkin.dustin-boling.workers.dev/drop/christmas-park-loop/20-snowfall-reprise.mp3",
+     "sha256": "807a64e3aa372a63789fcdd2e6d6b8401d593fdadcfffe62c819cc5c9128afe8",
+     "bytes": 7387563
+    }
+   ]
+  },
+  {
+   "id": "christmas-park-loop-second-takes",
+   "playlist": "Christmas Park Loop - Second Takes",
+   "notes": "Second takes",
+   "tracks": [
+    {
+     "file": "01-snowfall-opener.mp3",
+     "url": "https://hues-music-checkin.dustin-boling.workers.dev/drop/christmas-park-loop-second-takes/01-snowfall-opener.mp3",
+     "sha256": "e25301196eb36d3b65fd043bb95d0aefb587a844a281c800742c7c4d49d3e906",
+     "bytes": 7359349
+    },
+    {
+     "file": "02-evergreen-waltz.mp3",
+     "url": "https://hues-music-checkin.dustin-boling.workers.dev/drop/christmas-park-loop-second-takes/02-evergreen-waltz.mp3",
+     "sha256": "679cbaed00a02003236f9c5699dff138586e25e3da2a4c7fd426ef547da0ce38",
+     "bytes": 6520311
+    },
+    {
+     "file": "03-santa-down-the-lane.mp3",
+     "url": "https://hues-music-checkin.dustin-boling.workers.dev/drop/christmas-park-loop-second-takes/03-santa-down-the-lane.mp3",
+     "sha256": "eefb8ce6bdf038bc44fe3813e73035cf712ed6a6f7a9ac25bb6c0cc58e04513f",
+     "bytes": 6850488
+    },
+    {
+     "file": "04-sleighride-promenade.mp3",
+     "url": "https://hues-music-checkin.dustin-boling.workers.dev/drop/christmas-park-loop-second-takes/04-sleighride-promenade.mp3",
+     "sha256": "917f6a0feea0cf6d1ced1cc0cba171a8971ce92d12b936aa6a092cb3bbf2b7d7",
+     "bytes": 7000969
+    },
+    {
+     "file": "05-candlelight-and-holly.mp3",
+     "url": "https://hues-music-checkin.dustin-boling.workers.dev/drop/christmas-park-loop-second-takes/05-candlelight-and-holly.mp3",
+     "sha256": "9c39b00a1858e95c398252e41725356f2c1d1f801252c723ae4c69c91eff5a0f",
+     "bytes": 8199453
+    },
+    {
+     "file": "06-fireside-piano.mp3",
+     "url": "https://hues-music-checkin.dustin-boling.workers.dev/drop/christmas-park-loop-second-takes/06-fireside-piano.mp3",
+     "sha256": "6896a5195f11a0325a1532bba3c5b1d33d819ba53d269df062228579d4f158a4",
+     "bytes": 6756457
+    },
+    {
+     "file": "07-touring-the-lights.mp3",
+     "url": "https://hues-music-checkin.dustin-boling.workers.dev/drop/christmas-park-loop-second-takes/07-touring-the-lights.mp3",
+     "sha256": "25cc3d8a20d5d9f1ddae681ba56d568a20a71a1391ba75aa3c7d13486c86ef79",
+     "bytes": 8363499
+    },
+    {
+     "file": "08-starlight-strings.mp3",
+     "url": "https://hues-music-checkin.dustin-boling.workers.dev/drop/christmas-park-loop-second-takes/08-starlight-strings.mp3",
+     "sha256": "0f5d0a26f84991fd760549faa26596b74a0daf4adfa281c46fe708a1e9b2cd25",
+     "bytes": 7125309
+    },
+    {
+     "file": "09-warmth-of-december.mp3",
+     "url": "https://hues-music-checkin.dustin-boling.workers.dev/drop/christmas-park-loop-second-takes/09-warmth-of-december.mp3",
+     "sha256": "73c6af4a79ed74965275f3797a303e0c50e709747a3583a7ffbaaa5f705837e0",
+     "bytes": 8486797
+    },
+    {
+     "file": "10-tinsel-and-tea.mp3",
+     "url": "https://hues-music-checkin.dustin-boling.workers.dev/drop/christmas-park-loop-second-takes/10-tinsel-and-tea.mp3",
+     "sha256": "d1256e7ad275f18a4ddcdeb904a3375280db7d2e94c6d03168d48f9eeff8c624",
+     "bytes": 7242335
+    },
+    {
+     "file": "11-gingerbread-and-peppermint.mp3",
+     "url": "https://hues-music-checkin.dustin-boling.workers.dev/drop/christmas-park-loop-second-takes/11-gingerbread-and-peppermint.mp3",
+     "sha256": "bb389a52ce930c132d5780a896c99d3a72ded2fe137d6d950fad6bbd3af3ca4b",
+     "bytes": 6790937
+    },
+    {
+     "file": "12-midnight-clear.mp3",
+     "url": "https://hues-music-checkin.dustin-boling.workers.dev/drop/christmas-park-loop-second-takes/12-midnight-clear.mp3",
+     "sha256": "7b1f9d091d18ad353f2384cae3a592db9ae75f45dee5255eed4ef08bc55d41ae",
+     "bytes": 7381307
+    },
+    {
+     "file": "13-paper-stars.mp3",
+     "url": "https://hues-music-checkin.dustin-boling.workers.dev/drop/christmas-park-loop-second-takes/13-paper-stars.mp3",
+     "sha256": "526f40bac14ce59d8b72a8ad645bad23014d778798789497421799c0b43c4195",
+     "bytes": 6336391
+    },
+    {
+     "file": "14-carol-bells.mp3",
+     "url": "https://hues-music-checkin.dustin-boling.workers.dev/drop/christmas-park-loop-second-takes/14-carol-bells.mp3",
+     "sha256": "6ae97e62010cea0c4eefe9743fd5b1e4abacada3416c468508d444e839500b11",
+     "bytes": 7937190
+    },
+    {
+     "file": "15-evergreen-tree.mp3",
+     "url": "https://hues-music-checkin.dustin-boling.workers.dev/drop/christmas-park-loop-second-takes/15-evergreen-tree.mp3",
+     "sha256": "572c656fe3522ca0b4b14c2418447e5645a4e7f8f5af5f46dc866e0261671261",
+     "bytes": 7363529
+    },
+    {
+     "file": "16-garden-under-snow.mp3",
+     "url": "https://hues-music-checkin.dustin-boling.workers.dev/drop/christmas-park-loop-second-takes/16-garden-under-snow.mp3",
+     "sha256": "2e642f8a33e9f115c08310b303d1bda8bdb2645ad8da0f5fdc16dc9955018899",
+     "bytes": 7115906
+    },
+    {
+     "file": "17-lanterns-down-the-lane.mp3",
+     "url": "https://hues-music-checkin.dustin-boling.workers.dev/drop/christmas-park-loop-second-takes/17-lanterns-down-the-lane.mp3",
+     "sha256": "61f8fc0e93dd7eb7e6c3722bdca3d6d6952156fad6ad2f472511eb6dfa4c1485",
+     "bytes": 6754361
+    },
+    {
+     "file": "18-holly-promenade.mp3",
+     "url": "https://hues-music-checkin.dustin-boling.workers.dev/drop/christmas-park-loop-second-takes/18-holly-promenade.mp3",
+     "sha256": "cd9639c7b8b58a68c34b082f2bab662ab8bde531f46121dfb033a399fc41cb7c",
+     "bytes": 7395936
+    },
+    {
+     "file": "19-merry-greetings.mp3",
+     "url": "https://hues-music-checkin.dustin-boling.workers.dev/drop/christmas-park-loop-second-takes/19-merry-greetings.mp3",
+     "sha256": "219c3ec642694c62134a273f410ae827a951adf4704accbf71102d2a2af9fea4",
+     "bytes": 6748085
+    },
+    {
+     "file": "20-snowfall-reprise.mp3",
+     "url": "https://hues-music-checkin.dustin-boling.workers.dev/drop/christmas-park-loop-second-takes/20-snowfall-reprise.mp3",
+     "sha256": "e16e75b1a0686e2e14d58ea0aae17a483c128ed015ec5497c0092d1399c7ab8a",
+     "bytes": 7474305
+    }
+   ]
+  }
+ ]
+}

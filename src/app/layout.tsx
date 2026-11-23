@@ -1,4 +1,4 @@
-import { type Metadata } from 'next'
+import { type Metadata, type Viewport } from 'next'
 
 import { Providers } from '@/app/providers'
 import { Layout } from '@/components/Layout'
@@ -6,35 +6,60 @@ import { Layout } from '@/components/Layout'
 import '@/styles/tailwind.css'
 
 const siteDescription =
-  'Visit Hues Floral Park, a one-of-a-kind u-pick flower farm in Junction City, Oregon. Stroll rows of stunning flowers, relax to immersive music, and hand-select your own bouquet in a botanical garden experience designed to feel magical, peaceful, and unforgettable.'
+  'Hues Floral Park is a u-pick flower farm and garden park in Junction City, Oregon — stroll curated dahlia beds, drift with the music, and cut your own bouquet. A little world apart.'
 
+// One entity graph for the whole site (enriched 2026-11-10, SEO/GEO
+// pass): the business as both a LocalBusiness and a TouristAttraction,
+// plus the WebSite node that names the site for search engines.
 const businessSchema = {
   '@context': 'https://schema.org',
-  '@type': 'LocalBusiness',
-  name: 'Hues Flower Farm & Nursery',
-  alternateName: 'Hues Floral Park',
-  url: 'https://hues.flowers',
-  telephone: '+1-458-245-1323',
-  image: 'https://hues.flowers/og-image.jpg',
-  description: siteDescription,
-  priceRange: '$',
-  address: {
-    '@type': 'PostalAddress',
-    streetAddress: '93485 River Rd',
-    addressLocality: 'Junction City',
-    addressRegion: 'OR',
-    postalCode: '97448',
-    addressCountry: 'US',
-  },
-  geo: {
-    '@type': 'GeoCoordinates',
-    latitude: 44.19949,
-    longitude: -123.16688,
-  },
-  sameAs: [
-    'https://www.facebook.com/HuesFlowerFarm',
-    'https://www.instagram.com/huesflowers',
-    'https://www.tiktok.com/@www.hues.flowers',
+  '@graph': [
+    {
+      '@type': ['LocalBusiness', 'TouristAttraction'],
+      '@id': 'https://hues.flowers/#business',
+      name: 'Hues Flower Farm & Nursery',
+      alternateName: 'Hues Floral Park',
+      url: 'https://hues.flowers',
+      telephone: '+1-458-245-1323',
+      image: 'https://hues.flowers/og-image.jpg',
+      logo: 'https://hues.flowers/m-icons/icon-512.png',
+      description: siteDescription,
+      priceRange: '$',
+      address: {
+        '@type': 'PostalAddress',
+        streetAddress: '93485 River Rd',
+        addressLocality: 'Junction City',
+        addressRegion: 'OR',
+        postalCode: '97448',
+        addressCountry: 'US',
+      },
+      geo: {
+        '@type': 'GeoCoordinates',
+        latitude: 44.19949,
+        longitude: -123.16688,
+      },
+      hasMap:
+        'https://www.google.com/maps/search/?api=1&query=Hues+Floral+Park+93485+River+Road+Junction+City+OR',
+      areaServed: [
+        { '@type': 'City', name: 'Junction City' },
+        { '@type': 'City', name: 'Eugene' },
+        { '@type': 'City', name: 'Springfield' },
+        { '@type': 'City', name: 'Corvallis' },
+      ],
+      sameAs: [
+        'https://www.facebook.com/HuesFlowerFarm',
+        'https://www.instagram.com/huesflowers',
+        'https://www.tiktok.com/@www.hues.flowers',
+      ],
+    },
+    {
+      '@type': 'WebSite',
+      '@id': 'https://hues.flowers/#website',
+      name: 'Hues Floral Park',
+      alternateName: 'Hues Flower Farm & Nursery',
+      url: 'https://hues.flowers',
+      publisher: { '@id': 'https://hues.flowers/#business' },
+    },
   ],
 }
 
@@ -89,6 +114,16 @@ export const metadata: Metadata = {
     index: true,
     follow: true,
   },
+  manifest: '/manifest.webmanifest',
+  appleWebApp: {
+    capable: true,
+    title: 'Hues',
+    statusBarStyle: 'default',
+  },
+}
+
+export const viewport: Viewport = {
+  themeColor: '#f7f1de',
 }
 
 export default function RootLayout({

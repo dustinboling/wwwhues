@@ -1,6 +1,6 @@
 import Link from 'next/link'
 
-import { ContainerInner, ContainerOuter } from '@/components/Container'
+import { Logo } from '@/app/m/Logo'
 import { InstagramIcon, MailIcon, TikTokIcon } from '@/components/SocialIcons'
 
 function SocialChip({
@@ -17,12 +17,10 @@ function SocialChip({
   return (
     <a
       href={href}
-      {...(external
-        ? { target: '_blank', rel: 'noreferrer' }
-        : {})}
-      className="group inline-flex items-center gap-2.5 rounded-full bg-white/60 py-2 pr-5 pl-4 text-sm font-medium text-lime-800 shadow-sm ring-1 ring-lime-900/10 transition hover:text-yellow-600 dark:bg-lime-800/60 dark:text-lime-100 dark:ring-white/10 dark:hover:text-yellow-400"
+      {...(external ? { target: '_blank', rel: 'noreferrer' } : {})}
+      className="group inline-flex items-center gap-2.5 rounded-full bg-white/5 py-2 pr-5 pl-4 text-sm font-medium text-[#f7f1de] ring-1 ring-white/15 transition hover:text-[#d9bc76] hover:ring-[#b08d37]/70"
     >
-      <Icon className="h-5 w-5 flex-none fill-lime-600 transition group-hover:fill-yellow-500 dark:fill-lime-300 dark:group-hover:fill-yellow-400" />
+      <Icon className="h-5 w-5 flex-none fill-[#d9bc76] transition group-hover:fill-[#b08d37]" />
       {label}
       {external && <span className="sr-only">(opens in new tab)</span>}
     </a>
@@ -37,10 +35,7 @@ function NavLink({
   children: React.ReactNode
 }) {
   return (
-    <Link
-      href={href}
-      className="transition hover:text-yellow-500 dark:hover:text-yellow-400"
-    >
+    <Link href={href} className="transition hover:text-[#d9bc76]">
       {children}
     </Link>
   )
@@ -48,71 +43,96 @@ function NavLink({
 
 export function Footer() {
   return (
-    <footer className="mt-32 flex-none">
-      <ContainerOuter>
-        <div className="border-t border-lime-100 pt-10 pb-16 dark:border-lime-700/40">
-          <ContainerInner>
-            <div className="flex flex-col items-center justify-between gap-6 md:flex-row">
-              <nav
-                aria-label="Footer"
-                className="flex flex-wrap justify-center gap-x-6 gap-y-1 text-sm font-medium text-lime-800 dark:text-lime-200"
-              >
-                <NavLink href="/floral-park">Floral Park</NavLink>
-                <NavLink href="/dahlias">Dusty's Dahlias</NavLink>
-                <NavLink href="/nursery">Nursery</NavLink>
-                {/* <NavLink href="/articles">News</NavLink> */}
-                <NavLink href="/about">About</NavLink>
-              </nav>
-              <p className="text-sm text-lime-500 dark:text-lime-400">
-                &copy; {new Date().getFullYear()} Hues Flower Farm &amp;
-                Nursery. All rights reserved.
-              </p>
-            </div>
-            <div className="mt-14 flex flex-col items-center gap-4">
-              <p className="text-sm font-semibold tracking-wide text-lime-800 uppercase dark:text-lime-100">
-                Follow along
-              </p>
-              <div className="flex flex-wrap justify-center gap-3">
-                <SocialChip
-                  href="https://instagram.com/huesflowers"
-                  icon={InstagramIcon}
-                  label="@huesflowers"
-                  external
-                />
-                <SocialChip
-                  href="https://www.tiktok.com/@www.hues.flowers"
-                  icon={TikTokIcon}
-                  label="@www.hues.flowers"
-                  external
-                />
-                <SocialChip
-                  href="mailto:hello@hues.flowers"
-                  icon={MailIcon}
-                  label="hello@hues.flowers"
-                />
+    <footer className="mt-28 flex-none px-4 pb-8 sm:px-8 lg:px-12">
+      <div className="mx-auto w-full max-w-7xl">
+        <div className="d-cardback overflow-hidden rounded-[2rem] shadow-[0_24px_48px_rgba(35,54,43,0.25)]">
+          <div className="relative z-10 px-6 py-12 sm:px-10 lg:px-14">
+            <div className="flex flex-col items-start justify-between gap-10 lg:flex-row lg:items-center">
+              <div className="text-[#f7f1de]">
+                <Logo className="h-12 w-auto" />
+                <p className="mt-3 text-[11px] font-bold tracking-[0.34em] text-[#d9bc76] uppercase">
+                  Floral Park
+                </p>
+                <p className="d-display mt-4 max-w-md text-2xl leading-snug italic">
+                  Hues Floral Park, A little world apart.
+                </p>
+              </div>
+              <div className="flex flex-col gap-4">
+                <p className="text-xs font-semibold tracking-[0.22em] text-[#d9bc76] uppercase">
+                  Follow along
+                </p>
+                <div className="flex flex-wrap gap-3">
+                  <SocialChip
+                    href="https://instagram.com/huesflowers"
+                    icon={InstagramIcon}
+                    label="@huesflowers"
+                    external
+                  />
+                  <SocialChip
+                    href="https://www.tiktok.com/@www.hues.flowers"
+                    icon={TikTokIcon}
+                    label="@www.hues.flowers"
+                    external
+                  />
+                  <SocialChip
+                    href="mailto:hello@hues.flowers"
+                    icon={MailIcon}
+                    label="hello@hues.flowers"
+                  />
+                </div>
               </div>
             </div>
-            <div className="flex flex-col items-center justify-center text-center text-sm text-lime-500 dark:text-lime-400">
-              <address className="mt-16 mb-6">
+
+            <div className="d-rule mt-12 opacity-70" aria-hidden="true">
+              <i />
+            </div>
+
+            <div className="mt-10 flex flex-col justify-between gap-10 md:flex-row">
+              <nav
+                aria-label="Footer"
+                className="flex max-w-xl flex-wrap gap-x-6 gap-y-2 text-sm font-medium text-[#e9e2c8]"
+              >
+                <NavLink href="/visit">Plan Your Visit</NavLink>
+                <NavLink href="/floral-park">Floral Park</NavLink>
+                <NavLink href="/whats-in-season">In Season</NavLink>
+                <NavLink href="/working-on">Working On</NavLink>
+                <NavLink href="/music">Music</NavLink>
+                <NavLink href="/volunteer">Volunteer</NavLink>
+                <NavLink href="/account">My Hues Account</NavLink>
+                <NavLink href="/gather">Gather</NavLink>
+                <NavLink href="/sponsor">Sponsor</NavLink>
+                <NavLink href="/dahlias">Dusty's Dahlias</NavLink>
+                <NavLink href="/nursery">Nursery</NavLink>
+                <NavLink href="/about">About</NavLink>
+                <NavLink href="/privacy">Privacy</NavLink>
+                <NavLink href="/terms">Terms</NavLink>
+              </nav>
+              <address className="text-sm leading-6 text-[#cfc9a8] not-italic">
                 Hues Flower Farm &amp; Nursery
                 <br />
                 93485 River Road
                 <br />
                 Junction City, OR 97448
                 <br />
-                United States of America
+                Visitor entrance: Browns Landing Rd
+                <br />
+                Text or call:{' '}
+                <a
+                  href="tel:+14582451323"
+                  className="text-[#f7f1de] underline decoration-[#b08d37]/60 underline-offset-4 transition hover:text-[#d9bc76]"
+                >
+                  +1 (458) 245-1323
+                </a>
               </address>
-              Text or call:{' '}
-              <a
-                href="tel:+14582451323"
-                className="mb-28 text-lime-500 dark:text-lime-400 hover:text-lime-700 dark:hover:text-lime-50 transition"
-              >
-                +1 (458) 245-1323
-              </a>
             </div>
-          </ContainerInner>
+
+            <p className="mt-10 text-sm text-[#a9b39b]">
+              &copy; {new Date().getFullYear()} Hues Flower Farm &amp;
+              Nursery. All rights reserved.
+            </p>
+          </div>
         </div>
-      </ContainerOuter>
+      </div>
     </footer>
   )
 }
