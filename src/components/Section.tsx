@@ -12,12 +12,12 @@ export function Section({
   return (
     <section
       aria-labelledby={id}
-      className="md:border-l md:border-lime-100 md:pl-6 md:dark:border-lime-700/40"
+      className="md:border-l md:border-[#e0d5b8] md:pl-6"
     >
       <div className="grid max-w-3xl grid-cols-1 items-baseline gap-y-8 md:grid-cols-4">
         <h2
           id={id}
-          className="text-sm font-semibold text-lime-800 dark:text-lime-100"
+          className="text-xs font-bold tracking-[0.22em] text-[#927128] uppercase"
         >
           {title}
         </h2>

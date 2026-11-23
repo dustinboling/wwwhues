@@ -43,6 +43,14 @@ export function TikTokIcon(props: React.ComponentPropsWithoutRef<'svg'>) {
   )
 }
 
+export function FacebookIcon(props: React.ComponentPropsWithoutRef<'svg'>) {
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true" {...props}>
+      <path d="M13.5 21.888v-7.638h2.565l.435-2.99H13.5V9.35c0-.865.24-1.455 1.478-1.455h1.58V5.22a21.14 21.14 0 0 0-2.303-.118c-2.28 0-3.842 1.392-3.842 3.947v2.203H7.84v2.99h2.573v7.646a12 12 0 0 0 3.087 0Z" />
+    </svg>
+  )
+}
+
 export function MailIcon(props: React.ComponentPropsWithoutRef<'svg'>) {
   return (
     <svg viewBox="0 0 24 24" aria-hidden="true" {...props}>

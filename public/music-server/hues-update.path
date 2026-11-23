@@ -1,0 +1,9 @@
+[Unit]
+Description=Watch for staged Hues Music Server updates
+
+[Path]
+PathExists=/var/lib/hues-music/updates/pending.py
+Unit=hues-update.service
+
+[Install]
+WantedBy=multi-user.target

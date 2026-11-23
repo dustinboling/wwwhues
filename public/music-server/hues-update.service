@@ -1,0 +1,7 @@
+[Unit]
+Description=Apply a staged Hues Music Server update (root, with rollback)
+After=network-online.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/sbin/hues-apply-update

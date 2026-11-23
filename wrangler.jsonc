@@ -8,6 +8,12 @@
     "directory": ".open-next/assets",
     "binding": "ASSETS",
   },
+  "vars": {
+    "VOLUNTEER_API_URL": "https://hues-volunteers-api.dustin-boling.workers.dev",
+    "THISORThat_API_URL": "https://hues-thisorthat-api.dustin-boling.workers.dev",
+    "PLAY_API_URL": "https://hues-play-api.dustin-boling.workers.dev",
+    "ACCOUNTS_API_URL": "https://hues-accounts-api.dustin-boling.workers.dev",
+  },
   "routes": [
     {
       "pattern": "huesflowers.com",

@@ -1,0 +1,1 @@
+{"$schema":"./node_modules/wrangler/config-schema.json","compatibility_date":"2026-01-19","compatibility_flags":["nodejs_compat"],"durable_objects":{"bindings":[{"class_name":"AccountsBoard","name":"BOARD"}]},"main":"accounts-api/src/index.ts","migrations":[{"new_sqlite_classes":["AccountsBoard"],"tag":"v1"}],"name":"hues-accounts-api"}

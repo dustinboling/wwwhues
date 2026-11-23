@@ -1,0 +1,25 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "hues-volunteers-api",
+  "main": "volunteer-api/src/index.ts",
+  "compatibility_date": "2026-01-19",
+  "compatibility_flags": ["nodejs_compat"],
+  "durable_objects": {
+    "bindings": [
+      {
+        "name": "BOARD",
+        "class_name": "VolunteerBoard",
+      },
+    ],
+  },
+  "migrations": [
+    {
+      "tag": "v1",
+      "new_sqlite_classes": ["VolunteerBoard"],
+    },
+  ],
+  "vars": {
+    "SETUP_CODE_HASH": "243116f5dd52a2e14eae87439e6616e2f35f6d10a2cb91d1e1464a6f4b5138e4",
+    "NOTIFY_TO": "hello@hues.flowers",
+  },
+}

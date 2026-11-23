@@ -1,0 +1,19 @@
+# Long-lived caching for the site's static art (2026-11-12 perf pass).
+# Art files are versioned by name (tabbar-v19, dated heroes), so a
+# long max-age is safe: a changed picture ships under a new name.
+/m-art/*
+  Cache-Control: public, max-age=604800, stale-while-revalidate=2592000
+/desktop-art/*
+  Cache-Control: public, max-age=604800, stale-while-revalidate=2592000
+/cultivar-photos/*
+  Cache-Control: public, max-age=604800, stale-while-revalidate=2592000
+/play/*
+  Cache-Control: public, max-age=604800, stale-while-revalidate=2592000
+/m-icons/*
+  Cache-Control: public, max-age=604800, stale-while-revalidate=2592000
+/season-art/*
+  Cache-Control: public, max-age=604800, stale-while-revalidate=2592000
+/rank-vo/*
+  Cache-Control: public, max-age=604800, stale-while-revalidate=2592000
+/lightning-vo/*
+  Cache-Control: public, max-age=604800, stale-while-revalidate=2592000

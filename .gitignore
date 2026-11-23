@@ -43,3 +43,6 @@ Thumbs.db
 *.tgz
 /public/sw.js*
 /public/workbox-*.js
+
+# Park music audio library — media, deployed from the live tree / R2, kept out of git
+/public/music/

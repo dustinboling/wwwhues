@@ -1,0 +1,60 @@
+#!/bin/bash
+# hues-apply-update — runs as root (via hues-update.service, triggered by
+# hues-update.path when the app stages an update). Verifies the staged file
+# against its manifest checksum, swaps it in, health-checks the restarted
+# app, and rolls back automatically if the new version doesn't answer.
+set -u
+APP_FILE="${HUES_APP_FILE:-/opt/hues-music/hues_music.py}"
+STAGE="${HUES_UPDATE_DIR:-/var/lib/hues-music/updates}"
+SERVICE="${HUES_SERVICE:-hues-music.service}"
+HEALTH_URL="${HUES_HEALTH_URL:-http://127.0.0.1:8080/api/status}"
+HEALTH_TRIES="${HUES_HEALTH_TRIES:-30}"
+HEALTH_SLEEP="${HUES_HEALTH_SLEEP:-1}"
+PENDING="$STAGE/pending.py"
+META="$STAGE/pending.json"
+RESULT="$STAGE/result.json"
+LOG="${HUES_UPDATE_LOG:-/var/log/hues-update.log}"
+exec >>"$LOG" 2>&1
+echo "=== hues-apply-update $(date -Is) ==="
+
+write_result() {
+  printf '{"ok":%s,"message":"%s","at":"%s"}\n' "$1" "$2" "$(date -Is)" > "$RESULT.tmp"
+  mv "$RESULT.tmp" "$RESULT"
+  chown huesmusic:huesmusic "$RESULT" 2>/dev/null || true
+}
+
+[ -f "$PENDING" ] || { echo "no pending update"; exit 0; }
+
+SHA_META=$(META="$META" python3 -c "import json,os; print(json.load(open(os.environ['META'])).get('sha256',''))" 2>/dev/null || echo "")
+SHA_ACT=$(sha256sum "$PENDING" | cut -d' ' -f1)
+if [ -z "$SHA_META" ] || [ "$SHA_META" != "$SHA_ACT" ]; then
+  write_result false "checksum mismatch - update discarded"
+  rm -f "$PENDING" "$META"
+  exit 0
+fi
+if ! python3 -m py_compile "$PENDING" 2>/dev/null; then
+  write_result false "update does not compile - discarded"
+  rm -f "$PENDING" "$META"
+  exit 0
+fi
+TO=$(META="$META" python3 -c "import json,os; print(json.load(open(os.environ['META'])).get('version',''))" 2>/dev/null || echo "")
+
+cp -a "$APP_FILE" "$APP_FILE.bak"
+cp "$PENDING" "$APP_FILE.new" && chmod 644 "$APP_FILE.new" && mv "$APP_FILE.new" "$APP_FILE"
+rm -f "$PENDING" "$META"
+systemctl restart "$SERVICE"
+
+ok=0
+for _ in $(seq 1 "$HEALTH_TRIES"); do
+  sleep "$HEALTH_SLEEP"
+  if curl -fsS "$HEALTH_URL" >/dev/null 2>&1; then ok=1; break; fi
+done
+if [ "$ok" = 1 ]; then
+  write_result true "updated to $TO"
+  echo "OK -> $TO"
+else
+  cp -a "$APP_FILE.bak" "$APP_FILE"
+  systemctl restart "$SERVICE"
+  write_result false "new version failed its health check - rolled back"
+  echo "ROLLED BACK"
+fi
