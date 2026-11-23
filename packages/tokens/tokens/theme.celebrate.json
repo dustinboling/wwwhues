@@ -1,0 +1,26 @@
+{
+  "$extensions": {
+    "hues": {
+      "theme": "celebrate",
+      "note": "Celebration theme: park values with one swappable seasonal accent slot. Slot values arrive in a later Iris and Elena pass; the slot exists now so a seasonal layer never becomes a fork."
+    }
+  },
+  "sys": {
+    "color": {
+      "accent-seasonal": {
+        "$value": "{ref.color.gold-2}",
+        "$type": "color",
+        "$description": "Seasonal accent slot, holding the park default until the seasonal pass lands.",
+        "$extensions": { "hues": { "source": "Plan §3 theme.celebrate + §2.5; Mina §5 gift-cards (values later)" } }
+      }
+    }
+  },
+  "pwa": {
+    "theme-color": {
+      "$value": "{ref.color.paper-1}",
+      "$type": "color",
+      "$description": "PWA theme-color: paper, celebration theme.",
+      "$extensions": { "hues": { "source": "Iris §3 PWA theme-color (giftcards)" } }
+    }
+  }
+}

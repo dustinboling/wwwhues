@@ -1,0 +1,16 @@
+{
+  "$extensions": {
+    "hues": {
+      "theme": "play",
+      "note": "Game layer: park values with the chroma budget raised inside game surfaces only. The Lightning stage purples are a named quarantined exception with no specified values (UNVERIFIED; settles: game art audit / Elena pass)."
+    }
+  },
+  "pwa": {
+    "theme-color": {
+      "$value": "{ref.color.paper-1}",
+      "$type": "color",
+      "$description": "PWA theme-color: shell ground, as the Shell Kit presents today.",
+      "$extensions": { "hues": { "source": "Iris §3 PWA theme-color (games)" } }
+    }
+  }
+}

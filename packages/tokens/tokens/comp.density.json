@@ -1,0 +1,42 @@
+{
+  "comp": {
+    "density": {
+      "comfortable-card-inset-phone": {
+        "$value": "{ref.space.250}",
+        "$type": "dimension",
+        "$description": "Visitor card inset on phone.",
+        "$extensions": { "hues": { "source": "Mina §1.2 comfortable register (20px phone)" } }
+      },
+      "comfortable-card-inset-desktop": {
+        "$value": "{ref.space.300}",
+        "$type": "dimension",
+        "$description": "Visitor card inset on desktop.",
+        "$extensions": { "hues": { "source": "Mina §1.2 comfortable register (24px desktop)" } }
+      },
+      "comfortable-row-height": {
+        "$value": "{ref.space.600}",
+        "$type": "dimension",
+        "$description": "Visitor row height.",
+        "$extensions": { "hues": { "source": "Mina §1.2 density registers (48px)" } }
+      },
+      "compact-card-inset-phone": {
+        "$value": "{ref.space.200}",
+        "$type": "dimension",
+        "$description": "Admin card inset on phone: one spacing token down from comfortable.",
+        "$extensions": { "hues": { "source": "Mina §1.2 compact register (insets step down one token)" } }
+      },
+      "compact-card-inset-desktop": {
+        "$value": "{ref.space.250}",
+        "$type": "dimension",
+        "$description": "Admin card inset on desktop: one spacing token down from comfortable.",
+        "$extensions": { "hues": { "source": "Mina §1.2 compact register (insets step down one token)" } }
+      },
+      "compact-row-height": {
+        "$value": "{ref.space.500}",
+        "$type": "dimension",
+        "$description": "Admin row height.",
+        "$extensions": { "hues": { "source": "Mina §1.2 density registers (40px)" } }
+      }
+    }
+  }
+}

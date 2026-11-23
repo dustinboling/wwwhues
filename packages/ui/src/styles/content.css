@@ -1,0 +1,337 @@
+/* Content cards, rows, states, and rules. */
+
+.hues-packet-card {
+  background-color: var(--card-surface);
+  border: var(--card-border) solid var(--card-border-color);
+  border-radius: var(--card-radius-min);
+  box-shadow: var(--card-shadow);
+  outline: var(--card-stitch);
+  outline-offset: var(--card-stitch-offset);
+  padding: var(--density-comfortable-card-inset-phone);
+}
+
+[data-density="compact"] .hues-packet-card {
+  padding: var(--density-compact-card-inset-phone);
+}
+
+.hues-packet-card__title {
+  display: block;
+  font-family: var(--text-h3-face);
+  font-size: var(--text-h3-size);
+  line-height: var(--text-h3-leading);
+  font-weight: var(--text-h3-weight);
+  color: var(--color-text-strong);
+}
+
+.hues-packet-card__link {
+  display: block;
+  color: inherit;
+  text-decoration: none;
+  border-radius: inherit;
+}
+
+.hues-content-card {
+  background-color: var(--color-surface);
+  border: var(--card-border) solid var(--card-border-color);
+  border-radius: var(--card-radius-max);
+  box-shadow: var(--card-shadow);
+  padding: var(--density-comfortable-card-inset-phone);
+}
+
+[data-density="compact"] .hues-content-card {
+  padding: var(--density-compact-card-inset-phone);
+}
+
+.hues-content-card__eyebrow {
+  display: block;
+  font-family: var(--text-overline-face);
+  font-size: var(--text-overline-size);
+  letter-spacing: var(--text-overline-tracking);
+  font-weight: var(--text-overline-weight);
+  text-transform: var(--text-overline-case);
+  color: var(--color-text-faint);
+}
+
+.hues-content-card__title {
+  display: block;
+  font-size: var(--text-title-size);
+  line-height: var(--text-title-leading);
+  font-weight: var(--text-title-weight);
+  color: var(--color-text-strong);
+}
+
+.hues-content-card__description {
+  display: block;
+  font-size: var(--text-body-sm-size);
+  color: var(--color-text);
+}
+
+.hues-content-card__cta {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-050);
+  color: var(--color-accent-ink);
+  font-size: var(--text-body-sm-size);
+  font-weight: var(--text-body-sm-weight);
+}
+
+.hues-content-card__link {
+  display: block;
+  color: inherit;
+  text-decoration: none;
+  border-radius: inherit;
+}
+
+@media (min-width: 1024px) {
+  .hues-packet-card,
+  .hues-content-card {
+    padding: var(--density-comfortable-card-inset-desktop);
+  }
+
+  [data-density="compact"] .hues-packet-card,
+  [data-density="compact"] .hues-content-card {
+    padding: var(--density-compact-card-inset-desktop);
+  }
+}
+
+/* Domain cards */
+
+.hues-fact-card,
+.hues-status-card,
+.hues-flower-card,
+.hues-cultivar-card,
+.hues-game-card,
+.hues-sponsor-card,
+.hues-event-card,
+.hues-signup-card {
+  background-color: var(--color-surface);
+  border: var(--card-border) solid var(--card-border-color);
+  border-radius: var(--card-radius-min);
+  box-shadow: var(--card-shadow);
+  padding: var(--density-comfortable-card-inset-phone);
+}
+
+.hues-fact-card__label {
+  display: block;
+  font-size: var(--text-label-size);
+  font-weight: var(--text-label-weight);
+  color: var(--color-text-faint);
+}
+
+.hues-fact-card__value {
+  display: block;
+  min-height: calc(var(--text-title-size) * var(--text-title-leading));
+  font-size: var(--text-title-size);
+  color: var(--color-text-strong);
+}
+
+.hues-status-card__headline {
+  display: block;
+  min-height: calc(var(--text-h2-size) * var(--text-h2-leading));
+  font-family: var(--text-h2-face);
+  font-size: var(--text-h2-size);
+  line-height: var(--text-h2-leading);
+  color: var(--color-text-strong);
+}
+
+.hues-status-card__detail {
+  display: block;
+  font-size: var(--text-body-size);
+  color: var(--color-text);
+}
+
+.hues-flower-card__plate img,
+.hues-cultivar-card__photo img,
+.hues-sponsor-card__image img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  background-color: var(--image-plate-pad);
+}
+
+.hues-cultivar-card__photo img,
+.hues-sponsor-card__image img {
+  object-fit: cover;
+}
+
+.hues-flower-card__name,
+.hues-cultivar-card__name,
+.hues-game-card__name,
+.hues-sponsor-card__name {
+  display: block;
+  font-size: var(--text-title-size);
+  font-weight: var(--text-title-weight);
+  color: var(--color-text-strong);
+}
+
+.hues-flower-card__group,
+.hues-cultivar-card__latin,
+.hues-game-card__description,
+.hues-sponsor-card__status,
+.hues-event-card__when {
+  display: block;
+  font-size: var(--text-body-sm-size);
+  color: var(--color-text);
+}
+
+.hues-cultivar-card__latin {
+  font-family: var(--text-body-serif-face);
+  font-style: italic;
+}
+
+.hues-flower-card__pick {
+  display: inline-block;
+  margin-top: var(--space-100);
+  padding: var(--space-025) var(--space-100);
+  border: var(--shell-topbar-border) solid var(--color-line);
+  border-radius: var(--radius-full);
+  font-size: var(--text-caption-size);
+  color: var(--color-text-faint);
+}
+
+.hues-game-card__link {
+  display: block;
+  color: inherit;
+  text-decoration: none;
+}
+
+.hues-game-card__medallion {
+  max-width: 100%;
+  height: auto;
+  object-fit: contain;
+}
+
+.hues-event-card__title {
+  display: block;
+  font-size: var(--text-h3-size);
+  color: var(--color-text-strong);
+}
+
+/* Track rows */
+
+.hues-track-row__play {
+  display: flex;
+  align-items: center;
+  gap: var(--space-150);
+  width: 100%;
+  min-height: var(--shell-target-min);
+  padding: var(--space-050) var(--space-100);
+  background: none;
+  border: 0;
+  border-radius: var(--radius-md);
+  text-align: left;
+  cursor: pointer;
+}
+
+.hues-track-row__dot {
+  flex: none;
+  width: var(--player-dot-size);
+  height: var(--player-dot-size);
+  border-radius: var(--radius-full);
+  background-color: transparent;
+}
+
+.hues-track-row[data-playing] .hues-track-row__dot {
+  background-color: var(--player-dot-color);
+  animation: hues-pulse var(--motion-highlight) var(--motion-ease-out) infinite;
+}
+
+.hues-track-row__title {
+  flex: 1 1 auto;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: var(--text-body-size);
+  color: var(--color-text);
+}
+
+.hues-track-row__duration {
+  font-size: var(--text-body-sm-size);
+  color: var(--color-text-faint);
+  font-variant-numeric: tabular-nums lining-nums;
+}
+
+/* Empty and error states */
+
+.hues-empty-state {
+  padding: var(--space-400) var(--space-200);
+  text-align: center;
+}
+
+.hues-empty-state__art img {
+  max-width: 100%;
+  height: auto;
+  object-fit: contain;
+}
+
+.hues-empty-state__title {
+  margin: var(--space-200) 0 0;
+  font-family: var(--text-display-face);
+  font-size: var(--text-display-size);
+  line-height: var(--text-display-leading);
+  color: var(--color-text-strong);
+}
+
+.hues-empty-state__body {
+  margin: var(--space-100) 0 0;
+  font-size: var(--text-body-size);
+  color: var(--color-text);
+}
+
+.hues-empty-state__action {
+  margin-top: var(--space-200);
+}
+
+.hues-error-region {
+  padding: var(--space-300) var(--space-200);
+  background-color: var(--color-surface);
+  border: var(--card-border) solid var(--card-border-color);
+  border-radius: var(--card-radius-max);
+  box-shadow: var(--card-shadow);
+  outline: var(--card-stitch);
+  outline-offset: var(--card-stitch-offset);
+}
+
+.hues-error-region__title {
+  margin: 0;
+  font-size: var(--text-h3-size);
+  color: var(--color-text-strong);
+}
+
+.hues-error-region__body,
+.hues-error-region__still {
+  font-size: var(--text-body-size);
+  color: var(--color-text);
+}
+
+.hues-error-region__actions {
+  display: flex;
+  gap: var(--space-100);
+  margin-top: var(--space-200);
+}
+
+/* Rules */
+
+.hues-perforation {
+  border-top: var(--card-border) dashed var(--color-line);
+  margin: var(--space-200) 0;
+}
+
+.hues-gold-rule {
+  position: relative;
+  margin: var(--space-200) 0;
+  border-top: var(--sheet-row-underline) solid var(--color-accent);
+}
+
+/* Centre diamond: one spacing step square on the rule. */
+
+.hues-gold-rule__diamond {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: var(--space-100);
+  height: var(--space-100);
+  translate: -50% -50%;
+  rotate: 45deg;
+  background-color: var(--color-accent);
+}

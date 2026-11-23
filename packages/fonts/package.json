@@ -1,0 +1,41 @@
+{
+  "name": "@hues/fonts",
+  "version": "1.0.0",
+  "description": "Hues self-hosted font package: subset variable faces, metric-matched fallbacks, route preload map.",
+  "private": true,
+  "type": "module",
+  "exports": {
+    "./fonts.css": "./fonts.css",
+    "./route-faces": "./dist/route-faces.json",
+    "./files/*": "./dist/files/*",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "fonts.css",
+    "dist",
+    "licenses"
+  ],
+  "scripts": {
+    "fetch:sources": "bash scripts/fetch-sources.sh",
+    "subset": "bash scripts/subset-fonts.sh",
+    "manifest": "node scripts/build-manifest.mjs",
+    "measure:fallbacks": "python3 scripts/measure-fallbacks.py",
+    "coverage": "python3 scripts/check-coverage.py",
+    "build": "npm run fetch:sources && npm run subset && npm run manifest",
+    "pretest": "npm run build",
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint . && node ../ui/scripts/drift-check.mjs --root .",
+    "verify": "npm run lint && npm run typecheck && npm run test"
+  },
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "devDependencies": {
+    "@types/node": "26.6.6",
+    "@typescript-eslint/parser": "8.73.0",
+    "eslint": "10.15.0",
+    "typescript": "5.9.3",
+    "vitest": "5.1.1"
+  }
+}

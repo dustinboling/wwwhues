@@ -1,0 +1,205 @@
+{
+  "$extensions": {
+    "hues": {
+      "theme": "park",
+      "note": "Reference theme: every value is the base Layer 1 mapping. Setting data-theme=park is identical to the unthemed base."
+    }
+  },
+  "sys": {
+    "color": {
+      "bg": {
+        "$value": "{ref.color.paper-1}",
+        "$type": "color",
+        "$extensions": { "hues": { "source": "Plan §3 theme.park (hues reference, Mina §5 Park)" } }
+      },
+      "surface": {
+        "$value": "{ref.color.paper-0}",
+        "$type": "color",
+        "$extensions": { "hues": { "source": "Plan §3 theme.park (hues reference, Mina §5 Park)" } }
+      },
+      "bg-recessed": {
+        "$value": "{ref.color.paper-2}",
+        "$type": "color",
+        "$extensions": { "hues": { "source": "Plan §3 theme.park (hues reference, Mina §5 Park)" } }
+      },
+      "surface-warm": {
+        "$value": "{ref.color.gold-0}",
+        "$type": "color",
+        "$extensions": { "hues": { "source": "Plan §3 theme.park (hues reference, Mina §5 Park)" } }
+      },
+      "surface-player": {
+        "$value": "{ref.color.paper-player}",
+        "$type": "color",
+        "$extensions": { "hues": { "source": "Plan §3 theme.park (hues reference, Mina §5 Park)" } }
+      },
+      "text": {
+        "$value": "{ref.color.ink}",
+        "$type": "color",
+        "$extensions": { "hues": { "source": "Plan §3 theme.park (hues reference, Mina §5 Park)" } }
+      },
+      "text-strong": {
+        "$value": "{ref.color.deep}",
+        "$type": "color",
+        "$extensions": { "hues": { "source": "Plan §3 theme.park (hues reference, Mina §5 Park)" } }
+      },
+      "text-muted": {
+        "$value": "{ref.color.pine-2}",
+        "$type": "color",
+        "$extensions": { "hues": { "source": "Plan §3 theme.park (hues reference, Mina §5 Park)" } }
+      },
+      "text-faint": {
+        "$value": "{ref.color.sage-ink}",
+        "$type": "color",
+        "$extensions": { "hues": { "source": "Plan §3 theme.park (hues reference, Mina §5 Park)" } }
+      },
+      "accent": {
+        "$value": "{ref.color.gold-2}",
+        "$type": "color",
+        "$extensions": { "hues": { "source": "Plan §3 theme.park (hues reference, Mina §5 Park)" } }
+      },
+      "accent-strong": {
+        "$value": "{ref.color.gold-3}",
+        "$type": "color",
+        "$extensions": { "hues": { "source": "Plan §3 theme.park (hues reference, Mina §5 Park)" } }
+      },
+      "accent-ink": {
+        "$value": "{ref.color.gold-ink}",
+        "$type": "color",
+        "$extensions": { "hues": { "source": "Plan §3 theme.park (hues reference, Mina §5 Park)" } }
+      },
+      "link": {
+        "$value": "{ref.color.gold-ink}",
+        "$type": "color",
+        "$extensions": { "hues": { "source": "Plan §3 theme.park (hues reference; park links stay gold, Iris §2.4)" } }
+      },
+      "link-hover": {
+        "$value": "{ref.color.deep}",
+        "$type": "color",
+        "$extensions": { "hues": { "source": "Plan §3 theme.park (hues reference, Mina §5 Park)" } }
+      },
+      "focus-ring-light": {
+        "$value": "{ref.color.gold-3}",
+        "$type": "color",
+        "$extensions": { "hues": { "source": "Plan §3 theme.park (hues reference, Mina §5 Park)" } }
+      },
+      "focus-offset-light": {
+        "$value": "{ref.color.deep}",
+        "$type": "color",
+        "$extensions": { "hues": { "source": "Plan §3 theme.park (hues reference, Mina §5 Park)" } }
+      },
+      "focus-ring-deep": {
+        "$value": "{ref.color.gold-2}",
+        "$type": "color",
+        "$extensions": { "hues": { "source": "Plan §3 theme.park (hues reference, Mina §5 Park)" } }
+      },
+      "focus-offset-deep": {
+        "$value": "{ref.color.paper-1}",
+        "$type": "color",
+        "$extensions": { "hues": { "source": "Plan §3 theme.park (hues reference, Mina §5 Park)" } }
+      },
+      "on-accent": {
+        "$value": "{ref.color.paper-0}",
+        "$type": "color",
+        "$extensions": { "hues": { "source": "Plan §3 theme.park (hues reference, Mina §5 Park)" } }
+      },
+      "on-deep": {
+        "$value": "{ref.color.paper-1}",
+        "$type": "color",
+        "$extensions": { "hues": { "source": "Plan §3 theme.park (hues reference, Mina §5 Park)" } }
+      },
+      "on-deep-soft": {
+        "$value": "{ref.color.gold-1}",
+        "$type": "color",
+        "$extensions": { "hues": { "source": "Plan §3 theme.park (hues reference, Mina §5 Park)" } }
+      },
+      "accent-leaf": {
+        "$value": "{ref.color.leaf}",
+        "$type": "color",
+        "$extensions": { "hues": { "source": "Plan §3 theme.park (hues reference, Mina §5 Park)" } }
+      },
+      "destructive": {
+        "$value": "{ref.color.brick}",
+        "$type": "color",
+        "$extensions": { "hues": { "source": "Plan §3 theme.park (hues reference, Mina §5 Park)" } }
+      },
+      "line": {
+        "$value": "{ref.color.line-1}",
+        "$type": "color",
+        "$extensions": { "hues": { "source": "Plan §3 theme.park (hues reference, Mina §5 Park)" } }
+      },
+      "line-strong": {
+        "$value": "{ref.color.line-2}",
+        "$type": "color",
+        "$extensions": { "hues": { "source": "Plan §3 theme.park (hues reference, Mina §5 Park)" } }
+      },
+      "border-field": {
+        "$value": "{ref.color.ink-soft}",
+        "$type": "color",
+        "$extensions": { "hues": { "source": "Plan §3 theme.park (hues reference, Mina §5 Park)" } }
+      },
+      "state-success": {
+        "$value": "{ref.color.leaf}",
+        "$type": "color",
+        "$extensions": { "hues": { "source": "Plan §3 theme.park (hues reference, Mina §5 Park)" } }
+      },
+      "state-success-tint": {
+        "$value": "{ref.color.sage-0}",
+        "$type": "color",
+        "$extensions": { "hues": { "source": "Plan §3 theme.park (hues reference, Mina §5 Park)" } }
+      },
+      "state-warning": {
+        "$value": "{ref.color.warning}",
+        "$type": "color",
+        "$extensions": { "hues": { "source": "Plan §3 theme.park (hues reference, Mina §5 Park)" } }
+      },
+      "state-warning-tint": {
+        "$value": "{ref.color.gold-0}",
+        "$type": "color",
+        "$extensions": { "hues": { "source": "Plan §3 theme.park (hues reference, Mina §5 Park)" } }
+      },
+      "state-error": {
+        "$value": "{ref.color.clay}",
+        "$type": "color",
+        "$extensions": { "hues": { "source": "Plan §3 theme.park (hues reference, Mina §5 Park)" } }
+      },
+      "state-error-tint": {
+        "$value": "{ref.color.clay-tint}",
+        "$type": "color",
+        "$extensions": { "hues": { "source": "Plan §3 theme.park (hues reference, Mina §5 Park)" } }
+      },
+      "state-info": {
+        "$value": "{ref.color.info}",
+        "$type": "color",
+        "$extensions": { "hues": { "source": "Plan §3 theme.park (hues reference, Mina §5 Park)" } }
+      },
+      "state-info-tint": {
+        "$value": "{ref.color.slate-tint}",
+        "$type": "color",
+        "$extensions": { "hues": { "source": "Plan §3 theme.park (hues reference, Mina §5 Park)" } }
+      },
+      "selection": {
+        "$value": "color-mix(in srgb, {ref.color.gold-2} 35%, transparent)",
+        "$type": "color",
+        "$extensions": { "hues": { "source": "Plan §3 theme.park (hues reference, Mina §5 Park)" } }
+      },
+      "tap-highlight": {
+        "$value": "transparent",
+        "$type": "color",
+        "$extensions": { "hues": { "source": "Plan §3 theme.park (hues reference, Mina §5 Park)" } }
+      },
+      "accent-seasonal": {
+        "$value": "{ref.color.gold-2}",
+        "$type": "color",
+        "$extensions": { "hues": { "source": "Plan §3 theme.park (hues reference; seasonal slot default)" } }
+      }
+    }
+  },
+  "pwa": {
+    "theme-color": {
+      "$value": "{ref.color.paper-1}",
+      "$type": "color",
+      "$description": "PWA theme-color: the resting ground, unchanged from today.",
+      "$extensions": { "hues": { "source": "Iris §3 PWA theme-color (hues.flowers)" } }
+    }
+  }
+}

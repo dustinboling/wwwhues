@@ -1,0 +1,53 @@
+/* Base: hiding utilities, the focus double signal, numeric disciplines. */
+
+.hues-visually-hidden {
+  position: absolute;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+::selection {
+  background-color: var(--color-selection);
+}
+
+.hues-shell,
+.hues-shell a,
+.hues-shell button {
+  -webkit-tap-highlight-color: var(--color-tap-highlight);
+}
+
+/*
+ * Focus double signal (Ada ruling 5): a 2px ring plus an offset, the ring
+ * value following the ground it is drawn on. Light grounds default;
+ * deep-ground contexts (tab bar plate, footer ground) take the deep form.
+ */
+.hues-shell :focus-visible {
+  outline: var(--shell-focus-ring-width) solid var(--color-focus-ring-light);
+  outline-offset: var(--shell-focus-offset-width);
+  box-shadow: 0 0 0 calc(var(--shell-focus-ring-width) + var(--shell-focus-offset-width)) var(--color-focus-offset-light);
+}
+
+.hues-tabbar :focus-visible,
+.hues-site-footer :focus-visible {
+  outline-color: var(--color-focus-ring-deep);
+  box-shadow: 0 0 0 calc(var(--shell-focus-ring-width) + var(--shell-focus-offset-width)) var(--color-focus-offset-deep);
+}
+
+/* Tabular lining figures wherever numbers align or update in place. */
+.hues-tnum {
+  font-variant-numeric: tabular-nums lining-nums;
+}
+
+/* Oldstyle proportional inside Newsreader running prose. */
+.hues-nums-oldstyle {
+  font-variant-numeric: oldstyle-nums proportional-nums;
+}
+
+/* Lining proportional in Fraunces display. */
+.hues-nums-lining {
+  font-variant-numeric: lining-nums proportional-nums;
+}

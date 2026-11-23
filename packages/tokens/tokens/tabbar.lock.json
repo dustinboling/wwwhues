@@ -1,0 +1,126 @@
+{
+  "tabbar": {
+    "lock": {
+      "plate-width": {
+        "$value": "390px",
+        "$type": "dimension",
+        "$description": "LOCKED. Plate box width, centered.",
+        "$extensions": { "hues": { "source": "Mina §2.3 locked geometry (Dustin approved v17b/v19)" } }
+      },
+      "plate-height": {
+        "$value": "112px",
+        "$type": "dimension",
+        "$description": "LOCKED. Plate box height.",
+        "$extensions": { "hues": { "source": "Mina §2.3 locked geometry (Dustin approved v17b/v19)" } }
+      },
+      "panel-top": {
+        "$value": "47px",
+        "$type": "dimension",
+        "$description": "LOCKED. Beyond 390px wide, a plain paper panel continues the bar's lower half full-width from this y.",
+        "$extensions": { "hues": { "source": "Mina §2.3 locked geometry" } }
+      },
+      "disc-size": {
+        "$value": "74px",
+        "$type": "dimension",
+        "$description": "LOCKED. Seasons disc box (74 x 74).",
+        "$extensions": { "hues": { "source": "Mina §2.3 locked geometry" } }
+      },
+      "disc-top": {
+        "$value": "10px",
+        "$type": "dimension",
+        "$description": "LOCKED. Seasons disc top offset, centered (x = 195).",
+        "$extensions": { "hues": { "source": "Mina §2.3 locked geometry" } }
+      },
+      "medallion-size": {
+        "$value": "32px",
+        "$type": "dimension",
+        "$description": "LOCKED. Flank medallion box (32 x 32).",
+        "$extensions": { "hues": { "source": "Mina §2.3 locked geometry" } }
+      },
+      "medallion-top": {
+        "$value": "55px",
+        "$type": "dimension",
+        "$description": "LOCKED. Flank medallion top offset.",
+        "$extensions": { "hues": { "source": "Mina §2.3 locked geometry" } }
+      },
+      "label-top": {
+        "$value": "92px",
+        "$type": "dimension",
+        "$description": "LOCKED. Label top offset; 12px caption floor fits the 20px label band.",
+        "$extensions": { "hues": { "source": "Mina §2.3 locked geometry; Mina §1.6 type.tabbar.label" } }
+      },
+      "column-width": {
+        "$value": "55.714px",
+        "$type": "dimension",
+        "$description": "LOCKED. Seven equal columns over the plate.",
+        "$extensions": { "hues": { "source": "Mina §2.3 locked geometry" } }
+      },
+      "shift-home": {
+        "$value": "0",
+        "$type": "dimension",
+        "$description": "LOCKED. Compressed-seat shift for Home (medallion and label together).",
+        "$extensions": { "hues": { "source": "Mina §2.3 locked geometry" } }
+      },
+      "shift-visit": {
+        "$value": "-3.5px",
+        "$type": "dimension",
+        "$description": "LOCKED. Compressed-seat shift for Visit.",
+        "$extensions": { "hues": { "source": "Mina §2.3 locked geometry" } }
+      },
+      "shift-help": {
+        "$value": "-7.1px",
+        "$type": "dimension",
+        "$description": "LOCKED. Compressed-seat shift for Help.",
+        "$extensions": { "hues": { "source": "Mina §2.3 locked geometry" } }
+      },
+      "shift-arcade": {
+        "$value": "7.1px",
+        "$type": "dimension",
+        "$description": "LOCKED. Compressed-seat shift for Arcade.",
+        "$extensions": { "hues": { "source": "Mina §2.3 locked geometry" } }
+      },
+      "shift-music": {
+        "$value": "3.6px",
+        "$type": "dimension",
+        "$description": "LOCKED. Compressed-seat shift for Music.",
+        "$extensions": { "hues": { "source": "Mina §2.3 locked geometry" } }
+      },
+      "shift-more": {
+        "$value": "0",
+        "$type": "dimension",
+        "$description": "LOCKED. Compressed-seat shift for More.",
+        "$extensions": { "hues": { "source": "Mina §2.3 locked geometry" } }
+      },
+      "shift-disc": {
+        "$value": "0",
+        "$type": "dimension",
+        "$description": "LOCKED. Compressed-seat shift for the Seasons disc.",
+        "$extensions": { "hues": { "source": "Mina §2.3 locked geometry" } }
+      },
+      "press-scale": {
+        "$value": "0.92",
+        "$type": "number",
+        "$description": "LOCKED. Pressed tab link scale over motion.press.",
+        "$extensions": { "hues": { "source": "Mina §2.3 tab press (.p-tab treatment)" } }
+      },
+      "flourish-duration": {
+        "$value": "780ms",
+        "$type": "duration",
+        "$description": "LOCKED. Seasons press flourish: one full disc turn.",
+        "$extensions": { "hues": { "source": "Mina §2.3 locked flourish" } }
+      },
+      "flourish-ease": {
+        "$value": "cubic-bezier(0.25, 0.7, 0.3, 1)",
+        "$type": "cubicBezier",
+        "$description": "LOCKED. Disc spin curve (keeps its own curve, not the house ease).",
+        "$extensions": { "hues": { "source": "Mina §2.3 locked flourish; Mina §1.7" } }
+      },
+      "flourish-swell": {
+        "$value": "1.08",
+        "$type": "number",
+        "$description": "LOCKED. Disc swell at 55 percent of the flourish, animating standalone rotate/scale properties, never transform.",
+        "$extensions": { "hues": { "source": "Mina §2.3 locked flourish (2026-11-13 lesson)" } }
+      }
+    }
+  }
+}

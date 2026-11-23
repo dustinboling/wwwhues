@@ -1,0 +1,24 @@
+{
+  "comp": {
+    "dialog": {
+      "radius": {
+        "$value": "{ref.radius.xl}",
+        "$type": "dimension",
+        "$description": "Dialog corner radius.",
+        "$extensions": { "hues": { "source": "Mina §3.4 Pattern B (radius.xl)" } }
+      },
+      "shadow": {
+        "$value": "{sys.elevation.dialog}",
+        "$type": "other",
+        "$description": "Dialog elevation.",
+        "$extensions": { "hues": { "source": "Mina §3.4 Pattern B; Mina §1.5" } }
+      },
+      "backdrop": {
+        "$value": "color-mix(in srgb, {ref.color.ink} 45%, transparent)",
+        "$type": "color",
+        "$description": "Dialog backdrop: ink at 45 percent (top of the specified 40-45 range, matching the sheet scrim).",
+        "$extensions": { "hues": { "source": "Mina §3.4 Pattern B (ink at 40-45%)" } }
+      }
+    }
+  }
+}

@@ -1,0 +1,78 @@
+{
+  "comp": {
+    "field": {
+      "fill": {
+        "$value": "{sys.color.surface}",
+        "$type": "color",
+        "$description": "Fields are filled with the paper-0 surface family.",
+        "$extensions": { "hues": { "source": "Mina §3.4 field kit; Ada ruling 4" } }
+      },
+      "border": {
+        "$value": "{sys.color.border-field}",
+        "$type": "color",
+        "$description": "Field border: ink-soft stack-wide.",
+        "$extensions": { "hues": { "source": "Mina §3.4 field kit; Ada ruling 4" } }
+      },
+      "radius": {
+        "$value": "{ref.radius.md}",
+        "$type": "dimension",
+        "$description": "Field corner radius.",
+        "$extensions": { "hues": { "source": "Mina §3.4 field kit" } }
+      },
+      "padding-y": {
+        "$value": "{ref.space.150}",
+        "$type": "dimension",
+        "$description": "Field inset vertical padding.",
+        "$extensions": { "hues": { "source": "Mina §3.4 field kit (12px / 16px)" } }
+      },
+      "padding-x": {
+        "$value": "{ref.space.200}",
+        "$type": "dimension",
+        "$description": "Field inset horizontal padding.",
+        "$extensions": { "hues": { "source": "Mina §3.4 field kit (12px / 16px)" } }
+      },
+      "check-size": {
+        "$value": "20px",
+        "$type": "dimension",
+        "$description": "Checkbox and radio box size.",
+        "$extensions": { "hues": { "source": "Mina §3.4 field kit" } }
+      },
+      "check-radius": {
+        "$value": "{ref.radius.xs}",
+        "$type": "dimension",
+        "$description": "Checkbox corner radius.",
+        "$extensions": { "hues": { "source": "Mina §3.4 field kit" } }
+      },
+      "radio-radius": {
+        "$value": "{ref.radius.full}",
+        "$type": "dimension",
+        "$description": "Radio corner radius.",
+        "$extensions": { "hues": { "source": "Mina §3.4 field kit" } }
+      },
+      "check-fill": {
+        "$value": "{sys.color.accent-leaf}",
+        "$type": "color",
+        "$description": "Checked fill and check color.",
+        "$extensions": { "hues": { "source": "Mina §3.4 field kit; Ada ruling 6a" } }
+      },
+      "check-glyph": {
+        "$value": "{sys.color.on-accent}",
+        "$type": "color",
+        "$description": "Paper-0 glyph on the leaf fill (6.23:1).",
+        "$extensions": { "hues": { "source": "Mina §3.4 field kit; Ada ruling 6a" } }
+      },
+      "row-target": {
+        "$value": "44px",
+        "$type": "dimension",
+        "$description": "Selection row tap target minimum height.",
+        "$extensions": { "hues": { "source": "Mina §3.4 field kit" } }
+      },
+      "error-border": {
+        "$value": "{sys.color.state-error}",
+        "$type": "color",
+        "$description": "Error state border: clay. Poppy is never an error color.",
+        "$extensions": { "hues": { "source": "Mina §3.4 field kit; Ada ruling 6c" } }
+      }
+    }
+  }
+}

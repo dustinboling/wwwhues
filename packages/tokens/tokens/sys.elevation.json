@@ -1,0 +1,48 @@
+{
+  "sys": {
+    "elevation": {
+      "shadow-color": {
+        "$value": "{ref.color.ink}",
+        "$type": "color",
+        "$description": "Shadow color is the ink green, never neutral black.",
+        "$extensions": { "hues": { "source": "Mina §1.5 elevation ladder (house trait as rule)" } }
+      },
+      "flat": {
+        "$value": "none",
+        "$type": "other",
+        "$description": "Level 0: page surfaces, resting rows.",
+        "$extensions": { "hues": { "source": "Mina §1.5 elevation ladder" } }
+      },
+      "card": {
+        "$value": "0 12px 32px rgba(46, 68, 56, 0.08)",
+        "$type": "other",
+        "$description": "Level 1: packet cards, raised cards.",
+        "$extensions": { "hues": { "source": "Mina §1.5 elevation ladder (from live code)" } }
+      },
+      "header": {
+        "$value": "0 6px 24px rgba(46, 68, 56, 0.06)",
+        "$type": "other",
+        "$description": "Level 2: sticky and fixed headers.",
+        "$extensions": { "hues": { "source": "Mina §1.5 elevation ladder (from live code)" } }
+      },
+      "player": {
+        "$value": "0 16px 40px rgba(28, 42, 33, 0.28)",
+        "$type": "other",
+        "$description": "Level 3: mini-player.",
+        "$extensions": { "hues": { "source": "Mina §1.5 elevation ladder (from live code)" } }
+      },
+      "sheet": {
+        "$value": "0 -12px 40px rgba(35, 54, 43, 0.35)",
+        "$type": "other",
+        "$description": "Level 4: bottom sheets.",
+        "$extensions": { "hues": { "source": "Mina §1.5 elevation ladder (from live code)" } }
+      },
+      "dialog": {
+        "$value": "0 16px 36px rgba(46, 68, 56, 0.10)",
+        "$type": "other",
+        "$description": "Level 5: dialogs, popovers, menus. The table's '+ ring' has no specified color or width; see UNVERIFIED list (settles with the Mina seat).",
+        "$extensions": { "hues": { "source": "Mina §1.5 elevation ladder (from live code); ring values UNVERIFIED" } }
+      }
+    }
+  }
+}

@@ -1,0 +1,288 @@
+{
+  "ref": {
+    "color": {
+      "paper-0": {
+        "$value": "#fffdf4",
+        "$type": "color",
+        "$description": "Packet and card surface.",
+        "$extensions": { "hues": { "source": "Iris §2.1 Layer 0 paper scale (paper2 today)" } }
+      },
+      "paper-1": {
+        "$value": "#f7f1de",
+        "$type": "color",
+        "$description": "Page ground; current PWA theme-color for hues.flowers.",
+        "$extensions": { "hues": { "source": "Iris §2.1 Layer 0 paper scale; Iris §3 theme-color" } }
+      },
+      "paper-2": {
+        "$value": "#f1e8cf",
+        "$type": "color",
+        "$description": "Recessed ground and wells. Gold-ink text is not permitted here (Ada ruling 1).",
+        "$extensions": { "hues": { "source": "Iris §2.1 Layer 0 paper scale" } }
+      },
+      "line-1": {
+        "$value": "#e0d5b8",
+        "$type": "color",
+        "$description": "Decorative hairlines and stitch grounds only; never an interactive boundary (1.43:1).",
+        "$extensions": { "hues": { "source": "Iris §2.1 Layer 0; Mina §1.6 register (decorative only); Ada ruling 3 context" } }
+      },
+      "line-2": {
+        "$value": "#a08c5a",
+        "$type": "color",
+        "$description": "Interactive boundaries on permitted grounds only: paper-0, white, paper-player, seeds warmed, gold-0. Forbidden on paper-1, paper-2, sage-0 (ink-soft there).",
+        "$extensions": { "hues": { "source": "Iris §2.1 Layer 0 + addendum §C; Ada ruling 3 permitted-grounds table" } }
+      },
+      "pine-1": {
+        "$value": "#55644f",
+        "$type": "color",
+        "$description": "Stem green, secondary structure.",
+        "$extensions": { "hues": { "source": "Iris §2.1 Layer 0 deep green scale" } }
+      },
+      "pine-2": {
+        "$value": "#43534a",
+        "$type": "color",
+        "$description": "Secondary ink (7.22:1 on paper-1).",
+        "$extensions": { "hues": { "source": "Iris §2.1 Layer 0 deep green scale" } }
+      },
+      "ink": {
+        "$value": "#2e4438",
+        "$type": "color",
+        "$description": "Body text (9.30:1 on paper-1).",
+        "$extensions": { "hues": { "source": "Iris §2.1 Layer 0 deep green scale; p.css --ink" } }
+      },
+      "deep": {
+        "$value": "#23362b",
+        "$type": "color",
+        "$description": "Headings, tab bar, footer ground; light-ground focus offset.",
+        "$extensions": { "hues": { "source": "Iris §2.1 Layer 0 deep green scale; p.css --deep" } }
+      },
+      "deep-2": {
+        "$value": "#1c2a21",
+        "$type": "color",
+        "$description": "Deepest ground; dashboard frame base; evening surface.",
+        "$extensions": { "hues": { "source": "Iris §2.1 Layer 0 deep green scale; Iris §3 evening theme" } }
+      },
+      "frame": {
+        "$value": "#16241b",
+        "$type": "color",
+        "$description": "Dashboard frame and dark-theme ground; dashboard PWA theme-color.",
+        "$extensions": { "hues": { "source": "Iris §2.1 Layer 0 deep green scale; Iris §2.5; Iris §3 theme-color" } }
+      },
+      "gold-0": {
+        "$value": "#fdf6d8",
+        "$type": "color",
+        "$description": "Gold wash and tinted grounds; warning state tint.",
+        "$extensions": { "hues": { "source": "Iris §2.1 Layer 0 gold scale" } }
+      },
+      "gold-1": {
+        "$value": "#e8cf8f",
+        "$type": "color",
+        "$description": "Pale gold; accent on deep grounds (8.42:1); evening links.",
+        "$extensions": { "hues": { "source": "Iris §2.1 Layer 0 gold scale; Iris §3 evening theme" } }
+      },
+      "gold-2": {
+        "$value": "#b08d37",
+        "$type": "color",
+        "$description": "The flat gold: graphics, rules, stitch, deep-ground focus ring. Never normal text (2.77:1 on paper-1).",
+        "$extensions": { "hues": { "source": "Iris §2.1 Layer 0 gold scale; Ada ruling 1 (demoted from text) + ruling 5 (deep-ground ring)" } }
+      },
+      "gold-3": {
+        "$value": "#927128",
+        "$type": "color",
+        "$description": "Gold at weight: large text, graphics, light-ground focus ring. Never normal text (4.03:1 on paper-1).",
+        "$extensions": { "hues": { "source": "Iris §2.1 Layer 0 gold scale; Ada ruling 1 (demoted) + ruling 5 (light-ground ring)" } }
+      },
+      "gold-ink": {
+        "$value": "#86691f",
+        "$type": "color",
+        "$description": "The only text-weight gold (4.59:1 on paper-1, 5.08:1 on paper-0). Not permitted on paper-2 (4.24:1). Links, labels, accents; never long-form body text.",
+        "$extensions": { "hues": { "source": "Iris §2.1 Layer 0 gold scale + §5 items 1-2; Ada ruling 1 PASS with ground restriction" } }
+      },
+      "sage-0": {
+        "$value": "#eef3e4",
+        "$type": "color",
+        "$description": "Lightest green wash ground; success state tint.",
+        "$extensions": { "hues": { "source": "Iris §2.1 Layer 0 sage scale" } }
+      },
+      "sage-1": {
+        "$value": "#cdd8c6",
+        "$type": "color",
+        "$description": "Light sage; app-icon gradient family; evening muted text.",
+        "$extensions": { "hues": { "source": "Iris §2.1 Layer 0 sage scale; Iris §3" } }
+      },
+      "sage-2": {
+        "$value": "#6f7f6e",
+        "$type": "color",
+        "$description": "Mid sage: decorative and large-text only (3.77:1 on paper-1). Never a text token.",
+        "$extensions": { "hues": { "source": "Iris §2.1 Layer 0 sage scale; Ada ruling 2 (re-scoped decorative-only)" } }
+      },
+      "sage-ink": {
+        "$value": "#4e5d47",
+        "$type": "color",
+        "$description": "The only text-weight sage, on every ground (6.24:1 on paper-1).",
+        "$extensions": { "hues": { "source": "Iris §2.1 Layer 0 sage scale; Ada ruling 2 PASS" } }
+      },
+      "sage-3": {
+        "$value": "#a9bda4",
+        "$type": "color",
+        "$description": "Mid sage step for the app-icon gradient. Token name assigned by this build; value is Iris's specified step.",
+        "$extensions": { "hues": { "source": "Iris §3 app-icon gradient mid step; Iris §5 item 11 evening pair" } }
+      },
+      "dahlia-coral": {
+        "$value": "#d1603d",
+        "$type": "color",
+        "$description": "Bloom accent for plates, medallions, celebration. Never body text, never the only carrier of meaning.",
+        "$extensions": { "hues": { "source": "Iris §2.1 bloom accents" } }
+      },
+      "dahlia-pink": {
+        "$value": "#d77fa8",
+        "$type": "color",
+        "$description": "Bloom accent for plates, medallions, celebration. Never body text, never the only carrier of meaning.",
+        "$extensions": { "hues": { "source": "Iris §2.1 bloom accents" } }
+      },
+      "dusty-rose": {
+        "$value": "#c98ba6",
+        "$type": "color",
+        "$description": "Bloom accent for plates, medallions, celebration. Never body text, never the only carrier of meaning.",
+        "$extensions": { "hues": { "source": "Iris §2.1 bloom accents" } }
+      },
+      "marigold": {
+        "$value": "#e9b83a",
+        "$type": "color",
+        "$description": "Bloom accent for plates, medallions, celebration. Never body text, never the only carrier of meaning.",
+        "$extensions": { "hues": { "source": "Iris §2.1 bloom accents" } }
+      },
+      "lavender": {
+        "$value": "#8e6cc0",
+        "$type": "color",
+        "$description": "Bloom accent for plates, medallions, celebration. Never body text, never the only carrier of meaning.",
+        "$extensions": { "hues": { "source": "Iris §2.1 bloom accents" } }
+      },
+      "sky": {
+        "$value": "#5b6fa6",
+        "$type": "color",
+        "$description": "Bloom accent for plates, medallions, celebration. Never body text, never the only carrier of meaning.",
+        "$extensions": { "hues": { "source": "Iris §2.1 bloom accents" } }
+      },
+      "ink-soft": {
+        "$value": "#71806c",
+        "$type": "color",
+        "$description": "Field border stack-wide; weakest pair paper-2 at 3.43:1.",
+        "$extensions": { "hues": { "source": "Iris plugs addendum §A.1; Ada ruling 4 PASS on every ground" } }
+      },
+      "leaf": {
+        "$value": "#2f6b45",
+        "$type": "color",
+        "$description": "Chosen and affirmative: checkbox and radio accent, success text (5.62:1 on paper-1).",
+        "$extensions": { "hues": { "source": "Iris §2.3 + plugs addendum §A.2; Ada ruling 6a PASS" } }
+      },
+      "brick": {
+        "$value": "#a03a2c",
+        "$type": "color",
+        "$description": "Destructive actions only, always labeled, never icon-only (5.93:1 as text on paper-1; 6.57:1 both directions with paper-0).",
+        "$extensions": { "hues": { "source": "Iris plugs addendum §A.3; Ada ruling 6b PASS with redundancy condition" } }
+      },
+      "poppy": {
+        "$value": "#D85434",
+        "$type": "color",
+        "$description": "QUARANTINED to the music player, graphics only, never text. Play and pause state rides on glyph shape.",
+        "$extensions": { "hues": { "source": "Iris plugs addendum §A.4; Ada ruling 6c PASS under quarantine" } }
+      },
+      "paper-player": {
+        "$value": "#FAF6EC",
+        "$type": "color",
+        "$description": "Shell player surface only; no other component may take it.",
+        "$extensions": { "hues": { "source": "Iris plugs addendum §A.5; Mina §1.6 register" } }
+      },
+      "warning": {
+        "$value": "#7a5600",
+        "$type": "color",
+        "$description": "Warning and held state text on the gold-0 tint (6.13:1).",
+        "$extensions": { "hues": { "source": "Iris §2.3 state colors; Ada ruling 6 state-on-tint verification" } }
+      },
+      "clay": {
+        "$value": "#9c4a3c",
+        "$type": "color",
+        "$description": "Error and closed state text on the clay tint (5.09:1). A state, never an action.",
+        "$extensions": { "hues": { "source": "Iris §2.3 state colors; Ada ruling 6 state-on-tint verification" } }
+      },
+      "clay-text": {
+        "$value": "#a8564d",
+        "$type": "color",
+        "$description": "Text-weight clay step (4.53:1 on paper-1, 5.02:1 on paper-0).",
+        "$extensions": { "hues": { "source": "Iris §5 item 4 text clay; Ada ruling 6 verified" } }
+      },
+      "clay-tint": {
+        "$value": "#f7e8e2",
+        "$type": "color",
+        "$description": "Error state tint ground.",
+        "$extensions": { "hues": { "source": "Iris §2.3 state colors" } }
+      },
+      "info": {
+        "$value": "#546a8a",
+        "$type": "color",
+        "$description": "Info and note state text on the slate tint (4.61:1, least headroom of the set).",
+        "$extensions": { "hues": { "source": "Iris §2.3 state colors; Ada ruling 6 state-on-tint verification" } }
+      },
+      "slate-tint": {
+        "$value": "#e6ebf2",
+        "$type": "color",
+        "$description": "Info state tint ground. Darkening it reopens the info pair.",
+        "$extensions": { "hues": { "source": "Iris §2.3 state colors; Ada ruling 6" } }
+      },
+      "seeds-ground": {
+        "$value": "#f8f6ec",
+        "$type": "color",
+        "$description": "Seeds warmed ground, half-step toward the paper family; seeds PWA theme-color.",
+        "$extensions": { "hues": { "source": "Iris §2.4 seeds theme; Iris §3 theme-color; requirements foundation decision 3" } }
+      },
+      "seeds-bg-current": {
+        "$value": "#fafaf7",
+        "$type": "color",
+        "$description": "Seeds current background, kept as a measured ground for the transition only.",
+        "$extensions": { "hues": { "source": "Iris §2.4 seeds audit; Ada ruling 4 table" } }
+      },
+      "fern": {
+        "$value": "#2D6A4F",
+        "$type": "color",
+        "$description": "The directory green, adopted as a named primitive for the seeds theme.",
+        "$extensions": { "hues": { "source": "Iris §2.4 seeds theme" } }
+      },
+      "seeds-link": {
+        "$value": "#1B5E37",
+        "$type": "color",
+        "$description": "Seeds link green (7.43:1 on its ground); the directory keeps green links while the park keeps gold.",
+        "$extensions": { "hues": { "source": "Iris §2.4 seeds theme; Iris §5 item 10" } }
+      },
+      "seeds-deep": {
+        "$value": "#1B4332",
+        "$type": "color",
+        "$description": "Seeds deep green step (white on it: 11.08:1).",
+        "$extensions": { "hues": { "source": "Iris §2.4 seeds theme; Iris §5 item 10" } }
+      },
+      "seeds-muted": {
+        "$value": "#595959",
+        "$type": "color",
+        "$description": "Seeds muted text (6.70:1).",
+        "$extensions": { "hues": { "source": "Iris §5 item 10 seeds pairs" } }
+      },
+      "seeds-secondary": {
+        "$value": "#52B788",
+        "$type": "color",
+        "$description": "Seeds secondary: graphics and large graphics only (2.37:1), never text, never a status carrier alone.",
+        "$extensions": { "hues": { "source": "Iris §2.4 seeds theme; Iris §5 item 5; Ada closing E" } }
+      },
+      "white": {
+        "$value": "#ffffff",
+        "$type": "color",
+        "$description": "Reference white for pair computation and glyphs on fills.",
+        "$extensions": { "hues": { "source": "Ada ruling tables ground; Mina §2.6 poppy glyph" } }
+      },
+      "family-ground": {
+        "$value": "#1d1d1f",
+        "$type": "color",
+        "$description": "Family App ground, untouched unless adopted. Used for its PWA theme-color only.",
+        "$extensions": { "hues": { "source": "Iris §3 PWA theme-color (family)" } }
+      }
+    }
+  }
+}

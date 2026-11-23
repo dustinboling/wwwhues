@@ -1,0 +1,131 @@
+/* Motion: token-level stand-downs plus the kit keyframes. */
+
+@keyframes hues-flourish {
+  0% {
+    rotate: 0deg;
+    scale: 1;
+  }
+  55% {
+    rotate: 198deg;
+    scale: var(--tabbar-flourish-swell);
+  }
+  100% {
+    rotate: 360deg;
+    scale: 1;
+  }
+}
+
+@keyframes hues-breathe {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.55;
+  }
+}
+
+@keyframes hues-pulse {
+  0%,
+  100% {
+    opacity: 1;
+    scale: 1;
+  }
+  50% {
+    opacity: 0.6;
+    scale: 0.85;
+  }
+}
+
+@keyframes hues-wash {
+  from {
+    background-color: var(--card-wash);
+  }
+  to {
+    background-color: transparent;
+  }
+}
+
+@keyframes hues-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes hues-reveal {
+  from {
+    opacity: 0;
+    translate: 0 var(--space-150);
+  }
+  to {
+    opacity: 1;
+    translate: 0 0;
+  }
+}
+
+/* First-visit grace treatments; never on a tab return (apps gate on revealed). */
+.hues-reveal {
+  animation: hues-reveal var(--motion-reveal) var(--motion-ease-out);
+}
+
+.hues-rise {
+  animation: hues-reveal var(--motion-rise) var(--motion-ease-out);
+}
+
+/* Changed items wash once; the color carry survives reduced motion. */
+:where([data-updated]) {
+  animation: hues-wash var(--motion-highlight) var(--motion-ease-out);
+}
+
+/*
+ * Reduced motion: every motion stands down at the token level. Animated
+ * scrolls become instant jumps; motion-carried feedback is re-expressed as
+ * an opacity transition, never dropped; the skeleton goes static; the disc
+ * keeps neither spin nor burst.
+ */
+@media (prefers-reduced-motion: reduce) {
+  .hues-shell,
+  .hues-shell *,
+  .hues-shell *::before,
+  .hues-shell *::after,
+  .hues-admin-shell,
+  .hues-admin-shell *,
+  .hues-admin-shell *::before,
+  .hues-admin-shell *::after {
+    animation-duration: 0.01ms;
+    animation-iteration-count: 1;
+    transition-duration: 0.01ms;
+    scroll-behavior: auto;
+  }
+
+  .hues-shell .hues-sheet,
+  .hues-admin-shell .hues-sheet {
+    translate: 0 0;
+    animation: hues-fade-in var(--motion-state) var(--motion-ease-out);
+  }
+
+  .hues-shell [data-updated],
+  .hues-admin-shell [data-updated] {
+    animation-duration: var(--motion-highlight);
+  }
+
+  .hues-skeleton__unit {
+    animation: none;
+  }
+
+  .hues-tab__disc[data-flourish] {
+    animation: none;
+  }
+
+  .hues-player__dot {
+    animation: none;
+  }
+
+  .hues-reveal,
+  .hues-rise {
+    animation: hues-fade-in var(--motion-state) var(--motion-ease-out);
+  }
+}

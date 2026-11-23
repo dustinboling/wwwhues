@@ -1,0 +1,72 @@
+{
+  "comp": {
+    "tabbar": {
+      "label-active": {
+        "$value": "{sys.color.text-strong}",
+        "$type": "color",
+        "$description": "Active tab label: semibold deep text.",
+        "$extensions": { "hues": { "source": "Mina §2.3 active state" } }
+      },
+      "label-inactive": {
+        "$value": "{sys.color.text-faint}",
+        "$type": "color",
+        "$description": "Inactive tab labels: medium sage-ink.",
+        "$extensions": { "hues": { "source": "Mina §2.3 active state; Ada ruling 2" } }
+      },
+      "label-size": {
+        "$value": "{sys.type.caption.size}",
+        "$type": "dimension",
+        "$description": "Tab labels take the 12px caption floor.",
+        "$extensions": { "hues": { "source": "Mina §2.3; Thea §4 handoff; requirements foundation decision 6" } }
+      },
+      "label-leading": {
+        "$value": "{sys.type.caption.leading}",
+        "$type": "number",
+        "$description": "Tab label line height from the caption role.",
+        "$extensions": { "hues": { "source": "Mina §2.3; Thea §4 handoff" } }
+      },
+      "label-tracking": {
+        "$value": "0.02em",
+        "$type": "dimension",
+        "$description": "Tab label tracking.",
+        "$extensions": { "hues": { "source": "Mina §2.3 (caption role, 500, +0.02em per Thea §4)" } }
+      },
+      "label-face": {
+        "$value": "{ref.type.family.ui}",
+        "$type": "fontFamily",
+        "$description": "Tab label face from the caption role.",
+        "$extensions": { "hues": { "source": "Mina §2.3; Thea §4 handoff" } }
+      },
+      "label-weight": {
+        "$value": "500",
+        "$type": "fontWeight",
+        "$description": "Tab label rest weight (medium).",
+        "$extensions": { "hues": { "source": "Mina §2.3; Thea §4 handoff" } }
+      },
+      "label-weight-active": {
+        "$value": "{ref.type.weight.semibold}",
+        "$type": "fontWeight",
+        "$description": "Active tab label goes semibold.",
+        "$extensions": { "hues": { "source": "Mina §2.3 active state" } }
+      },
+      "disc-glow": {
+        "$value": "drop-shadow(0 0 9px color-mix(in srgb, {ref.color.gold-2} 65%, transparent))",
+        "$type": "other",
+        "$description": "Active disc gold glow.",
+        "$extensions": { "hues": { "source": "Mina §2.3 active state (gold = house --gold = gold-2)" } }
+      },
+      "panel-line": {
+        "$value": "color-mix(in srgb, {ref.color.line-1} 60%, transparent)",
+        "$type": "color",
+        "$description": "Wide-panel top border color.",
+        "$extensions": { "hues": { "source": "Mina §2.3 plate box (border-top --color-line at 60%)" } }
+      },
+      "disc-max-width": {
+        "$value": "none",
+        "$type": "other",
+        "$description": "Disc art never clamps (the 2026-11-02 squeeze lesson).",
+        "$extensions": { "hues": { "source": "Mina §2.3 locked geometry" } }
+      }
+    }
+  }
+}

@@ -1,0 +1,44 @@
+<!doctype html>
+<!--
+  Header fixture: mirrors SiteHeader DOM (brand, nav pill with a current
+  item, cluster, menu disclosure). One fixture serves both viewports: CSS
+  switches pill and menu at the 1280px bound.
+-->
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Harness: Header</title>
+    <link rel="stylesheet" href="/css/tokens.css" />
+    <link rel="stylesheet" href="/css/fonts.css" />
+    <link rel="stylesheet" href="/css/styles.css" />
+  </head>
+  <body>
+    <div class="hues-shell" data-theme="park" data-density="comfortable">
+      <header data-variant="park" class="hues-site-header">
+        <div class="hues-site-header__inner">
+          <a href="/" aria-label="Hues home" class="hues-site-header__brand">
+            <span class="hues-site-header__logo"><svg width="40" height="40" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="1.8" /></svg></span>
+            <span class="hues-site-header__lockup">FLORAL PARK</span>
+          </a>
+          <nav aria-label="Primary" class="hues-site-header__pill">
+            <ul>
+              <li><a href="/">Home</a></li>
+              <li><a href="/visit" aria-current="page" data-current="true">Visit</a></li>
+              <li><a href="/whats-in-season">Seasons</a></li>
+              <li><a href="/music">Music</a></li>
+            </ul>
+          </nav>
+          <div class="hues-site-header__cluster">
+            <a href="/visit" class="hues-button hues-button--primary hues-site-header__plan">Plan a visit</a>
+            <button type="button" class="hues-account-button" aria-label="Account"><span class="hues-account-button__initial" aria-hidden="true">D</span></button>
+          </div>
+          <div class="hues-site-header__menu">
+            <button type="button" aria-expanded="false" aria-controls="menu" class="hues-site-header__menu-button">Menu</button>
+          </div>
+        </div>
+      </header>
+      <main id="content" class="hues-shell__main"><p>Content</p></main>
+    </div>
+  </body>
+</html>

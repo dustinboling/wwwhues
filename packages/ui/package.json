@@ -1,0 +1,70 @@
+{
+  "name": "@hues/ui",
+  "version": "1.0.0",
+  "description": "Hues component kit: the section-6 inventory as strictly typed React components plus the shared service-worker, data-layer, and security modules.",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./styles.css": "./dist/styles.css",
+    "./sw-template": "./src/sw/sw-template.ts",
+    "./kill-switch": "./src/sw/kill-switch.ts",
+    "./eslint-plugin": "./eslint-plugin/index.js",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist",
+    "src/sw",
+    "eslint-plugin",
+    "scripts/drift-check.mjs"
+  ],
+  "scripts": {
+    "build:js": "tsc -p tsconfig.build.json",
+    "build:css": "node scripts/build-css.mjs",
+    "prebuild": "npm --prefix ../tokens run build",
+    "build": "npm run build:js && npm run build:css",
+    "pretest": "npm --prefix ../tokens run build",
+    "test": "vitest run",
+    "harness": "node scripts/serve-harness.mjs --port 4173",
+    "test:visual": "playwright test",
+    "pretypecheck": "npm --prefix ../tokens run build",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint . && node scripts/drift-check.mjs --root .",
+    "verify": "npm run lint && npm run typecheck && npm run test"
+  },
+  "peerDependencies": {
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  },
+  "dependencies": {
+    "@hues/tokens": "file:../tokens",
+    "@tanstack/react-query": "5.108.3"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.65.1",
+    "@testing-library/react": "16.3.3",
+    "@testing-library/user-event": "14.6.1",
+    "@types/node": "26.6.6",
+    "@types/react": "19.1.13",
+    "@typescript-eslint/parser": "8.73.0",
+    "eslint": "10.15.0",
+    "fake-indexeddb": "6.2.8",
+    "jsdom": "31.0.1",
+    "react": "19.3.1",
+    "react-dom": "19.3.1",
+    "typescript": "5.9.3",
+    "vitest": "5.1.1",
+    "workbox-core": "7.3.0",
+    "workbox-expiration": "7.3.0",
+    "workbox-precaching": "7.3.0",
+    "workbox-range-requests": "7.3.0",
+    "workbox-routing": "7.3.0",
+    "workbox-strategies": "7.3.0"
+  },
+  "engines": {
+    "node": ">=22.12.0"
+  }
+}

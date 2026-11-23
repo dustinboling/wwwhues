@@ -1,0 +1,39 @@
+<!doctype html>
+<!--
+  Field-kit fixture: mirrors the field kit states (default, note, error,
+  checked box, selected radio). The spec focuses the first input before the
+  focus shot to pin the double-signal ring.
+-->
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Harness: Fields</title>
+    <link rel="stylesheet" href="/css/tokens.css" />
+    <link rel="stylesheet" href="/css/fonts.css" />
+    <link rel="stylesheet" href="/css/styles.css" />
+  </head>
+  <body>
+    <div class="hues-shell" data-theme="park" data-density="comfortable">
+      <main id="content" class="hues-shell__main">
+        <div class="hues-field">
+          <label for="f-name" class="hues-field__label">Name<span class="hues-field__required"> (required)</span></label>
+          <input id="f-name" class="hues-field__input" value="Ada" />
+        </div>
+        <div class="hues-field" data-error="true">
+          <label for="f-mobile" class="hues-field__label">Mobile number<span class="hues-field__required"> (required)</span></label>
+          <input id="f-mobile" class="hues-field__input" aria-invalid="true" aria-describedby="f-mobile-error" value="555" />
+          <p id="f-mobile-error" class="hues-field-error">Enter the 10-digit mobile number</p>
+        </div>
+        <div class="hues-check">
+          <input id="f-water" type="checkbox" checked />
+          <label for="f-water" class="hues-check__label">Watering</label>
+        </div>
+        <div class="hues-check">
+          <input id="f-am" type="radio" name="shift" checked />
+          <label for="f-am" class="hues-check__label">Morning</label>
+        </div>
+      </main>
+    </div>
+  </body>
+</html>

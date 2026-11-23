@@ -1,0 +1,62 @@
+{
+  "$extensions": {
+    "hues": {
+      "theme": "seeds",
+      "note": "Directory layer: warmed ground, green primary and links. Adoption is a build task (Ada closing E): seeds stays failing until this theme actually lands in its build."
+    }
+  },
+  "sys": {
+    "color": {
+      "bg": {
+        "$value": "{ref.color.seeds-ground}",
+        "$type": "color",
+        "$description": "Seeds page ground, warmed a half-step toward the paper family.",
+        "$extensions": { "hues": { "source": "Iris §2.4 seeds theme; requirements foundation decision 3" } }
+      },
+      "link": {
+        "$value": "{ref.color.seeds-link}",
+        "$type": "color",
+        "$description": "Seeds links stay green (7.43:1 on its ground): same token name, property-mapped value.",
+        "$extensions": { "hues": { "source": "Iris §2.4 seeds theme" } }
+      },
+      "accent": {
+        "$value": "{ref.color.fern}",
+        "$type": "color",
+        "$description": "Seeds primary green for graphics, rules, stitch.",
+        "$extensions": { "hues": { "source": "Iris §2.4 seeds theme (primary maps to the shared green family)" } }
+      },
+      "accent-strong": {
+        "$value": "{ref.color.seeds-deep}",
+        "$type": "color",
+        "$description": "Seeds deep green step for weight roles.",
+        "$extensions": { "hues": { "source": "Iris §2.4 seeds theme; Iris §5 item 10" } }
+      },
+      "text-muted": {
+        "$value": "{ref.color.seeds-muted}",
+        "$type": "color",
+        "$description": "Seeds muted text (6.70:1).",
+        "$extensions": { "hues": { "source": "Iris §5 item 10 seeds pairs" } }
+      },
+      "accent-ink": {
+        "$value": "{ref.color.gold-ink}",
+        "$type": "color",
+        "$description": "UNVERIFIED: whether seeds text-gold roles (nav active, quiet button, card CTA, wordmark) stay gold or go green is unsettled; park value held pending ruling (settles: Iris seat).",
+        "$extensions": { "hues": { "source": "Iris §2.4 settles link only; text-gold roles UNVERIFIED" } }
+      },
+      "border-field": {
+        "$value": "{ref.color.ink-soft}",
+        "$type": "color",
+        "$description": "Seeds adopts the ink-soft field border, curing the live 1.49:1 border.",
+        "$extensions": { "hues": { "source": "Iris §2.4 + plugs §A.1; Ada ruling 4 + closing E" } }
+      }
+    }
+  },
+  "pwa": {
+    "theme-color": {
+      "$value": "{ref.color.seeds-ground}",
+      "$type": "color",
+      "$description": "PWA theme-color: the warmed ground (unset today; a small visible upgrade).",
+      "$extensions": { "hues": { "source": "Iris §3 PWA theme-color (seeds)" } }
+    }
+  }
+}
