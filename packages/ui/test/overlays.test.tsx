@@ -114,9 +114,15 @@ describe('MiniPlayer', () => {
   it('measures its height into the shell reservation while present', () => {
     const observe = vi.fn();
     const disconnect = vi.fn();
+    const spies = { observe, disconnect };
     vi.stubGlobal(
       'ResizeObserver',
-      vi.fn(() => ({ observe, disconnect })),
+      // A class: the component news it up, and a vi.fn with an arrow
+      // implementation is not a constructor.
+      class {
+        observe = spies.observe;
+        disconnect = spies.disconnect;
+      },
     );
     const { unmount } = render(<MiniPlayer track={track} />);
     expect(observe).toHaveBeenCalled();

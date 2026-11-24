@@ -35,6 +35,9 @@ export const MEDIA_SLOT_SIZES = {
 } as const;
 /* eslint-enable hues/no-raw-px */
 
+/** Slot names for the §1d sizes contract (keys of MEDIA_SLOT_SIZES). */
+export type MediaSlot = keyof typeof MEDIA_SLOT_SIZES;
+
 let baseUrl: string | null = null;
 
 /** Set once at app bootstrap from the confirmed media domain. */
@@ -50,9 +53,9 @@ export function getMediaBaseUrl(): string | null {
 export interface TransformOptions {
   key: string;
   width: MediaWidth;
-  quality?: number;
+  quality?: number | undefined;
   /** Plates pad onto the paper ground, never crop. */
-  fit?: 'pad' | 'cover';
+  fit?: 'pad' | 'cover' | undefined;
 }
 
 function padBackground(): string {

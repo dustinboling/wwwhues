@@ -39,7 +39,9 @@ SAMPLE = "abcdefghijklmnopqrstuvwxyz0123456789"
 FACES = {
     "Fraunces": ("fraunces-roman-latin.woff2", "serif"),
     "Newsreader": ("newsreader-roman-latin.woff2", "serif"),
-    "Source Sans 3": ("source-sans-roman-latin.woff2", "sans"),
+    # Fallback family name pinned by test/css-licenses.test.ts ("Source Sans
+    # Fallback"); the web faces keep the full "Source Sans 3" name.
+    "Source Sans": ("source-sans-roman-latin.woff2", "sans"),
 }
 
 
@@ -66,7 +68,9 @@ def normalized_metrics(path: Path) -> dict[str, float]:
 
 
 def overrides(web: dict[str, float], fallback: dict[str, float]) -> dict[str, str]:
-    size_adjust = fallback["avg_advance"] / web["avg_advance"]
+    # next/font adjustFontFallback direction: scale the fallback BY
+    # web-over-fallback so the same string measures the same width.
+    size_adjust = web["avg_advance"] / fallback["avg_advance"]
 
     def pct(value: float) -> str:
         return f"{value * 100:.2f}%"

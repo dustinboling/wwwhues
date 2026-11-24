@@ -5,7 +5,7 @@ export interface SkeletonProps {
   shape?: 'block' | 'card' | 'row' | 'list';
   label?: string;
   count?: number;
-  className?: string;
+  className?: string | undefined;
 }
 
 /**

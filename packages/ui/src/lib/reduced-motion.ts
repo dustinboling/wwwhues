@@ -13,6 +13,7 @@ export function matchesReducedMotion(): boolean {
 export function usePrefersReducedMotion(): boolean {
   const [reduced, setReduced] = useState<boolean>(() => matchesReducedMotion());
   useEffect(() => {
+    if (typeof window.matchMedia !== 'function') return;
     const query = window.matchMedia('(prefers-reduced-motion: reduce)');
     const onChange = (event: MediaQueryListEvent): void => setReduced(event.matches);
     query.addEventListener('change', onChange);

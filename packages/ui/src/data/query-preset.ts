@@ -38,8 +38,17 @@ export function createHuesQueryClient(): QueryClient {
   return new QueryClient({ defaultOptions: HUES_DEFAULT_OPTIONS });
 }
 
-/** Query options pinned to a data class stale window. */
-export function queryOptionsFor<TData>(dataClass: DataClass, options: UseQueryOptions<TData> = {}): UseQueryOptions<TData> {
+/**
+ * Query options pinned to a data class stale window. One-arg callers get
+ * the stale window alone; queryKey stays required whenever options are
+ * passed, as TanStack requires.
+ */
+export function queryOptionsFor<TData>(dataClass: DataClass): Pick<UseQueryOptions<TData>, 'staleTime'>;
+export function queryOptionsFor<TData>(dataClass: DataClass, options: UseQueryOptions<TData>): UseQueryOptions<TData>;
+export function queryOptionsFor<TData>(
+  dataClass: DataClass,
+  options: Partial<UseQueryOptions<TData>> = {},
+): Partial<UseQueryOptions<TData>> {
   return { staleTime: STALE_TIME[dataClass], ...options };
 }
 
