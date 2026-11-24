@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
-import { contrastRatio } from './helpers/contrast';
-import { allTokens, resolveString } from './helpers/tokens';
+import { contrastRatio } from './helpers/contrast.js';
+import { allTokens, resolveString, type FlatToken } from './helpers/tokens.js';
 
 interface PairRow {
   fg: string;
@@ -13,6 +13,9 @@ interface PairRow {
   pass: boolean;
   ruling: string;
 }
+
+/** One it.each case: a ruling row plus its table index. */
+type PairCase = PairRow & { index: number };
 
 const BER = 'ref.color.';
 const TEXT = 4.5 as const;
@@ -144,9 +147,9 @@ const PAIRS: PairRow[] = [
 ];
 
 describe('contrast conformance', () => {
-  it.each(PAIRS.map((row, index) => ({ ...row, index })))(
+  it.each(PAIRS.map((row: PairRow, index: number) => ({ ...row, index })))(
     '$ruling: $fg on $bg recomputes to $stated and the verdict holds',
-    (row) => {
+    (row: PairCase) => {
       const fg = resolveString(row.fg);
       const bg = resolveString(row.bg);
       const computed = contrastRatio(fg, bg);
@@ -203,12 +206,12 @@ describe('contrast conformance', () => {
   });
 
   it('the gold-ink paper-2 ban is written into the token register', () => {
-    const token = allTokens().find((candidate) => candidate.path === 'sys.color.accent-ink');
+    const token = allTokens().find((candidate: FlatToken) => candidate.path === 'sys.color.accent-ink');
     expect(token?.description).toMatch(/paper-2/);
   });
 
   it('the line-2 ground table is written into the token register', () => {
-    const token = allTokens().find((candidate) => candidate.path === 'sys.color.line-strong');
+    const token = allTokens().find((candidate: FlatToken) => candidate.path === 'sys.color.line-strong');
     expect(token?.description).toMatch(/paper-1.*paper-2.*sage-0/);
   });
 });

@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { allTokens } from './helpers/tokens';
+import { allTokens, type FlatToken } from './helpers/tokens.js';
 
 /**
  * Conformance: every register value traces to its source ruling.
@@ -9,16 +9,16 @@ import { allTokens } from './helpers/tokens';
 describe('source tracing', () => {
   it('every token names its source ruling', () => {
     const failures = allTokens()
-      .filter((token) => token.source === null)
-      .map((token) => `${token.file}:${token.path} has no $extensions.hues.source`);
+      .filter((token: FlatToken) => token.source === null)
+      .map((token: FlatToken) => `${token.file}:${token.path} has no $extensions.hues.source`);
     expect(failures).toEqual([]);
   });
 
   it('sources cite a ruling owner, never a bare value', () => {
     const owners = ['Iris', 'Thea', 'Mina', 'Ada', 'Plan', 'A11y', 'Dustin', 'WCAG'];
     const failures = allTokens()
-      .filter((token) => token.source !== null && !owners.some((owner) => token.source?.includes(owner)))
-      .map((token) => `${token.file}:${token.path} source names no owner: ${token.source}`);
+      .filter((token: FlatToken) => token.source !== null && !owners.some((owner: string) => token.source?.includes(owner)))
+      .map((token: FlatToken) => `${token.file}:${token.path} source names no owner: ${token.source}`);
     expect(failures).toEqual([]);
   });
 });

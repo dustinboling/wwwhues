@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { resolveString } from './helpers/tokens';
+import { resolveString } from './helpers/tokens.js';
 
 /**
  * Mina §2.3 locked geometry, asserted numerically. Any change here is an

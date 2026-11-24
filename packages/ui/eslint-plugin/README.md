@@ -28,9 +28,10 @@ ESLint parses JS/TS/TSX; the same four rules run over stylesheets through
 `../scripts/drift-check.mjs`, which every package runs as part of
 `npm run lint`. In CSS, `px` is additionally permitted only inside media
 preludes at the spec bounds (391/500/767/768/1023/1024/1280), and
-`font-weight` must reference a token variable. `tokens/*.json` is the one
-place raw values may live; test files hold ruling data and are exempt by
-config.
+`font-weight` must reference a token variable — except inside `@font-face`
+blocks, where the descriptor declares the face's own weight range (the font
+package mechanism). `tokens/*.json` is the one place raw values may live;
+test files hold ruling data and are exempt by config.
 
 ## Use in apps
 

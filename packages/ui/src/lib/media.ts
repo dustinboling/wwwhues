@@ -24,13 +24,16 @@ export const PLATE_QUALITY = 85;
  * Band is the one explicit full-bleed opt-in (photo bands are viewport-wide
  * by construction); nothing else defaults to 100vw.
  */
+/* eslint-disable hues/no-raw-px -- §1d transformation contract: the closed
+   sizes set for the media width ladder. Component-contract values, not
+   styles (the drift check exempts sizes strings on the same basis). */
 export const MEDIA_SLOT_SIZES = {
   hero: '(max-width: 768px) 100vw, 1280px',
   band: '100vw',
   card: '(max-width: 768px) 50vw, 400px',
   plate: '(max-width: 768px) 100vw, 560px',
 } as const;
-export type MediaSlot = keyof typeof MEDIA_SLOT_SIZES;
+/* eslint-enable hues/no-raw-px */
 
 let baseUrl: string | null = null;
 

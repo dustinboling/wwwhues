@@ -9,7 +9,9 @@ function dist(file: string): string {
 
 /**
  * Build outputs. The pretest hook rebuilds dist/ before this suite runs, so
- * these assertions always read the current build.
+ * these assertions always read the current build; verify and pretypecheck
+ * build first for the same reason, so the dist import below also resolves
+ * under tsc --noEmit.
  */
 describe('token build outputs', () => {
   it('tokens.css carries the base layer with var() alias chains', () => {

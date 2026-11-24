@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { allTokens, baseTokens, knownTypes, referencesOf } from './helpers/tokens';
+import { allTokens, baseTokens, knownTypes, referencesOf, type FlatToken } from './helpers/tokens.js';
 
 const COLOR_LITERAL = /^(#[0-9a-fA-F]{3}|#[0-9a-fA-F]{6}|transparent|none)$/;
 const DIMENSION_LITERAL = /^-?[0-9.]+(px|rem|em|ch|ms|s|%)?$/;
@@ -20,7 +20,7 @@ describe('DTCG validity', () => {
   });
 
   it('every {reference} resolves to a token that exists in its layer', () => {
-    const basePaths = new Set(baseTokens().map((token) => token.path));
+    const basePaths = new Set(baseTokens().map((token: FlatToken) => token.path));
     const failures: string[] = [];
     for (const token of allTokens()) {
       for (const ref of referencesOf(token.value)) {
@@ -35,7 +35,7 @@ describe('DTCG validity', () => {
   });
 
   it('theme files only override base paths or define the pwa group', () => {
-    const basePaths = new Set(baseTokens().map((token) => token.path));
+    const basePaths = new Set(baseTokens().map((token: FlatToken) => token.path));
     const failures: string[] = [];
     for (const token of allTokens()) {
       if (!token.file.startsWith('theme.')) continue;

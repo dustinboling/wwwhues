@@ -82,7 +82,11 @@ function checkCss(path, text, violations) {
   for (const match of noUrls.matchAll(PX_RE)) {
     violations.push(`${path}:${lineOf(text, match.index ?? 0)}: raw px ${match[0]} outside tokens`);
   }
-  for (const match of noUrls.matchAll(FONT_WEIGHT_CSS)) {
+  // @font-face descriptors declare the face's own weights (the font package
+  // mechanism), not anonymous weights in component styles: blank the blocks
+  // before the weight pass, keeping newlines so later line numbers hold.
+  const noFaces = noUrls.replace(/@font-face\s*\{[^}]*\}/g, (match) => match.replace(/[^\n]/g, ' '));
+  for (const match of noFaces.matchAll(FONT_WEIGHT_CSS)) {
     if (!match[1].includes('var(--')) {
       violations.push(`${path}:${lineOf(text, match.index ?? 0)}: anonymous font-weight outside tokens`);
     }
