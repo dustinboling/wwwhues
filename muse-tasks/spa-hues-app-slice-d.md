@@ -35,10 +35,10 @@ addenda on CSRF, cookies, abuse controls, optimistic concurrency),
    contract — live-data regions (season status/hours, sponsor
    availability, gather events, volunteer counts) revalidate on
    mount + visibility return + hour boundary, one request per query
-   key. Plus the scheduled `spa-rebuild` GitHub Actions workflow
-   (every 6 hours: build + deploy of the SPA worker config) as a
-   committed workflow file — it is not enabled against production in
-   this task; the file + a note in the PR body suffice.
+   key. (The scheduled `spa-rebuild` workflow file was delivered
+   separately by the lead — the bench token cannot push workflow
+   files — as `.github/workflows/spa-rebuild.yml`, inert until
+   cutover. Do NOT recreate or modify it in this task.)
 5. **Security headers**: the §4 CSP + security-headers module applied
    on both serving paths (static assets + worker responses).
 6. **PWA**: hand-written Workbox injectManifest service worker per
