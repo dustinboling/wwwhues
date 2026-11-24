@@ -1,0 +1,88 @@
+{
+  "fetchedAt": "2026-11-24T19:48:52.765Z",
+  "data": {
+    "tasks": [
+      {
+        "id": "task-bulb-planting",
+        "title": "Bulb Planting Day",
+        "description": "Tulips and giant alliums going in for spring. Digging, dropping, covering — satisfying work, and gloves are provided.",
+        "duration": "About 2–3 hours",
+        "setting": "Outdoors",
+        "physical": "Some kneeling",
+        "status": "open",
+        "createdAt": "2026-10-26T16:30:00.000Z"
+      },
+      {
+        "id": "task-tuber-dividing",
+        "title": "Dahlia Tuber Dividing",
+        "description": "Help lift, divide, and store this year's tubers — next summer's color, sleeping in boxes until spring. We'll teach you; it's easier than it looks.",
+        "duration": "About 2 hours",
+        "setting": "Under cover",
+        "physical": "Seated option available",
+        "status": "open",
+        "createdAt": "2026-10-26T16:30:01.000Z"
+      },
+      {
+        "id": "task-bed-cleanup",
+        "title": "Bed Cleanup & Leaf Mulch",
+        "description": "Clearing the finished beds and tucking them in under leaf mulch for winter. Quiet, steady work with a very visible before-and-after.",
+        "duration": "About 2 hours",
+        "setting": "Outdoors",
+        "physical": "Light lifting",
+        "status": "open",
+        "createdAt": "2026-10-26T16:30:02.000Z"
+      },
+      {
+        "id": "task-seed-starting",
+        "title": "Seed-Starting Help",
+        "description": "Sowing the slow seeds — sweet peas, lupine, columbine — into trays to grow on cool through winter. Labeling, watering, and dreaming about May.",
+        "duration": "About 1–2 hours",
+        "setting": "Under cover",
+        "physical": "Seated, gentle work",
+        "status": "open",
+        "createdAt": "2026-10-26T16:30:03.000Z"
+      }
+    ],
+    "slots": [
+      {
+        "id": "slot-bulb-1",
+        "taskId": "task-bulb-planting",
+        "startsAt": "2026-11-07T09:30:00-08:00",
+        "capacity": 6
+      },
+      {
+        "id": "slot-cleanup-1",
+        "taskId": "task-bed-cleanup",
+        "startsAt": "2026-11-07T13:00:00-08:00",
+        "capacity": 6
+      },
+      {
+        "id": "slot-bulb-2",
+        "taskId": "task-bulb-planting",
+        "startsAt": "2026-11-08T13:00:00-08:00",
+        "capacity": 6
+      },
+      {
+        "id": "slot-tuber-1",
+        "taskId": "task-tuber-dividing",
+        "startsAt": "2026-11-14T10:00:00-08:00",
+        "capacity": 4
+      },
+      {
+        "id": "slot-seed-1",
+        "taskId": "task-seed-starting",
+        "startsAt": "2026-11-15T13:00:00-08:00",
+        "capacity": 4
+      },
+      {
+        "id": "slot-cleanup-2",
+        "taskId": "task-bed-cleanup",
+        "startsAt": "2026-11-21T09:30:00-08:00",
+        "capacity": 6
+      }
+    ],
+    "counts": {
+      "slot-tuber-1": 1
+    }
+  }
+}

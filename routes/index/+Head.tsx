@@ -48,6 +48,7 @@ export default function Head(): JSX.Element {
       <meta name="twitter:description" content={SITE_DESCRIPTION} />
       <meta name="twitter:image" content={ogImage} />
       <link rel="alternate" type="application/rss+xml" href="/feed.xml" />
+      <link rel="manifest" href="/manifest.webmanifest" />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(BUSINESS_JSONLD) }} />
     </>
   )

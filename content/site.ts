@@ -34,6 +34,8 @@ export const CONTACT_ADDRESS = '93485 River Road, Junction City, Oregon'
 export const MAPS_URL =
   'https://www.google.com/maps/search/?api=1&query=Hues+Floral+Park+93485+River+Road+Junction+City+OR'
 
+export const PARK_SIGNOFF = 'Hues Floral Park, A little world apart.'
+
 // One entity graph for the whole site (LocalBusiness + TouristAttraction,
 // plus the WebSite node), carried over from src/app/layout.tsx.
 export const BUSINESS_JSONLD = {
