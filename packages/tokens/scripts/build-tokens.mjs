@@ -111,24 +111,24 @@ const REFERENCE_PATTERN = /\{([^}]+)\}/g;
 /**
  * CSS declaration value: aliases become var() chains so themes switch at
  * runtime; literals emit directly (text sizes as rem).
- * @param {{ path: string[], value: unknown, original?: { $value?: unknown, value?: unknown } }} token
+ * @param {{ path: string[], $value?: unknown, value?: unknown, original?: { $value?: unknown, value?: unknown } }} token
  */
 function cssValue(token) {
   const raw = originalValue(token);
   if (typeof raw === 'string' && raw.includes('{')) {
     return raw.replace(REFERENCE_PATTERN, (_match, ref) => `var(--${cssVarName(String(ref).split('.'))})`);
   }
-  const resolved = token.value;
+  const resolved = token.$value ?? token.value;
   if (typeof resolved === 'string' && isTextSize(token.path)) return pxToRem(resolved);
   return String(resolved);
 }
 
 /**
  * Resolved literal for tokens.d.ts (references followed, text sizes as rem).
- * @param {{ path: string[], value: unknown }} token
+ * @param {{ path: string[], $value?: unknown, value?: unknown }} token
  */
 function literalValue(token) {
-  const resolved = String(token.value);
+  const resolved = String(token.$value ?? token.value);
   if (isTextSize(token.path)) return pxToRem(resolved);
   return resolved;
 }
