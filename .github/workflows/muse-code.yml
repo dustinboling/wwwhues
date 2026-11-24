@@ -141,6 +141,12 @@ jobs:
           echo "$HOME/.local/bin" >> "$GITHUB_PATH"
           "$HOME/.local/bin/muse" --version
 
+      - name: Install the fonts package's Python tooling (when the repo carries it)
+        run: |
+          if [ -f packages/fonts/scripts/requirements-fonts.txt ]; then
+            pip install -r packages/fonts/scripts/requirements-fonts.txt
+          fi
+
       - name: Install dependencies (root + every package, before the agent starts)
         run: |
           npm ci
