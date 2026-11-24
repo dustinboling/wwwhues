@@ -156,6 +156,7 @@ export { PROHIBITED_JSONLD_KEYS, PROHIBITED_JSONLD_TYPES, ProhibitedJsonLdError,
 // Security
 export { applySecurityHeaders, buildSecurityHeaders, contentSecurityPolicy, renderHeadersFile } from './security/headers';
 export type { SecurityHeadersOptions } from './security/headers';
+export { HUES_CSRF_HEADER, HUES_CSRF_VALUE } from './security/csrf';
 export { captureError, configureErrorReporter, scrubExtra, toErrorReport } from './security/error-reporter';
 export type { ErrorReport } from './security/error-reporter';
 

@@ -16,6 +16,13 @@ export interface SecurityHeadersOptions {
   apiOrigins?: string[];
   /** Allow Turnstile script/frame sources (default false). */
   allowTurnstile?: boolean;
+  /**
+   * Allow inline styles (style-src 'unsafe-inline', default false).
+   * React sets presentation through style props (progress fills,
+   * swatches, image focal points) — a strict style-src blocks them and
+   * visibly breaks components. script-src stays strict either way.
+   */
+  allowInlineStyles?: boolean;
   /** Allow payment features (gift-cards checkout only; default false). */
   allowPayment?: boolean;
   /** HSTS max-age ramp value (default: full 1 year; ramp from 300 first). */
@@ -31,10 +38,12 @@ export function contentSecurityPolicy(options: SecurityHeadersOptions = {}): str
   const frameSrc = options.allowTurnstile === true ? ['frame-src', TURNSTILE] : [];
   const media = options.mediaDomain !== undefined ? [options.mediaDomain] : [];
   const connect = ['\'self\'', ...(options.apiOrigins ?? [])];
+  const styleSrc =
+    options.allowInlineStyles === true ? "style-src 'self' 'unsafe-inline'" : "style-src 'self'";
   const directives = [
     "default-src 'self'",
     `script-src ${scriptSrc.join(' ')}`,
-    "style-src 'self'",
+    styleSrc,
     `img-src 'self' ${media.join(' ')}`.trimEnd(),
     `media-src 'self' ${media.join(' ')}`.trimEnd(),
     `connect-src ${connect.join(' ')}`,

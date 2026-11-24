@@ -28,11 +28,15 @@ describe('mutation queue', () => {
   });
 
   it('replays FIFO with the key on the wire and acks successes', async () => {
-    const seen: Array<{ url: string; key: string | null }> = [];
+    const seen: Array<{ url: string; key: string | null; csrf: string | null }> = [];
     vi.stubGlobal(
       'fetch',
       vi.fn((url: string, init?: { headers?: Record<string, string> }) => {
-        seen.push({ url, key: init?.headers?.['Idempotency-Key'] ?? null });
+        seen.push({
+          url,
+          key: init?.headers?.['Idempotency-Key'] ?? null,
+          csrf: init?.headers?.['X-Hues-CSRF'] ?? null,
+        });
         return Promise.resolve(new Response('{}', { status: 200 }));
       }),
     );
@@ -42,6 +46,8 @@ describe('mutation queue', () => {
     expect(results.every((result) => result.ok)).toBe(true);
     expect(seen.length).toBe(results.length);
     expect(seen[0]?.key).toBe(results[0]?.key);
+    // Replays are writes: the required CSRF header rides along, or the proxy 403s.
+    expect(seen.every((entry) => entry.csrf === '1')).toBe(true);
     expect(await pendingMutations()).toHaveLength(0);
   });
 

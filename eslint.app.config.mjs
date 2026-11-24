@@ -13,9 +13,11 @@ export default [
       'renderer/**/*.{ts,tsx}',
       'server/**/*.ts',
       'content/**/*.{ts,tsx}',
+      'sw/**/*.ts',
       'scripts/**/*.mjs',
       'vite.config.mts',
       'vitest.app.config.ts',
+      'playwright.app.config.ts',
     ],
     languageOptions: {
       parser: tsParser,

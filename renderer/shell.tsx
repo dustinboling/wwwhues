@@ -7,19 +7,25 @@ import {
   Icon,
   Link,
   MiniPlayer,
+  OfflineBanner,
   Sheet,
   SheetRow,
   SiteFooter,
   SiteHeader,
   TabBar,
   TopBar,
+  UpdateNotice,
+  deregisterLegacyWorkers,
   focusRouteTarget,
   setMediaBaseUrl,
   transformUrl,
   useAnnouncer,
 } from '@hues/ui'
 import type { TabDefinition } from '@hues/ui'
+import { QueryClientProvider } from '@tanstack/react-query'
 import { usePageContext } from 'vike-react/usePageContext'
+import { AccountProvider, useAccount } from './account'
+import { huesQueryClient, useHourBoundarySync } from './queries'
 import {
   CONTACT_PHONE_DISPLAY,
   CONTACT_PHONE_HREF,
@@ -47,8 +53,25 @@ function Wordmark(): JSX.Element {
 }
 
 // The account round is a real link to /account (never a click-handler
-// button): session-aware behavior lands with the account slice.
+// button — Bea §1.5(3)): the person glyph signed out, the account
+// initial signed in, updating shell-wide the moment identity changes.
 function AccountLink(): JSX.Element {
+  const { state } = useAccount()
+  if (state.status === 'in') {
+    const initial = state.visitor.name.trim().charAt(0).toUpperCase() || '•'
+    return (
+      <Link
+        href="/account"
+        context="nav"
+        aria-label={`Account, signed in as ${state.visitor.name}`}
+        className="hues-account-button"
+      >
+        <span aria-hidden="true" className="hues-account-button__initial">
+          {initial}
+        </span>
+      </Link>
+    )
+  }
   return (
     <Link href="/account" context="nav" aria-label="Account" className="hues-account-button">
       <Icon name="person" size={20} />
@@ -88,9 +111,24 @@ function tabArt(): { tabs: TabDefinition[]; discArt: string; plateArt: string } 
 }
 
 export function SiteShell({ children }: { children: ReactNode }): JSX.Element {
+  return (
+    <QueryClientProvider client={huesQueryClient()}>
+      <AccountProvider>
+        <ShellInner>{children}</ShellInner>
+      </AccountProvider>
+    </QueryClientProvider>
+  )
+}
+
+function ShellInner({ children }: { children: ReactNode }): JSX.Element {
   const { urlPathname } = usePageContext()
   const [moreOpen, setMoreOpen] = useState(false)
+  const [swApply, setSwApply] = useState<(() => void) | null>(null)
+  const [offlineSince, setOfflineSince] = useState<number | null>(null)
   const art = tabArt()
+  // Hour-boundary sync for the live-data regions (Nadia §5 table):
+  // mount + visibility return come from the query defaults.
+  useHourBoundarySync()
   // The shell player engine (Nadia §4.4): one audio element living in
   // the shell, so playback survives client-side navigation. /music is
   // the player's full view, so the bar stays away there.
@@ -117,9 +155,41 @@ export function SiteShell({ children }: { children: ReactNode }): JSX.Element {
     setMoreOpen(false)
   }, [urlPathname])
 
+  // Legacy cutover sweep (Perf #6): installed Print Edition (/m) workers
+  // strand after the /m URLs become 301s. The served sw-m.js kill-switch
+  // is the primary path; this client sweep removes stragglers. Once.
+  useEffect(() => {
+    void deregisterLegacyWorkers(['/m']).catch(() => undefined)
+  }, [])
+
+  // Offline strip state: present only while offline, labelled with when
+  // the connection dropped (saved data, never posed as live).
+  useEffect(() => {
+    function mark(): void {
+      setOfflineSince(navigator.onLine ? null : Date.now())
+    }
+    mark()
+    window.addEventListener('online', mark)
+    window.addEventListener('offline', mark)
+    return () => {
+      window.removeEventListener('online', mark)
+      window.removeEventListener('offline', mark)
+    }
+  }, [])
+
+  const offlineLabel =
+    offlineSince === null
+      ? null
+      : `from ${new Intl.DateTimeFormat('en-US', { hour: 'numeric', minute: '2-digit' }).format(new Date(offlineSince))}`
+
   return (
     <AppShell
       theme="park"
+      // A waiting worker surfaces as the quiet UpdateNotice pill — Apply
+      // at route boundaries, never forced, never mid-form (Mina §2.7).
+      // The player wins: the notice waits while audio plays.
+      onServiceWorkerUpdate={(apply) => setSwApply(() => apply)}
+      offline={offlineLabel !== null}
       header={
         <>
           <TopBar logo={<Wordmark />} account={<AccountLink />} />
@@ -183,7 +253,18 @@ export function SiteShell({ children }: { children: ReactNode }): JSX.Element {
         />
       }
       notices={
-        <Sheet open={moreOpen} onClose={() => setMoreOpen(false)} title="More">
+        <>
+          {offlineLabel !== null && <OfflineBanner ageLabel={offlineLabel} />}
+          {swApply !== null && miniTrack === null && (
+            <UpdateNotice
+              onApply={() => {
+                swApply()
+                setSwApply(null)
+              }}
+              onDismiss={() => setSwApply(null)}
+            />
+          )}
+          <Sheet open={moreOpen} onClose={() => setMoreOpen(false)} title="More">
           <nav aria-label="More">
             <ul>
               {MORE_SHEET_ROWS.map((item) => (
@@ -195,7 +276,8 @@ export function SiteShell({ children }: { children: ReactNode }): JSX.Element {
               ))}
             </ul>
           </nav>
-        </Sheet>
+          </Sheet>
+        </>
       }
     >
       <RouteAnnouncer />

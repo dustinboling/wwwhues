@@ -1,6 +1,7 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import type { FormEvent, JSX } from 'react'
 import { Image, StaleLabel } from '@hues/ui'
+import { useQueryClient } from '@tanstack/react-query'
 import { parkTodayLabel } from '../../content/park-date'
 import {
   formatPrice,
@@ -24,6 +25,16 @@ import {
 } from '../../content/sponsor'
 import playSnapshotJson from '../../content/snapshots/play.json'
 import { CONTACT_PHONE_DISPLAY, PARK_SIGNOFF } from '../../content/site'
+import {
+  ApiError,
+  RateLimitError,
+  VersionConflictError,
+  postApi,
+  retryWaitLabel,
+} from '../../renderer/api-client'
+import { useAccount } from '../../renderer/account'
+import { LIVE_QUERY_KEYS, usePlayPublicState } from '../../renderer/queries'
+import { TurnstileWidget } from '../../renderer/turnstile'
 import '../../renderer/content.css'
 
 const snapshot = playSnapshotJson as unknown as PlaySnapshot
@@ -32,21 +43,27 @@ function Eyebrow({ children }: { children: string }): JSX.Element {
   return <p className="c-eyebrow">{children}</p>
 }
 
-async function postJson(
-  url: string,
-  body: Record<string, unknown>,
-): Promise<{ ok: boolean; error?: string }> {
-  try {
-    const res = await fetch(url, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(body),
-    })
-    const data = (await res.json()) as { ok?: boolean; error?: string }
-    return { ok: res.ok && data.ok === true, error: data.error }
-  } catch {
-    return { ok: false, error: 'Something went wrong — please try again.' }
+/** Signed into a Hues account? Reservation + interest forms prefill from it. */
+function useAccountPrefill(): { name: string; email: string; phone: string } {
+  const { state } = useAccount()
+  const [prefill, setPrefill] = useState({ name: '', email: '', phone: '' })
+  useEffect(() => {
+    if (state.status === 'in') {
+      setPrefill({ name: state.visitor.name, email: state.visitor.email, phone: state.visitor.phone })
+    }
+  }, [state])
+  return prefill
+}
+
+function submitErrorMessage(error: unknown): string {
+  if (error instanceof RateLimitError) {
+    return `Too many tries just now — please wait ${retryWaitLabel(error.retryAfter)} and try again. Nothing you typed was lost.`
   }
+  if (error instanceof VersionConflictError) {
+    return 'Someone just reserved the last one — the card below shows what’s left now. Your details are still here.'
+  }
+  if (error instanceof ApiError) return error.message
+  return 'Something went wrong — please try again.'
 }
 
 function FormMessage({ result }: { result: { ok: boolean; text: string } | null }): JSX.Element | null {
@@ -75,7 +92,15 @@ function SpotsBar({ left, total, label }: { left: number; total: number; label: 
   )
 }
 
-function SponsorForm({ item }: { item: PlayItem }): JSX.Element {
+function SponsorForm({
+  item,
+  onPending,
+}: {
+  item: PlayItem
+  onPending: (pending: boolean) => void
+}): JSX.Element {
+  const queryClient = useQueryClient()
+  const prefill = useAccountPrefill()
   const [open, setOpen] = useState(false)
   const [plaqueType, setPlaqueType] = useState(SPONSOR_PLAQUE_TYPES[0].value)
   const [plaqueText, setPlaqueText] = useState('')
@@ -85,6 +110,13 @@ function SponsorForm({ item }: { item: PlayItem }): JSX.Element {
   const [website, setWebsite] = useState('')
   const [result, setResult] = useState<{ ok: boolean; text: string } | null>(null)
   const [busy, setBusy] = useState(false)
+  const [turnstileToken, setTurnstileToken] = useState<string | null>(null)
+
+  useEffect(() => {
+    setPassHolder((current) => current || prefill.name)
+    setEmail((current) => current || prefill.email)
+    setPhone((current) => current || prefill.phone)
+  }, [prefill])
 
   const soldOut = item.spotsLeft !== null && item.spotsLeft !== undefined && item.spotsLeft <= 0
 
@@ -100,27 +132,34 @@ function SponsorForm({ item }: { item: PlayItem }): JSX.Element {
     )
   }
 
+  // Optimistic reservation with honest reversal (Nadia §5): the card
+  // shows the spot as yours the moment you submit; reservation truth
+  // is the API at submit time, so a failure reverses the card to its
+  // exact pre-submit state with your details intact. The mutation
+  // carries the taken-count rendered (§2.1(e) version).
   async function submit(e: FormEvent): Promise<void> {
     e.preventDefault()
     setBusy(true)
-    const r = await postJson(SPONSOR_ENDPOINT, {
-      itemId: item.id,
-      plaqueType,
-      plaqueText,
-      passHolder,
-      email,
-      phone,
-      website,
-    })
-    setBusy(false)
-    setResult(
-      r.ok
-        ? {
-            ok: true,
-            text: `Thank you — your sponsorship is reserved. Dusty will be in touch at your email to arrange the ${formatPrice(item.priceCents)} payment. Nothing is charged here.`,
-          }
-        : { ok: false, text: r.error ?? 'Please check the form and try again.' },
-    )
+    setResult(null)
+    onPending(true)
+    try {
+      await postApi<{ ok?: boolean }>(
+        SPONSOR_ENDPOINT,
+        { itemId: item.id, plaqueType, plaqueText, passHolder, email, phone, website },
+        { turnstileToken, version: item.taken ?? 0 },
+      )
+      setResult({
+        ok: true,
+        text: `Thank you — your sponsorship is reserved. Dusty will be in touch at your email to arrange the ${formatPrice(item.priceCents)} payment. Nothing is charged here.`,
+      })
+      await queryClient.invalidateQueries({ queryKey: [...LIVE_QUERY_KEYS.playPublic] })
+    } catch (error) {
+      setResult({ ok: false, text: submitErrorMessage(error) })
+      await queryClient.invalidateQueries({ queryKey: [...LIVE_QUERY_KEYS.playPublic] })
+    } finally {
+      setBusy(false)
+      onPending(false)
+    }
   }
 
   return (
@@ -210,6 +249,7 @@ function SponsorForm({ item }: { item: PlayItem }): JSX.Element {
         />
       </div>
       <p className="c-note c-note--highlight">{sponsorReserveNote(formatPrice(item.priceCents))}</p>
+      <TurnstileWidget onToken={setTurnstileToken} />
       <button type="submit" disabled={busy} className="hues-button hues-button--primary">
         {busy ? 'Saving…' : 'Reserve my sponsorship'}
       </button>
@@ -227,12 +267,19 @@ function InterestForm({
   extra: Record<string, unknown>
   buttonLabel: string
 }): JSX.Element {
+  const prefill = useAccountPrefill()
   const [open, setOpen] = useState(false)
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [website, setWebsite] = useState('')
   const [result, setResult] = useState<{ ok: boolean; text: string } | null>(null)
   const [busy, setBusy] = useState(false)
+  const [turnstileToken, setTurnstileToken] = useState<string | null>(null)
+
+  useEffect(() => {
+    setName((current) => current || prefill.name)
+    setEmail((current) => current || prefill.email)
+  }, [prefill])
 
   if (!open) {
     return (
@@ -245,13 +292,14 @@ function InterestForm({
   async function submit(e: FormEvent): Promise<void> {
     e.preventDefault()
     setBusy(true)
-    const r = await postJson(url, { name, email, website, ...extra })
-    setBusy(false)
-    setResult(
-      r.ok
-        ? { ok: true, text: 'You’re on the list — we’ll write when there’s news.' }
-        : { ok: false, text: r.error ?? 'Please check the form and try again.' },
-    )
+    try {
+      await postApi<{ ok?: boolean }>(url, { name, email, website, ...extra }, { turnstileToken })
+      setResult({ ok: true, text: 'You’re on the list — we’ll write when there’s news.' })
+    } catch (error) {
+      setResult({ ok: false, text: submitErrorMessage(error) })
+    } finally {
+      setBusy(false)
+    }
   }
 
   return (
@@ -289,6 +337,7 @@ function InterestForm({
           autoComplete="email"
         />
       </div>
+      <TurnstileWidget onToken={setTurnstileToken} />
       <button type="submit" disabled={busy} className="hues-button hues-button--primary">
         {busy ? 'Saving…' : 'Add me to the list'}
       </button>
@@ -327,31 +376,35 @@ function PaverSection({ state }: { state: PlayPublicState }): JSX.Element {
   const [interest, setInterest] = useState('hand print')
   const [result, setResult] = useState<{ ok: boolean; text: string } | null>(null)
   const [busy, setBusy] = useState(false)
+  const [turnstileToken, setTurnstileToken] = useState<string | null>(null)
+  const prefill = useAccountPrefill()
+
+  useEffect(() => {
+    setContactName((current) => current || prefill.name)
+    setEmail((current) => current || prefill.email)
+    setPhone((current) => current || prefill.phone)
+  }, [prefill])
 
   const hasSizes = state.paverSizes.length > 0
 
   async function submit(e: FormEvent): Promise<void> {
     e.preventDefault()
     setBusy(true)
-    const r = await postJson(SPONSOR_PAVER_ORDER_ENDPOINT, {
-      sizeId,
-      choice,
-      printName,
-      printDate,
-      contactName,
-      email,
-      phone,
-      website,
-    })
-    setBusy(false)
-    setResult(
-      r.ok
-        ? {
-            ok: true,
-            text: 'Your paver is reserved. Dusty will be in touch to arrange payment and a time to make any prints at the park. Nothing is charged here.',
-          }
-        : { ok: false, text: r.error ?? 'Please check the form and try again.' },
-    )
+    try {
+      await postApi<{ ok?: boolean }>(
+        SPONSOR_PAVER_ORDER_ENDPOINT,
+        { sizeId, choice, printName, printDate, contactName, email, phone, website },
+        { turnstileToken },
+      )
+      setResult({
+        ok: true,
+        text: 'Your paver is reserved. Dusty will be in touch to arrange payment and a time to make any prints at the park. Nothing is charged here.',
+      })
+    } catch (error) {
+      setResult({ ok: false, text: submitErrorMessage(error) })
+    } finally {
+      setBusy(false)
+    }
   }
 
   return (
@@ -469,6 +522,7 @@ function PaverSection({ state }: { state: PlayPublicState }): JSX.Element {
             />
           </div>
           <p className="c-note c-note--highlight">{SPONSOR_PAVERS.orderNote}</p>
+          <TurnstileWidget onToken={setTurnstileToken} />
           <button type="submit" disabled={busy} className="hues-button hues-button--primary">
             {busy ? 'Saving…' : 'Reserve my paver'}
           </button>
@@ -504,14 +558,24 @@ function PaverSection({ state }: { state: PlayPublicState }): JSX.Element {
 }
 
 // Sponsor (/sponsor): sponsorships, pathway pavers, and coming-soon
-// interest lists — rendered from the build-time snapshot, labelled with
-// its date. Forms post to the real /api/play/* paths (no fake submit);
-// until the Slice D proxy lands, a submission surfaces the honest error
-// state. Sponsorships stay reservations only; Dusty arranges payment.
+// interest lists — prerendered from the build-time snapshot (labelled,
+// never live-posing), then revalidated on mount + visibility return +
+// hour boundary. Sponsorships stay reservations only; Dusty arranges
+// payment. Reservations submit optimistically with honest reversal.
 export default function Page(): JSX.Element {
-  const activeItems = snapshot.data.items.filter((i) => i.status === 'active')
-  const comingSoon = snapshot.data.items.filter((i) => i.status === 'coming_soon')
+  const live = usePlayPublicState(snapshot.data)
+  const state = live.data?.data ?? snapshot.data
+  const activeItems = state.items.filter((i) => i.status === 'active')
+  const comingSoon = state.items.filter((i) => i.status === 'coming_soon')
   const snapshotDate = parkTodayLabel(new Date(snapshot.fetchedAt))
+  const checkedLive = live.isFetchedAfterMount && !live.isError
+  // Optimistic reservations in flight, by item: the card shows the
+  // spot as yours until the API answers (truth at submit time).
+  const [pending, setPending] = useState<Record<string, boolean>>({})
+  function shownSpots(item: PlayItem): number | null {
+    if (item.spotsLeft === null || item.spotsLeft === undefined) return null
+    return Math.max(0, item.spotsLeft - (pending[item.id] === true ? 1 : 0))
+  }
   return (
     <div className="c-page c-page--narrow">
       <section className="c-packet hues-packet-card" aria-label="Sponsor Hues">
@@ -529,31 +593,41 @@ export default function Page(): JSX.Element {
       </section>
 
       <p className="c-snapshot">
-        <StaleLabel label={`Sponsorship snapshot from ${snapshotDate}`} /> — availability changes;
-        call {CONTACT_PHONE_DISPLAY} to confirm the latest.
+        <StaleLabel
+          label={
+            checkedLive
+              ? `Sponsorship checked just now (snapshot ${snapshotDate})`
+              : `Sponsorship snapshot from ${snapshotDate}`
+          }
+        />{' '}
+        — availability changes; call {CONTACT_PHONE_DISPLAY} to confirm the latest.
       </p>
 
       <section aria-label="Sponsoring opportunities" className="c-stack">
-        {activeItems.map((item) => (
-          <article key={item.id} className="c-packet hues-packet-card">
-            <h2 className="c-section__title">{item.name}</h2>
-            <p className="c-prose">{item.description}</p>
-            {item.spotsLeft !== null && item.spotsLeft !== undefined && (
-              <>
-                <p className="c-badge">🌸 {item.spotsLeft} left</p>
-                {item.cap !== null && item.cap !== undefined && (
-                  <SpotsBar
-                    left={item.spotsLeft}
-                    total={item.cap}
-                    label={`${item.spotsLeft} of ${item.cap} left`}
-                  />
-                )}
-              </>
-            )}
-            <SponsorForm item={item} />
-          </article>
-        ))}
-        <PaverSection state={snapshot.data} />
+        {activeItems.map((item) => {
+          const left = shownSpots(item)
+          return (
+            <article key={item.id} className="c-packet hues-packet-card">
+              <h2 className="c-section__title">{item.name}</h2>
+              <p className="c-prose">{item.description}</p>
+              {left !== null && (
+                <>
+                  <p className="c-badge">
+                    🌸 {left} left{pending[item.id] === true ? ' — reserving yours…' : ''}
+                  </p>
+                  {item.cap !== null && item.cap !== undefined && (
+                    <SpotsBar left={left} total={item.cap} label={`${left} of ${item.cap} left`} />
+                  )}
+                </>
+              )}
+              <SponsorForm
+                item={item}
+                onPending={(isPending) => setPending((prev) => ({ ...prev, [item.id]: isPending }))}
+              />
+            </article>
+          )
+        })}
+        <PaverSection state={state} />
         {comingSoon.map((item) => (
           <ComingSoonCard key={item.id} item={item} />
         ))}

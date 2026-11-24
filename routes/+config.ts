@@ -17,10 +17,9 @@ export default {
   // deletes dist/server when every page prerenders, but the Cloudflare
   // Worker (run_worker_first routes, preview, deploy) needs its bundle.
   prerender: { redirects: false, keepDistServer: true },
-  // Default server entry (no custom +server file in this slice): this
-  // registers the vike:server module the Worker's main points at. The
-  // +server Hono wiring (legacy 301s, /api proxy) lands with the proxy
-  // slice, which replaces this line with its +server file.
-  server: true,
+  // Custom server entry: routes/+server.ts (Hono via @vikejs/hono)
+  // owns canonicalization, the legacy 301 map, and the /api proxy;
+  // vike(app) installs Vike's page handler after those routes. The
+  // Worker's main (wrangler-spa.jsonc, "vike:server") serves it.
   htmlAttributes: { lang: 'en' },
 } satisfies Config

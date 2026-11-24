@@ -1,6 +1,15 @@
 import { useEffect, useState } from 'react'
 import type { FormEvent, JSX } from 'react'
-import { Image, Link, StaleLabel } from '@hues/ui'
+import {
+  Image,
+  Link,
+  StaleLabel,
+  createIdempotencyKey,
+  enqueueMutation,
+  pendingMutations,
+  replayQueuedMutations,
+} from '@hues/ui'
+import { useQueryClient } from '@tanstack/react-query'
 import { parkTodayLabel } from '../../content/park-date'
 import {
   VOLUNTEER_ART_ALT,
@@ -19,6 +28,10 @@ import {
 } from '../../content/volunteer'
 import volunteerSnapshotJson from '../../content/snapshots/volunteers.json'
 import { CONTACT_PHONE_DISPLAY, PARK_SIGNOFF } from '../../content/site'
+import { ApiError, RateLimitError, postApi, retryWaitLabel } from '../../renderer/api-client'
+import { prettyPhone, useAccount } from '../../renderer/account'
+import { LIVE_QUERY_KEYS, useVolunteerPublicState } from '../../renderer/queries'
+import { TurnstileWidget } from '../../renderer/turnstile'
 import '../../renderer/content.css'
 
 const snapshot = volunteerSnapshotJson as unknown as VolunteerSnapshot
@@ -27,39 +40,16 @@ function Eyebrow({ children }: { children: string }): JSX.Element {
   return <p className="c-eyebrow">{children}</p>
 }
 
-interface AccountVisitor {
-  name: string
-  email: string
-  phone: string
-}
-
-function prettyPhone(phone: string): string {
-  const ten = phone.replace(/^\+1/, '').replace(/\D/g, '')
-  if (ten.length !== 10) return phone
-  return `(${ten.slice(0, 3)}) ${ten.slice(3, 6)}-${ten.slice(6)}`
-}
-
-// Signed into a Hues account? The signup form fills in from it. Soft
-// failure: without the Slice D /api proxy this returns null and the
-// visitor types their details by hand.
-async function fetchAccountVisitor(): Promise<AccountVisitor | null> {
-  try {
-    const res = await fetch('/api/account/me', { cache: 'no-store' })
-    if (!res.ok) return null
-    const data = (await res.json()) as { visitor?: AccountVisitor }
-    return data.visitor ?? null
-  } catch {
-    return null
-  }
-}
-
 type Phase =
   | { kind: 'idle' }
   | { kind: 'submitting' }
   | { kind: 'error'; message: string }
+  | { kind: 'pending'; taskTitle: string; slotLabel: string }
   | { kind: 'done'; taskTitle: string; slotLabel: string; name: string }
 
 function VolunteerBoard({ tasks }: { tasks: Array<BoardTask> }): JSX.Element {
+  const queryClient = useQueryClient()
+  const { state: accountState } = useAccount()
   const [board, setBoard] = useState(tasks)
   const [selected, setSelected] = useState<{ taskId: string; slotId: string } | null>(null)
   const [name, setName] = useState('')
@@ -68,55 +58,126 @@ function VolunteerBoard({ tasks }: { tasks: Array<BoardTask> }): JSX.Element {
   const [note, setNote] = useState('')
   const [website, setWebsite] = useState('')
   const [phase, setPhase] = useState<Phase>({ kind: 'idle' })
+  const [turnstileToken, setTurnstileToken] = useState<string | null>(null)
+  const [queuedCount, setQueuedCount] = useState(0)
 
+  // Live board replaces the snapshot board when revalidation lands —
+  // changed counts update in place (Nadia §5), never a reload.
+  useEffect(() => {
+    setBoard(tasks)
+  }, [tasks])
+
+  // Signed into a Hues account? The signup form fills in from it.
+  useEffect(() => {
+    if (accountState.status !== 'in') return
+    const visitor = accountState.visitor
+    setName((current) => current || visitor.name)
+    setEmail((current) => current || visitor.email)
+    setPhone((current) => current || prettyPhone(visitor.phone))
+  }, [accountState])
+
+  // Offline floor (Nadia §4.2): replay anything queued while away, on
+  // mount and on reconnect — the pending state is the feature.
   useEffect(() => {
     let live = true
-    void (async () => {
-      const visitor = await fetchAccountVisitor()
-      if (!live || visitor === null) return
-      setName((current) => current || visitor.name)
-      setEmail((current) => current || visitor.email)
-      setPhone((current) => current || prettyPhone(visitor.phone))
-    })()
+    async function sync(): Promise<void> {
+      try {
+        const results = await replayQueuedMutations()
+        if (!live) return
+        const stillPending = await pendingMutations()
+        setQueuedCount(stillPending.length)
+        if (results.some((r) => r.ok)) {
+          await queryClient.invalidateQueries({ queryKey: [...LIVE_QUERY_KEYS.volunteerPublic] })
+        }
+      } catch {
+        // IndexedDB unavailable (private mode): live submit still works.
+      }
+    }
+    void sync()
+    window.addEventListener('online', sync)
     return () => {
       live = false
+      window.removeEventListener('online', sync)
     }
-  }, [])
+  }, [queryClient])
+
+  function succeed(task: BoardTask, slot: BoardSlot, fullName: string): void {
+    setBoard((prev) =>
+      prev.map((t) =>
+        t.id !== task.id
+          ? t
+          : { ...t, slots: t.slots.map((s) => (s.id === slot.id ? { ...s, taken: s.taken + 1 } : s)) },
+      ),
+    )
+    setPhase({
+      kind: 'done',
+      taskTitle: task.title,
+      slotLabel: slot.longLabel,
+      name: fullName.split(' ')[0] || fullName,
+    })
+    setSelected(null)
+    setName('')
+    setEmail('')
+    setPhone('')
+    setNote('')
+    void queryClient.invalidateQueries({ queryKey: [...LIVE_QUERY_KEYS.volunteerPublic] })
+  }
 
   async function submit(task: BoardTask, slot: BoardSlot): Promise<void> {
     setPhase({ kind: 'submitting' })
+    const body = { slotId: slot.id, name, email, phone, note, website }
     try {
-      const res = await fetch(VOLUNTEER_SIGNUP_ENDPOINT, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ slotId: slot.id, name, email, phone, note, website }),
+      await postApi<{ ok?: boolean }>(VOLUNTEER_SIGNUP_ENDPOINT, body, {
+        turnstileToken,
+        idempotencyKey: createIdempotencyKey(),
       })
-      const data = (await res.json()) as { ok?: boolean; error?: string }
-      if (!res.ok || !data.ok) {
-        setPhase({ kind: 'error', message: data.error ?? VOLUNTEER_SIGNUP_ERROR })
+      succeed(task, slot, name)
+    } catch (error) {
+      if (error instanceof ApiError && error.status === 0) {
+        // A dying connection queues locally and shows as pending —
+        // never a lost signup or a bare spinner (Nadia §4.2).
+        try {
+          await enqueueMutation({ url: VOLUNTEER_SIGNUP_ENDPOINT, body })
+          const stillPending = await pendingMutations()
+          setQueuedCount(stillPending.length)
+          setPhase({ kind: 'pending', taskTitle: task.title, slotLabel: slot.longLabel })
+          return
+        } catch {
+          // Fall through to the honest error below.
+        }
+      }
+      if (error instanceof RateLimitError) {
+        setPhase({
+          kind: 'error',
+          message: `Too many tries just now — please wait ${retryWaitLabel(error.retryAfter)} and try again. Nothing you typed was lost.`,
+        })
         return
       }
-      setBoard((prev) =>
-        prev.map((t) =>
-          t.id !== task.id
-            ? t
-            : { ...t, slots: t.slots.map((s) => (s.id === slot.id ? { ...s, taken: s.taken + 1 } : s)) },
-        ),
-      )
       setPhase({
-        kind: 'done',
-        taskTitle: task.title,
-        slotLabel: slot.longLabel,
-        name: name.split(' ')[0] || name,
+        kind: 'error',
+        message: error instanceof ApiError ? error.message : VOLUNTEER_SIGNUP_ERROR,
       })
-      setSelected(null)
-      setName('')
-      setEmail('')
-      setPhone('')
-      setNote('')
-    } catch {
-      setPhase({ kind: 'error', message: VOLUNTEER_SIGNUP_ERROR })
     }
+  }
+
+  if (phase.kind === 'pending') {
+    return (
+      <div role="status" className="c-packet hues-packet-card">
+        <h2 className="c-section__title">You’re on the list — we’ll send it when you’re back online.</h2>
+        <p className="c-prose">
+          <strong>{phase.taskTitle}</strong> — {phase.slotLabel}. Your signup is saved on this device
+          {queuedCount > 1 ? ` with ${queuedCount - 1} other ${queuedCount - 1 === 1 ? 'one' : 'ones'}` : ''} and
+          will go through the moment your connection returns. No need to type it again.
+        </p>
+        <button
+          type="button"
+          onClick={() => setPhase({ kind: 'idle' })}
+          className="hues-button hues-button--secondary"
+        >
+          Back to the board
+        </button>
+      </div>
+    )
   }
 
   if (phase.kind === 'done') {
@@ -260,6 +321,7 @@ function VolunteerBoard({ tasks }: { tasks: Array<BoardTask> }): JSX.Element {
                       />
                     </label>
                   </div>
+                  <TurnstileWidget onToken={setTurnstileToken} />
                   {phase.kind === 'error' && (
                     <p role="alert" className="c-form__message c-form__message--error">
                       {phase.message}
@@ -281,13 +343,15 @@ function VolunteerBoard({ tasks }: { tasks: Array<BoardTask> }): JSX.Element {
   )
 }
 
-// Volunteer (/volunteer): the task board with times and signup — rendered
-// from the build-time snapshot, labelled with its date. Signup posts to
-// the real /api/volunteer/signup path (no fake submit); until the Slice D
-// proxy lands, a submission surfaces the honest error state.
+// Volunteer (/volunteer): the task board with times and signup —
+// prerendered from the build-time snapshot (labelled with its date,
+// never posing as live), then revalidated live on mount + visibility
+// return + hour boundary. Signup posts to the real /api proxy.
 export default function Page(): JSX.Element {
-  const board = buildBoard(snapshot.data)
+  const live = useVolunteerPublicState(snapshot.data)
+  const board = buildBoard(live.data?.data ?? snapshot.data)
   const snapshotDate = parkTodayLabel(new Date(snapshot.fetchedAt))
+  const checkedLive = live.isFetchedAfterMount && !live.isError
   return (
     <div className="c-page">
       <div className="c-split">
@@ -312,8 +376,10 @@ export default function Page(): JSX.Element {
         <Eyebrow>{VOLUNTEER_BOARD_EYEBROW}</Eyebrow>
         <h2 className="c-section__title">{VOLUNTEER_BOARD_HEADING}</h2>
         <p className="c-snapshot">
-          <StaleLabel label={`Board snapshot from ${snapshotDate}`} /> — tasks and times change with
-          the weather and the work; call {CONTACT_PHONE_DISPLAY} to confirm.
+          <StaleLabel
+            label={checkedLive ? `Board checked just now (snapshot ${snapshotDate})` : `Board snapshot from ${snapshotDate}`}
+          />{' '}
+          — tasks and times change with the weather and the work; call {CONTACT_PHONE_DISPLAY} to confirm.
         </p>
         <VolunteerBoard tasks={board} />
         <div className="c-stack c-closing--left">
