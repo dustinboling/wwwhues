@@ -1,0 +1,61 @@
+{
+  "fetchedAt": "2026-11-24T19:46:07.453Z",
+  "data": {
+    "events": [],
+    "items": [
+      {
+        "id": "item-dahlia-bed",
+        "name": "Sponsor a Dahlia Bed",
+        "description": "A whole bed of dahlias, blooming in your name all season. Your plaque stands at the end of the bed, and a season pass for one person comes with it.",
+        "priceCents": 10000,
+        "cap": null,
+        "includesPass": true,
+        "status": "active",
+        "sort": 1,
+        "createdAt": "2026-10-26T00:00:00.000Z",
+        "taken": 0,
+        "spotsLeft": null
+      },
+      {
+        "id": "item-fruit-tree",
+        "name": "Sponsor a Fruit Tree",
+        "description": "A fruit tree planted and tended in the park, growing a little taller every year.",
+        "priceCents": null,
+        "cap": null,
+        "includesPass": false,
+        "status": "coming_soon",
+        "sort": 2,
+        "createdAt": "2026-10-26T00:00:01.000Z",
+        "taken": 0,
+        "spotsLeft": null
+      },
+      {
+        "id": "item-picnic-table",
+        "name": "Sponsor a Picnic Table",
+        "description": "A shady place to sit with a bouquet and a picnic, in the middle of the blooms.",
+        "priceCents": null,
+        "cap": null,
+        "includesPass": false,
+        "status": "coming_soon",
+        "sort": 3,
+        "createdAt": "2026-10-26T00:00:02.000Z",
+        "taken": 0,
+        "spotsLeft": null
+      },
+      {
+        "id": "item-bench",
+        "name": "Sponsor a Bench",
+        "description": "A quiet bench along a path, where someone will linger a little longer than they planned.",
+        "priceCents": null,
+        "cap": null,
+        "includesPass": false,
+        "status": "coming_soon",
+        "sort": 4,
+        "createdAt": "2026-10-26T00:00:03.000Z",
+        "taken": 0,
+        "spotsLeft": null
+      }
+    ],
+    "paverSizes": []
+  }
+}

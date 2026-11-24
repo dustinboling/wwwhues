@@ -1,42 +1,15 @@
-import { readFileSync } from 'node:fs'
-import { dirname, join } from 'node:path'
-import { fileURLToPath } from 'node:url'
 import { beforeAll, describe, expect, it } from 'vitest'
+import { bodyOf, headOf, oneLine, readBuiltFile } from './html-helpers'
 
 // JS-disabled content test (Bea's gate condition): the prerendered HTML
 // must carry the route's complete primary content, metadata, and JSON-LD
 // in the raw HTML — no JavaScript required. Runs after build:app.
 
-const root = join(dirname(fileURLToPath(import.meta.url)), '..', '..')
-
-function readBuiltHtml(name: string): string {
-  try {
-    return readFileSync(join(root, 'dist', 'client', name), 'utf8')
-  } catch {
-    throw new Error(`Missing dist/client/${name}: run npm run build:app first.`)
-  }
-}
-
-// React escapes text children; decode before matching source copy.
-function decode(html: string): string {
-  return html
-    .replace(/<!--.*?-->/gs, '')
-    .replace(/&#x27;/g, "'")
-    .replace(/&quot;/g, '"')
-    .replace(/&lt;/g, '<')
-    .replace(/&gt;/g, '>')
-    .replace(/&amp;/g, '&')
-}
-
-function oneLine(html: string): string {
-  return decode(html).replace(/\s+/g, ' ')
-}
-
 let html = ''
 let text = ''
 
 beforeAll(() => {
-  html = readBuiltHtml('index.html')
+  html = readBuiltFile('index.html')
   text = oneLine(html)
 })
 
@@ -176,7 +149,7 @@ describe('prerendered home HTML', () => {
     // Deliberate preload budget (Perf #11): ≤2 font files + the hero
     // image in <head>, nothing else. (React 19's automatic eager-image
     // preloads live in the body and are characterized separately below.)
-    const head = html.split('</head>')[0] ?? ''
+    const head = headOf(html)
     const fontPreloads = head.match(/<link rel="preload"[^>]*as="font"[^>]*>/g) ?? []
     expect(fontPreloads.length).toBe(2)
     expect(html).toContain('.woff2')
@@ -211,7 +184,7 @@ describe('React 19 automatic image preloads', () => {
     // above-fold artworks) is the shell's fixed cost on every route; the
     // hero duplicate carries the same srcset as the head preload, so the
     // browser fetches it once.
-    const body = html.split('</head>')[1] ?? ''
+    const body = bodyOf(html)
     const auto = body.match(/<link rel="preload" as="image"[^>]*>/g) ?? []
     expect(auto.length).toBe(9)
     for (const tag of auto) {
@@ -224,7 +197,7 @@ describe('React 19 automatic image preloads', () => {
 
 describe('prerendered 404 HTML (§5 static file)', () => {
   it('exists with the shared 404 content and both doors', () => {
-    const notFound = oneLine(readBuiltHtml('404.html'))
+    const notFound = oneLine(readBuiltFile('404.html'))
     expect(notFound).toContain('This path doesn’t lead anywhere')
     expect(notFound).toContain('404 · Off the path')
     expect(notFound).toContain('Back to the homepage')

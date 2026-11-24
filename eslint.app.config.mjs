@@ -13,6 +13,7 @@ export default [
       'renderer/**/*.{ts,tsx}',
       'server/**/*.ts',
       'content/**/*.{ts,tsx}',
+      'scripts/**/*.mjs',
       'vite.config.mts',
       'vitest.app.config.ts',
     ],
