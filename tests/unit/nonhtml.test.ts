@@ -73,6 +73,8 @@ describe('buildRobotsTxt', () => {
       '/*?*sort=',
       '/*?*page-size=',
       '/*?*session=',
+      '/*?*q=',
+      '/*?*photo=',
     ]) {
       expect(robots.match(new RegExp(`^Disallow: ${escapeRegExp(path)}$`, 'gm'))).toHaveLength(2)
     }

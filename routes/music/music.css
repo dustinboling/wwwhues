@@ -1,0 +1,159 @@
+/* Music: the Sound of Hues packet, the two set lists, and the
+ * current song's progress. Type, color, and space name token roles
+ * only. */
+
+.music-sound {
+  padding: var(--space-400);
+}
+
+.music-sound__badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-100);
+  margin: 0;
+  padding: var(--space-100) var(--space-200);
+  border-radius: var(--radius-full);
+  background: var(--color-bg);
+  color: var(--color-text-strong);
+  font-size: var(--text-caption-size);
+  font-weight: var(--text-h3-weight);
+}
+
+.music-sound__dot {
+  width: var(--space-100);
+  height: var(--space-100);
+  border-radius: var(--radius-full);
+  background: var(--color-text-strong);
+}
+
+.music-sound__tagline {
+  margin: var(--space-200) 0 0;
+  font-size: var(--text-caption-size);
+  color: var(--color-text-faint);
+}
+
+.music-sets {
+  display: grid;
+  gap: var(--space-300);
+  margin-top: var(--space-400);
+}
+
+.music-set {
+  padding: var(--space-400);
+}
+
+.music-set__title {
+  margin: 0;
+  font-family: var(--text-display-face);
+  font-size: var(--text-h2-size);
+  line-height: var(--text-h2-leading);
+  font-weight: var(--text-display-weight);
+  color: var(--color-text-strong);
+}
+
+.music-set__note {
+  margin: var(--space-100) 0 0;
+  font-size: var(--text-body-size);
+  color: var(--color-text-faint);
+}
+
+.music-set__songs {
+  margin: var(--space-200) 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.music-row {
+  padding: var(--space-200) 0;
+}
+
+.music-row__line {
+  display: flex;
+  align-items: center;
+  gap: var(--space-200);
+}
+
+.music-row__play {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: var(--shell-target-min);
+  height: var(--shell-target-min);
+  border-radius: var(--radius-full);
+  border: var(--shell-topbar-border) solid var(--color-line);
+  background: var(--color-bg);
+  color: var(--color-text-strong);
+  cursor: pointer;
+}
+
+.music-row__play[data-current] {
+  background: var(--color-text-strong);
+  border-color: var(--color-text-strong);
+  color: var(--color-bg);
+}
+
+.music-row__names {
+  flex: 1;
+  min-width: 0;
+}
+
+.music-row__title {
+  margin: 0;
+  font-weight: var(--text-h3-weight);
+  color: var(--color-text);
+}
+
+.music-row__state {
+  margin: 0;
+  font-family: var(--text-overline-face);
+  font-size: var(--text-caption-size);
+  letter-spacing: var(--text-overline-tracking);
+  font-weight: var(--text-overline-weight);
+  text-transform: var(--text-overline-case);
+  color: var(--color-accent-ink);
+}
+
+.music-row__duration {
+  flex-shrink: 0;
+  margin: 0;
+  font-size: var(--text-caption-size);
+  font-variant-numeric: tabular-nums;
+  color: var(--color-text-faint);
+}
+
+.music-progress {
+  margin-top: var(--space-150);
+  padding-left: calc(var(--shell-target-min) + var(--space-200));
+}
+
+.music-progress__bar {
+  height: var(--space-100);
+  border-radius: var(--radius-full);
+  background: var(--color-bg-recessed);
+  cursor: pointer;
+}
+
+.music-progress__fill {
+  height: 100%;
+  border-radius: var(--radius-full);
+  background: var(--color-text-strong);
+}
+
+.music-progress__times {
+  margin: var(--space-100) 0 0;
+  font-size: var(--text-caption-size);
+  font-variant-numeric: tabular-nums;
+  color: var(--color-text-faint);
+}
+
+.music-signoff {
+  padding: var(--space-400);
+}
+
+.music-signoff__park {
+  margin: var(--space-200) 0 0;
+  font-size: var(--text-body-size);
+  font-weight: var(--text-h3-weight);
+  color: var(--color-text-strong);
+}

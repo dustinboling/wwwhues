@@ -20,11 +20,13 @@ export function readSourceFile(name: string): string {
   return readFileSync(join(root, name), 'utf8')
 }
 
-// React escapes text children; decode before matching source copy.
+// React escapes text children (and Vike its head strings, with the
+// decimal reference); decode before matching source copy.
 export function decode(html: string): string {
   return html
     .replace(/<!--.*?-->/gs, '')
     .replace(/&#x27;/g, "'")
+    .replace(/&#0?39;/g, "'")
     .replace(/&quot;/g, '"')
     .replace(/&lt;/g, '<')
     .replace(/&gt;/g, '>')

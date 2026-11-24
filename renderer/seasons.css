@@ -1,0 +1,249 @@
+/* Season hub + detail composition, shared by both templates: season
+ * panels, working-on cards, flower-type cards, and the detail footer.
+ * Type, color, and space name token roles only. */
+
+.seasons-panels {
+  display: grid;
+  gap: var(--space-300);
+  margin-top: var(--space-400);
+}
+
+@media (min-width: 1024px) {
+  .seasons-panels {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.seasons-panel {
+  overflow: hidden;
+}
+
+.seasons-panel__link {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  text-decoration: none;
+  color: inherit;
+}
+
+.seasons-panel__art {
+  position: relative;
+  display: block;
+}
+
+.seasons-panel__when {
+  position: absolute;
+  top: var(--space-200);
+  left: var(--space-200);
+  padding: var(--space-100) var(--space-200);
+  border-radius: var(--radius-full);
+  background: var(--color-text-strong);
+  color: var(--color-bg);
+  font-family: var(--text-overline-face);
+  font-size: var(--text-caption-size);
+  letter-spacing: var(--text-overline-tracking);
+  font-weight: var(--text-overline-weight);
+  text-transform: var(--text-overline-case);
+}
+
+.seasons-panel__body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-150);
+  padding: var(--space-300);
+}
+
+.seasons-panel__title {
+  font-family: var(--text-display-face);
+  font-size: var(--text-h2-size);
+  line-height: var(--text-h2-leading);
+  font-weight: var(--text-display-weight);
+  color: var(--color-text-strong);
+}
+
+.seasons-panel__lede {
+  font-size: var(--text-body-size);
+  line-height: var(--text-body-leading);
+  color: var(--color-text-muted);
+}
+
+.seasons-panel__points {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-100);
+  margin: 0;
+  padding: 0;
+}
+
+.seasons-panel__point {
+  display: flex;
+  gap: var(--space-150);
+  font-size: var(--text-body-size);
+  line-height: var(--text-body-leading);
+  color: var(--color-text-muted);
+}
+
+.seasons-panel__point::before {
+  content: "";
+  flex-shrink: 0;
+  width: var(--space-100);
+  height: var(--space-100);
+  margin-top: var(--space-100);
+  border-radius: var(--radius-full);
+  background: var(--color-text-strong);
+}
+
+.seasons-panel__cta {
+  font-weight: var(--text-h3-weight);
+  color: var(--color-text);
+  text-decoration: underline;
+  text-decoration-color: var(--color-accent);
+  text-decoration-thickness: var(--shell-focus-ring-width);
+  text-underline-offset: var(--space-100);
+}
+
+.seasons-work {
+  padding: var(--space-300);
+}
+
+.seasons-work__title {
+  margin: 0;
+  font-size: var(--text-body-size);
+  font-weight: var(--text-h3-weight);
+  color: var(--color-text-strong);
+}
+
+.seasons-work__text {
+  margin: var(--space-100) 0 0;
+  font-size: var(--text-body-size);
+  line-height: var(--text-body-leading);
+  color: var(--color-text-muted);
+}
+
+.seasons-more {
+  margin-top: var(--space-300);
+  font-size: var(--text-body-size);
+  color: var(--color-text-muted);
+}
+
+.seasons-plan {
+  padding: var(--space-400);
+}
+
+.seasons-plan__signoff,
+.seasons-signoff {
+  font-family: var(--text-display-face);
+  font-style: italic;
+  color: var(--color-text-muted);
+}
+
+.seasons-signoff {
+  margin-top: var(--space-400);
+  text-align: center;
+}
+
+.seasons-plan__address,
+.seasons-plan__more {
+  font-size: var(--text-body-size);
+  color: var(--color-text-muted);
+}
+
+.seasons-flowers {
+  display: grid;
+  gap: var(--space-200);
+  margin-top: var(--space-300);
+}
+
+@media (min-width: 768px) {
+  .seasons-flowers {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (min-width: 1024px) {
+  .seasons-flowers {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.seasons-flower {
+  overflow: hidden;
+}
+
+.seasons-flower__body {
+  padding: var(--space-300);
+}
+
+.seasons-flower__head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-200);
+}
+
+.seasons-flower__name {
+  margin: 0;
+  font-family: var(--text-display-face);
+  font-size: var(--text-title-size);
+  line-height: var(--text-title-leading);
+  font-weight: var(--text-display-weight);
+  color: var(--color-text-strong);
+}
+
+.seasons-flower__swatch {
+  flex-shrink: 0;
+  width: var(--space-200);
+  height: var(--space-200);
+  border-radius: var(--radius-full);
+}
+
+.seasons-flower__when {
+  margin: var(--space-100) 0 0;
+  font-size: var(--text-caption-size);
+  font-weight: var(--text-h3-weight);
+  color: var(--color-accent-ink);
+}
+
+.seasons-flower__text {
+  margin: var(--space-100) 0 0;
+  font-size: var(--text-body-size);
+  line-height: var(--text-body-leading);
+  color: var(--color-text-muted);
+}
+
+.seasons-catalog {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-100);
+  padding: var(--space-400);
+  border-radius: var(--radius-xl);
+  background: var(--color-text-strong);
+  color: var(--color-bg);
+  text-decoration: none;
+}
+
+.seasons-catalog .c-eyebrow {
+  color: var(--color-bg);
+}
+
+.seasons-catalog__title {
+  font-family: var(--text-display-face);
+  font-size: var(--text-h2-size);
+  line-height: var(--text-h2-leading);
+  font-weight: var(--text-display-weight);
+}
+
+.seasons-catalog__text {
+  font-size: var(--text-body-size);
+  line-height: var(--text-body-leading);
+  opacity: 0.85;
+}
+
+.seasons-footer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--space-200) var(--space-400);
+  margin-top: var(--space-400);
+  font-weight: var(--text-h3-weight);
+}
