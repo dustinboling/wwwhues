@@ -11,7 +11,7 @@
   font-weight: 400 700;
   font-display: swap;
   src: url("./dist/files/fraunces-roman-latin.woff2") format("woff2");
-  unicode-range: U+0020-007E, U+00A0-00FF, U+0131, U+0152-0153, U+2013-2014, U+2018-201A, U+201C-201E, U+2020-2022, U+2026, U+2030, U+2039-203A, U+20AC, U+2122, U+2212, U+2248, U+2260, U+2264-2265;
+  unicode-range: U+0020-007E, U+00A0-00A1, U+00A7, U+00A9, U+00AB, U+00AE, U+00B0, U+00B2-00B3, U+00B6-00B7, U+00B9, U+00BB-00FF, U+0131, U+0152-0153, U+2013-2014, U+2018-201A, U+201C-201E, U+2020-2022, U+2026, U+2030, U+2039-203A, U+20AC, U+2122, U+2212, U+2248, U+2260, U+2264-2265;
 }
 
 @font-face {
@@ -29,7 +29,7 @@
   font-weight: 400 700;
   font-display: swap;
   src: url("./dist/files/fraunces-italic-latin.woff2") format("woff2");
-  unicode-range: U+0020-007E, U+00A0-00FF, U+0131, U+0152-0153, U+2013-2014, U+2018-201A, U+201C-201E, U+2020-2022, U+2026, U+2030, U+2039-203A, U+20AC, U+2122, U+2212, U+2248, U+2260, U+2264-2265;
+  unicode-range: U+0020-007E, U+00A0-00A1, U+00A7, U+00A9, U+00AB, U+00AE, U+00B0, U+00B2-00B3, U+00B6-00B7, U+00B9, U+00BB-00FF, U+0131, U+0152-0153, U+2013-2014, U+2018-201A, U+201C-201E, U+2020-2022, U+2026, U+2030, U+2039-203A, U+20AC, U+2122, U+2212, U+2248, U+2260, U+2264-2265;
 }
 
 @font-face {
@@ -47,7 +47,7 @@
   font-weight: 400 600;
   font-display: swap;
   src: url("./dist/files/newsreader-roman-latin.woff2") format("woff2");
-  unicode-range: U+0020-007E, U+00A0-00FF, U+0131, U+0152-0153, U+2013-2014, U+2018-201A, U+201C-201E, U+2020-2022, U+2026, U+2030, U+2039-203A, U+20AC, U+2122, U+2212, U+2248, U+2260, U+2264-2265;
+  unicode-range: U+0020-007E, U+00A0-00A1, U+00A7, U+00A9, U+00AB, U+00AE, U+00B0, U+00B2-00B3, U+00B6-00B7, U+00B9, U+00BB-00FF, U+0131, U+0152-0153, U+2013-2014, U+2018-201A, U+201C-201E, U+2020-2022, U+2026, U+2030, U+2039-203A, U+20AC, U+2122, U+2212, U+2248, U+2260, U+2264-2265;
 }
 
 @font-face {
@@ -65,7 +65,7 @@
   font-weight: 400 600;
   font-display: swap;
   src: url("./dist/files/newsreader-italic-latin.woff2") format("woff2");
-  unicode-range: U+0020-007E, U+00A0-00FF, U+0131, U+0152-0153, U+2013-2014, U+2018-201A, U+201C-201E, U+2020-2022, U+2026, U+2030, U+2039-203A, U+20AC, U+2122, U+2212, U+2248, U+2260, U+2264-2265;
+  unicode-range: U+0020-007E, U+00A0-00A1, U+00A7, U+00A9, U+00AB, U+00AE, U+00B0, U+00B2-00B3, U+00B6-00B7, U+00B9, U+00BB-00FF, U+0131, U+0152-0153, U+2013-2014, U+2018-201A, U+201C-201E, U+2020-2022, U+2026, U+2030, U+2039-203A, U+20AC, U+2122, U+2212, U+2248, U+2260, U+2264-2265;
 }
 
 @font-face {
@@ -83,7 +83,7 @@
   font-weight: 400 700;
   font-display: swap;
   src: url("./dist/files/source-sans-roman-latin.woff2") format("woff2");
-  unicode-range: U+0020-007E, U+00A0-00FF, U+0131, U+0152-0153, U+2013-2014, U+2018-201A, U+201C-201E, U+2020-2022, U+2026, U+2030, U+2039-203A, U+20AC, U+2122, U+2212, U+2248, U+2260, U+2264-2265;
+  unicode-range: U+0020-007E, U+00A0-00A1, U+00A7, U+00A9, U+00AB, U+00AE, U+00B0, U+00B2-00B3, U+00B6-00B7, U+00B9, U+00BB-00FF, U+0131, U+0152-0153, U+2013-2014, U+2018-201A, U+201C-201E, U+2020-2022, U+2026, U+2030, U+2039-203A, U+20AC, U+2122, U+2212, U+2248, U+2260, U+2264-2265;
 }
 
 @font-face {
