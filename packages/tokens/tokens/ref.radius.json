@@ -1,0 +1,54 @@
+{
+  "ref": {
+    "radius": {
+      "none": {
+        "$value": "0",
+        "$type": "dimension",
+        "$description": "Shape scale: square corners.",
+        "$extensions": { "hues": { "source": "Mina §1.4 shape scale" } }
+      },
+      "xs": {
+        "$value": "4px",
+        "$type": "dimension",
+        "$description": "Shape scale: checkbox boxes.",
+        "$extensions": { "hues": { "source": "Mina §1.4 shape scale; Mina §3.4 checkbox radius.xs" } }
+      },
+      "sm": {
+        "$value": "8px",
+        "$type": "dimension",
+        "$description": "Shape scale step: 8px.",
+        "$extensions": { "hues": { "source": "Mina §1.4 shape scale" } }
+      },
+      "md": {
+        "$value": "12px",
+        "$type": "dimension",
+        "$description": "Shape scale: filled fields.",
+        "$extensions": { "hues": { "source": "Mina §1.4 shape scale; Mina §3.4 field radius.md" } }
+      },
+      "lg": {
+        "$value": "16px",
+        "$type": "dimension",
+        "$description": "Shape scale: cards from lg to xl.",
+        "$extensions": { "hues": { "source": "Mina §1.4 shape scale" } }
+      },
+      "xl": {
+        "$value": "24px",
+        "$type": "dimension",
+        "$description": "Shape scale: cards and dialogs.",
+        "$extensions": { "hues": { "source": "Mina §1.4 shape scale" } }
+      },
+      "sheet": {
+        "$value": "26px",
+        "$type": "dimension",
+        "$description": "Shape scale: bottom sheets and the tab-link touch shape.",
+        "$extensions": { "hues": { "source": "Mina §1.4 shape scale; Mina §2.3 focus touch shape" } }
+      },
+      "full": {
+        "$value": "9999px",
+        "$type": "dimension",
+        "$description": "Shape scale: buttons, chips, pills, radio controls.",
+        "$extensions": { "hues": { "source": "Mina §1.4 shape scale; Mina §3.1 pill geometry; Mina §3.4 radio full" } }
+      }
+    }
+  }
+}

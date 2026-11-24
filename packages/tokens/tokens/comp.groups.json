@@ -1,0 +1,182 @@
+{
+  "comp": {
+    "notice": {
+      "pill-bg": {
+        "$value": "{sys.color.surface}",
+        "$type": "color",
+        "$description": "Update notice pill: paper-raised.",
+        "$extensions": { "hues": { "source": "Mina §2.7 update notice" } }
+      },
+      "pill-ring": {
+        "$value": "{sys.color.accent}",
+        "$type": "color",
+        "$description": "Update notice pill gold ring.",
+        "$extensions": { "hues": { "source": "Mina §2.7 update notice" } }
+      },
+      "dismiss-size": {
+        "$value": "{comp.shell.target-min}",
+        "$type": "dimension",
+        "$description": "Update notice dismiss control: the system 44px target default.",
+        "$extensions": { "hues": { "source": "A11y #9 hit-area default (dismiss undimensioned in Mina §2.7)" } }
+      },
+      "banner-fill": {
+        "$value": "{ref.color.sage-0}",
+        "$type": "color",
+        "$description": "Offline banner sage-tinted fill.",
+        "$extensions": { "hues": { "source": "Mina §2.7 offline banner (sage-tinted fill)" } }
+      },
+      "banner-size": {
+        "$value": "13px",
+        "$type": "dimension",
+        "$description": "Offline banner text size.",
+        "$extensions": { "hues": { "source": "Mina §2.7 offline banner (13px text)" } }
+      },
+      "banner-weight": {
+        "$value": "{ref.type.weight.regular}",
+        "$type": "fontWeight",
+        "$description": "Offline banner text weight.",
+        "$extensions": { "hues": { "source": "Mina §2.7 offline banner (weight unspecified; regular, named weight token)" } }
+      }
+    },
+    "table": {
+      "row-height": {
+        "$value": "{comp.density.compact-row-height}",
+        "$type": "dimension",
+        "$description": "Data table row height at compact density.",
+        "$extensions": { "hues": { "source": "Mina §3.6 DataTable (row height 40px)" } }
+      },
+      "divider": {
+        "$value": "{sys.color.line}",
+        "$type": "color",
+        "$description": "Data table row dividers.",
+        "$extensions": { "hues": { "source": "Mina §3.6 DataTable" } }
+      },
+      "hover-wash": {
+        "$value": "{sys.color.surface}",
+        "$type": "color",
+        "$description": "Data table hover wash: paper surface.",
+        "$extensions": { "hues": { "source": "Mina §3.6 DataTable (hover wash paper)" } }
+      },
+      "selected-wash": {
+        "$value": "{comp.card.wash}",
+        "$type": "color",
+        "$description": "Selected row gold wash at 12 percent.",
+        "$extensions": { "hues": { "source": "Mina §3.6 DataTable" } }
+      }
+    },
+    "form": {
+      "error-text": {
+        "$value": "{sys.color.state-error}",
+        "$type": "color",
+        "$description": "Field error message color.",
+        "$extensions": { "hues": { "source": "Mina §3.4 error treatment; Iris §2.3" } }
+      },
+      "error-size": {
+        "$value": "{sys.type.body-sm.size}",
+        "$type": "dimension",
+        "$description": "Field error message size.",
+        "$extensions": { "hues": { "source": "Thea §2.3 forms (errors body-sm 600)" } }
+      },
+      "error-weight": {
+        "$value": "{ref.type.weight.semibold}",
+        "$type": "fontWeight",
+        "$description": "Field error message weight, with a non-color signal.",
+        "$extensions": { "hues": { "source": "Thea §2.3 forms (errors body-sm 600)" } }
+      }
+    },
+    "skeleton": {
+      "block-fill": {
+        "$value": "{sys.color.surface}",
+        "$type": "color",
+        "$description": "Skeleton blocks in surface color on the page ground.",
+        "$extensions": { "hues": { "source": "Mina §4.2 skeleton dress" } }
+      },
+      "breathe": {
+        "$value": "{ref.motion.highlight}",
+        "$type": "duration",
+        "$description": "Skeleton opacity breathe cycle; static under reduced motion.",
+        "$extensions": { "hues": { "source": "Mina §4.2 skeleton dress" } }
+      }
+    },
+    "icon": {
+      "grid": {
+        "$value": "24px",
+        "$type": "dimension",
+        "$description": "Glyph grid.",
+        "$extensions": { "hues": { "source": "Mina §1.8 icon style (24px grid)" } }
+      },
+      "live-area": {
+        "$value": "20px",
+        "$type": "dimension",
+        "$description": "Glyph live area.",
+        "$extensions": { "hues": { "source": "Mina §1.8 icon style (20px live area)" } }
+      },
+      "stroke": {
+        "$value": "1.8",
+        "$type": "number",
+        "$description": "Stroke weight at 20-24px sizes, round caps and joins.",
+        "$extensions": { "hues": { "source": "Mina §1.8 icon style" } }
+      },
+      "size-sm": {
+        "$value": "16px",
+        "$type": "dimension",
+        "$description": "Icon size ladder step.",
+        "$extensions": { "hues": { "source": "Mina §1.8 size ladder (16 / 20 / 24)" } }
+      },
+      "size-md": {
+        "$value": "20px",
+        "$type": "dimension",
+        "$description": "Icon size ladder step.",
+        "$extensions": { "hues": { "source": "Mina §1.8 size ladder (16 / 20 / 24)" } }
+      },
+      "size-lg": {
+        "$value": "24px",
+        "$type": "dimension",
+        "$description": "Icon size ladder step.",
+        "$extensions": { "hues": { "source": "Mina §1.8 size ladder (16 / 20 / 24)" } }
+      }
+    },
+    "image": {
+      "plate-pad": {
+        "$value": "{sys.color.bg}",
+        "$type": "color",
+        "$description": "Plate pad background: the paper page ground, never a crop.",
+        "$extensions": { "hues": { "source": "Plan §1d pad-never-crop (fit=pad with the paper background)" } }
+      }
+    },
+    "link": {
+      "prefetch-margin": {
+        "$value": "200px",
+        "$type": "dimension",
+        "$description": "Viewport-prefetch root margin for tab-destination links.",
+        "$extensions": { "hues": { "source": "Link prefetch construction (Perf #8 companion: bounded viewport prefetch)" } }
+      }
+    },
+    "segmented": {
+      "track-ring": {
+        "$value": "{sys.color.line}",
+        "$type": "color",
+        "$description": "Segmented track ring.",
+        "$extensions": { "hues": { "source": "Mina §3.3 SegmentedControl (line-ringed pill track)" } }
+      },
+      "selected-bg": {
+        "$value": "{sys.color.text-strong}",
+        "$type": "color",
+        "$description": "Selected segment deep fill.",
+        "$extensions": { "hues": { "source": "Mina §3.3 SegmentedControl" } }
+      },
+      "selected-text": {
+        "$value": "{sys.color.on-deep}",
+        "$type": "color",
+        "$description": "Selected segment cream text.",
+        "$extensions": { "hues": { "source": "Mina §3.3 SegmentedControl" } }
+      },
+      "radius": {
+        "$value": "{ref.radius.full}",
+        "$type": "dimension",
+        "$description": "Segmented track pill radius.",
+        "$extensions": { "hues": { "source": "Mina §3.3 SegmentedControl; Mina §1.4" } }
+      }
+    }
+  }
+}

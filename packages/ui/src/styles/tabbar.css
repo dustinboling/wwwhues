@@ -1,0 +1,165 @@
+/*
+ * Phone tab bar: LOCKED GEOMETRY (Mina §2.3). Every dimension below is a
+ * tabbar.* token, identical in every property. Any future change is an
+ * artwork-pipeline job (Elena), never a CSS edit.
+ */
+
+.hues-tabbar {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: var(--shell-z-tabbar);
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+.hues-tabbar__plate {
+  position: absolute;
+  right: 0;
+  bottom: env(safe-area-inset-bottom);
+  left: 0;
+  height: var(--tabbar-plate-height);
+  pointer-events: none;
+}
+
+.hues-tabbar__plate-art {
+  display: block;
+  width: var(--tabbar-plate-width);
+  max-width: 100%;
+  height: var(--tabbar-plate-height);
+  margin: 0 auto;
+  object-fit: none;
+  object-position: top center;
+}
+
+/* Beyond 390px wide, a plain paper panel continues the lower half full-width from y=47px. */
+.hues-tabbar__plate::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  top: var(--tabbar-panel-top);
+  display: none;
+  background-color: var(--color-bg);
+  border-top: var(--shell-topbar-border) solid var(--tabbar-panel-line);
+}
+
+@media (min-width: 391px) {
+  .hues-tabbar__plate::after {
+    display: block;
+  }
+}
+
+.hues-tabbar__tabs {
+  position: relative;
+  display: flex;
+  width: var(--tabbar-plate-width);
+  max-width: 100%;
+  height: var(--tabbar-plate-height);
+  margin: 0 auto;
+  padding: 0;
+  list-style: none;
+}
+
+.hues-tab {
+  flex: 1 1 0;
+  min-width: 0;
+}
+
+.hues-tab--home {
+  translate: var(--tabbar-shift-home);
+}
+
+.hues-tab--visit {
+  translate: var(--tabbar-shift-visit);
+}
+
+.hues-tab--help {
+  translate: var(--tabbar-shift-help);
+}
+
+.hues-tab--arcade {
+  translate: var(--tabbar-shift-arcade);
+}
+
+.hues-tab--music {
+  translate: var(--tabbar-shift-music);
+}
+
+.hues-tab--more {
+  translate: var(--tabbar-shift-more);
+}
+
+.hues-tab--seasons {
+  translate: var(--tabbar-shift-disc);
+}
+
+.hues-tab__link {
+  position: relative;
+  display: block;
+  height: var(--tabbar-plate-height);
+  text-decoration: none;
+  border-radius: var(--radius-sheet);
+  transition: scale var(--motion-press) var(--motion-ease-out);
+}
+
+button.hues-tab__link {
+  width: 100%;
+  padding: 0;
+  background: none;
+  border: 0;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+
+.hues-tab__link:active {
+  scale: var(--tabbar-press-scale);
+}
+
+.hues-tab__medallion {
+  position: absolute;
+  top: var(--tabbar-medallion-top);
+  left: 50%;
+  width: var(--tabbar-medallion-size);
+  height: var(--tabbar-medallion-size);
+  translate: -50% 0;
+}
+
+.hues-tab__disc {
+  position: absolute;
+  top: var(--tabbar-disc-top);
+  left: 50%;
+  width: var(--tabbar-disc-size);
+  height: var(--tabbar-disc-size);
+  max-width: var(--tabbar-disc-max-width);
+  translate: -50% 0;
+}
+
+.hues-tab__disc[data-glow] {
+  filter: var(--tabbar-disc-glow);
+}
+
+.hues-tab__disc[data-flourish] {
+  animation: hues-flourish var(--tabbar-flourish-duration) var(--tabbar-flourish-ease);
+}
+
+.hues-tab__label {
+  position: absolute;
+  top: var(--tabbar-label-top);
+  right: 0;
+  left: 0;
+  text-align: center;
+  font-size: var(--tabbar-label-size);
+  line-height: var(--tabbar-label-leading);
+  letter-spacing: var(--tabbar-label-tracking);
+  font-family: var(--tabbar-label-face);
+  font-weight: var(--tabbar-label-weight);
+  color: var(--tabbar-label-inactive);
+}
+
+.hues-tab[data-active] .hues-tab__label {
+  font-weight: var(--tabbar-label-weight-active);
+  color: var(--tabbar-label-active);
+}

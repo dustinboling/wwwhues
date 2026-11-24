@@ -1,0 +1,74 @@
+{
+  "$extensions": {
+    "hues": {
+      "theme": "control",
+      "note": "Control Room re-valuation: frame-dark chrome with paper reading surfaces. The dual-ground tension (one text token, two grounds) resolves per surface at the dashboard theme pass; the full dark-theme audit is owed before evening ships (Ada frontier 5). Ada is off the dashboard by ruling; pairs here are for the record."
+    }
+  },
+  "sys": {
+    "color": {
+      "bg": {
+        "$value": "{ref.color.frame}",
+        "$type": "color",
+        "$description": "Control Room chrome ground.",
+        "$extensions": { "hues": { "source": "Iris §2.5 dashboard theme (frame-dark); Iris §3 evening ground" } }
+      },
+      "surface": {
+        "$value": "{ref.color.paper-0}",
+        "$type": "color",
+        "$description": "Reading surfaces stay in the paper scale.",
+        "$extensions": { "hues": { "source": "Iris §2.5 dashboard theme (reading surfaces = paper scale)" } }
+      },
+      "text": {
+        "$value": "{ref.color.paper-1}",
+        "$type": "color",
+        "$description": "Chrome text on the frame ground (14.28:1).",
+        "$extensions": { "hues": { "source": "Iris §3 evening theme; Iris §5 item 11" } }
+      },
+      "text-strong": {
+        "$value": "{ref.color.paper-0}",
+        "$type": "color",
+        "$description": "Strong chrome text on the frame ground.",
+        "$extensions": { "hues": { "source": "Iris §3 evening theme (paper text on frame)" } }
+      },
+      "text-muted": {
+        "$value": "{ref.color.sage-1}",
+        "$type": "color",
+        "$description": "Muted chrome text (10.93:1 on frame).",
+        "$extensions": { "hues": { "source": "Iris §3 evening theme; Ada ruling 6 evening spot pairs" } }
+      },
+      "text-faint": {
+        "$value": "{ref.color.sage-1}",
+        "$type": "color",
+        "$description": "Faint chrome text. Sage-ink would fail on frame; sage-1 carries both faint roles here.",
+        "$extensions": { "hues": { "source": "Iris §3 evening theme; Ada ruling 6 evening spot pairs" } }
+      },
+      "link": {
+        "$value": "{ref.color.gold-1}",
+        "$type": "color",
+        "$description": "Evening links (10.56:1 on frame).",
+        "$extensions": { "hues": { "source": "Iris §3 evening theme; Iris §5 item 11" } }
+      },
+      "accent-ink": {
+        "$value": "{ref.color.gold-1}",
+        "$type": "color",
+        "$description": "Text gold on dark grounds.",
+        "$extensions": { "hues": { "source": "Iris §3 evening theme (accent gold-1)" } }
+      },
+      "line-strong": {
+        "$value": "{ref.color.gold-2}",
+        "$type": "color",
+        "$description": "UNVERIFIED: interactive boundaries on the frame ground. Gold-2 passes on deep (4.11:1, Iris §5 item 8); the frame-ground pair is unmeasured (settles: Ada measurement).",
+        "$extensions": { "hues": { "source": "Iris §5 item 8 (gold-2 on deep); frame pair UNVERIFIED" } }
+      }
+    }
+  },
+  "pwa": {
+    "theme-color": {
+      "$value": "{ref.color.frame}",
+      "$type": "color",
+      "$description": "PWA theme-color: the frame; the room is what the chrome matches.",
+      "$extensions": { "hues": { "source": "Iris §3 PWA theme-color (dashboard)" } }
+    }
+  }
+}

@@ -1,0 +1,96 @@
+{
+  "comp": {
+    "player": {
+      "radius": {
+        "$value": "22px",
+        "$type": "dimension",
+        "$description": "Player card radius (radius.lg and above, as today).",
+        "$extensions": { "hues": { "source": "Mina §2.6 dress (radius.lg+, 22px as today)" } }
+      },
+      "fill": {
+        "$value": "{sys.color.surface-player}",
+        "$type": "color",
+        "$description": "Player fill: the ratified player surface, that surface and no other.",
+        "$extensions": { "hues": { "source": "Mina §2.6 dress; Mina §1.6" } }
+      },
+      "ring": {
+        "$value": "{sys.color.line}",
+        "$type": "color",
+        "$description": "Player ring.",
+        "$extensions": { "hues": { "source": "Mina §2.6 dress" } }
+      },
+      "shadow": {
+        "$value": "{sys.elevation.player}",
+        "$type": "other",
+        "$description": "Player elevation.",
+        "$extensions": { "hues": { "source": "Mina §2.6 dress; Mina §1.5" } }
+      },
+      "dot-size": {
+        "$value": "8px",
+        "$type": "dimension",
+        "$description": "Live dot size.",
+        "$extensions": { "hues": { "source": "Mina §2.6 anatomy" } }
+      },
+      "dot-color": {
+        "$value": "{ref.color.poppy}",
+        "$type": "color",
+        "$description": "Live dot: poppy, graphics only per the quarantine.",
+        "$extensions": { "hues": { "source": "Mina §2.6 anatomy; Ada ruling 6c" } }
+      },
+      "dot-paused-opacity": {
+        "$value": "0.4",
+        "$type": "number",
+        "$description": "Live dot opacity when paused.",
+        "$extensions": { "hues": { "source": "Mina §2.6 anatomy" } }
+      },
+      "control-size": {
+        "$value": "44px",
+        "$type": "dimension",
+        "$description": "Play, pause, next, and stop round size.",
+        "$extensions": { "hues": { "source": "Mina §2.6 anatomy" } }
+      },
+      "play-fill": {
+        "$value": "{ref.color.poppy}",
+        "$type": "color",
+        "$description": "Play and pause round fill: poppy, graphics only per the quarantine.",
+        "$extensions": { "hues": { "source": "Mina §2.6 anatomy; Ada ruling 6c" } }
+      },
+      "play-glyph": {
+        "$value": "{ref.color.white}",
+        "$type": "color",
+        "$description": "White glyph on the poppy fill (4.01:1, passes the 3:1 component floor).",
+        "$extensions": { "hues": { "source": "Mina §2.6 anatomy; Ada ruling 6c" } }
+      },
+      "phone-inset-x": {
+        "$value": "{ref.space.150}",
+        "$type": "dimension",
+        "$description": "Phone placement horizontal inset.",
+        "$extensions": { "hues": { "source": "Mina §2.6 phone placement (inset-x 12px)" } }
+      },
+      "phone-max-width": {
+        "$value": "448px",
+        "$type": "dimension",
+        "$description": "Phone placement max width, centered.",
+        "$extensions": { "hues": { "source": "Mina §2.6 phone placement" } }
+      },
+      "phone-gap": {
+        "$value": "8px",
+        "$type": "dimension",
+        "$description": "Phone placement gap above the 112px tab bar.",
+        "$extensions": { "hues": { "source": "Mina §2.6 phone placement (7.5rem bottom edge)" } }
+      },
+      "desktop-offset": {
+        "$value": "{ref.space.300}",
+        "$type": "dimension",
+        "$description": "Desktop corner card right and bottom offset.",
+        "$extensions": { "hues": { "source": "Mina §2.6 desktop placement (right/bottom 24px)" } }
+      },
+      "desktop-width": {
+        "$value": "384px",
+        "$type": "dimension",
+        "$description": "Desktop corner card width cap (min of 92vw and this).",
+        "$extensions": { "hues": { "source": "Mina §2.6 desktop placement (min(92vw, 384px))" } }
+      }
+    }
+  }
+}

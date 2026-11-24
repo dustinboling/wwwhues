@@ -1,0 +1,96 @@
+{
+  "comp": {
+    "sheet": {
+      "max-width": {
+        "$value": "390px",
+        "$type": "dimension",
+        "$description": "Sheet container max width, centered.",
+        "$extensions": { "hues": { "source": "Mina §2.5 sheet container" } }
+      },
+      "radius": {
+        "$value": "{ref.radius.sheet}",
+        "$type": "dimension",
+        "$description": "Sheet top corner radius.",
+        "$extensions": { "hues": { "source": "Mina §2.5 sheet container" } }
+      },
+      "top-border": {
+        "$value": "2px",
+        "$type": "dimension",
+        "$description": "Sheet gold top border width.",
+        "$extensions": { "hues": { "source": "Mina §2.5 sheet container (2px gold top border)" } }
+      },
+      "top-border-color": {
+        "$value": "{sys.color.accent}",
+        "$type": "color",
+        "$description": "Sheet gold top border color.",
+        "$extensions": { "hues": { "source": "Mina §2.5 sheet container" } }
+      },
+      "fill": {
+        "$value": "{sys.color.bg}",
+        "$type": "color",
+        "$description": "Sheet fill.",
+        "$extensions": { "hues": { "source": "Mina §2.5 sheet container" } }
+      },
+      "shadow": {
+        "$value": "{sys.elevation.sheet}",
+        "$type": "other",
+        "$description": "Sheet elevation.",
+        "$extensions": { "hues": { "source": "Mina §2.5 sheet container; Mina §1.5" } }
+      },
+      "padding-x": {
+        "$value": "{ref.space.250}",
+        "$type": "dimension",
+        "$description": "Sheet side padding.",
+        "$extensions": { "hues": { "source": "Mina §2.5 sheet container (20px sides)" } }
+      },
+      "padding-top": {
+        "$value": "{ref.space.200}",
+        "$type": "dimension",
+        "$description": "Sheet top padding.",
+        "$extensions": { "hues": { "source": "Mina §2.5 sheet container (16px top)" } }
+      },
+      "padding-bottom": {
+        "$value": "{ref.space.250}",
+        "$type": "dimension",
+        "$description": "Sheet bottom padding above the safe-area inset.",
+        "$extensions": { "hues": { "source": "Mina §2.5 sheet container (20px + safe area)" } }
+      },
+      "backdrop": {
+        "$value": "color-mix(in srgb, {ref.color.deep} 45%, transparent)",
+        "$type": "color",
+        "$description": "Sheet backdrop: deep at 45 percent.",
+        "$extensions": { "hues": { "source": "Mina §2.5 sheet container (--color-text-strong at 45%)" } }
+      },
+      "close-size": {
+        "$value": "44px",
+        "$type": "dimension",
+        "$description": "Sheet close control size. The drawn 36px round is conformed to the 44px promise.",
+        "$extensions": { "hues": { "source": "A11y #9 expected fix (Sheet close to 44px); Mina §2.5" } }
+      },
+      "row-divider": {
+        "$value": "color-mix(in srgb, {ref.color.gold-2} 35%, transparent)",
+        "$type": "color",
+        "$description": "More-sheet row dividers: gold at 35 percent.",
+        "$extensions": { "hues": { "source": "Mina §2.5 More sheet rows" } }
+      },
+      "row-underline": {
+        "$value": "2px",
+        "$type": "dimension",
+        "$description": "Current-page row gold underline width.",
+        "$extensions": { "hues": { "source": "Mina §2.5 More sheet rows" } }
+      },
+      "row-underline-offset": {
+        "$value": "4px",
+        "$type": "dimension",
+        "$description": "Current-page row gold underline offset.",
+        "$extensions": { "hues": { "source": "Mina §2.5 More sheet rows" } }
+      },
+      "foot-round": {
+        "$value": "44px",
+        "$type": "dimension",
+        "$description": "Share and social foot round size.",
+        "$extensions": { "hues": { "source": "Mina §2.5 foot rounds" } }
+      }
+    }
+  }
+}

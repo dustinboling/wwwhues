@@ -1,0 +1,104 @@
+{
+  "ref": {
+    "space": {
+      "025": {
+        "$value": "2px",
+        "$type": "dimension",
+        "$description": "Spacing scale step: 2px.",
+        "$extensions": { "hues": { "source": "Mina §1.2 spacing scale (8px-base steps, space.100 = 8px)" } }
+      },
+      "050": {
+        "$value": "4px",
+        "$type": "dimension",
+        "$description": "Spacing scale step: 4px. Base grid unit.",
+        "$extensions": { "hues": { "source": "Mina §1.2 spacing scale; base grid 4px" } }
+      },
+      "100": {
+        "$value": "8px",
+        "$type": "dimension",
+        "$description": "Spacing scale step: 8px.",
+        "$extensions": { "hues": { "source": "Mina §1.2 spacing scale" } }
+      },
+      "150": {
+        "$value": "12px",
+        "$type": "dimension",
+        "$description": "Spacing scale step: 12px.",
+        "$extensions": { "hues": { "source": "Mina §1.2 spacing scale" } }
+      },
+      "200": {
+        "$value": "16px",
+        "$type": "dimension",
+        "$description": "Spacing scale step: 16px.",
+        "$extensions": { "hues": { "source": "Mina §1.2 spacing scale" } }
+      },
+      "250": {
+        "$value": "20px",
+        "$type": "dimension",
+        "$description": "Spacing scale step: 20px.",
+        "$extensions": { "hues": { "source": "Mina §1.2 spacing scale" } }
+      },
+      "300": {
+        "$value": "24px",
+        "$type": "dimension",
+        "$description": "Spacing scale step: 24px.",
+        "$extensions": { "hues": { "source": "Mina §1.2 spacing scale" } }
+      },
+      "400": {
+        "$value": "32px",
+        "$type": "dimension",
+        "$description": "Spacing scale step: 32px.",
+        "$extensions": { "hues": { "source": "Mina §1.2 spacing scale" } }
+      },
+      "500": {
+        "$value": "40px",
+        "$type": "dimension",
+        "$description": "Spacing scale step: 40px.",
+        "$extensions": { "hues": { "source": "Mina §1.2 spacing scale" } }
+      },
+      "600": {
+        "$value": "48px",
+        "$type": "dimension",
+        "$description": "Spacing scale step: 48px.",
+        "$extensions": { "hues": { "source": "Mina §1.2 spacing scale" } }
+      }
+    },
+    "layout": {
+      "200": {
+        "$value": "16px",
+        "$type": "dimension",
+        "$description": "Layout scale step: 16px between sections.",
+        "$extensions": { "hues": { "source": "Mina §1.2 layout scale" } }
+      },
+      "300": {
+        "$value": "24px",
+        "$type": "dimension",
+        "$description": "Layout scale step: 24px between sections.",
+        "$extensions": { "hues": { "source": "Mina §1.2 layout scale" } }
+      },
+      "400": {
+        "$value": "32px",
+        "$type": "dimension",
+        "$description": "Layout scale step: 32px between sections.",
+        "$extensions": { "hues": { "source": "Mina §1.2 layout scale" } }
+      },
+      "600": {
+        "$value": "48px",
+        "$type": "dimension",
+        "$description": "Layout scale step: 48px between sections.",
+        "$extensions": { "hues": { "source": "Mina §1.2 layout scale" } }
+      },
+      "800": {
+        "$value": "64px",
+        "$type": "dimension",
+        "$description": "Layout scale step: 64px between sections.",
+        "$extensions": { "hues": { "source": "Mina §1.2 layout scale" } }
+      },
+      "1200": {
+        "$value": "96px",
+        "$type": "dimension",
+        "$description": "Layout scale step: 96px between sections.",
+        "$extensions": { "hues": { "source": "Mina §1.2 layout scale" } }
+      }
+    }
+  }
+}

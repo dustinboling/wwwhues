@@ -1,0 +1,50 @@
+{
+  "ref": {
+    "motion": {
+      "press": {
+        "$value": "150ms",
+        "$type": "duration",
+        "$description": "Press feedback duration.",
+        "$extensions": { "hues": { "source": "Mina §1.7 motion tokens" } }
+      },
+      "state": {
+        "$value": "200ms",
+        "$type": "duration",
+        "$description": "State change duration.",
+        "$extensions": { "hues": { "source": "Mina §1.7 motion tokens" } }
+      },
+      "sheet": {
+        "$value": "300ms",
+        "$type": "duration",
+        "$description": "Sheet and reveal-travel duration.",
+        "$extensions": { "hues": { "source": "Mina §1.7 motion tokens" } }
+      },
+      "reveal": {
+        "$value": "700ms",
+        "$type": "duration",
+        "$description": "Reveal duration; fires once per mount, never on tab return.",
+        "$extensions": { "hues": { "source": "Mina §1.7 motion tokens; Mina §4.4" } }
+      },
+      "rise": {
+        "$value": "900ms",
+        "$type": "duration",
+        "$description": "Rise stagger duration, first-visit grace only.",
+        "$extensions": { "hues": { "source": "Mina §1.7 motion tokens; Mina §4.4" } }
+      },
+      "highlight": {
+        "$value": "1200ms",
+        "$type": "duration",
+        "$description": "Live-update wash and skeleton breathe cycle.",
+        "$extensions": { "hues": { "source": "Mina §1.7 motion tokens; Mina §4.3" } }
+      },
+      "ease": {
+        "out": {
+          "$value": "cubic-bezier(0.22, 0.9, 0.3, 1)",
+          "$type": "cubicBezier",
+          "$description": "House ease. Exits run shorter than entrances.",
+          "$extensions": { "hues": { "source": "Mina §1.7 house ease from p.css reveals" } }
+        }
+      }
+    }
+  }
+}

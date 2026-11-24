@@ -1,0 +1,168 @@
+{
+  "comp": {
+    "button": {
+      "radius": {
+        "$value": "{ref.radius.full}",
+        "$type": "dimension",
+        "$description": "Buttons are pills.",
+        "$extensions": { "hues": { "source": "Mina §3.1 geometry; Mina §1.4" } }
+      },
+      "padding-y": {
+        "$value": "10px",
+        "$type": "dimension",
+        "$description": "Button vertical padding at visitor density.",
+        "$extensions": { "hues": { "source": "Mina §3.1 geometry (py-2.5)" } }
+      },
+      "padding-x": {
+        "$value": "{ref.space.250}",
+        "$type": "dimension",
+        "$description": "Button horizontal padding at visitor density.",
+        "$extensions": { "hues": { "source": "Mina §3.1 geometry (px-5)" } }
+      },
+      "label-size": {
+        "$value": "14px",
+        "$type": "dimension",
+        "$description": "Button label size.",
+        "$extensions": { "hues": { "source": "Mina §3.1 geometry (14px semibold label)" } }
+      },
+      "label-weight": {
+        "$value": "{ref.type.weight.semibold}",
+        "$type": "fontWeight",
+        "$description": "Button label weight.",
+        "$extensions": { "hues": { "source": "Mina §3.1 geometry (14px semibold label)" } }
+      },
+      "icon-gap": {
+        "$value": "{ref.space.100}",
+        "$type": "dimension",
+        "$description": "Icon and label gap.",
+        "$extensions": { "hues": { "source": "Mina §3.1 geometry" } }
+      },
+      "primary-bg": {
+        "$value": "{sys.color.text-strong}",
+        "$type": "color",
+        "$description": "Primary fill: deep green.",
+        "$extensions": { "hues": { "source": "Mina §3.1 primary dress" } }
+      },
+      "primary-text": {
+        "$value": "{sys.color.on-deep}",
+        "$type": "color",
+        "$description": "Primary cream text.",
+        "$extensions": { "hues": { "source": "Mina §3.1 primary dress" } }
+      },
+      "primary-ring": {
+        "$value": "color-mix(in srgb, {ref.color.gold-2} 60%, transparent)",
+        "$type": "color",
+        "$description": "Primary gold ring at 60 percent.",
+        "$extensions": { "hues": { "source": "Mina §3.1 primary dress" } }
+      },
+      "primary-shadow": {
+        "$value": "{sys.elevation.card}",
+        "$type": "other",
+        "$description": "Primary shadow. The named 'card-lite' variant has no specified values; aliased to card pending ruling (settle: Mina seat).",
+        "$extensions": { "hues": { "source": "Mina §3.1 (elevation.card-lite UNVERIFIED, aliased to card)" } }
+      },
+      "primary-hover-bg": {
+        "$value": "{sys.color.text}",
+        "$type": "color",
+        "$description": "Primary hover: ink fill.",
+        "$extensions": { "hues": { "source": "Mina §3.1 primary dress" } }
+      },
+      "primary-pressed-bg": {
+        "$value": "{sys.color.text-strong}",
+        "$type": "color",
+        "$description": "Primary pressed: deep fill.",
+        "$extensions": { "hues": { "source": "Mina §3.1 primary dress" } }
+      },
+      "primary-pressed-text": {
+        "$value": "color-mix(in srgb, {ref.color.paper-1} 70%, transparent)",
+        "$type": "color",
+        "$description": "Primary pressed: text at 70 percent.",
+        "$extensions": { "hues": { "source": "Mina §3.1 primary dress" } }
+      },
+      "secondary-bg": {
+        "$value": "{sys.color.surface}",
+        "$type": "color",
+        "$description": "Secondary fill: raised paper.",
+        "$extensions": { "hues": { "source": "Mina §3.1 secondary dress" } }
+      },
+      "secondary-text": {
+        "$value": "{sys.color.text-strong}",
+        "$type": "color",
+        "$description": "Secondary deep text.",
+        "$extensions": { "hues": { "source": "Mina §3.1 secondary dress" } }
+      },
+      "secondary-ring": {
+        "$value": "{sys.color.line}",
+        "$type": "color",
+        "$description": "Secondary ring.",
+        "$extensions": { "hues": { "source": "Mina §3.1 secondary dress" } }
+      },
+      "secondary-hover-ring": {
+        "$value": "{sys.color.accent}",
+        "$type": "color",
+        "$description": "Secondary hover: ring goes gold.",
+        "$extensions": { "hues": { "source": "Mina §3.1 secondary dress" } }
+      },
+      "secondary-pressed-bg": {
+        "$value": "{sys.color.bg}",
+        "$type": "color",
+        "$description": "Secondary pressed: paper fill.",
+        "$extensions": { "hues": { "source": "Mina §3.1 secondary dress" } }
+      },
+      "secondary-pressed-text": {
+        "$value": "color-mix(in srgb, {ref.color.deep} 60%, transparent)",
+        "$type": "color",
+        "$description": "Secondary pressed: text at 60 percent.",
+        "$extensions": { "hues": { "source": "Mina §3.1 secondary dress" } }
+      },
+      "quiet-text": {
+        "$value": "{sys.color.accent-ink}",
+        "$type": "color",
+        "$description": "Quiet dress: gold-ink text, no fill, no ring.",
+        "$extensions": { "hues": { "source": "Mina §3.1 quiet dress; Ada ruling 1" } }
+      },
+      "destructive-text": {
+        "$value": "{sys.color.destructive}",
+        "$type": "color",
+        "$description": "Destructive quiet dress in brick. Always labeled, never icon-only.",
+        "$extensions": { "hues": { "source": "Mina §3.1 destructive dress; Ada ruling 6b" } }
+      },
+      "destructive-fill-text": {
+        "$value": "{sys.color.on-accent}",
+        "$type": "color",
+        "$description": "Paper-0 text on the brick confirmation fill.",
+        "$extensions": { "hues": { "source": "Mina §3.1 destructive dress; Ada ruling 6b" } }
+      },
+      "icon-round-size": {
+        "$value": "40px",
+        "$type": "dimension",
+        "$description": "Icon round size. Named exception to the 44px promise (legal floor 24px; pairs with adjacent 44px controls); see UNVERIFIED-adjacent record in component docs.",
+        "$extensions": { "hues": { "source": "Mina §3.1 icon-round; Mina §2.4; A11y #9 named-exception rule" } }
+      },
+      "icon-round-size-raised": {
+        "$value": "44px",
+        "$type": "dimension",
+        "$description": "Icon round size in sheets and the player.",
+        "$extensions": { "hues": { "source": "Mina §3.1 icon-round; Mina §2.5 foot rounds" } }
+      },
+      "icon-round-ring": {
+        "$value": "color-mix(in srgb, {ref.color.gold-2} 70%, transparent)",
+        "$type": "color",
+        "$description": "Icon round gold ring at 70 percent.",
+        "$extensions": { "hues": { "source": "Mina §3.1 icon-round" } }
+      },
+      "press-scale": {
+        "$value": "0.95",
+        "$type": "number",
+        "$description": "Icon round and player control press scale.",
+        "$extensions": { "hues": { "source": "Mina §3.1 icon-round; Mina §2.5; Mina §2.6" } }
+      },
+      "disabled-opacity": {
+        "$value": "0.45",
+        "$type": "number",
+        "$description": "Disabled state drops to 45 percent opacity with no pointer events.",
+        "$extensions": { "hues": { "source": "Mina §3 state language" } }
+      }
+    }
+  }
+}

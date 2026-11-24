@@ -1,0 +1,141 @@
+/**
+ * @hues/fonts — one shared @font-face block in the app shell.
+ * Client-side navigation downloads zero additional font CSS, and a face
+ * fetched on one route is cached for every route after (type §3.3).
+ * Files: subset latin + latin-ext woff2 per face (see scripts/).
+ */
+
+@font-face {
+  font-family: "Fraunces";
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url("./dist/files/fraunces-roman-latin.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: "Fraunces";
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url("./dist/files/fraunces-roman-latin-ext.woff2") format("woff2");
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+1D00-1DBF, U+1E00-1E9F, U+1EA0-1EF9, U+1FA0-1FA6, U+1FA9-1FB9, U+1FBB-1FBC, U+1FC2-1FC5, U+1FC6-1FCB, U+1FD0-1FD3, U+1FD6-1FDB, U+1FE0-1FEC, U+1FF2-1FF4, U+1FF6-1FFC;
+}
+
+@font-face {
+  font-family: "Fraunces";
+  font-style: italic;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url("./dist/files/fraunces-italic-latin.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: "Fraunces";
+  font-style: italic;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url("./dist/files/fraunces-italic-latin-ext.woff2") format("woff2");
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+1D00-1DBF, U+1E00-1E9F, U+1EA0-1EF9, U+1FA0-1FA6, U+1FA9-1FB9, U+1FBB-1FBC, U+1FC2-1FC5, U+1FC6-1FCB, U+1FD0-1FD3, U+1FD6-1FDB, U+1FE0-1FEC, U+1FF2-1FF4, U+1FF6-1FFC;
+}
+
+@font-face {
+  font-family: "Newsreader";
+  font-style: normal;
+  font-weight: 400 600;
+  font-display: swap;
+  src: url("./dist/files/newsreader-roman-latin.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: "Newsreader";
+  font-style: normal;
+  font-weight: 400 600;
+  font-display: swap;
+  src: url("./dist/files/newsreader-roman-latin-ext.woff2") format("woff2");
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+1D00-1DBF, U+1E00-1E9F, U+1EA0-1EF9, U+1FA0-1FA6, U+1FA9-1FB9, U+1FBB-1FBC, U+1FC2-1FC5, U+1FC6-1FCB, U+1FD0-1FD3, U+1FD6-1FDB, U+1FE0-1FEC, U+1FF2-1FF4, U+1FF6-1FFC;
+}
+
+@font-face {
+  font-family: "Newsreader";
+  font-style: italic;
+  font-weight: 400 600;
+  font-display: swap;
+  src: url("./dist/files/newsreader-italic-latin.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: "Newsreader";
+  font-style: italic;
+  font-weight: 400 600;
+  font-display: swap;
+  src: url("./dist/files/newsreader-italic-latin-ext.woff2") format("woff2");
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+1D00-1DBF, U+1E00-1E9F, U+1EA0-1EF9, U+1FA0-1FA6, U+1FA9-1FB9, U+1FBB-1FBC, U+1FC2-1FC5, U+1FC6-1FCB, U+1FD0-1FD3, U+1FD6-1FDB, U+1FE0-1FEC, U+1FF2-1FF4, U+1FF6-1FFC;
+}
+
+@font-face {
+  font-family: "Source Sans 3";
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url("./dist/files/source-sans-roman-latin.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: "Source Sans 3";
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url("./dist/files/source-sans-roman-latin-ext.woff2") format("woff2");
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+1D00-1DBF, U+1E00-1E9F, U+1EA0-1EF9, U+1FA0-1FA6, U+1FA9-1FB9, U+1FBB-1FBC, U+1FC2-1FC5, U+1FC6-1FCB, U+1FD0-1FD3, U+1FD6-1FDB, U+1FE0-1FEC, U+1FF2-1FF4, U+1FF6-1FFC;
+}
+
+/*
+ * Metric-matched fallbacks (type §3.4). Values below are neutral until
+ * measured: run `npm run measure:fallbacks -- --fallback-serif … 
+ * --fallback-sans … --write` on a machine with the fallback fonts, then
+ * verify the CLS-0 font-swap check on the home, season, variety, and board
+ * templates before committing. UNVERIFIED until that check passes.
+ */
+/* fallback-overrides:start */
+@font-face {
+  font-family: "Fraunces Fallback";
+  src: local("Georgia");
+  size-adjust: 100%;
+  ascent-override: normal;
+  descent-override: normal;
+  line-gap-override: normal;
+}
+
+@font-face {
+  font-family: "Newsreader Fallback";
+  src: local("Georgia");
+  size-adjust: 100%;
+  ascent-override: normal;
+  descent-override: normal;
+  line-gap-override: normal;
+}
+
+@font-face {
+  font-family: "Source Sans Fallback";
+  src: local("Arial");
+  size-adjust: 100%;
+  ascent-override: normal;
+  descent-override: normal;
+  line-gap-override: normal;
+}
+/* fallback-overrides:end */
+
+/* Thea §2.1 travel rules: optical sizing everywhere, no faux faces, and
+ * kerning plus standard ligatures stated so nobody optimizes them off. */
+html {
+  font-optical-sizing: auto;
+  font-synthesis: none;
+  font-kerning: normal;
+  font-variant-ligatures: common-ligatures;
+}

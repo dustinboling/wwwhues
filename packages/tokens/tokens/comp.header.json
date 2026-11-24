@@ -1,0 +1,162 @@
+{
+  "comp": {
+    "header": {
+      "topbar-padding-x": {
+        "$value": "{ref.space.250}",
+        "$type": "dimension",
+        "$description": "Phone top bar inner horizontal padding.",
+        "$extensions": { "hues": { "source": "Mina §2.1 (px-5)" } }
+      },
+      "topbar-padding-y": {
+        "$value": "{ref.space.150}",
+        "$type": "dimension",
+        "$description": "Phone top bar inner vertical padding.",
+        "$extensions": { "hues": { "source": "Mina §2.1 (py-3)" } }
+      },
+      "topbar-logo": {
+        "$value": "32px",
+        "$type": "dimension",
+        "$description": "Phone top bar logo height.",
+        "$extensions": { "hues": { "source": "Mina §2.1 (logo h-8)" } }
+      },
+      "topbar-round": {
+        "$value": "40px",
+        "$type": "dimension",
+        "$description": "Phone top bar account round size.",
+        "$extensions": { "hues": { "source": "Mina §2.1 (AccountButton round 40x40)" } }
+      },
+      "topbar-scroll": {
+        "$value": "28px",
+        "$type": "dimension",
+        "$description": "Scroll distance that flips the top bar to its scrolled state.",
+        "$extensions": { "hues": { "source": "Mina §2.1 (scrolled past 28px)" } }
+      },
+      "topbar-rest-bg": {
+        "$value": "color-mix(in srgb, {ref.color.paper-1} 85%, transparent)",
+        "$type": "color",
+        "$description": "Top bar rest fill: paper at 85 percent.",
+        "$extensions": { "hues": { "source": "Mina §2.1 scroll states" } }
+      },
+      "topbar-scrolled-bg": {
+        "$value": "color-mix(in srgb, {ref.color.paper-1} 94%, transparent)",
+        "$type": "color",
+        "$description": "Top bar scrolled fill: paper at 94 percent with elevation.header and a line border.",
+        "$extensions": { "hues": { "source": "Mina §2.1 scroll states" } }
+      },
+      "topbar-blur": {
+        "$value": "8px",
+        "$type": "dimension",
+        "$description": "Top bar backdrop blur. UNVERIFIED provisional: the spec says 'light blur' without a radius (settles with the Mina seat or Quinn's rendered check against live Shell2 values).",
+        "$extensions": { "hues": { "source": "Mina §2.1 (light blur radius UNVERIFIED, provisional 8px)" } }
+      },
+      "topbar-landscape-padding-y": {
+        "$value": "6px",
+        "$type": "dimension",
+        "$description": "Short-landscape top bar vertical padding.",
+        "$extensions": { "hues": { "source": "Mina §2.1 short-landscape exception (locked, Dustin 2026-11-02)" } }
+      },
+      "topbar-landscape-logo": {
+        "$value": "24px",
+        "$type": "dimension",
+        "$description": "Short-landscape logo height.",
+        "$extensions": { "hues": { "source": "Mina §2.1 short-landscape exception (logo h-6)" } }
+      },
+      "topbar-landscape-round": {
+        "$value": "32px",
+        "$type": "dimension",
+        "$description": "Short-landscape account round size.",
+        "$extensions": { "hues": { "source": "Mina §2.1 short-landscape exception (32x32)" } }
+      },
+      "bar-bg": {
+        "$value": "color-mix(in srgb, {ref.color.paper-1} 92%, transparent)",
+        "$type": "color",
+        "$description": "Desktop header bar fill: paper at 92 percent.",
+        "$extensions": { "hues": { "source": "Mina §2.2 desktop header" } }
+      },
+      "bar-blur": {
+        "$value": "12px",
+        "$type": "dimension",
+        "$description": "Desktop header backdrop blur. UNVERIFIED provisional: the spec says 'backdrop blur' without a radius (settles with the Mina seat or Quinn's rendered check against live Header values).",
+        "$extensions": { "hues": { "source": "Mina §2.2 (backdrop blur radius UNVERIFIED, provisional 12px)" } }
+      },
+      "bar-max-width": {
+        "$value": "1280px",
+        "$type": "dimension",
+        "$description": "Desktop header inner max width.",
+        "$extensions": { "hues": { "source": "Mina §2.2 (max-w-7xl)" } }
+      },
+      "bar-padding-y": {
+        "$value": "14px",
+        "$type": "dimension",
+        "$description": "Desktop header row vertical padding.",
+        "$extensions": { "hues": { "source": "Mina §2.2 (14px vertical)" } }
+      },
+      "bar-logo": {
+        "$value": "40px",
+        "$type": "dimension",
+        "$description": "Desktop header logo height.",
+        "$extensions": { "hues": { "source": "Mina §2.2 (logo h-10, sm:h-11)" } }
+      },
+      "bar-logo-sm": {
+        "$value": "44px",
+        "$type": "dimension",
+        "$description": "Desktop header logo height at the sm step.",
+        "$extensions": { "hues": { "source": "Mina §2.2 (logo h-10, sm:h-11)" } }
+      },
+      "lockup-tracking": {
+        "$value": "0.34em",
+        "$type": "dimension",
+        "$description": "Wordmark lockup caps tracking, permitted in wordmark lockups only.",
+        "$extensions": { "hues": { "source": "Thea role calls II (lockup-only exception); Mina §2.2 lockup" } }
+      },
+      "nav-size": {
+        "$value": "14px",
+        "$type": "dimension",
+        "$description": "Nav pill item size.",
+        "$extensions": { "hues": { "source": "Mina §2.2 nav pill (14px medium)" } }
+      },
+      "nav-weight": {
+        "$value": "500",
+        "$type": "fontWeight",
+        "$description": "Nav pill item weight (medium).",
+        "$extensions": { "hues": { "source": "Mina §2.2 nav pill (14px medium)" } }
+      },
+      "nav-underline": {
+        "$value": "2px",
+        "$type": "dimension",
+        "$description": "Active nav item gold underline bar width.",
+        "$extensions": { "hues": { "source": "Mina §2.2 nav pill" } }
+      },
+      "nav-underline-inset": {
+        "$value": "12px",
+        "$type": "dimension",
+        "$description": "Active nav underline inset from the item edges.",
+        "$extensions": { "hues": { "source": "Mina §2.2 nav pill (inset 12px)" } }
+      },
+      "nav-breakpoint": {
+        "$value": "1280px",
+        "$type": "dimension",
+        "$description": "Full pill nav appears at this width; the Menu popover serves below it.",
+        "$extensions": { "hues": { "source": "Mina §2.2 nav pill; Mina §1.3 breakpoints" } }
+      },
+      "pill-shadow": {
+        "$value": "{sys.elevation.card}",
+        "$type": "other",
+        "$description": "Nav pill shadow. The named 'card-lite' variant has no specified values; aliased to card pending ruling (settle: Mina seat).",
+        "$extensions": { "hues": { "source": "Mina §2.2 (elevation.card-lite UNVERIFIED, aliased to card)" } }
+      },
+      "game-back-height": {
+        "$value": "40px",
+        "$type": "dimension",
+        "$description": "Game header back pill height.",
+        "$extensions": { "hues": { "source": "Mina §2.4 game header (h-10)" } }
+      },
+      "game-logo": {
+        "$value": "32px",
+        "$type": "dimension",
+        "$description": "Game header logo height, absolutely centered.",
+        "$extensions": { "hues": { "source": "Mina §2.4 game header (logo h-8)" } }
+      }
+    }
+  }
+}

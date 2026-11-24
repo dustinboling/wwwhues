@@ -1,0 +1,16 @@
+{
+  "$extensions": {
+    "hues": {
+      "theme": "family",
+      "note": "Placeholder until the Hue-Roxy lane delivers values. Park shell family, no tab bar unless Roxy's structure says so."
+    }
+  },
+  "pwa": {
+    "theme-color": {
+      "$value": "{ref.color.family-ground}",
+      "$type": "color",
+      "$description": "PWA theme-color: its own current ground, untouched unless adopted.",
+      "$extensions": { "hues": { "source": "Iris §3 PWA theme-color (family)" } }
+    }
+  }
+}

@@ -1,0 +1,104 @@
+{
+  "comp": {
+    "card": {
+      "surface": {
+        "$value": "{sys.color.surface}",
+        "$type": "color",
+        "$description": "Packet card stock.",
+        "$extensions": { "hues": { "source": "Mina §3.2 PacketCard" } }
+      },
+      "border": {
+        "$value": "1px",
+        "$type": "dimension",
+        "$description": "Packet card border width.",
+        "$extensions": { "hues": { "source": "Mina §3.2 PacketCard (1px line border)" } }
+      },
+      "border-color": {
+        "$value": "{sys.color.line}",
+        "$type": "color",
+        "$description": "Packet card border color.",
+        "$extensions": { "hues": { "source": "Mina §3.2 PacketCard" } }
+      },
+      "shadow": {
+        "$value": "{sys.elevation.card}",
+        "$type": "other",
+        "$description": "Packet and raised card elevation.",
+        "$extensions": { "hues": { "source": "Mina §3.2 PacketCard; Mina §1.5" } }
+      },
+      "stitch": {
+        "$value": "1.5px dashed color-mix(in srgb, {ref.color.gold-3} 45%, transparent)",
+        "$type": "other",
+        "$description": "Stitched inner rule. An outline, never an inset border.",
+        "$extensions": { "hues": { "source": "Mina §3.2 PacketCard locked construction (outline-offset -7px, radius inherited)" } }
+      },
+      "stitch-offset": {
+        "$value": "-7px",
+        "$type": "dimension",
+        "$description": "Stitch outline offset (negative, inside the card).",
+        "$extensions": { "hues": { "source": "Mina §3.2 PacketCard locked construction" } }
+      },
+      "radius-min": {
+        "$value": "{ref.radius.lg}",
+        "$type": "dimension",
+        "$description": "Cards take lg to xl.",
+        "$extensions": { "hues": { "source": "Mina §1.4 shape scale" } }
+      },
+      "radius-max": {
+        "$value": "{ref.radius.xl}",
+        "$type": "dimension",
+        "$description": "Cards take lg to xl.",
+        "$extensions": { "hues": { "source": "Mina §1.4 shape scale" } }
+      },
+      "wash": {
+        "$value": "color-mix(in srgb, {ref.color.gold-2} 12%, transparent)",
+        "$type": "color",
+        "$description": "Updated-item gold wash at 12 percent, fading over motion.highlight.",
+        "$extensions": { "hues": { "source": "Mina §4.3 live-data wash" } }
+      }
+    },
+    "chip": {
+      "selected-bg": {
+        "$value": "{sys.color.text-strong}",
+        "$type": "color",
+        "$description": "Selected chip fill: deep green. Same box, same size, only the treatment changes.",
+        "$extensions": { "hues": { "source": "Mina §3.3 FilterChip" } }
+      },
+      "selected-text": {
+        "$value": "{sys.color.on-deep}",
+        "$type": "color",
+        "$description": "Selected chip cream text.",
+        "$extensions": { "hues": { "source": "Mina §3.3 FilterChip" } }
+      },
+      "rest-bg": {
+        "$value": "{sys.color.surface}",
+        "$type": "color",
+        "$description": "Unselected chip: raised paper with the line ring.",
+        "$extensions": { "hues": { "source": "Mina §3.3 FilterChip" } }
+      },
+      "rest-ring": {
+        "$value": "{sys.color.line}",
+        "$type": "color",
+        "$description": "Unselected chip ring.",
+        "$extensions": { "hues": { "source": "Mina §3.3 FilterChip" } }
+      },
+      "radius": {
+        "$value": "{ref.radius.full}",
+        "$type": "dimension",
+        "$description": "Chips are pills.",
+        "$extensions": { "hues": { "source": "Mina §3.3 FilterChip; Mina §1.4" } }
+      },
+      "new-pill-bg": {
+        "$value": "{sys.color.accent}",
+        "$type": "color",
+        "$description": "Admin 'n new' pill: gold fill in the reserved header slot.",
+        "$extensions": { "hues": { "source": "Mina §3.6 boards (gold fill, deep text)" } }
+      },
+      "new-pill-text": {
+        "$value": "{sys.color.text-strong}",
+        "$type": "color",
+        "$description": "Admin 'n new' pill deep text.",
+        "$extensions": { "hues": { "source": "Mina §3.6 boards" } }
+      }
+    }
+  }
+}

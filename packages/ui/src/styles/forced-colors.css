@@ -1,0 +1,46 @@
+/*
+ * Forced-colors survival (A11y #10): boundaries, selected states, and focus
+ * are carried by border/outline, never by shadow or fill alone. Selected
+ * chips and rows gain a system-color outline; focus keeps the double-signal
+ * geometry in outline form; icons render in currentColor (the default).
+ * forced-color-adjust: none is reserved for true color specimens (plates,
+ * swatches), never interface meaning.
+ */
+@media (forced-colors: active) {
+  .hues-chip[data-selected],
+  .hues-segmented__segment[data-selected],
+  .hues-data-table tbody tr[data-selected],
+  .hues-pagination__current {
+    outline: var(--shell-focus-ring-width) solid Highlight;
+    outline-offset: var(--shell-focus-offset-width);
+  }
+
+  .hues-shell :focus-visible {
+    outline-color: Highlight;
+    box-shadow: none;
+  }
+
+  .hues-tabbar :focus-visible,
+  .hues-site-footer :focus-visible {
+    outline-color: Highlight;
+  }
+
+  .hues-icon {
+    color: currentColor;
+  }
+
+  .hues-button--primary,
+  .hues-chip[data-selected],
+  .hues-segmented__segment[data-selected] {
+    border: var(--shell-topbar-border) solid ButtonText;
+  }
+
+  .hues-tab__disc[data-glow] {
+    filter: none;
+  }
+
+  .hues-image--plate .hues-image__img,
+  .hues-flower-card__plate img {
+    forced-color-adjust: none;
+  }
+}

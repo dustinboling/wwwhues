@@ -1,0 +1,30 @@
+<!doctype html>
+<!--
+  MiniPlayer fixture: mirrors the playing MiniPlayer DOM (dot, title block
+  linking back, next, toggle, stop).
+-->
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Harness: MiniPlayer</title>
+    <link rel="stylesheet" href="/css/tokens.css" />
+    <link rel="stylesheet" href="/css/fonts.css" />
+    <link rel="stylesheet" href="/css/styles.css" />
+  </head>
+  <body>
+    <div class="hues-shell" data-theme="park" data-density="comfortable">
+      <main id="content" class="hues-shell__main"><p>Content</p></main>
+      <div class="hues-player" data-playing="true">
+        <span class="hues-player__dot" aria-hidden="true"></span>
+        <div class="hues-player__titles" data-track="Meadow Song">
+          <a href="/music" class="hues-player__title">Meadow Song</a>
+          <span class="hues-player__set">Morning Set</span>
+        </div>
+        <button type="button" aria-label="Next track" class="hues-button hues-button--icon-round hues-player__next">N</button>
+        <button type="button" aria-label="Pause Meadow Song" class="hues-player__toggle">P</button>
+        <button type="button" aria-label="Stop Meadow Song" class="hues-button hues-button--icon-round hues-player__stop">S</button>
+      </div>
+    </div>
+  </body>
+</html>

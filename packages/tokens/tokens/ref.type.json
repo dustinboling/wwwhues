@@ -1,0 +1,72 @@
+{
+  "ref": {
+    "type": {
+      "family": {
+        "display": {
+          "$value": "\"Fraunces\", \"Fraunces Fallback\", Georgia, serif",
+          "$type": "fontFamily",
+          "$description": "Display face: Fraunces variable (opsz, wght 400-700, true italics) with its metric-matched fallback.",
+          "$extensions": { "hues": { "source": "Thea §2.1 three-face system; Thea §3.4 fallback faces" } }
+        },
+        "editorial": {
+          "$value": "\"Newsreader\", \"Newsreader Fallback\", Georgia, serif",
+          "$type": "fontFamily",
+          "$description": "Editorial text face: Newsreader variable (400-600, true italics) with its metric-matched fallback.",
+          "$extensions": { "hues": { "source": "Thea §2.1 three-face system; Thea §3.4 fallback faces" } }
+        },
+        "ui": {
+          "$value": "\"Source Sans 3\", \"Source Sans Fallback\", system-ui, sans-serif",
+          "$type": "fontFamily",
+          "$description": "UI and short text face: Source Sans 3 variable (400-700) with its metric-matched fallback. Inter is retired.",
+          "$extensions": { "hues": { "source": "Thea §2.1 three-face system; Thea §3.4 fallback faces; requirements foundation decision 4" } }
+        },
+        "mono": {
+          "$value": "ui-monospace, \"SF Mono\", Menlo, Consolas, monospace",
+          "$type": "fontFamily",
+          "$description": "Data and code stack for dashboard IDs and admin data only. No download, ever.",
+          "$extensions": { "hues": { "source": "Thea §2.1 mono stack" } }
+        }
+      },
+      "scale": {
+        "base": {
+          "$value": "16px",
+          "$type": "dimension",
+          "$description": "Modular scale base.",
+          "$extensions": { "hues": { "source": "Thea §2.2 base 16px, ratio 1.25" } }
+        },
+        "ratio": {
+          "$value": "1.25",
+          "$type": "number",
+          "$description": "Modular scale ratio (major third).",
+          "$extensions": { "hues": { "source": "Thea §2.2 ratio 1.25" } }
+        }
+      },
+      "weight": {
+        "regular": {
+          "$value": "400",
+          "$type": "fontWeight",
+          "$description": "Named weight: regular.",
+          "$extensions": { "hues": { "source": "Thea §2.2 named weights" } }
+        },
+        "display": {
+          "$value": "560",
+          "$type": "fontWeight",
+          "$description": "Named weight: Fraunces display instance, carried by the token.",
+          "$extensions": { "hues": { "source": "Thea §2.2 named weights (font-[560] anonymous instances banned)" } }
+        },
+        "semibold": {
+          "$value": "600",
+          "$type": "fontWeight",
+          "$description": "Named weight: semibold.",
+          "$extensions": { "hues": { "source": "Thea §2.2 named weights" } }
+        },
+        "bold": {
+          "$value": "700",
+          "$type": "fontWeight",
+          "$description": "Named weight: bold.",
+          "$extensions": { "hues": { "source": "Thea §2.2 named weights" } }
+        }
+      }
+    }
+  }
+}

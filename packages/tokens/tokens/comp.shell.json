@@ -1,0 +1,96 @@
+{
+  "comp": {
+    "shell": {
+      "z-topbar": {
+        "$value": "40",
+        "$type": "other",
+        "$description": "Phone top bar stacking.",
+        "$extensions": { "hues": { "source": "Mina §2.1 (fixed top, z-40)" } }
+      },
+      "z-tabbar": {
+        "$value": "40",
+        "$type": "other",
+        "$description": "Tab bar stacking; sheets and the player sit above.",
+        "$extensions": { "hues": { "source": "Mina §2.3 (z-index 40)" } }
+      },
+      "z-header": {
+        "$value": "50",
+        "$type": "other",
+        "$description": "Desktop header stacking.",
+        "$extensions": { "hues": { "source": "Mina §2.2 (sticky, z-50)" } }
+      },
+      "z-sheet": {
+        "$value": "50",
+        "$type": "other",
+        "$description": "Sheet stacking, above the tab bar.",
+        "$extensions": { "hues": { "source": "Mina §2.5 (opens over the tab bar, z-50)" } }
+      },
+      "z-player": {
+        "$value": "50",
+        "$type": "other",
+        "$description": "MiniPlayer stacking: above the bar, below sheets.",
+        "$extensions": { "hues": { "source": "Mina §2.6 (z-50, above the bar, below sheets)" } }
+      },
+      "z-notice": {
+        "$value": "50",
+        "$type": "other",
+        "$description": "Update notice stacking: same slot family as the player; the two never stack.",
+        "$extensions": { "hues": { "source": "Mina §2.7 (same slot family as the player, never stacked)" } }
+      },
+      "topbar-height": {
+        "$value": "64px",
+        "$type": "dimension",
+        "$description": "Phone top bar height above its border.",
+        "$extensions": { "hues": { "source": "Mina §2.1 (64px of bar + 1px border)" } }
+      },
+      "topbar-border": {
+        "$value": "1px",
+        "$type": "dimension",
+        "$description": "Phone top bar bottom border.",
+        "$extensions": { "hues": { "source": "Mina §2.1 (64px of bar + 1px border)" } }
+      },
+      "top-clearance": {
+        "$value": "calc(65px + env(safe-area-inset-top))",
+        "$type": "other",
+        "$description": "Content clearance under the phone top bar and game header. The invariant game fit QA measures; it does not move.",
+        "$extensions": { "hues": { "source": "Mina §2.1 shell.top-clearance; plan §3 top-clearance token" } }
+      },
+      "tabbar-reservation": {
+        "$value": "calc(112px + env(safe-area-inset-bottom))",
+        "$type": "other",
+        "$description": "Bar clearance for content: bottom padding on main.",
+        "$extensions": { "hues": { "source": "Mina §2.3 bar clearance; plan §3 tab-bar reservation" } }
+      },
+      "scroll-padding-top": {
+        "$value": "{comp.shell.top-clearance}",
+        "$type": "other",
+        "$description": "AppShell scroll-padding-top: focus never lands under the sticky header.",
+        "$extensions": { "hues": { "source": "Plan §3 (A11y #8); A11y #8 scroll offset" } }
+      },
+      "scroll-padding-bottom": {
+        "$value": "calc({comp.shell.tabbar-reservation} + var(--shell-player-height, 0px))",
+        "$type": "other",
+        "$description": "AppShell scroll-padding-bottom: tab-bar reservation plus the MiniPlayer height, measured at runtime by the player component (never a pass-1 figure).",
+        "$extensions": { "hues": { "source": "Plan §3 (A11y #8); Mina §4.2 reservation re-measures at build" } }
+      },
+      "focus-ring-width": {
+        "$value": "2px",
+        "$type": "dimension",
+        "$description": "Focus double-signal ring width.",
+        "$extensions": { "hues": { "source": "Mina §3 state language (2px ring plus an offset); WCAG 2.4.13 house practice" } }
+      },
+      "focus-offset-width": {
+        "$value": "2px",
+        "$type": "dimension",
+        "$description": "Focus double-signal offset width. UNVERIFIED provisional: the specs name the offset but not its width; symmetric 2px pending ruling (settles with the Mina or Ada seat, or Quinn's rendered check).",
+        "$extensions": { "hues": { "source": "Mina §3 state language (offset width UNVERIFIED, provisional 2px)" } }
+      },
+      "target-min": {
+        "$value": "44px",
+        "$type": "dimension",
+        "$description": "System target promise: every interactive row states its hit area; undimensioned rows default here. Named exceptions permitted; silent ones are defects.",
+        "$extensions": { "hues": { "source": "Mina §6 inheritance; A11y #9 hit-area rule" } }
+      }
+    }
+  }
+}

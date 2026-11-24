@@ -1,0 +1,518 @@
+{
+  "sys": {
+    "type": {
+      "display-xl": {
+        "size": {
+          "$value": "61px",
+          "$type": "dimension",
+          "$description": "Desktop hero only, hues home.",
+          "$extensions": { "hues": { "source": "Thea §2.2 role tokens" } }
+        },
+        "leading": {
+          "$value": "1.05",
+          "$type": "number",
+          "$description": "Unitless line height.",
+          "$extensions": { "hues": { "source": "Thea §2.2 role tokens" } }
+        },
+        "tracking": {
+          "$value": "-0.015em",
+          "$type": "dimension",
+          "$description": "Letter spacing.",
+          "$extensions": { "hues": { "source": "Thea §2.2 role tokens" } }
+        },
+        "face": {
+          "$value": "{ref.type.family.display}",
+          "$type": "fontFamily",
+          "$description": "Fraunces 560.",
+          "$extensions": { "hues": { "source": "Thea §2.2 role tokens" } }
+        },
+        "weight": {
+          "$value": "{ref.type.weight.display}",
+          "$type": "fontWeight",
+          "$description": "Named display weight 560.",
+          "$extensions": { "hues": { "source": "Thea §2.2 role tokens + named weights" } }
+        }
+      },
+      "display": {
+        "size": {
+          "$value": "49px",
+          "$type": "dimension",
+          "$description": "Page heroes, phone hero max.",
+          "$extensions": { "hues": { "source": "Thea §2.2 role tokens" } }
+        },
+        "leading": {
+          "$value": "1.08",
+          "$type": "number",
+          "$description": "Unitless line height.",
+          "$extensions": { "hues": { "source": "Thea §2.2 role tokens" } }
+        },
+        "tracking": {
+          "$value": "-0.015em",
+          "$type": "dimension",
+          "$description": "Letter spacing.",
+          "$extensions": { "hues": { "source": "Thea §2.2 role tokens" } }
+        },
+        "face": {
+          "$value": "{ref.type.family.display}",
+          "$type": "fontFamily",
+          "$description": "Fraunces 560.",
+          "$extensions": { "hues": { "source": "Thea §2.2 role tokens" } }
+        },
+        "weight": {
+          "$value": "{ref.type.weight.display}",
+          "$type": "fontWeight",
+          "$description": "Named display weight 560.",
+          "$extensions": { "hues": { "source": "Thea §2.2 role tokens + named weights" } }
+        }
+      },
+      "h1": {
+        "size": {
+          "$value": "39px",
+          "$type": "dimension",
+          "$description": "Page titles.",
+          "$extensions": { "hues": { "source": "Thea §2.2 role tokens" } }
+        },
+        "leading": {
+          "$value": "1.12",
+          "$type": "number",
+          "$description": "Unitless line height.",
+          "$extensions": { "hues": { "source": "Thea §2.2 role tokens" } }
+        },
+        "tracking": {
+          "$value": "-0.01em",
+          "$type": "dimension",
+          "$description": "Letter spacing.",
+          "$extensions": { "hues": { "source": "Thea §2.2 role tokens" } }
+        },
+        "face": {
+          "$value": "{ref.type.family.display}",
+          "$type": "fontFamily",
+          "$description": "Fraunces 600.",
+          "$extensions": { "hues": { "source": "Thea §2.2 role tokens" } }
+        },
+        "weight": {
+          "$value": "{ref.type.weight.semibold}",
+          "$type": "fontWeight",
+          "$description": "Named semibold weight 600.",
+          "$extensions": { "hues": { "source": "Thea §2.2 role tokens + named weights" } }
+        }
+      },
+      "h2": {
+        "size": {
+          "$value": "31px",
+          "$type": "dimension",
+          "$description": "Section titles.",
+          "$extensions": { "hues": { "source": "Thea §2.2 role tokens" } }
+        },
+        "leading": {
+          "$value": "1.2",
+          "$type": "number",
+          "$description": "Unitless line height.",
+          "$extensions": { "hues": { "source": "Thea §2.2 role tokens" } }
+        },
+        "tracking": {
+          "$value": "-0.01em",
+          "$type": "dimension",
+          "$description": "Letter spacing.",
+          "$extensions": { "hues": { "source": "Thea §2.2 role tokens" } }
+        },
+        "face": {
+          "$value": "{ref.type.family.display}",
+          "$type": "fontFamily",
+          "$description": "Fraunces 600.",
+          "$extensions": { "hues": { "source": "Thea §2.2 role tokens" } }
+        },
+        "weight": {
+          "$value": "{ref.type.weight.semibold}",
+          "$type": "fontWeight",
+          "$description": "Named semibold weight 600.",
+          "$extensions": { "hues": { "source": "Thea §2.2 role tokens + named weights" } }
+        }
+      },
+      "h3": {
+        "size": {
+          "$value": "25px",
+          "$type": "dimension",
+          "$description": "Subsections, editorial card titles, sheet titles.",
+          "$extensions": { "hues": { "source": "Thea §2.2 role tokens; Thea role calls (sheet title)" } }
+        },
+        "leading": {
+          "$value": "1.28",
+          "$type": "number",
+          "$description": "Unitless line height.",
+          "$extensions": { "hues": { "source": "Thea §2.2 role tokens" } }
+        },
+        "tracking": {
+          "$value": "-0.005em",
+          "$type": "dimension",
+          "$description": "Letter spacing.",
+          "$extensions": { "hues": { "source": "Thea §2.2 role tokens" } }
+        },
+        "face": {
+          "$value": "{ref.type.family.display}",
+          "$type": "fontFamily",
+          "$description": "Fraunces 600.",
+          "$extensions": { "hues": { "source": "Thea §2.2 role tokens" } }
+        },
+        "weight": {
+          "$value": "{ref.type.weight.semibold}",
+          "$type": "fontWeight",
+          "$description": "Named semibold weight 600.",
+          "$extensions": { "hues": { "source": "Thea §2.2 role tokens + named weights" } }
+        }
+      },
+      "title": {
+        "size": {
+          "$value": "20px",
+          "$type": "dimension",
+          "$description": "Card titles (UI), dialog titles, MiniPlayer song title.",
+          "$extensions": { "hues": { "source": "Thea §2.2 role tokens; Thea role calls (song title)" } }
+        },
+        "leading": {
+          "$value": "1.35",
+          "$type": "number",
+          "$description": "Unitless line height.",
+          "$extensions": { "hues": { "source": "Thea §2.2 role tokens" } }
+        },
+        "tracking": {
+          "$value": "0",
+          "$type": "dimension",
+          "$description": "Letter spacing.",
+          "$extensions": { "hues": { "source": "Thea §2.2 role tokens" } }
+        },
+        "face": {
+          "$value": "{ref.type.family.display}",
+          "$type": "fontFamily",
+          "$description": "Fraunces 600 (display dressing).",
+          "$extensions": { "hues": { "source": "Thea §2.2 Fraunces or Source Sans 600" } }
+        },
+        "face-ui": {
+          "$value": "{ref.type.family.ui}",
+          "$type": "fontFamily",
+          "$description": "Source Sans 600 (UI dressing).",
+          "$extensions": { "hues": { "source": "Thea §2.2 Fraunces or Source Sans 600" } }
+        },
+        "weight": {
+          "$value": "{ref.type.weight.semibold}",
+          "$type": "fontWeight",
+          "$description": "Named semibold weight 600.",
+          "$extensions": { "hues": { "source": "Thea §2.2 role tokens + named weights" } }
+        }
+      },
+      "lede": {
+        "size": {
+          "$value": "18px",
+          "$type": "dimension",
+          "$description": "Standfirsts, section introductions.",
+          "$extensions": { "hues": { "source": "Thea §2.2 role tokens" } }
+        },
+        "leading": {
+          "$value": "1.6",
+          "$type": "number",
+          "$description": "Unitless line height.",
+          "$extensions": { "hues": { "source": "Thea §2.2 role tokens" } }
+        },
+        "tracking": {
+          "$value": "0",
+          "$type": "dimension",
+          "$description": "Letter spacing.",
+          "$extensions": { "hues": { "source": "Thea §2.2 role tokens" } }
+        },
+        "face": {
+          "$value": "{ref.type.family.editorial}",
+          "$type": "fontFamily",
+          "$description": "Newsreader 400.",
+          "$extensions": { "hues": { "source": "Thea §2.2 role tokens" } }
+        },
+        "weight": {
+          "$value": "{ref.type.weight.regular}",
+          "$type": "fontWeight",
+          "$description": "Named regular weight 400.",
+          "$extensions": { "hues": { "source": "Thea §2.2 role tokens + named weights" } }
+        }
+      },
+      "body-serif": {
+        "size": {
+          "$value": "17px",
+          "$type": "dimension",
+          "$description": "All long-form prose.",
+          "$extensions": { "hues": { "source": "Thea §2.2 role tokens" } }
+        },
+        "leading": {
+          "$value": "1.6",
+          "$type": "number",
+          "$description": "Unitless line height.",
+          "$extensions": { "hues": { "source": "Thea §2.2 role tokens" } }
+        },
+        "tracking": {
+          "$value": "0",
+          "$type": "dimension",
+          "$description": "Letter spacing.",
+          "$extensions": { "hues": { "source": "Thea §2.2 role tokens" } }
+        },
+        "face": {
+          "$value": "{ref.type.family.editorial}",
+          "$type": "fontFamily",
+          "$description": "Newsreader 400.",
+          "$extensions": { "hues": { "source": "Thea §2.2 role tokens" } }
+        },
+        "weight": {
+          "$value": "{ref.type.weight.regular}",
+          "$type": "fontWeight",
+          "$description": "Named regular weight 400.",
+          "$extensions": { "hues": { "source": "Thea §2.2 role tokens + named weights" } }
+        }
+      },
+      "body": {
+        "size": {
+          "$value": "16px",
+          "$type": "dimension",
+          "$description": "UI body, short text, tool descriptions. The iOS zoom floor for inputs.",
+          "$extensions": { "hues": { "source": "Thea §2.2 role tokens; Thea §2.3 forms" } }
+        },
+        "leading": {
+          "$value": "1.5",
+          "$type": "number",
+          "$description": "Unitless line height.",
+          "$extensions": { "hues": { "source": "Thea §2.2 role tokens" } }
+        },
+        "tracking": {
+          "$value": "0",
+          "$type": "dimension",
+          "$description": "Letter spacing.",
+          "$extensions": { "hues": { "source": "Thea §2.2 role tokens" } }
+        },
+        "face": {
+          "$value": "{ref.type.family.ui}",
+          "$type": "fontFamily",
+          "$description": "Source Sans 400.",
+          "$extensions": { "hues": { "source": "Thea §2.2 role tokens" } }
+        },
+        "weight": {
+          "$value": "{ref.type.weight.regular}",
+          "$type": "fontWeight",
+          "$description": "Named regular weight 400.",
+          "$extensions": { "hues": { "source": "Thea §2.2 role tokens + named weights" } }
+        }
+      },
+      "body-sm": {
+        "size": {
+          "$value": "14px",
+          "$type": "dimension",
+          "$description": "Secondary text, card metadata, dashboard default.",
+          "$extensions": { "hues": { "source": "Thea §2.2 role tokens" } }
+        },
+        "leading": {
+          "$value": "1.55",
+          "$type": "number",
+          "$description": "Unitless line height.",
+          "$extensions": { "hues": { "source": "Thea §2.2 role tokens" } }
+        },
+        "tracking": {
+          "$value": "0",
+          "$type": "dimension",
+          "$description": "Letter spacing.",
+          "$extensions": { "hues": { "source": "Thea §2.2 role tokens" } }
+        },
+        "face": {
+          "$value": "{ref.type.family.ui}",
+          "$type": "fontFamily",
+          "$description": "Source Sans 400.",
+          "$extensions": { "hues": { "source": "Thea §2.2 role tokens" } }
+        },
+        "weight": {
+          "$value": "{ref.type.weight.regular}",
+          "$type": "fontWeight",
+          "$description": "Named regular weight 400.",
+          "$extensions": { "hues": { "source": "Thea §2.2 role tokens + named weights" } }
+        }
+      },
+      "label": {
+        "size": {
+          "$value": "13px",
+          "$type": "dimension",
+          "$description": "Form labels, tab-adjacent labels, chips.",
+          "$extensions": { "hues": { "source": "Thea §2.2 role tokens" } }
+        },
+        "leading": {
+          "$value": "1.45",
+          "$type": "number",
+          "$description": "Unitless line height.",
+          "$extensions": { "hues": { "source": "Thea §2.2 role tokens" } }
+        },
+        "tracking": {
+          "$value": "0",
+          "$type": "dimension",
+          "$description": "Letter spacing.",
+          "$extensions": { "hues": { "source": "Thea §2.2 role tokens" } }
+        },
+        "face": {
+          "$value": "{ref.type.family.ui}",
+          "$type": "fontFamily",
+          "$description": "Source Sans 600.",
+          "$extensions": { "hues": { "source": "Thea §2.2 role tokens" } }
+        },
+        "weight": {
+          "$value": "{ref.type.weight.semibold}",
+          "$type": "fontWeight",
+          "$description": "Named semibold weight 600.",
+          "$extensions": { "hues": { "source": "Thea §2.2 role tokens + named weights" } }
+        }
+      },
+      "caption": {
+        "size": {
+          "$value": "12px",
+          "$type": "dimension",
+          "$description": "Captions, timestamps, fine print. The floor; nothing ships smaller.",
+          "$extensions": { "hues": { "source": "Thea §2.2 role tokens" } }
+        },
+        "leading": {
+          "$value": "1.45",
+          "$type": "number",
+          "$description": "Unitless line height.",
+          "$extensions": { "hues": { "source": "Thea §2.2 role tokens" } }
+        },
+        "tracking": {
+          "$value": "0",
+          "$type": "dimension",
+          "$description": "Letter spacing.",
+          "$extensions": { "hues": { "source": "Thea §2.2 role tokens" } }
+        },
+        "face": {
+          "$value": "{ref.type.family.ui}",
+          "$type": "fontFamily",
+          "$description": "Source Sans 400.",
+          "$extensions": { "hues": { "source": "Thea §2.2 role tokens" } }
+        },
+        "weight": {
+          "$value": "{ref.type.weight.regular}",
+          "$type": "fontWeight",
+          "$description": "Named regular weight 400.",
+          "$extensions": { "hues": { "source": "Thea §2.2 role tokens + named weights" } }
+        }
+      },
+      "overline": {
+        "size": {
+          "$value": "12px",
+          "$type": "dimension",
+          "$description": "Eyebrows, kickers, section markers, MiniPlayer set label.",
+          "$extensions": { "hues": { "source": "Thea §2.2 role tokens; Thea role calls" } }
+        },
+        "leading": {
+          "$value": "1.4",
+          "$type": "number",
+          "$description": "Unitless line height.",
+          "$extensions": { "hues": { "source": "Thea §2.2 role tokens" } }
+        },
+        "tracking": {
+          "$value": "0.10em",
+          "$type": "dimension",
+          "$description": "Uppercase tracking. Tightest case for the 1.4.12 override test.",
+          "$extensions": { "hues": { "source": "Thea §2.2 role tokens; Thea §4 Ada handoff" } }
+        },
+        "face": {
+          "$value": "{ref.type.family.ui}",
+          "$type": "fontFamily",
+          "$description": "Source Sans 700, uppercase.",
+          "$extensions": { "hues": { "source": "Thea §2.2 role tokens" } }
+        },
+        "weight": {
+          "$value": "{ref.type.weight.bold}",
+          "$type": "fontWeight",
+          "$description": "Named bold weight 700.",
+          "$extensions": { "hues": { "source": "Thea §2.2 role tokens + named weights" } }
+        },
+        "case": {
+          "$value": "uppercase",
+          "$type": "other",
+          "$description": "Overline case treatment.",
+          "$extensions": { "hues": { "source": "Thea §2.2 role tokens" } }
+        }
+      },
+      "caps-label": {
+        "size": {
+          "$value": "12px",
+          "$type": "dimension",
+          "$description": "Dashboard status labels.",
+          "$extensions": { "hues": { "source": "Thea §2.2 role tokens" } }
+        },
+        "leading": {
+          "$value": "1.4",
+          "$type": "number",
+          "$description": "Unitless line height.",
+          "$extensions": { "hues": { "source": "Thea §2.2 role tokens" } }
+        },
+        "tracking": {
+          "$value": "0.06em",
+          "$type": "dimension",
+          "$description": "Uppercase tracking.",
+          "$extensions": { "hues": { "source": "Thea §2.2 role tokens" } }
+        },
+        "face": {
+          "$value": "{ref.type.family.ui}",
+          "$type": "fontFamily",
+          "$description": "Source Sans 600, uppercase.",
+          "$extensions": { "hues": { "source": "Thea §2.2 role tokens" } }
+        },
+        "weight": {
+          "$value": "{ref.type.weight.semibold}",
+          "$type": "fontWeight",
+          "$description": "Named semibold weight 600.",
+          "$extensions": { "hues": { "source": "Thea §2.2 role tokens + named weights" } }
+        },
+        "case": {
+          "$value": "uppercase",
+          "$type": "other",
+          "$description": "Caps-label case treatment.",
+          "$extensions": { "hues": { "source": "Thea §2.2 role tokens" } }
+        }
+      },
+      "row-display": {
+        "size": {
+          "$value": "18px",
+          "$type": "dimension",
+          "$description": "More-sheet row labels and SheetRow/FooterLink rows. The lede size step in the display face.",
+          "$extensions": { "hues": { "source": "Thea role calls II (new role row-display)" } }
+        },
+        "leading": {
+          "$value": "1.22",
+          "$type": "number",
+          "$description": "Unitless line height (22px line box).",
+          "$extensions": { "hues": { "source": "Thea role calls II" } }
+        },
+        "tracking": {
+          "$value": "0",
+          "$type": "dimension",
+          "$description": "Letter spacing.",
+          "$extensions": { "hues": { "source": "Thea role calls II" } }
+        },
+        "face": {
+          "$value": "{ref.type.family.display}",
+          "$type": "fontFamily",
+          "$description": "Fraunces 500 at rest, 600 for the current page.",
+          "$extensions": { "hues": { "source": "Thea role calls II" } }
+        },
+        "weight": {
+          "$value": "500",
+          "$type": "fontWeight",
+          "$description": "Rest weight. The current-page state steps to 600 inside the same role.",
+          "$extensions": { "hues": { "source": "Thea role calls II (verified against live More sheet)" } }
+        },
+        "weight-current": {
+          "$value": "{ref.type.weight.semibold}",
+          "$type": "fontWeight",
+          "$description": "Current-page weight step inside the row-display role.",
+          "$extensions": { "hues": { "source": "Thea role calls II" } }
+        }
+      },
+      "measure": {
+        "prose": {
+          "$value": "65ch",
+          "$type": "dimension",
+          "$description": "Desktop prose container max-width, never a width.",
+          "$extensions": { "hues": { "source": "Thea §2.3 (Dustin 2026-11-21 ruling as a token); Mina §1.6 register" } }
+        }
+      }
+    }
+  }
+}
