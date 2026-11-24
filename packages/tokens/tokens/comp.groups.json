@@ -149,7 +149,7 @@
         "$value": "200px",
         "$type": "dimension",
         "$description": "Viewport-prefetch root margin for tab-destination links.",
-        "$extensions": { "hues": { "source": "Link prefetch construction (Perf #8 companion: bounded viewport prefetch)" } }
+        "$extensions": { "hues": { "source": "Plan addendum Perf #8, adopted in full by Dustin 2026-11-23 (bounded viewport prefetch)" } }
       }
     },
     "segmented": {
