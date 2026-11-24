@@ -18,7 +18,7 @@
     "typecheck:app": "tsc --noEmit -p tsconfig.app.json",
     "test:app": "vitest run --config vitest.app.config.ts tests/unit",
     "test:app:content": "vitest run --config vitest.app.config.ts tests/html",
-    "test:app:visual": "playwright test -c playwright.app.config.ts",
+    "test:app:visual": "npx playwright install chromium && playwright test -c playwright.app.config.ts",
     "verify:app": "npm run lint:app && npm run build:app:deps && npm run typecheck:app && npm run test:app && npm run build:app && npm run test:app:content && npm run test:app:visual"
   },
   "browserslist": "defaults, not ie <= 11",
