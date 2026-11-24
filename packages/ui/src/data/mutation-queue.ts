@@ -8,6 +8,8 @@
  * Each server endpoint is idempotent per key.
  */
 
+import { HUES_CSRF_HEADER, HUES_CSRF_VALUE } from '../security/csrf';
+
 export type QueuedStatus = 'queued' | 'sending' | 'acked' | 'failed' | 'conflict';
 
 export interface QueuedMutation {
@@ -111,7 +113,13 @@ export async function replayQueuedMutations(): Promise<ReplayResult[]> {
     try {
       const response = await fetch(entry.url, {
         method: entry.method,
-        headers: { 'Content-Type': 'application/json', 'Idempotency-Key': entry.key },
+        headers: {
+          'Content-Type': 'application/json',
+          'Idempotency-Key': entry.key,
+          // Replays are state-changing requests: they carry the required
+          // CSRF header exactly like the live path, or the proxy 403s.
+          [HUES_CSRF_HEADER]: HUES_CSRF_VALUE,
+        },
         body: entry.body === null ? null : JSON.stringify(entry.body),
       });
       if (response.ok) {

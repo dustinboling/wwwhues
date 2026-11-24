@@ -1,6 +1,7 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import type { FormEvent, JSX } from 'react'
 import { EmptyState, Image, Link, StaleLabel } from '@hues/ui'
+import { useQueryClient } from '@tanstack/react-query'
 import { parkTodayLabel } from '../../content/park-date'
 import { formatEventDate, formatPrice, type PlayEvent, type PlaySnapshot } from '../../content/play'
 import {
@@ -11,29 +12,16 @@ import {
 } from '../../content/gather'
 import playSnapshotJson from '../../content/snapshots/play.json'
 import { CONTACT_PHONE_DISPLAY, PARK_SIGNOFF } from '../../content/site'
+import { ApiError, RateLimitError, postApi, retryWaitLabel } from '../../renderer/api-client'
+import { useAccount } from '../../renderer/account'
+import { LIVE_QUERY_KEYS, usePlayPublicState } from '../../renderer/queries'
+import { TurnstileWidget } from '../../renderer/turnstile'
 import '../../renderer/content.css'
 
 const snapshot = playSnapshotJson as unknown as PlaySnapshot
 
 function Eyebrow({ children }: { children: string }): JSX.Element {
   return <p className="c-eyebrow">{children}</p>
-}
-
-async function postJson(
-  url: string,
-  body: Record<string, unknown>,
-): Promise<{ ok: boolean; error?: string }> {
-  try {
-    const res = await fetch(url, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(body),
-    })
-    const data = (await res.json()) as { ok?: boolean; error?: string }
-    return { ok: res.ok && data.ok === true, error: data.error }
-  } catch {
-    return { ok: false, error: 'Something went wrong — please try again.' }
-  }
 }
 
 function FormMessage({ result }: { result: { ok: boolean; text: string } | null }): JSX.Element | null {
@@ -63,6 +51,8 @@ function SpotsBar({ left, total, label }: { left: number; total: number; label: 
 }
 
 function RsvpForm({ event }: { event: PlayEvent }): JSX.Element {
+  const queryClient = useQueryClient()
+  const { state: accountState } = useAccount()
   const [open, setOpen] = useState(false)
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
@@ -72,6 +62,15 @@ function RsvpForm({ event }: { event: PlayEvent }): JSX.Element {
   const [website, setWebsite] = useState('')
   const [result, setResult] = useState<{ ok: boolean; text: string } | null>(null)
   const [busy, setBusy] = useState(false)
+  const [turnstileToken, setTurnstileToken] = useState<string | null>(null)
+
+  useEffect(() => {
+    if (accountState.status !== 'in') return
+    const visitor = accountState.visitor
+    setName((current) => current || visitor.name)
+    setEmail((current) => current || visitor.email)
+    setPhone((current) => current || visitor.phone)
+  }, [accountState])
 
   if (event.spotsLeft <= 0) {
     return <p className="c-form__message c-form__message--ok">This one is full — thank you for wanting to come.</p>
@@ -90,24 +89,35 @@ function RsvpForm({ event }: { event: PlayEvent }): JSX.Element {
     )
   }
 
+  // In-place RSVP on the event card (Nadia §4.6): success confirms on
+  // the card itself and the counts revalidate; failures keep the form
+  // intact with the proxy's plain-language message.
   async function submit(e: FormEvent): Promise<void> {
     e.preventDefault()
     setBusy(true)
-    const r = await postJson(GATHER_RSVP_ENDPOINT, {
-      eventId: event.id,
-      name,
-      email,
-      phone,
-      spots,
-      confirmed,
-      website,
-    })
-    setBusy(false)
-    setResult(
-      r.ok
-        ? { ok: true, text: 'You’re on the list — we can’t wait to work alongside you.' }
-        : { ok: false, text: r.error ?? 'Please check the form and try again.' },
-    )
+    try {
+      await postApi<{ ok?: boolean }>(
+        GATHER_RSVP_ENDPOINT,
+        { eventId: event.id, name, email, phone, spots, confirmed, website },
+        { turnstileToken },
+      )
+      setResult({ ok: true, text: 'You’re on the list — we can’t wait to work alongside you.' })
+      await queryClient.invalidateQueries({ queryKey: [...LIVE_QUERY_KEYS.playPublic] })
+    } catch (error) {
+      if (error instanceof RateLimitError) {
+        setResult({
+          ok: false,
+          text: `Too many tries just now — please wait ${retryWaitLabel(error.retryAfter)} and try again. Nothing you typed was lost.`,
+        })
+      } else {
+        setResult({
+          ok: false,
+          text: error instanceof ApiError ? error.message : 'Please check the form and try again.',
+        })
+      }
+    } finally {
+      setBusy(false)
+    }
   }
 
   return (
@@ -188,6 +198,7 @@ function RsvpForm({ event }: { event: PlayEvent }): JSX.Element {
           {event.confirmText}
         </label>
       )}
+      <TurnstileWidget onToken={setTurnstileToken} />
       <button type="submit" disabled={busy} className="hues-button hues-button--primary">
         {busy ? 'Saving…' : 'Save my spot'}
       </button>
@@ -234,15 +245,16 @@ function EventCard({ event }: { event: PlayEvent }): JSX.Element {
   )
 }
 
-// Gather (/gather): project events with inline RSVP. The events render
-// from the build-time snapshot, labelled with its date — client
-// revalidation arrives with the Slice D API proxy. The forms post to
-// the real /api/play/* paths (no fake submit); until the proxy lands,
-// a submission surfaces the honest error state.
+// Gather (/gather): project events with inline RSVP — prerendered from
+// the build-time snapshot (labelled, never live-posing), then
+// revalidated on mount + visibility return + hour boundary. When no
+// project day is scheduled, the designed empty state is the page.
 export default function Page(): JSX.Element {
-  const { events } = snapshot.data
+  const live = usePlayPublicState(snapshot.data)
+  const { events } = live.data?.data ?? snapshot.data
   const nextEvent = events[0]
   const snapshotDate = parkTodayLabel(new Date(snapshot.fetchedAt))
+  const checkedLive = live.isFetchedAfterMount && !live.isError
   return (
     <div className="c-page c-page--narrow">
       <section className="c-packet hues-packet-card" aria-label="Gather at Hues">
@@ -267,8 +279,14 @@ export default function Page(): JSX.Element {
       </section>
 
       <p className="c-snapshot">
-        <StaleLabel label={`Gatherings snapshot from ${snapshotDate}`} /> — dates and spots change;
-        call {CONTACT_PHONE_DISPLAY} to confirm the latest.
+        <StaleLabel
+          label={
+            checkedLive
+              ? `Gatherings checked just now (snapshot ${snapshotDate})`
+              : `Gatherings snapshot from ${snapshotDate}`
+          }
+        />{' '}
+        — dates and spots change; call {CONTACT_PHONE_DISPLAY} to confirm the latest.
       </p>
 
       <section aria-label="Upcoming project events" className="c-stack">

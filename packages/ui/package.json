@@ -12,6 +12,14 @@
     "./styles.css": "./dist/styles.css",
     "./sw-template": "./src/sw/sw-template.ts",
     "./kill-switch": "./src/sw/kill-switch.ts",
+    "./sw-policy": {
+      "types": "./dist/sw/sw-policy.d.ts",
+      "default": "./dist/sw/sw-policy.js"
+    },
+    "./mutation-queue": {
+      "types": "./dist/data/mutation-queue.d.ts",
+      "default": "./dist/data/mutation-queue.js"
+    },
     "./eslint-plugin": "./eslint-plugin/index.js",
     "./package.json": "./package.json"
   },

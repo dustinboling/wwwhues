@@ -23,9 +23,11 @@
     "renderer",
     "server",
     "content",
+    "sw",
     "tests",
     "vite.config.mts",
     "vitest.app.config.ts",
+    "playwright.app.config.ts",
     "eslint.app.config.mjs"
   ],
   "exclude": ["node_modules", "dist"]

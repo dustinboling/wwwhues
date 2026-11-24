@@ -40,6 +40,15 @@ describe('buildSitemapXml', () => {
       expect(match[1]).not.toContain('?')
     }
   })
+
+  it('excludes the SPA shells and the offline utility page (Bea §2.4)', () => {
+    const xml = buildSitemapXml()
+    for (const path of ['/account', '/volunteer/admin', '/arcade/admin', '/offline']) {
+      expect(xml).not.toContain(`<loc>https://hues.flowers${path}</loc>`)
+      expect(CANONICAL_ROUTES.some((route) => route.path === path)).toBe(false)
+    }
+    expect(buildLlmsTxt()).not.toContain('/offline')
+  })
 })
 
 describe('buildRobotsTxt', () => {

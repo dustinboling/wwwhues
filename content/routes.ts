@@ -1,8 +1,8 @@
 // Canonical route inventory for the hues.flowers SPA — the single source
 // the sitemap AND llms.txt generate from (Data #1.9: generated, never
-// hand-maintained). Only routes this build serves are listed: later slices
-// append their routes here (/help, /account, SPA surfaces) and both
-// artefacts grow with them.
+// hand-maintained). Only canonical indexables are listed: the SPA shells
+// (/account, /volunteer/admin, /arcade/admin) and the /offline utility
+// page are NEVER added here (Bea §2.4; pinned by test).
 //
 // lastmod follows Data #1.3: a date appears here only where the source
 // states a trustworthy per-URL change date (the policy pages' "Last

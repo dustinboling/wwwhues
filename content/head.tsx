@@ -53,6 +53,11 @@ export function RouteHead({
       <link rel="canonical" href={canonical} />
       <meta name="robots" content="index, follow" />
       <meta name="theme-color" content={THEME_COLOR} />
+      <link rel="apple-touch-icon" href="/m-icons/apple-touch-icon.png" />
+      <meta name="mobile-web-app-capable" content="yes" />
+      <meta name="apple-mobile-web-app-capable" content="yes" />
+      <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+      <meta name="apple-mobile-web-app-title" content="Hues" />
       <link rel="preconnect" href="https://media.hues.flowers" />
       <link rel="preload" href={frauncesLatin} as="font" type="font/woff2" crossOrigin="anonymous" />
       <link rel="preload" href={newsreaderLatin} as="font" type="font/woff2" crossOrigin="anonymous" />

@@ -22,6 +22,8 @@
 # (.dev.vars* intentionally NOT ignored: .dev.vars is the Next site's)
 dist/
 .wrangler/
+# Generated static dir (scripts/prepare-spa-public.mjs): rebuilt every build
+/public-spa/
 
 # debug
 npm-debug.log*
@@ -51,3 +53,4 @@ Thumbs.db
 
 # Park music audio library — media, deployed from the live tree / R2, kept out of git
 /public/music/
+test-results
