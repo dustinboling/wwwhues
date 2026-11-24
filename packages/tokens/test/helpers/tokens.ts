@@ -65,7 +65,9 @@ const TOKEN_FILES = [
 ];
 
 function tokensDir(): string {
-  return join(fileURLToPath(new URL('.', import.meta.url)), '..', 'tokens');
+  // This helper lives in test/helpers/, so the package-level tokens/ dir is
+  // two levels up from here, not one (test/tokens/ does not exist).
+  return join(fileURLToPath(new URL('.', import.meta.url)), '..', '..', 'tokens');
 }
 
 export function loadTokenFile(file: string): JsonRecord {
