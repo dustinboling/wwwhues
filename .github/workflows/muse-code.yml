@@ -81,19 +81,29 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 90
     permissions:
-      contents: write # WIP branch pushes only; this job cannot open PRs
+      contents: write # WIP branch pushes; no pull-requests grant, so this job cannot open PRs. contents:write is repo-wide by platform design — the bar on pushing straight to main is the repo's branch protection (PR required on main, set 2026-11-23), not this grant.
     steps:
       - name: Check out the repository
         uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
         with:
           fetch-depth: 0
 
-      - name: Create the WIP branch (deterministic — the agent never switches branches)
+      - name: Create or resume the WIP branch (deterministic — the agent never switches branches)
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git switch -c "muse/${{ github.run_id }}"
-          git push -u origin "muse/${{ github.run_id }}"
+          BRANCH="muse/${{ github.run_id }}"
+          # github.run_id is stable across re-runs, so a re-run finds the
+          # branch already pushed: resume from its checkpoints instead of
+          # colliding with it.
+          if git ls-remote --exit-code --heads origin "$BRANCH" > /dev/null 2>&1; then
+            echo "WIP branch $BRANCH already exists — resuming from its checkpoints."
+            git fetch origin "$BRANCH"
+            git switch "$BRANCH"
+          else
+            git switch -c "$BRANCH"
+            git push -u origin "$BRANCH"
+          fi
 
       - name: Set up Node.js
         uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
@@ -115,7 +125,15 @@ jobs:
           # AppArmor; without this, bwrap dies with "Operation not
           # permitted" and the agent's shell cannot execute anything —
           # the exact failure that blinded the first foundation run.
-          sudo sysctl -w kernel.apparmor_restrict_unprivileged_userns=0
+          # Tolerate the key disappearing from a future runner image, then
+          # PROVE the sandbox works with a probe: if bwrap genuinely
+          # cannot run, fail here, loudly, before the agent starts.
+          sudo sysctl -w kernel.apparmor_restrict_unprivileged_userns=0 || echo "::warning::apparmor_restrict_unprivileged_userns key absent or unsettable on this runner image — relying on the bwrap probe below."
+          if ! bwrap --ro-bind / / /bin/true; then
+            echo "::error::bubblewrap cannot create a sandbox on this runner — the agent's shell would not execute. Failing before the agent starts."
+            exit 1
+          fi
+          echo "Sandbox probe passed: bwrap can execute."
 
       - name: Install Muse Code
         run: |
@@ -136,14 +154,24 @@ jobs:
       - name: Run the Muse task
         env:
           META_API_KEY: ${{ secrets.META_API_KEY }}
+          TASK_FILE: ${{ inputs.task_file }}
         run: |
           set -o pipefail
           mkdir -p "${{ runner.temp }}/bench"
           muse exec \
-            --prompt-file "${{ inputs.task_file }}" \
+            --prompt-file "$TASK_FILE" \
             --approval-mode never \
             --max-model-steps ${{ inputs.max_model_steps }} \
             --json | tee "${{ runner.temp }}/bench/muse-run.jsonl"
+
+      - name: Upload the initial run transcript (early — survives a later timeout)
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: muse-run-transcript
+          path: ${{ runner.temp }}/bench/muse-run.jsonl
+          if-no-files-found: warn
+          retention-days: 14
 
       - name: Fail if Muse made no changes
         run: |
@@ -157,6 +185,7 @@ jobs:
         env:
           META_API_KEY: ${{ secrets.META_API_KEY }}
           VERIFY_COMMAND: ${{ inputs.verify_command }}
+          TASK_FILE: ${{ inputs.task_file }}
         run: |
           BENCH="${{ runner.temp }}/bench"
           checkpoint() {
@@ -169,19 +198,19 @@ jobs:
             git push origin "muse/${{ github.run_id }}"
           }
           checkpoint "initial agent turn"
-          for round in 1 2 3; do
+          for round in 1 2 3 4; do
             if eval "$VERIFY_COMMAND" > "$BENCH/verify-output.txt" 2>&1; then
               echo "Verify green on round $round."
               break
             fi
-            if [ "$round" -eq 3 ]; then
-              echo "::error::Verify still red after three rounds. The publish job will not run; verify output is uploaded as an artifact and the WIP branch keeps the checkpoints."
+            if [ "$round" -eq 4 ]; then
+              echo "::error::Verify still red after three repair turns. The publish job will not run; verify output is uploaded as an artifact and the WIP branch keeps the checkpoints."
               tail -n 100 "$BENCH/verify-output.txt"
               exit 1
             fi
             echo "Verify red on round $round — running repair turn $round of 3 with the verify output as the prompt."
             {
-              echo "You are continuing work in the wwwhues repo (the hues.flowers website). A previous Muse run worked on the task in \`${{ inputs.task_file }}\` (read it, and the files it points to, for scope) but left the tree failing the repo's verify command: \`$VERIFY_COMMAND\`. Dependencies for the root and every packages/* workspace are already installed — run the verify command yourself to see failures first-hand, and re-run it after your fixes. The latest verify output is below."
+              echo "You are continuing work in the wwwhues repo (the hues.flowers website). A previous Muse run worked on the task in \`$TASK_FILE\` (read it, and the files it points to, for scope) but left the tree failing the repo's verify command: \`$VERIFY_COMMAND\`. Dependencies for the root and every packages/* workspace are already installed — run the verify command yourself to see failures first-hand, and re-run it after your fixes. The latest verify output is below."
               echo ""
               echo "Fix ONLY what the verify output reports. Do not widen scope, do not start new features, and do not re-do work that already passes. Finish every handler or function you reference — a referenced-but-missing function is what failed a previous run. Leave no unused imports. You may fix a test file only where the test itself is broken (a syntax or runtime error in the test); never weaken or delete an assertion to make the gate pass. If the output shows a lockfile out of sync (npm EUSAGE, 'Missing: ... from lock file'), run \`npm install\` in the affected package so its package-lock.json is regenerated as part of your changes."
               echo ""
@@ -201,11 +230,12 @@ jobs:
       - name: Gate — re-run the verify command on the final tree
         env:
           VERIFY_COMMAND: ${{ inputs.verify_command }}
+          TASK_FILE: ${{ inputs.task_file }}
         run: |
           eval "$VERIFY_COMMAND"
           git add -A
           if ! git diff --cached --quiet; then
-            git commit -m "Muse: $(basename "${{ inputs.task_file }}")"
+            git commit -m "Muse: $(basename "$TASK_FILE")"
             git push origin "muse/${{ github.run_id }}"
           fi
 
@@ -243,6 +273,7 @@ jobs:
       - name: Open a pull request with the changes
         env:
           GH_TOKEN: ${{ github.token }}
+          TASK_FILE: ${{ inputs.task_file }}
         run: |
           if [ "$(git rev-list --count origin/main..HEAD)" -eq 0 ]; then
             echo "::error::The WIP branch has no commits beyond main. Refusing to open an empty PR."
@@ -251,10 +282,10 @@ jobs:
           gh pr create \
             --base main \
             --head "muse/${{ github.run_id }}" \
-            --title "Muse: $(basename "${{ inputs.task_file }}")" \
+            --title "Muse: $(basename "$TASK_FILE")" \
             --body "Produced by the manually dispatched \`Muse\` workflow (run ${{ github.run_id }}).
 
-          - Task file used: \`${{ inputs.task_file }}\`
+          - Task file used: \`$TASK_FILE\`
           - The full Muse run log and verify output are attached to that workflow run as the \`muse-run-logs\` artifact.
           - Gate: \`${{ inputs.verify_command }}\` passed in the workflow's verify→repair loop and again at the post-agent gate — no PR is created when the gate stays red.
           - Not auto-merged. Hue reviews the diff against the task file before any merge."
