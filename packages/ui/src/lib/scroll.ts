@@ -55,7 +55,7 @@ export function initRouteScroll(): () => void {
  * Notify the manager of a client-side navigation. Tab switches pass
  * tabSwitch: true so preservation outranks the top jump.
  */
-export function notifyRouteChange(options: { tabSwitch?: boolean } = {}): void {
+export function notifyRouteChange(options: { tabSwitch?: boolean | undefined } = {}): void {
   recordCurrent();
   state.currentKey = entryKey();
   state.tabActive = options.tabSwitch === true;

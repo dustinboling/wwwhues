@@ -95,9 +95,9 @@ describe('tab state', () => {
 
 describe('route transition', () => {
   it('sets title, focuses the h1, and announces the page view', async () => {
-    render(h(AppShell, {}, h('h1', { 'data-route-title': true }, 'Visit')));
+    render(h(AppShell, { children: h('h1', { 'data-route-title': true }, 'Visit') }));
     const { result } = renderHook(() => useRouteTransition(), {
-      wrapper: ({ children }: { children: ReactNode }) => h(AppShell, {}, children),
+      wrapper: ({ children }: { children: ReactNode }) => h(AppShell, { children }),
     });
     act(() => {
       result.current('Visit');
@@ -145,7 +145,9 @@ describe('media layer client', () => {
     expect(plate).toContain('fit=pad');
     expect(plate).toContain('background=%23f7f1de');
     const set = srcSetFor('dahlias/a.jpg');
-    expect(set.split(',')).toHaveLength(6);
+    // Entries split on ', ': the Cloudflare transform URLs themselves carry
+    // commas (format=auto,width=…,quality=…), so a bare ',' split cuts URLs.
+    expect(set.split(', ')).toHaveLength(6);
   });
 
   it('fails loudly without a base or with an original url', () => {

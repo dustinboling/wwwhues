@@ -24,9 +24,34 @@ import { RangeRequestsPlugin } from 'workbox-range-requests';
 import { carriesSession, classifyRequest } from './sw-policy';
 import type { HuesWorkerConfig } from './sw-policy';
 import { mutationSyncTag, replayQueuedMutations } from '../data/mutation-queue';
+import type { WorkboxPlugin } from 'workbox-core';
 
-declare const self: ServiceWorkerGlobalScope & {
+/**
+ * workbox's plugin classes declare lifecycle callbacks as required
+ * `... | undefined` properties while WorkboxPlugin declares them optional;
+ * identical at runtime, incompatible under exactOptionalPropertyTypes.
+ * One documented adapter at the construction sites.
+ */
+function asWorkboxPlugin(plugin: object): WorkboxPlugin {
+  return plugin as WorkboxPlugin;
+}
+
+/**
+ * Worker-scope surface this template uses. The package compiles against the
+ * DOM lib rather than lib.webworker, and workbox's own types only add
+ * __WB_MANIFEST to the worker scope, so the listener and lifecycle surface
+ * the template touches is declared locally.
+ */
+interface SyncEventLike {
+  readonly tag: string;
+  waitUntil(promise: Promise<unknown>): void;
+}
+
+declare const self: {
   __WB_MANIFEST: Array<{ url: string; revision: string | null }>;
+  addEventListener(type: 'message', listener: (event: MessageEvent) => void): void;
+  addEventListener(type: 'sync', listener: (event: SyncEventLike) => void): void;
+  skipWaiting(): Promise<void>;
 };
 
 /* ------------------------------------------------------------------ */
@@ -47,20 +72,17 @@ const PROPERTY_CONFIG: HuesWorkerConfig = {
 cleanupOutdatedCaches();
 precacheAndRoute(self.__WB_MANIFEST);
 
-const pages = new NetworkFirst({
-  cacheName: 'hues-pages',
-  plugins: [
-    {
-      // SecOps #13 gate inside the strategy: denied classes and
-      // session-carrying requests never reach any cache.
-      cacheWillUpdate: ({ request, response }) => {
-        if (classifyRequest(request, PROPERTY_CONFIG) === 'denied') return Promise.resolve(null);
-        if (carriesSession(request)) return Promise.resolve(null);
-        return Promise.resolve(response);
-      },
-    },
-  ],
-});
+// SecOps #13 gate as a strategy plugin: denied classes and
+// session-carrying requests never reach any cache.
+const secOpsGate: WorkboxPlugin = {
+  cacheWillUpdate: ({ request, response }) => {
+    if (classifyRequest(request, PROPERTY_CONFIG) === 'denied') return Promise.resolve(null);
+    if (carriesSession(request)) return Promise.resolve(null);
+    return Promise.resolve(response);
+  },
+};
+
+const pages = new NetworkFirst({ cacheName: 'hues-pages', plugins: [secOpsGate] });
 
 registerRoute(
   ({ request, url }) => {
@@ -93,10 +115,12 @@ registerRoute(
   new StaleWhileRevalidate({
     cacheName: 'hues-images',
     plugins: [
-      new ExpirationPlugin({
-        maxEntries: PROPERTY_CONFIG.imageCacheEntries,
-        purgeOnQuotaError: true,
-      }),
+      asWorkboxPlugin(
+        new ExpirationPlugin({
+          maxEntries: PROPERTY_CONFIG.imageCacheEntries,
+          purgeOnQuotaError: true,
+        }),
+      ),
     ],
   }),
 );
@@ -106,7 +130,7 @@ registerRoute(
     classifyRequest({ url: url.href, mode: request.mode }, PROPERTY_CONFIG) === 'media-audio',
   new CacheFirst({
     cacheName: 'hues-audio',
-    plugins: [new RangeRequestsPlugin()],
+    plugins: [asWorkboxPlugin(new RangeRequestsPlugin())],
   }),
 );
 
@@ -132,12 +156,8 @@ self.addEventListener('message', (event) => {
 
 // Offline mutation replay on Background Sync; the pending UI state stays
 // the universal fallback where SyncManager is absent.
-interface SyncEventLike extends ExtendableEvent {
-  readonly tag: string;
-}
 self.addEventListener('sync', (event) => {
-  const tag = (event as SyncEventLike).tag;
-  if (tag === mutationSyncTag()) {
+  if (event.tag === mutationSyncTag()) {
     event.waitUntil(replayQueuedMutations().then(() => undefined));
   }
 });

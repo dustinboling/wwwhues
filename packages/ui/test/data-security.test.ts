@@ -31,7 +31,7 @@ describe('query preset', () => {
     expect(queryOptionsFor('account').staleTime).toBe(30_000);
     expect(queryOptionsFor('catalog').staleTime).toBe(300_000);
     const client = createHuesQueryClient();
-    const invalidate = vi.spyOn(client, 'invalidateQueries').mockResolvedValue([]);
+    const invalidate = vi.spyOn(client, 'invalidateQueries').mockResolvedValue(undefined);
     const options = mutationOptionsFor(client, { invalidates: [[ 'account' ], ['board', 'signups']] });
     (options.onSuccess as () => void)();
     expect(invalidate).toHaveBeenCalledTimes(2);

@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
+import userEvent, { PointerEventsCheckLevel } from '@testing-library/user-event';
 import { describe, expect, it, vi } from 'vitest';
 import { Button } from '../src/actions/Button';
 import { AccountButton } from '../src/actions/AccountButton';
@@ -51,14 +51,14 @@ describe('Button', () => {
   });
 
   it('disabled drops interaction', async () => {
-    const user = userEvent.setup();
+    const user = userEvent.setup({ pointerEventsCheck: PointerEventsCheckLevel.Never });
     const onClick = vi.fn();
     render(
       <Button variant="secondary" disabled onClick={onClick}>
         Nope
       </Button>,
     );
-    await user.click(screen.getByRole('button', { name: 'Nope' }), { skipPointerEventsCheck: true }).catch(() => {});
+    await user.click(screen.getByRole('button', { name: 'Nope' })).catch(() => {});
     expect(onClick).not.toHaveBeenCalled();
   });
 });

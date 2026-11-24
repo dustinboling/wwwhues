@@ -78,10 +78,16 @@ type RegisterHook = () => {
   updateServiceWorker: (reloadPage?: boolean) => Promise<void>;
 };
 
-function PwaRegistrar({ onUpdate, onReady }: { onUpdate?: (apply: () => void) => void; onReady?: () => void }): JSX.Element | null {
+function PwaRegistrar({
+  onUpdate,
+  onReady,
+}: {
+  onUpdate?: ((apply: () => void) => void) | undefined;
+  onReady?: (() => void) | undefined;
+}): JSX.Element | null {
   const [useRegister, setUseRegister] = useState<ComponentType<{
-    onUpdate?: (apply: () => void) => void;
-    onReady?: () => void;
+    onUpdate?: ((apply: () => void) => void) | undefined;
+    onReady?: (() => void) | undefined;
   }> | null>(null);
 
   useEffect(() => {
@@ -103,9 +109,18 @@ function PwaRegistrar({ onUpdate, onReady }: { onUpdate?: (apply: () => void) =>
   return <Inner onUpdate={onUpdate} onReady={onReady} />;
 }
 
-function RegistrarInner(useRegisterSW: RegisterHook): ComponentType<{ onUpdate?: (apply: () => void) => void; onReady?: () => void }> {
-  return function Registrar({ onUpdate, onReady }: { onUpdate?: (apply: () => void) => void; onReady?: () => void }): JSX.Element | null {
-    const { needRefresh, offlineReady, updateServiceWorker } = useRegisterSW({});
+function RegistrarInner(useRegisterSW: RegisterHook): ComponentType<{
+  onUpdate?: ((apply: () => void) => void) | undefined;
+  onReady?: (() => void) | undefined;
+}> {
+  return function Registrar({
+    onUpdate,
+    onReady,
+  }: {
+    onUpdate?: ((apply: () => void) => void) | undefined;
+    onReady?: (() => void) | undefined;
+  }): JSX.Element | null {
+    const { needRefresh, offlineReady, updateServiceWorker } = useRegisterSW();
     const [needsRefresh] = needRefresh;
     const [isReady] = offlineReady;
     useEffect(() => {

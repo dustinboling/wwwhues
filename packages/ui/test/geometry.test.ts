@@ -1,12 +1,15 @@
 import { readFileSync } from 'node:fs';
-import { fileURLToPath } from 'node:url';
+// Node's URL, aliased: the jsdom test environment's global URL resolves
+// relative URLs against the document base and drops file:// bases, and a
+// same-name import is silently shadowed by that global.
+import { URL as NodeURL, fileURLToPath } from 'node:url';
 import { join } from 'node:path';
 import { describe, expect, it } from 'vitest';
 import lock from '@hues/tokens/tokens/tabbar.lock.json';
 import shell from '@hues/tokens/tokens/comp.shell.json';
 
 function css(file: string): string {
-  return readFileSync(join(fileURLToPath(new URL('.', import.meta.url)), '..', 'src', 'styles', file), 'utf8');
+  return readFileSync(join(fileURLToPath(new NodeURL('.', import.meta.url)), '..', 'src', 'styles', file), 'utf8');
 }
 
 function lockValue(path: string): string {

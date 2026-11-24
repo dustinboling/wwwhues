@@ -6,7 +6,7 @@ import type { JSX } from 'react';
  */
 export function Spinner({ size = 'small', label = 'Loading', className }: { size?: 'small' | 'region'; label?: string; className?: string }): JSX.Element {
   return (
-    <span className={className ?? 'hues-spinner'} data-size={size} role="status">
+    <span className={className ?? 'hues-spinner'} data-size={size} role="status" aria-label={label}>
       <span className="hues-spinner__ring" aria-hidden="true" />
       <span className="hues-visually-hidden">{label}</span>
     </span>
