@@ -24,5 +24,5 @@
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
-  "exclude": ["node_modules", "volunteer-api", "thisorthat-api", "play-api", "accounts-api", "packages"]
+  "exclude": ["node_modules", "volunteer-api", "thisorthat-api", "play-api", "accounts-api", "packages", "routes", "renderer", "server", "content", "tests", "vite.config.mts", "vitest.app.config.ts", "eslint.app.config.mjs"]
 }

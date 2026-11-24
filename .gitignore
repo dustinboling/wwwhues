@@ -18,6 +18,11 @@
 # production
 /build
 
+# hues.flowers SPA (Vike): build output + worker scratch (plan §1a)
+# (.dev.vars* intentionally NOT ignored: .dev.vars is the Next site's)
+dist/
+.wrangler/
+
 # debug
 npm-debug.log*
 yarn-debug.log*
