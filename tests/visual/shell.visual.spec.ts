@@ -118,10 +118,18 @@ test.describe('shell baselines', () => {
     await expect(page.locator(selector).first()).toHaveScreenshot('header.png')
   })
 
-  test('tab bar', async ({ page }) => {
+  test('tab bar', async ({ page }, testInfo) => {
     await page.goto('/')
     await stabilize(page)
-    await expect(page.locator('.hues-tabbar')).toHaveScreenshot('tabbar.png')
+    // Nadia §3: phone gets the tab bar, tablet/desktop get the SiteHeader
+    // (exactly one labelled navigation per breakpoint, the inactive tree
+    // display:none). On desktop there is nothing to shoot, so the test
+    // pins the absence instead of screenshotting a hidden element.
+    if (testInfo.project.name === 'mobile') {
+      await expect(page.locator('.hues-tabbar')).toHaveScreenshot('tabbar.png')
+    } else {
+      await expect(page.locator('.hues-tabbar')).toBeHidden()
+    }
   })
 
   test('mini player idle (absent)', async ({ page }) => {
@@ -132,18 +140,28 @@ test.describe('shell baselines', () => {
     await expect(page).toHaveScreenshot('miniplayer-idle.png')
   })
 
-  test('mini player playing', async ({ page }) => {
+  test('mini player playing', async ({ page }, testInfo) => {
     await page.goto('/music')
     await stabilize(page)
     // A real tap on a real song: headless Chromium plays the fulfilled
-    // WAV, the audio element fires play, shell state flips to playing.
+    // WAV, the audio element fires play, engine state flips to playing.
+    // /music is the full view (Nadia §4.4), so the shell bar stays away
+    // here: playback is pinned on the song row's Now-playing state.
     await page.getByRole('button', { name: /^Play / }).first().click()
-    await expect(page.locator('.hues-player')).toBeVisible()
+    await expect(page.locator('.music-row__state', { hasText: 'Now playing' })).toBeVisible()
     // The bar lives in the shell, not the route: a client-side move to
     // Home keeps the song playing (a document load would restore paused).
-    await page.locator('.hues-tabbar').getByRole('link', { name: 'Home' }).click()
+    // Home is the tab-bar tab on phone, the brand lockup on desktop.
+    if (testInfo.project.name === 'mobile') {
+      await page.locator('.hues-tabbar').getByRole('link', { name: 'Home' }).click()
+    } else {
+      await page.locator('.hues-site-header').getByRole('link', { name: 'Hues home' }).click()
+    }
     await page.waitForURL('/')
     await stabilize(page)
-    await expect(page.locator('.hues-player')).toHaveScreenshot('miniplayer-playing.png')
+    const player = page.locator('.hues-player')
+    await expect(player).toBeVisible()
+    await expect(player).toHaveAttribute('data-playing', 'true')
+    await expect(player).toHaveScreenshot('miniplayer-playing.png')
   })
 })
