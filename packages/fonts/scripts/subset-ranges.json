@@ -1,0 +1,49 @@
+{
+  "_comment": "Single source of truth for the subset unicode ranges (fix round 5). subset-fonts.sh subsets from these lists, build-manifest.mjs scopes the glyph corpus to their union and asserts fonts.css carries them verbatim, so ranges, files, corpus, and CSS cannot drift apart. Latin-1 ships whole (the curated supplement requires full Aa-diacritic coverage); General Punctuation and the latin extras ship required-only; the four math operators are rule-3 additions (repo content needs them, every source carries them). Latin-ext ships the 146 required codepoints, not the full Google latin-ext block: every shipped codepoint is required by repo content or the curated supplement in every face, and the manifest's design-scope guard fails the build if content ever needs a design-scope character outside these lists (ranges grow; required coverage never silently shrinks).",
+  "latin": [
+    "U+0020-007E",
+    "U+00A0-00FF",
+    "U+0131",
+    "U+0152-0153",
+    "U+2013-2014",
+    "U+2018-201A",
+    "U+201C-201E",
+    "U+2020-2022",
+    "U+2026",
+    "U+2030",
+    "U+2039-203A",
+    "U+20AC",
+    "U+2122",
+    "U+2212",
+    "U+2248",
+    "U+2260",
+    "U+2264-2265"
+  ],
+  "latinExt": [
+    "U+0100-0130",
+    "U+0134-0148",
+    "U+014C-0151",
+    "U+0154-017E",
+    "U+01A0-01A1",
+    "U+01AF-01B0",
+    "U+01E6-01E7",
+    "U+01EA-01EB",
+    "U+01FA-01FF",
+    "U+0218-021B",
+    "U+0237",
+    "U+1E80-1E85",
+    "U+1EF2-1EF3"
+  ],
+  "_designScopeComment": "Design scope: the Unicode blocks the three text faces are responsible for (Thea risk 5). Any repo-content or supplement character inside the design scope that every pinned source carries MUST be inside the shipped ranges above; the manifest fails the build otherwise. Characters outside the design scope (arrows beyond the shipped set, geometric shapes, dingbats, emoji, controls, and other symbol blocks the specified faces do not carry) are logged at build time and render through platform fallback fonts, as on every property today. The design scope and the covered charset below are the fixed contracts; the shipped ranges above are the minimal sets covering them.",
+  "designScope": [
+    "U+0020-007E",
+    "U+00A0-00FF",
+    "U+0100-024F",
+    "U+1E00-1EFF",
+    "U+2000-206F",
+    "U+20A0-20CF",
+    "U+2100-214F",
+    "U+2150-218F",
+    "U+2200-22FF"
+  ]
+}

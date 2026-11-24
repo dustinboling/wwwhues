@@ -1,15 +1,29 @@
 #!/usr/bin/env bash
 # Subset the variable sources into latin + latin-ext woff2 files.
-# Type foundation §3 rules: keep opsz+wght on Fraunces and wght on
-# Newsreader/Source Sans; SOFT/WONK dropped unless Elena names WONK;
-# kern+liga kept; figure features kept (tabular for updating numbers,
-# oldstyle for Newsreader prose, lining for Fraunces display).
+# Type foundation §3 rules: keep opsz+wght on Fraunces (SOFT/WONK pinned
+# to defaults unless Elena names WONK) and wght only on Newsreader /
+# Source Sans; kern+liga kept; figure features kept (tabular for updating
+# numbers, oldstyle for Newsreader prose, lining for Fraunces display).
+#
+# pyftsubset alone neither drops nor pins axes, so every instancing step
+# below runs through fonttools varLib.instancer BEFORE subsetting, and the
+# shipped axes are exactly the §2.1 ranges: Fraunces wght 400-700 (opsz
+# untouched, 9-144, for font-optical-sizing: auto), Newsreader opsz
+# pinned at its 18 default with wght 400-600. Source Sans 3 ships its
+# full wght axis uninstanced: restricting it to 400-700 re-expresses
+# every delta off a moved default and measures LARGER (26,080 vs 25,100
+# bytes latin, fix round 5), so the restriction buys nothing.
+#
+# Unicode ranges come from scripts/subset-ranges.json (single source of
+# truth; build-manifest.mjs scopes the corpus to them and asserts
+# fonts.css carries them verbatim).
 set -euo pipefail
 
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 SOURCES="$ROOT/sources"
 OUT="$ROOT/dist/files"
 WORK="$ROOT/dist/.work"
+RANGES="$ROOT/scripts/subset-ranges.json"
 
 if ! command -v pyftsubset >/dev/null 2>&1; then
   echo "ERROR: pyftsubset not found. Install: pip install -r $ROOT/scripts/requirements-fonts.txt" >&2
@@ -18,8 +32,8 @@ fi
 
 mkdir -p "$OUT" "$WORK"
 
-LATIN="U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD"
-LATIN_EXT="U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+1D00-1DBF,U+1E00-1E9F,U+1EA0-1EF9,U+1FA0-1FA6,U+1FA9-1FB9,U+1FBB-1FBC,U+1FC2-1FC5,U+1FC6-1FCB,U+1FD0-1FD3,U+1FD6-1FDB,U+1FE0-1FEC,U+1FF2-1FF4,U+1FF6-1FFC"
+LATIN="$(python3 -c "import json; print(','.join(json.load(open('$RANGES'))['latin']))")"
+LATIN_EXT="$(python3 -c "import json; print(','.join(json.load(open('$RANGES'))['latinExt']))")"
 
 FEATURES="kern,liga,tnum,pnum,lnum,onum"
 
@@ -27,6 +41,9 @@ subset_face() {
   local src="$1"
   local stem="$2"
   echo "subset: $stem"
+  # NOTE: no --recalc-timestamp: stamping wall-clock time into head.modified
+  # makes every build byte-different. Without it the same pinned sources
+  # produce byte-identical files, so budget figures are reproducible.
   pyftsubset "$src" \
     --output-file="$OUT/$stem-latin.woff2" \
     --flavor=woff2 \
@@ -34,7 +51,6 @@ subset_face() {
     --layout-features="$FEATURES" \
     --no-hinting \
     --recalc-bounds \
-    --recalc-timestamp \
     --canonical-order
   pyftsubset "$src" \
     --output-file="$OUT/$stem-latin-ext.woff2" \
@@ -43,22 +59,52 @@ subset_face() {
     --layout-features="$FEATURES" \
     --no-hinting \
     --recalc-bounds \
-    --recalc-timestamp \
     --canonical-order
 }
 
-# Fraunces: pin SOFT/WONK to their defaults (drops the axes) before subsetting.
+# The instancer stamps wall-clock time into head.modified, which would make
+# every build byte-different; pin it back to the source value so builds are
+# reproducible from the pinned sources.
+pin_timestamp() {
+  # recalcTimestamp=False: TTFont.save would otherwise stamp wall-clock
+  # time right back into head.modified.
+  python3 - "$SOURCES/$1" "$WORK/$1" <<'EOF'
+import sys
+from fontTools.ttLib import TTFont
+src = TTFont(sys.argv[1])
+dst = TTFont(sys.argv[2], recalcTimestamp=False)
+dst["head"].modified = src["head"].modified
+dst.save(sys.argv[2])
+EOF
+}
+
+# Fraunces: pin SOFT/WONK to their defaults (drops the axes) and restrict
+# wght to the shipped 400-700 range before subsetting.
 for style in roman italic; do
   src_file="Fraunces-$style.ttf"
-  echo "instancing: Fraunces $style (drop SOFT/WONK)"
-  fonttools varLib.instancer "$SOURCES/$src_file" SOFT=0 WONK=0 \
+  echo "instancing: Fraunces $style (drop SOFT/WONK, wght 400-700)"
+  fonttools varLib.instancer "$SOURCES/$src_file" SOFT=0 WONK=0 wght=400:700 \
     --update-name-table \
     -o "$WORK/$src_file"
+  pin_timestamp "$src_file"
   subset_face "$WORK/$src_file" "fraunces-$style"
 done
 
-subset_face "$SOURCES/Newsreader-roman.ttf" "newsreader-roman"
-subset_face "$SOURCES/Newsreader-italic.ttf" "newsreader-italic"
+# Newsreader: pin opsz at its 18 default (drops the axis; §3.2 keeps wght
+# only on Newsreader) and restrict wght to the shipped 400-600 range.
+# No --update-name-table: this source's STAT carries no opsz axis value
+# for the pinned default and the instancer refuses to rewrite names.
+for style in roman italic; do
+  src_file="Newsreader-$style.ttf"
+  echo "instancing: Newsreader $style (pin opsz=18, wght 400-600)"
+  fonttools varLib.instancer "$SOURCES/$src_file" opsz=18 wght=400:600 \
+    -o "$WORK/$src_file"
+  pin_timestamp "$src_file"
+  subset_face "$WORK/$src_file" "newsreader-$style"
+done
+
+# Source Sans 3 ships a single wght axis already; see the header note on
+# why it is not restricted.
 subset_face "$SOURCES/SourceSans3-roman.ttf" "source-sans-roman"
 
 rm -rf "$WORK"
