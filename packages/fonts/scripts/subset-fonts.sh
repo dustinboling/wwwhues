@@ -52,7 +52,7 @@ for style in roman italic; do
   src_file="Fraunces-$style.ttf"
   echo "instancing: Fraunces $style (drop SOFT/WONK)"
   fonttools varLib.instancer "$SOURCES/$src_file" SOFT=0 WONK=0 \
-    --update-font-names \
+    --update-name-table \
     -o "$WORK/$src_file"
   subset_face "$WORK/$src_file" "fraunces-$style"
 done
