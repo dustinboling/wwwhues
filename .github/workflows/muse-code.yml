@@ -3,23 +3,46 @@
 # Manual-dispatch ONLY: nothing in this repo runs Muse Code automatically.
 # A human starts a run from the Actions tab and names the task file to run.
 #
-# The Meta API key comes from this repository's Secrets (secrets.META_API_KEY)
-# and is passed to the run only as the META_API_KEY environment variable.
-# It is never printed, committed, or passed as a command-line flag.
+# ENVIRONMENT (rewritten 2026-11-23, CI-fix-2 — Dustin's directive: "give
+# the environment everything it needs"; pattern per the GitHub Actions
+# agent-bench research report of the same date):
+# The first design-system run shipped blind because the agent's sandboxed
+# shell could not execute (bubblewrap died with "Operation not permitted"
+# on the runner) and the packages' dependencies were never installed, so
+# defects were only found by human verification after the fact. This
+# workflow now prepares the environment BEFORE the agent starts:
+#   - bubblewrap installed AND the runner's AppArmor user-namespace
+#     restriction lifted, so the sandbox can actually run commands;
+#   - dependencies installed for the root AND every packages/* workspace
+#     before the agent starts, from a warmed npm download cache;
+#   - verification runs INSIDE the job as a verify→repair loop: after the
+#     agent's turn the workflow runs the verify command; on red it hands
+#     the output back to the agent for a repair turn (max 3), checkpoint-
+#     pushing the WIP branch after every round. A separate post-agent
+#     gate re-runs the verify command before any PR is opened.
 #
-# Exit code 0 from `muse exec` means the turn finished — NOT that the work
-# is correct. Correctness is gated on this repo building cleanly: the
-# workflow runs `npm ci` and `npm run build` after the Muse run, and no
-# pull request is created unless that gate passes in full.
+# BRANCH: a deterministic step creates and pushes the WIP branch
+# `muse/<run_id>` BEFORE the agent starts (agents cannot switch branches
+# mid-run); all work and checkpoints land on it, so a timeout loses
+# nothing already pushed.
 #
-# Fix-up loop (same pattern as hues-ops-dashboard, 2026-11-20): when the
-# gate is red, the workflow runs up to THREE further `muse exec` repair
-# turns whose prompt is the gate output itself, re-running the gate after
-# each. The PR step is reached only with a green gate. If the gate is
-# still red after the third repair turn, the job fails and no PR is
-# created.
+# CONCURRENCY: one group PER TASK FILE with `queue: max` and
+# `cancel-in-progress: false` — dispatches never cancel each other;
+# independent tasks run in parallel.
 #
-# The run is bounded two ways: the job timeout (120 minutes) and the
+# SECURITY (Greta's checklist): workflow-level permissions are empty;
+# each job grants only what it needs. The agent job may push its WIP
+# branch (contents: write) but holds NO pull-requests permission; the
+# publish job opens the PR and never sees META_API_KEY. The key is
+# passed only to the agent/repair steps as an environment variable —
+# never printed, committed, or passed as a command-line flag. All
+# third-party actions are pinned to commit SHAs.
+#
+# Exit code 0 from `muse exec` means the turn finished — NOT that the
+# work is correct. Correctness is gated on the verify command passing
+# in full, twice (in-loop and at the gate).
+#
+# The run is bounded two ways: the job timeout (90 minutes) and the
 # `max_model_steps` input passed to `muse exec`. A headless run cannot
 # answer approval prompts, so the run uses `--approval-mode never`;
 # the Muse sandbox still contains the run.
@@ -39,32 +62,60 @@ on:
         type: number
         required: true
         default: 100
+      verify_command:
+        description: "Gate command(s) run in the verify loop and at the gate"
+        type: string
+        required: true
+        default: "npm run build"
 
-permissions:
-  contents: write
-  pull-requests: write
+permissions: {}
 
 concurrency:
-  group: muse-code
+  group: muse-code-${{ inputs.task_file }}
+  queue: max
   cancel-in-progress: false
 
 jobs:
   muse-task:
     name: Muse task
     runs-on: ubuntu-latest
-    timeout-minutes: 120
+    timeout-minutes: 90
+    permissions:
+      contents: write # WIP branch pushes only; this job cannot open PRs
     steps:
       - name: Check out the repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          fetch-depth: 0
+
+      - name: Create the WIP branch (deterministic — the agent never switches branches)
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git switch -c "muse/${{ github.run_id }}"
+          git push -u origin "muse/${{ github.run_id }}"
 
       - name: Set up Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
         with:
           node-version: 22
-          cache: npm
 
-      - name: Install bubblewrap (required for the Muse sandbox on Linux)
-        run: sudo apt-get update && sudo apt-get install -y bubblewrap
+      - name: Restore the npm download cache
+        uses: actions/cache/restore@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
+        with:
+          path: ~/.npm
+          key: npm-${{ runner.os }}-${{ hashFiles('package-lock.json', 'packages/*/package-lock.json') }}
+          restore-keys: |
+            npm-${{ runner.os }}-
+
+      - name: Install bubblewrap and unblock user namespaces for the sandbox
+        run: |
+          sudo apt-get update && sudo apt-get install -y bubblewrap
+          # Ubuntu 24.04 runners restrict unprivileged user namespaces via
+          # AppArmor; without this, bwrap dies with "Operation not
+          # permitted" and the agent's shell cannot execute anything —
+          # the exact failure that blinded the first foundation run.
+          sudo sysctl -w kernel.apparmor_restrict_unprivileged_userns=0
 
       - name: Install Muse Code
         run: |
@@ -72,113 +123,138 @@ jobs:
           echo "$HOME/.local/bin" >> "$GITHUB_PATH"
           "$HOME/.local/bin/muse" --version
 
-      - name: Install dependencies (so Muse can run the repo's build itself)
-        run: npm ci
+      - name: Install dependencies (root + every package, before the agent starts)
+        run: |
+          npm ci
+          for pkg in packages/*/; do
+            if [ -f "$pkg/package.json" ]; then
+              echo "Installing $pkg"
+              (cd "$pkg" && npm ci)
+            fi
+          done
 
       - name: Run the Muse task
         env:
           META_API_KEY: ${{ secrets.META_API_KEY }}
         run: |
           set -o pipefail
+          mkdir -p "${{ runner.temp }}/bench"
           muse exec \
             --prompt-file "${{ inputs.task_file }}" \
             --approval-mode never \
             --max-model-steps ${{ inputs.max_model_steps }} \
-            --json | tee muse-run.jsonl
+            --json | tee "${{ runner.temp }}/bench/muse-run.jsonl"
 
       - name: Fail if Muse made no changes
         run: |
-          # muse-run.jsonl is a run log, not work product — ignore it here.
-          if [ -z "$(git status --porcelain -- . ':(exclude)muse-run.jsonl')" ]; then
+          if [ -z "$(git status --porcelain)" ]; then
             echo "::error::Muse finished but the working tree has no changes. Failing visibly instead of opening an empty PR."
             exit 1
           fi
           git status --porcelain
 
-      - name: Upload the Muse run log
+      - name: Verify→repair loop (agent sees failures and fixes them in-run)
+        env:
+          META_API_KEY: ${{ secrets.META_API_KEY }}
+          VERIFY_COMMAND: ${{ inputs.verify_command }}
+        run: |
+          BENCH="${{ runner.temp }}/bench"
+          checkpoint() {
+            git add -A
+            if git diff --cached --quiet; then
+              echo "No changes to checkpoint."
+              return 0
+            fi
+            git commit -m "Muse checkpoint: $1"
+            git push origin "muse/${{ github.run_id }}"
+          }
+          checkpoint "initial agent turn"
+          for round in 1 2 3; do
+            if eval "$VERIFY_COMMAND" > "$BENCH/verify-output.txt" 2>&1; then
+              echo "Verify green on round $round."
+              break
+            fi
+            if [ "$round" -eq 3 ]; then
+              echo "::error::Verify still red after three rounds. The publish job will not run; verify output is uploaded as an artifact and the WIP branch keeps the checkpoints."
+              tail -n 100 "$BENCH/verify-output.txt"
+              exit 1
+            fi
+            echo "Verify red on round $round — running repair turn $round of 3 with the verify output as the prompt."
+            {
+              echo "You are continuing work in the wwwhues repo (the hues.flowers website). A previous Muse run worked on the task in \`${{ inputs.task_file }}\` (read it, and the files it points to, for scope) but left the tree failing the repo's verify command: \`$VERIFY_COMMAND\`. Dependencies for the root and every packages/* workspace are already installed — run the verify command yourself to see failures first-hand, and re-run it after your fixes. The latest verify output is below."
+              echo ""
+              echo "Fix ONLY what the verify output reports. Do not widen scope, do not start new features, and do not re-do work that already passes. Finish every handler or function you reference — a referenced-but-missing function is what failed a previous run. Leave no unused imports. You may fix a test file only where the test itself is broken (a syntax or runtime error in the test); never weaken or delete an assertion to make the gate pass. If the output shows a lockfile out of sync (npm EUSAGE, 'Missing: ... from lock file'), run \`npm install\` in the affected package so its package-lock.json is regenerated as part of your changes."
+              echo ""
+              echo '```'
+              tail -n 300 "$BENCH/verify-output.txt"
+              echo '```'
+            } > "$BENCH/fix-prompt.md"
+            set -o pipefail
+            muse exec \
+              --prompt-file "$BENCH/fix-prompt.md" \
+              --approval-mode never \
+              --max-model-steps ${{ inputs.max_model_steps }} \
+              --json | tee -a "$BENCH/muse-fix.jsonl"
+            checkpoint "repair round $round"
+          done
+
+      - name: Gate — re-run the verify command on the final tree
+        env:
+          VERIFY_COMMAND: ${{ inputs.verify_command }}
+        run: |
+          eval "$VERIFY_COMMAND"
+          git add -A
+          if ! git diff --cached --quiet; then
+            git commit -m "Muse: $(basename "${{ inputs.task_file }}")"
+            git push origin "muse/${{ github.run_id }}"
+          fi
+
+      - name: Save the npm download cache
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/cache/save@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
         with:
-          name: muse-run-log
-          path: muse-run.jsonl
+          path: ~/.npm
+          key: npm-${{ runner.os }}-${{ hashFiles('package-lock.json', 'packages/*/package-lock.json') }}
+
+      - name: Upload run logs and verify output
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: muse-run-logs
+          path: ${{ runner.temp }}/bench/
           if-no-files-found: warn
           retention-days: 14
 
-      - name: Gate on the repo's build, with fix-up turns
-        env:
-          META_API_KEY: ${{ secrets.META_API_KEY }}
-        run: |
-          npm ci
-          for attempt in 1 2 3 4; do
-            if npm run build > gate-output.txt 2>&1; then
-              echo "Gate green on attempt $attempt."
-              break
-            fi
-            if [ "$attempt" -eq 4 ]; then
-              echo "::error::Gate still red after three repair turns. Failing without a PR; gate output is uploaded as an artifact."
-              tail -n 100 gate-output.txt
-              exit 1
-            fi
-            echo "Gate red on attempt $attempt — running repair turn $attempt of 3 with the gate output as the prompt."
-            {
-              echo "You are continuing work in the wwwhues repo (the hues.flowers website). A previous Muse run worked on the task in \`${{ inputs.task_file }}\` (read it, and the files it points to, for scope) but left the tree failing the repo's gate, \`npm run build\`. The gate output is below."
-              echo ""
-              echo "Fix ONLY what the gate output reports. Do not widen scope, do not start new features, and do not re-do work that already passes. Finish every handler or function you reference — a referenced-but-missing function is what failed the last run. Leave no unused imports. You may fix a test file only where the test itself is broken (a syntax or runtime error in the test); never weaken or delete an assertion to make the gate pass. Your shell sandbox may fail with bwrap errors — if it does, keep working from the gate output below; the workflow re-runs the gate after your turn, so you do not need to run it yourself."
-              echo ""
-              echo '```'
-              tail -n 300 gate-output.txt
-              echo '```'
-            } > fix-prompt.md
-            set -o pipefail
-            muse exec \
-              --prompt-file fix-prompt.md \
-              --approval-mode never \
-              --max-model-steps ${{ inputs.max_model_steps }} \
-              --json | tee -a muse-fix.jsonl
-          done
-
-      - name: Upload gate output and fix-up logs
-        if: always()
-        uses: actions/upload-artifact@v4
+  publish:
+    name: Open the pull request
+    needs: muse-task
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+      pull-requests: write
+    steps:
+      - name: Check out the WIP branch
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
         with:
-          name: gate-and-fix-logs
-          path: |
-            gate-output.txt
-            muse-fix.jsonl
-          if-no-files-found: ignore
-          retention-days: 14
+          ref: muse/${{ github.run_id }}
+          fetch-depth: 0
 
       - name: Open a pull request with the changes
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          # The run log was already uploaded as an artifact above.
-          # Delete it — and the gate/fix-up scratch files — so none of
-          # them can ever be committed.
-          rm -f muse-run.jsonl muse-fix.jsonl gate-output.txt fix-prompt.md
-
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-
-          BRANCH="muse/${{ github.run_id }}"
-          git switch -c "$BRANCH"
-          git add -A
-
-          if git diff --cached --quiet; then
-            echo "::error::Nothing staged after removing the run log. Refusing to open an empty PR."
+          if [ "$(git rev-list --count origin/main..HEAD)" -eq 0 ]; then
+            echo "::error::The WIP branch has no commits beyond main. Refusing to open an empty PR."
             exit 1
           fi
-
-          git commit -m "Muse: $(basename "${{ inputs.task_file }}")"
-          git push origin "$BRANCH"
-
           gh pr create \
             --base main \
-            --head "$BRANCH" \
+            --head "muse/${{ github.run_id }}" \
             --title "Muse: $(basename "${{ inputs.task_file }}")" \
             --body "Produced by the manually dispatched \`Muse\` workflow (run ${{ github.run_id }}).
 
           - Task file used: \`${{ inputs.task_file }}\`
-          - The full Muse run log is attached to that workflow run as the \`muse-run-log\` artifact; gate output and any fix-up turns are in \`gate-and-fix-logs\`.
-          - Gate: \`npm run build\` passed in the workflow (after fix-up turns if any were needed) — no PR is created when the gate stays red.
+          - The full Muse run log and verify output are attached to that workflow run as the \`muse-run-logs\` artifact.
+          - Gate: \`${{ inputs.verify_command }}\` passed in the workflow's verify→repair loop and again at the post-agent gate — no PR is created when the gate stays red.
           - Not auto-merged. Hue reviews the diff against the task file before any merge."
