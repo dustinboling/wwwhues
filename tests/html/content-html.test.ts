@@ -11,9 +11,19 @@ import {
 } from './html-helpers'
 import { ABOUT_PARAGRAPHS } from '../../content/about'
 import { ARCADE_GAMES } from '../../content/arcade'
+import { DAHLIAS, DAHLIAS_GAME_CARD, DAHLIAS_HERO, NO_PHOTO_ART_KEY } from '../../content/dahlias'
 import { FLORAL_PARK_FACTS } from '../../content/floral-park'
+import { MUSIC_HERO, MUSIC_SETS, MUSIC_STAY_TUNED } from '../../content/music'
 import { buildGatherEventJsonLd } from '../../content/gather'
 import { parkTodayLabel } from '../../content/park-date'
+import {
+  SEASONS,
+  SEASONS_PLAN_VISIT,
+  SEASONS_STATUS,
+  SEASONS_WORKING_ON,
+  seasonBySlug,
+  seasonDetailMeta,
+} from '../../content/seasons'
 import { formatEventDate, formatPrice, type PlaySnapshot } from '../../content/play'
 import { UCUT_DAHLIA_GUIDE, UCUT_FACTS, UCUT_GUIDE_GROUPS, UCUT_STEPS } from '../../content/ucut'
 import { VISIT_DRIVING, VISIT_FACTS, VISIT_FAQS, VISIT_NEXT_STEPS } from '../../content/visit'
@@ -52,6 +62,20 @@ const UCUT_GUIDE_KEYS = [
 ]
 
 const ARCADE_THUMB_KEYS = ARCADE_GAMES.flatMap((game) => game.thumbs)
+
+const DAHLIAS_PHOTO_KEYS = DAHLIAS.flatMap((cultivar) =>
+  cultivar.photoKey === null ? [] : [cultivar.photoKey],
+)
+
+const SPRING = seasonBySlug('spring')
+if (SPRING === undefined) throw new Error('season fixture missing: spring')
+const SPRING_META = seasonDetailMeta(SPRING)
+const SPRING_KEYS = [
+  ...SPRING.groups.map((group) => group.artKey),
+  ...SPRING.groups.flatMap((group) =>
+    group.flowers.flatMap((flower) => (flower.photoKey === undefined ? [] : [flower.photoKey])),
+  ),
+]
 
 const ROUTES: RouteContract[] = [
   {
@@ -209,6 +233,56 @@ const ROUTES: RouteContract[] = [
     twitterDescription: 'Little games to play among the flowers — Hue and Cocoa presiding.',
     heroKey: 'hues/play/arcade-hero-trio.webp',
     contentKeys: ['hues/play/arcade-hero-trio.webp', ...ARCADE_THUMB_KEYS],
+  },
+  {
+    dir: 'dahlias',
+    path: '/dahlias',
+    title: "Dusty's Dahlias",
+    description:
+      "Explore Dusty's Dahlias at Hues Flower Farm in Junction City, Oregon — hundreds of dahlia varieties in bloom for u-pick bouquets, with new cultivars trialed every season.",
+    ogImageKey: 'hues/og/dahlias.jpg',
+    twitterTitle: 'Dahlias — Hues Floral Park',
+    twitterDescription:
+      'Over 120 dahlia varieties grow at Hues Floral Park — dinnerplates, balls, pompoms, cactus and collarettes. Tubers in the spring; armfuls of cut blooms from August to the first frost.',
+    heroKey: DAHLIAS_HERO.artKey,
+    contentKeys: [...DAHLIAS_PHOTO_KEYS, NO_PHOTO_ART_KEY],
+  },
+  {
+    dir: 'whats-in-season',
+    path: '/whats-in-season',
+    title: "What's in Season",
+    description:
+      "What's blooming at Hues Floral Park in Junction City, Oregon, through the growing season — spring's daffodils, lupine, columbine, iris and alliums, summer's cottage beds, and the dahlias: first blooms in August, peak in September.",
+    ogImageKey: 'hues/og/season.jpg',
+    twitterTitle: 'What’s in Season — Hues Floral Park',
+    twitterDescription:
+      'The year in blooms at Hues Floral Park — Mother’s Day cutting beds, May’s lupine and iris, the cottage beds of summer, and dahlias at their peak come fall.',
+    heroKey: null,
+    contentKeys: SEASONS.map((season) => season.artKey),
+  },
+  {
+    dir: 'season/spring',
+    path: '/season/spring',
+    title: SPRING_META.title,
+    description: SPRING_META.description,
+    ogImageKey: 'hues/og/season.jpg',
+    twitterTitle: SPRING_META.twitterTitle,
+    twitterDescription: SPRING_META.twitterDescription,
+    heroKey: SPRING.groups[0]?.artKey ?? null,
+    contentKeys: SPRING_KEYS,
+  },
+  {
+    dir: 'music',
+    path: '/music',
+    title: 'The Music of Hues',
+    description:
+      'The Sound of Hues — the music of Hues Floral Park in Junction City, Oregon. Listen to all 38 of the park’s easy-listening songs, each one by name: 19 with vocals and 19 instrumentals, made to wander with.',
+    ogImageKey: 'hues/og/music.jpg',
+    twitterTitle: 'The Sound of Hues — Hues Floral Park',
+    twitterDescription:
+      'The music of Hues Floral Park, song by song: all 38 easy-listening songs by name — 19 with vocals, 19 instrumentals. Press play, and for a little while the park is not so far away.',
+    heroKey: MUSIC_HERO.artKey,
+    contentKeys: [MUSIC_HERO.artKey],
   },
 ]
 
@@ -922,5 +996,195 @@ describe('prerendered /volunteer HTML — primary content', () => {
     expect(html).toContain('href="/working-on"')
     expect(text).toContain('What We’re Working On Now')
     expect(text).toContain('Hues Floral Park, A little world apart.')
+  })
+})
+
+describe('prerendered /dahlias HTML — primary content', () => {
+  it('carries the hero, the stats, and the full A–Z grid', () => {
+    const { html, text } = page('dahlias')
+    expect(text).toContain('The heart of Hues')
+    expect(text).toContain('Over 120 dahlia varieties — available as tubers in the spring')
+    for (const [big, small] of [
+      ['120+', 'varieties'],
+      ['Aug–Oct', 'cut flowers'],
+      ['Spring', 'tuber sales'],
+    ]) {
+      expect(text).toContain(big)
+      expect(text).toContain(small)
+    }
+    expect(html).toContain('alt="Dahlia close-up at Hues Floral Park"')
+    expect(text).toContain('The collection, A–Z')
+    expect(text).toContain('All 111 varieties in the beds')
+    expect(text).toContain('35 photographed at the park so far')
+    for (const cultivar of DAHLIAS) {
+      expect(text).toContain(cultivar.name)
+      // Decoded text: React escapes the apostrophe in aria-labels as &#x27;.
+      expect(text).toContain(`See photos of ${cultivar.name} on Google`)
+    }
+    // 35 park photos with content alt text; 76 printed plates.
+    expect(html.match(/dahlia in bloom at Hues Floral Park/g)).toHaveLength(35)
+    expect(html.match(/dahlias-card__nophoto/g)).toHaveLength(76)
+  })
+
+  it('carries the letter nav, the filter surface, and the game card', () => {
+    const { html, text } = page('dahlias')
+    const letters = [...new Set(DAHLIAS.map((cultivar) => cultivar.name.charAt(0).toUpperCase()))].sort()
+    for (const letter of letters) {
+      expect(html).toContain(`href="#letter-${letter}"`)
+      expect(html).toContain(`id="letter-${letter}"`)
+    }
+    expect(text).toContain('Search the collection')
+    expect(html).toContain('type="search"')
+    expect(text).toContain('All varieties')
+    expect(text).toContain('With photos')
+    expect(text).toContain('No photo yet')
+    expect(text).toContain('111 varieties')
+    expect(text).toContain(DAHLIAS_GAME_CARD.title)
+    expect(text).toContain(DAHLIAS_GAME_CARD.text)
+    expect(html).toContain('href="/this-or-that"')
+    expect(text).toContain(DAHLIAS_GAME_CARD.cta)
+    expect(text).toContain('Hues Floral Park, A little world apart.')
+  })
+
+  it('carries the collection ItemList from the same source as the grid', () => {
+    const { html } = page('dahlias')
+    const blocks = jsonLdBlocks(html) as GraphBlock[]
+    const itemList = blocks.find((block) => block['@type'] === 'ItemList') as
+      | {
+          name: string
+          numberOfItems: number
+          itemListElement: Array<{ '@type': string; position: number; name: string }>
+        }
+      | undefined
+    expect(itemList).toBeDefined()
+    expect(itemList?.name).toBe("Dusty's Dahlias — the Hues collection")
+    expect(itemList?.numberOfItems).toBe(DAHLIAS.length)
+    expect(itemList?.itemListElement).toHaveLength(DAHLIAS.length)
+    for (const [index, cultivar] of DAHLIAS.entries()) {
+      const item = itemList?.itemListElement[index]
+      expect(item?.['@type']).toBe('ListItem')
+      expect(item?.position).toBe(index + 1)
+      expect(item?.name).toBe(cultivar.name)
+    }
+  })
+})
+
+describe('prerendered /whats-in-season HTML — primary content', () => {
+  it('carries the hero, the status snapshot, and the three season panels', () => {
+    const { html, text } = page('whats-in-season')
+    expect(text).toContain('What’s in Season')
+    expect(text).toContain('Every season brings its own kind of magic to Hues')
+    expect(text).toContain('Flowers keep their own calendar, though')
+    expect(text).toContain(SEASONS_STATUS.headline)
+    expect(text).toMatch(/Season status · [A-Z][a-z]+ \d{1,2}, \d{4}/)
+    expect(text).toContain(SEASONS_STATUS.body)
+    expect(text).toContain('Status snapshot from')
+    expect(text).toContain('hours and picking change with the season')
+    expect(text).toContain('The Year in Blooms')
+    for (const season of SEASONS) {
+      expect(html).toContain(`href="/season/${season.slug}"`)
+      expect(text).toContain(season.title)
+      expect(text).toContain(season.when)
+      expect(text).toContain(season.lede)
+      for (const point of season.points) {
+        expect(text).toContain(point)
+      }
+    }
+    expect(text).toContain('Meet the flowers ›')
+  })
+
+  it('carries the working-on list and the plan-your-visit close', () => {
+    const { html, text } = page('whats-in-season')
+    expect(text).toContain('What It’s All For')
+    expect(text).toContain('sweet peas at the entrance')
+    for (const item of SEASONS_WORKING_ON.items) {
+      expect(text).toContain(item.title)
+      expect(text).toContain(item.text)
+    }
+    expect(html).toContain('href="/working-on"')
+    expect(text).toContain('Plan Your Visit')
+    expect(text).toContain(SEASONS_PLAN_VISIT.body)
+    expect(text).toContain('93485 River Road, Junction City, OR 97448')
+    expect(html).toContain('tel:+14582451323')
+    expect(html).toContain('href="/floral-park"')
+  })
+})
+
+describe('prerendered /season/spring HTML — primary content', () => {
+  it('carries the hero and every group with its flower cards', () => {
+    const { html, text } = page('season/spring')
+    expect(text).toContain('Spring at Hues')
+    expect(text).toContain('What’s in season · March – May')
+    expect(text).toContain(SPRING.lede)
+    for (const group of SPRING.groups) {
+      expect(text).toContain(group.heading)
+      expect(text).toContain(group.when)
+      for (const flower of group.flowers) {
+        expect(text).toContain(flower.name)
+        expect(text).toContain(flower.when)
+        expect(text).toContain(flower.text)
+        expect(text).toContain(flower.tag)
+        if (flower.photoAlt !== undefined) {
+          expect(html).toContain(`alt="${flower.photoAlt}"`)
+        }
+      }
+    }
+    // The dahlias catalog card is fall-only.
+    expect(text).not.toContain('Every dahlia variety')
+  })
+
+  it('carries the hub + next-season footer and no page-level JSON-LD', () => {
+    const { html, text } = page('season/spring')
+    expect(html).toContain('href="/whats-in-season"')
+    expect(text).toContain('‹ The season at a glance')
+    expect(html).toContain('href="/season/summer"')
+    expect(text).toContain('Next: Summer ›')
+    expect(text).toContain('Hues Floral Park, A little world apart.')
+    const blocks = jsonLdBlocks(html) as GraphBlock[]
+    expect(blocks.filter((block) => block['@type'] !== undefined && block['@graph'] === undefined)).toHaveLength(0)
+  })
+})
+
+describe('prerendered /music HTML — primary content', () => {
+  it('carries the hero and both set lists, every song by name', () => {
+    const { html, text } = page('music')
+    expect(text).toContain('The Music of Hues')
+    expect(text).toContain('The music that plays in the park.')
+    expect(text).toContain('music drifting over the beds under the string lights')
+    expect(html).toContain(
+      'alt="Watercolor of the dahlia beds at dusk under string lights, with golden musical notes drifting over the flowers"',
+    )
+    expect(text).toContain('The Sound of Hues')
+    expect(text).toContain('each under its own name')
+    for (const set of MUSIC_SETS) {
+      expect(text).toContain(set.label)
+      expect(text).toContain(set.note)
+      for (const track of set.tracks) {
+        expect(text).toContain(track.title)
+        expect(text).toContain(track.duration)
+        expect(html).toContain(`aria-label="Play ${track.title}"`)
+      }
+    }
+    expect(text).toContain('Stay Tuned!')
+    expect(text).toContain('Check back as the year turns')
+    expect(text).toContain('let the music keep a little of it with you')
+    expect(text).toContain('Hues Floral Park, A little world apart.')
+    // No coming-soon song listings — the retired section stays retired.
+    expect(text).not.toContain('On Their Way')
+  })
+
+  it('points every track at the media-domain delivery with no page-level JSON-LD', () => {
+    const { html } = page('music')
+    const sources = html.match(/data-audio-src="[^"]+"/g) ?? []
+    expect(sources).toHaveLength(38)
+    for (const set of MUSIC_SETS) {
+      for (const track of set.tracks) {
+        expect(html).toContain(`data-audio-src="${track.src}"`)
+        expect(track.src.startsWith('https://media.hues.flowers/music/tracks/')).toBe(true)
+      }
+    }
+    expect(html).not.toContain('"/music/tracks/')
+    const blocks = jsonLdBlocks(html) as GraphBlock[]
+    expect(blocks.filter((block) => block['@type'] !== undefined && block['@graph'] === undefined)).toHaveLength(0)
   })
 })

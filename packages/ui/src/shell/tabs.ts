@@ -10,7 +10,7 @@ export const HUES_TABS: ReadonlyArray<Omit<TabDefinition, 'medallion' | 'medalli
   { id: 'home', label: 'Home', href: '/' },
   { id: 'visit', label: 'Visit', href: '/visit' },
   { id: 'help', label: 'Help', href: '/help', activeAlso: ['/sponsor', '/volunteer'] },
-  { id: 'seasons', label: 'Seasons', href: '/whats-in-season', activeAlso: ['/whats-in-season'] },
+  { id: 'seasons', label: 'Seasons', href: '/whats-in-season', activeAlso: ['/whats-in-season', '/season'] },
   { id: 'arcade', label: 'Arcade', href: '/arcade' },
   { id: 'music', label: 'Music', href: '/music' },
   { id: 'more', label: 'More' },

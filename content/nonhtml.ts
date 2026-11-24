@@ -43,9 +43,9 @@ const AI_SEARCH_BOTS = [
 ]
 
 // Sort, page-size, and session parameters stay out of the crawl
-// (Data #1.5 defaults). Slice C's dahlias parameter policy table adopts
-// these spellings or amends this list with them.
-const PARAM_DISALLOWS = ['/*?*sort=', '/*?*page-size=', '/*?*session=']
+// (Data #1.5 defaults), plus the dahlias grid's filter spellings from
+// its parameter policy table (content/dahlias.ts): q + photo.
+const PARAM_DISALLOWS = ['/*?*sort=', '/*?*page-size=', '/*?*session=', '/*?*q=', '/*?*photo=']
 
 /**
  * robots.txt: semantics byte-identical to the current site's, plus the

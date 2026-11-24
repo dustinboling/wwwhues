@@ -1,0 +1,232 @@
+/* Dahlias collection: hero stats, the filter row (sticky on phone, a
+ * rail on desktop per Nadia §2), the letter nav, and the cultivar
+ * grid. Type, color, and space name token roles only. */
+
+.dahlias-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-200);
+  max-width: 40rem;
+  margin: var(--space-400) auto 0;
+  padding: 0;
+  text-align: center;
+}
+
+.dahlias-stats__stat {
+  padding: var(--space-300) var(--space-100);
+}
+
+.dahlias-stats__big {
+  margin: 0;
+  font-family: var(--text-display-face);
+  font-size: var(--text-h3-size);
+  line-height: var(--text-h3-leading);
+  font-weight: var(--text-display-weight);
+  color: var(--color-text-strong);
+}
+
+.dahlias-stats__small {
+  margin-top: var(--space-025);
+  font-family: var(--text-overline-face);
+  font-size: var(--text-caption-size);
+  letter-spacing: var(--text-overline-tracking);
+  font-weight: var(--text-overline-weight);
+  text-transform: var(--text-overline-case);
+  color: var(--color-text-faint);
+}
+
+.dahlias-browse {
+  margin-top: var(--space-400);
+}
+
+.dahlias-filters {
+  display: grid;
+  gap: var(--space-200);
+  padding: var(--space-300);
+}
+
+/* Phone: the filter row sticks under the top bar while the grid
+ * scrolls beneath it. Positioned paint order keeps it above the
+ * (non-positioned) cards with no z-index of its own. */
+@media (max-width: 1023px) {
+  .dahlias-filters {
+    position: sticky;
+    top: var(--shell-top-clearance);
+  }
+}
+
+@media (min-width: 1024px) {
+  .dahlias-browse {
+    display: grid;
+    grid-template-columns: 16rem 1fr;
+    gap: var(--space-400);
+    align-items: start;
+  }
+
+  .dahlias-filters {
+    position: sticky;
+    top: calc(var(--shell-top-clearance) + var(--space-300));
+  }
+}
+
+.dahlias-filters__count {
+  margin: 0;
+  font-size: var(--text-caption-size);
+  color: var(--color-text-faint);
+}
+
+.dahlias-letters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-100);
+}
+
+.dahlias-letters__chip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: var(--shell-target-min);
+  min-height: var(--shell-target-min);
+  border-radius: var(--radius-full);
+  background: var(--color-surface);
+  color: var(--color-text-strong);
+  font-weight: var(--text-h3-weight);
+  text-decoration: none;
+}
+
+.dahlias-letter {
+  margin-top: var(--space-400);
+}
+
+.dahlias-letter__heading {
+  display: flex;
+  align-items: center;
+  gap: var(--space-200);
+  margin: 0;
+  scroll-margin-top: calc(var(--shell-top-clearance) + 12rem);
+}
+
+.dahlias-letter__glyph {
+  font-family: var(--text-display-face);
+  font-size: var(--text-h2-size);
+  font-weight: var(--text-display-weight);
+  color: var(--color-accent-ink);
+}
+
+.dahlias-letter__rule {
+  flex: 1;
+  height: var(--shell-topbar-border);
+  background: var(--color-line);
+}
+
+.dahlias-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-200);
+  margin: var(--space-200) 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+@media (min-width: 768px) {
+  .dahlias-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (min-width: 1280px) {
+  .dahlias-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.dahlias-card {
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.dahlias-card__photo {
+  display: block;
+}
+
+.dahlias-card__plate {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-100);
+  margin: var(--space-200);
+  padding: var(--space-300) var(--space-200);
+  border: var(--shell-topbar-border) dashed var(--color-accent);
+  border-radius: var(--radius-md);
+  text-align: center;
+}
+
+.dahlias-card__plate .hues-image__img {
+  width: 2.5rem;
+  height: auto;
+}
+
+.dahlias-card__noname {
+  font-family: var(--text-display-face);
+  font-size: var(--text-title-size);
+  line-height: var(--text-title-leading);
+  font-weight: var(--text-display-weight);
+  color: var(--color-text);
+}
+
+.dahlias-card__nophoto {
+  font-family: var(--text-overline-face);
+  font-size: var(--text-caption-size);
+  letter-spacing: var(--text-overline-tracking);
+  font-weight: var(--text-overline-weight);
+  text-transform: var(--text-overline-case);
+  color: var(--color-text-faint);
+}
+
+.dahlias-card__body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-100);
+  padding: var(--space-200);
+}
+
+.dahlias-card__name {
+  font-family: var(--text-display-face);
+  font-size: var(--text-title-size);
+  line-height: var(--text-title-leading);
+  font-weight: var(--text-display-weight);
+  color: var(--color-text);
+}
+
+.dahlias-card__text {
+  font-size: var(--text-body-size);
+  line-height: var(--text-body-leading);
+  color: var(--color-text-muted);
+}
+
+.dahlias-card__link {
+  font-size: var(--text-caption-size);
+  font-weight: var(--text-h3-weight);
+}
+
+.dahlias-game {
+  padding: var(--space-400);
+  border-radius: var(--radius-xl);
+  background: var(--color-text-strong);
+  color: var(--color-bg);
+}
+
+.dahlias-game .c-eyebrow,
+.dahlias-game .c-section__title,
+.dahlias-game .c-lede {
+  color: var(--color-bg);
+}
+
+.dahlias-signoff {
+  margin-top: var(--space-400);
+  font-family: var(--text-display-face);
+  font-style: italic;
+  text-align: center;
+  color: var(--color-text-muted);
+}

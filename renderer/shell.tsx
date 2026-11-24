@@ -29,6 +29,14 @@ import {
   MORE_SHEET_ROWS,
   SHELL_ART,
 } from '../content/site'
+import {
+  currentTrack,
+  nextTrack,
+  restorePlayback,
+  stopPlayer,
+  togglePlay,
+  usePlayerState,
+} from './player'
 
 // Media layer bootstrap (plan §1d): every image in the app resolves
 // against the media domain. Idempotent; runs once per environment.
@@ -83,6 +91,25 @@ export function SiteShell({ children }: { children: ReactNode }): JSX.Element {
   const { urlPathname } = usePageContext()
   const [moreOpen, setMoreOpen] = useState(false)
   const art = tabArt()
+  // The shell player engine (Nadia §4.4): one audio element living in
+  // the shell, so playback survives client-side navigation. /music is
+  // the player's full view, so the bar stays away there.
+  const player = usePlayerState()
+  const song = currentTrack(player)
+  const miniTrack =
+    song === null || urlPathname === '/music'
+      ? null
+      : {
+          title: song.title,
+          setLabel: `${player.groupLabel ?? 'The Sound of Hues'} · The Sound of Hues`,
+          href: '/music',
+        }
+
+  // An interrupted session restores paused at its song, once, on mount
+  // (client-only — the prerender is always idle).
+  useEffect(() => {
+    restorePlayback()
+  }, [])
 
   // Route changes close the More sheet (the overlay-history hook drops
   // the pushed entry silently on this path).
@@ -110,6 +137,7 @@ export function SiteShell({ children }: { children: ReactNode }): JSX.Element {
           currentPath={urlPathname}
           discArt={art.discArt}
           plateArt={art.plateArt}
+          musicPlaying={player.playing}
           onMoreTab={() => setMoreOpen(true)}
           moreOpen={moreOpen}
         />
@@ -145,7 +173,15 @@ export function SiteShell({ children }: { children: ReactNode }): JSX.Element {
           }
         />
       }
-      player={<MiniPlayer track={null} />}
+      player={
+        <MiniPlayer
+          track={miniTrack}
+          playing={player.playing}
+          onPlayPause={togglePlay}
+          onStop={stopPlayer}
+          onNext={nextTrack}
+        />
+      }
       notices={
         <Sheet open={moreOpen} onClose={() => setMoreOpen(false)} title="More">
           <nav aria-label="More">
