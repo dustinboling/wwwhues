@@ -1,0 +1,32 @@
+{
+  // Typecheck for the Vike SPA only (verify:app). The Next.js site keeps
+  // using tsconfig.json, which excludes these dirs so neither build
+  // typechecks the other's tree.
+  "compilerOptions": {
+    "target": "ES2022",
+    "lib": ["DOM", "DOM.Iterable", "ESNext"],
+    "jsx": "react-jsx",
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "resolveJsonModule": true,
+    "allowJs": true,
+    "strict": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "noEmit": true,
+    "esModuleInterop": true,
+    "isolatedModules": true,
+    "types": ["node"]
+  },
+  "include": [
+    "routes",
+    "renderer",
+    "server",
+    "content",
+    "tests",
+    "vite.config.mts",
+    "vitest.app.config.ts",
+    "eslint.app.config.mjs"
+  ],
+  "exclude": ["node_modules", "dist"]
+}

@@ -1,0 +1,46 @@
+{
+  // Input config for the hues.flowers SPA Worker (architecture-plan §1a).
+  // BUILD ONLY: nothing deploys in this slice. Production hosts move into
+  // routes[] only at the cutover commit (a later, separately gated step).
+  // Worker name is deliberately NOT the live `huesflowers` worker.
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "huesflowers-spa",
+  "compatibility_date": "2026-11-24",
+  "compatibility_flags": ["nodejs_compat"],
+  "main": "vike:server",
+  "assets": {
+    // NO "directory": with the Vite plugin it automatically points to the
+    // client build output.
+    "not_found_handling": "404-page",
+    "binding": "ASSETS",
+    "run_worker_first": [
+      "/api/*",
+      "/m",
+      "/m/*",
+      "/m2",
+      "/m2/*",
+      "/product",
+      "/product/*",
+      "/give",
+      "/play",
+      "/play/*",
+      "/articles*",
+      "/projects",
+      "/speaking",
+      "/uses",
+      "/thank-you",
+      "/this-or-that",
+      "/this-or-that/*",
+      "/preview/*"
+    ]
+  },
+  "observability": {
+    "enabled": true
+  },
+  "vars": {
+    "ACCOUNTS_API_URL": "https://hues-accounts-api.dustin-boling.workers.dev",
+    "PLAY_API_URL": "https://hues-play-api.dustin-boling.workers.dev",
+    "VOLUNTEER_API_URL": "https://hues-volunteers-api.dustin-boling.workers.dev",
+    "THISORThat_API_URL": "https://hues-thisorthat-api.dustin-boling.workers.dev"
+  }
+}

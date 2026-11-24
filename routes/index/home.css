@@ -1,0 +1,377 @@
+/* Home composition. One centered column (80rem caps the hero at the
+ * media contract's 1280px hero slot); phone stacks, wider breakpoints
+ * open the grids. Type and color name token roles only. */
+
+.home {
+  max-width: 80rem;
+  margin-inline: auto;
+  padding: var(--space-400) var(--space-200) var(--layout-800);
+}
+
+@media (min-width: 768px) {
+  .home {
+    padding-inline: var(--space-400);
+  }
+}
+
+.home-eyebrow {
+  margin: 0;
+  font-family: var(--text-overline-face);
+  font-size: var(--text-overline-size);
+  letter-spacing: var(--text-overline-tracking);
+  font-weight: var(--text-overline-weight);
+  text-transform: var(--text-overline-case);
+  color: var(--color-accent-ink);
+}
+
+/* Hero */
+
+.home-hero {
+  text-align: center;
+}
+
+.home-hero__title {
+  margin: var(--space-200) auto 0;
+  max-width: 60rem;
+  font-family: var(--text-display-face);
+  font-size: var(--text-display-size);
+  line-height: var(--text-display-leading);
+  letter-spacing: var(--text-display-tracking);
+  font-weight: var(--text-display-weight);
+  color: var(--color-text-strong);
+}
+
+.home-hero__lede {
+  margin: var(--space-300) auto 0;
+  max-width: 44rem;
+  font-family: var(--text-lede-face);
+  font-size: var(--text-lede-size);
+  line-height: var(--text-lede-leading);
+}
+
+.home-hero__ctas {
+  margin-top: var(--space-300);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-200);
+}
+
+.home-hero__more {
+  font-weight: var(--weight-semibold);
+}
+
+.home-hero__plate {
+  margin: var(--space-400) 0 0;
+}
+
+.home-hero__plate .hues-image {
+  border-radius: var(--radius-xl);
+}
+
+.home-hero__caption {
+  margin-top: var(--space-150);
+  font-family: var(--text-caption-face);
+  font-size: var(--text-caption-size);
+  color: var(--color-text-muted);
+}
+
+/* Season status snapshot */
+
+.home-status {
+  margin-top: var(--space-400);
+  padding: var(--space-500) var(--space-400);
+  text-align: center;
+}
+
+.home-status__headline {
+  margin: var(--space-150) 0 0;
+  font-family: var(--text-h2-face);
+  font-size: var(--text-h2-size);
+  line-height: var(--text-h2-leading);
+  font-weight: var(--text-h2-weight);
+  color: var(--color-text-strong);
+}
+
+.home-status__detail {
+  margin: var(--space-200) auto 0;
+  max-width: 44rem;
+  font-family: var(--text-body-serif-face);
+  font-size: var(--text-body-serif-size);
+  line-height: var(--text-body-serif-leading);
+}
+
+.home-status__ctas {
+  margin-top: var(--space-300);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--space-150);
+}
+
+.home-status__snapshot {
+  margin: var(--space-200) 0 0;
+  font-family: var(--text-caption-face);
+  font-size: var(--text-caption-size);
+  color: var(--color-text-muted);
+}
+
+/* Sections */
+
+.home-section {
+  margin-top: var(--layout-800);
+}
+
+.home-section__title {
+  margin: var(--space-150) 0 0;
+  font-family: var(--text-h2-face);
+  font-size: var(--text-h2-size);
+  line-height: var(--text-h2-leading);
+  font-weight: var(--text-h2-weight);
+  color: var(--color-text-strong);
+}
+
+.home-seasons {
+  text-align: center;
+}
+
+.home-seasons .home-trio {
+  text-align: left;
+}
+
+.home-section__lede {
+  margin: var(--space-150) auto 0;
+  max-width: 44rem;
+  font-family: var(--text-body-serif-face);
+  font-size: var(--text-body-serif-size);
+  line-height: var(--text-body-serif-leading);
+}
+
+.home-section__cta {
+  margin-top: var(--space-300);
+  display: flex;
+  justify-content: center;
+}
+
+/* Card trios */
+
+.home-trio {
+  margin-top: var(--space-300);
+  display: grid;
+  gap: var(--space-200);
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 768px) {
+  .home-trio {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.home-trio__index {
+  display: block;
+  font-family: var(--text-title-face);
+  font-size: var(--text-title-size);
+  font-weight: var(--text-title-weight);
+  color: var(--color-accent-ink);
+}
+
+.home-trio__title {
+  margin: var(--space-100) 0 0;
+  font-family: var(--text-title-face);
+  font-size: var(--text-title-size);
+  line-height: var(--text-title-leading);
+  font-weight: var(--text-title-weight);
+  color: var(--color-text-strong);
+}
+
+.home-trio__text {
+  margin: var(--space-100) 0 0;
+  font-size: var(--text-body-sm-size);
+  line-height: var(--text-body-sm-leading);
+}
+
+.home-chapter__art {
+  position: relative;
+  display: block;
+  margin-bottom: var(--space-150);
+}
+
+.home-chapter__art .hues-image {
+  border-radius: var(--radius-lg);
+}
+
+.home-chapter__when {
+  position: absolute;
+  top: var(--space-150);
+  left: var(--space-150);
+  padding: var(--space-050) var(--space-150);
+  border-radius: var(--radius-full);
+  background-color: var(--color-text-strong);
+  color: var(--color-on-deep);
+  font-family: var(--text-caption-face);
+  font-size: var(--text-caption-size);
+  font-weight: var(--weight-bold);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+/* Dahlia strip */
+
+.home-strip {
+  margin-top: var(--space-300);
+  display: grid;
+  gap: var(--space-150);
+  grid-template-columns: repeat(2, 1fr);
+}
+
+@media (min-width: 768px) {
+  .home-strip {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .home-strip {
+    grid-template-columns: repeat(6, 1fr);
+  }
+}
+
+.home-strip .hues-image {
+  border-radius: var(--radius-lg);
+}
+
+/* Dusk band */
+
+.home-band {
+  position: relative;
+  margin: var(--layout-800) 0 0;
+}
+
+.home-band .hues-image {
+  border-radius: var(--radius-xl);
+}
+
+.home-band__caption {
+  position: absolute;
+  right: var(--space-300);
+  bottom: var(--space-300);
+  left: var(--space-300);
+  color: var(--color-on-deep);
+}
+
+.home-band__quote {
+  margin: 0;
+  max-width: 40rem;
+  font-family: var(--text-h2-face);
+  font-size: var(--text-h3-size);
+  line-height: var(--text-h3-leading);
+  font-style: italic;
+}
+
+.home-band__text {
+  margin: var(--space-100) 0 0;
+  font-size: var(--text-body-sm-size);
+}
+
+/* Meet Dusty: the one deep-ground panel on the route. */
+
+.home-dusty {
+  margin-top: var(--layout-800);
+  overflow: hidden;
+  border-radius: var(--radius-xl);
+  background-color: var(--color-text-strong);
+  color: var(--color-on-deep);
+}
+
+.home-dusty__body {
+  padding: var(--space-400) var(--space-300);
+}
+
+.home-dusty__portrait {
+  display: block;
+  width: 6rem;
+  margin-top: -5rem;
+}
+
+.home-dusty__portrait .hues-image {
+  border-radius: var(--radius-full);
+}
+
+.home-dusty__quote {
+  margin: var(--space-200) 0 0;
+  font-family: var(--text-h2-face);
+  font-size: var(--text-h3-size);
+  line-height: var(--text-h3-leading);
+  font-style: italic;
+}
+
+.home-dusty__copy {
+  margin: var(--space-150) 0 0;
+  max-width: 44rem;
+  line-height: var(--text-body-leading);
+}
+
+.home-dusty__cta {
+  display: inline-block;
+  margin-top: var(--space-200);
+  padding: var(--button-padding-y) var(--button-padding-x);
+  border-radius: var(--button-radius);
+  background-color: var(--color-on-deep);
+  color: var(--color-text-strong);
+  font-size: var(--button-label-size);
+  font-weight: var(--button-label-weight);
+  text-decoration: none;
+}
+
+/* Visit packet */
+
+.home-visit {
+  margin-top: var(--layout-800);
+  padding: var(--space-500) var(--space-400);
+}
+
+.home-visit__facts {
+  list-style: none;
+  margin: var(--space-200) 0 0;
+  padding: 0;
+  display: grid;
+  gap: var(--space-150);
+}
+
+.home-visit__fact {
+  display: flex;
+  gap: var(--space-150);
+}
+
+.home-driving {
+  margin-top: var(--space-400);
+  display: grid;
+  gap: var(--space-300);
+  grid-template-columns: 1fr;
+  text-align: left;
+}
+
+@media (min-width: 768px) {
+  .home-driving {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.home-driving__title {
+  margin: 0;
+  font-family: var(--text-title-face);
+  font-size: var(--text-title-size);
+  font-weight: var(--text-title-weight);
+  color: var(--color-text-strong);
+}
+
+.home-driving__steps {
+  margin: var(--space-100) 0 var(--space-150);
+  padding-left: var(--space-300);
+  display: grid;
+  gap: var(--space-050);
+  font-size: var(--text-body-sm-size);
+  line-height: var(--text-body-sm-leading);
+}

@@ -1,0 +1,75 @@
+/* App foundation: page ground, shell responsive composition, and the
+ * small app-owned styles (wordmark, account anchor, 404 layout). Values
+ * come from @hues/tokens; media bounds are the spec set (391/500/767/
+ * 768/1023/1024/1280). rem/ch steps in for the few measures with no
+ * role token (container width, prose rhythm). */
+
+body {
+  margin: 0;
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--text-body-face);
+  font-size: var(--text-body-size);
+  line-height: var(--text-body-leading);
+}
+
+/* Shell responsive composition (Nadia §3): phone gets the TopBar and the
+ * tab bar; tablet/desktop get the SiteHeader. display:none removes the
+ * inactive tree from the accessibility tree, so each breakpoint exposes
+ * exactly one banner and one labelled navigation. */
+.hues-site-header {
+  display: none;
+}
+
+@media (min-width: 768px) {
+  .hues-topbar,
+  .hues-tabbar {
+    display: none;
+  }
+
+  .hues-site-header {
+    display: block;
+  }
+}
+
+/* Interim wordmark until Elena's lockup artwork lands. */
+.hues-wordmark {
+  font-family: var(--font-display);
+  font-weight: var(--weight-semibold);
+  color: var(--color-text-strong);
+  white-space: nowrap;
+}
+
+/* The account round is an anchor in this slice (real link, never a
+ * click-handler button); it borrows the kit's round styling. */
+a.hues-account-button {
+  text-decoration: none;
+}
+
+/* 404 layout (Mina §3.5: packet card, one line, Home + Visit actions). */
+.hues-notfound {
+  max-width: 44rem;
+  margin-inline: auto;
+  padding: var(--layout-800) var(--space-200);
+  text-align: center;
+}
+
+.hues-notfound__title {
+  font-family: var(--text-h1-face);
+  font-size: var(--text-h1-size);
+  line-height: var(--text-h1-leading);
+  font-weight: var(--text-h1-weight);
+  color: var(--color-text-strong);
+  margin: 0 0 var(--space-400);
+}
+
+.hues-notfound__body {
+  margin: 0 0 var(--space-300);
+}
+
+.hues-notfound__actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--space-150);
+}
