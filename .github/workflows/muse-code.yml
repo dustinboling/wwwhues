@@ -155,13 +155,14 @@ jobs:
         env:
           META_API_KEY: ${{ secrets.META_API_KEY }}
           TASK_FILE: ${{ inputs.task_file }}
+          MAX_MODEL_STEPS: ${{ inputs.max_model_steps }}
         run: |
           set -o pipefail
           mkdir -p "${{ runner.temp }}/bench"
           muse exec \
             --prompt-file "$TASK_FILE" \
             --approval-mode never \
-            --max-model-steps ${{ inputs.max_model_steps }} \
+            --max-model-steps "$MAX_MODEL_STEPS" \
             --json | tee "${{ runner.temp }}/bench/muse-run.jsonl"
 
       - name: Upload the initial run transcript (early — survives a later timeout)
@@ -186,6 +187,7 @@ jobs:
           META_API_KEY: ${{ secrets.META_API_KEY }}
           VERIFY_COMMAND: ${{ inputs.verify_command }}
           TASK_FILE: ${{ inputs.task_file }}
+          MAX_MODEL_STEPS: ${{ inputs.max_model_steps }}
         run: |
           BENCH="${{ runner.temp }}/bench"
           checkpoint() {
@@ -222,7 +224,7 @@ jobs:
             muse exec \
               --prompt-file "$BENCH/fix-prompt.md" \
               --approval-mode never \
-              --max-model-steps ${{ inputs.max_model_steps }} \
+              --max-model-steps "$MAX_MODEL_STEPS" \
               --json | tee -a "$BENCH/muse-fix.jsonl"
             checkpoint "repair round $round"
           done
@@ -274,6 +276,7 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
           TASK_FILE: ${{ inputs.task_file }}
+          VERIFY_COMMAND: ${{ inputs.verify_command }}
         run: |
           if [ "$(git rev-list --count origin/main..HEAD)" -eq 0 ]; then
             echo "::error::The WIP branch has no commits beyond main. Refusing to open an empty PR."
@@ -287,5 +290,5 @@ jobs:
 
           - Task file used: \`$TASK_FILE\`
           - The full Muse run log and verify output are attached to that workflow run as the \`muse-run-logs\` artifact.
-          - Gate: \`${{ inputs.verify_command }}\` passed in the workflow's verify→repair loop and again at the post-agent gate — no PR is created when the gate stays red.
+          - Gate: \`$VERIFY_COMMAND\` passed in the workflow's verify→repair loop and again at the post-agent gate — no PR is created when the gate stays red.
           - Not auto-merged. Hue reviews the diff against the task file before any merge."
