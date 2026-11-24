@@ -279,7 +279,7 @@ Character moves from *which faces* to *which roles lead*:
    **≤ 100 KB of font data, ≤ 2 files preloaded** — the faces the
    route's above-the-fold text actually uses (content routes:
    Fraunces + the body face; tool routes: Source Sans only).
-   Whole-property font payload ≤ 220 KB across all files. Route
+   Whole-property payload — AMENDED by Thea's ruling of 2026-11-24 (split budgets; the original single-sum 220 KB ceiling is retired — it conflated package size with delivered payload and left only 2,968 bytes for five non-empty Latin-ext files against the measured Latin sum): **core Latin payload (the five *-latin.woff2 files) ≤ 220 KiB (225,280 bytes); Latin-ext payload (the five *-latin-ext.woff2 files) ≤ 128 KiB (131,072 bytes); complete package payload (all ten files) ≤ 350 KiB (358,400 bytes)**, an anti-bloat guard, not a delivered-payload claim. Per-face Latin budgets and the per-route preload rule are unchanged. Latin-ext stays required-only; headroom may not transfer between the three budgets without a new ruling from the typography seat. Measured at the ruling: Latin 222,312 ✓, Latin-ext 120,564 ✓, package 342,876 ✓. Route
    chunks never re-declare `@font-face`: one shared `fonts.css`
    ships with the app shell, so client-side navigation downloads
    zero additional font CSS, and a face fetched on one route is
