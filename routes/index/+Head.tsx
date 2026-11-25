@@ -31,6 +31,7 @@ export default function Head(): JSX.Element {
       <link
         rel={heroPreload.rel}
         as={heroPreload.as}
+        crossOrigin={heroPreload.crossOrigin}
         imageSrcSet={heroPreload.imageSrcSet}
         imageSizes={heroPreload.imageSizes}
       />

@@ -65,6 +65,7 @@ export function RouteHead({
         <link
           rel={heroPreload.rel}
           as={heroPreload.as}
+          crossOrigin={heroPreload.crossOrigin}
           imageSrcSet={heroPreload.imageSrcSet}
           imageSizes={heroPreload.imageSizes}
         />

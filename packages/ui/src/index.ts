@@ -130,6 +130,7 @@ export {
   PHOTO_QUALITY,
   PLATE_QUALITY,
   getMediaBaseUrl,
+  isMediaUrl,
   setMediaBaseUrl,
   srcSetFor,
   transformUrl,

@@ -50,6 +50,17 @@ export function getMediaBaseUrl(): string | null {
   return baseUrl;
 }
 
+/**
+ * True when a src resolves against the configured media base (Slice J):
+ * those fetches run in CORS mode, so the service worker caches responses
+ * with real statuses instead of poisoning the image route as opaque.
+ * Relative and same-origin URLs are never media URLs.
+ */
+export function isMediaUrl(src: string): boolean {
+  if (baseUrl === null || baseUrl.length === 0) return false;
+  return src === baseUrl || src.startsWith(`${baseUrl}/`);
+}
+
 export interface TransformOptions {
   key: string;
   width: MediaWidth;

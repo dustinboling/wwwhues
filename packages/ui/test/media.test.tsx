@@ -105,6 +105,17 @@ describe('Image (§1d contract)', () => {
     expect(hero.imageSizes).toBe('(max-width: 768px) 100vw, 560px');
   });
 
+  it('requests media urls in CORS mode so the SW caches real statuses, never opaque', () => {
+    const { container } = render(<Image src="dahlias/a.jpg" alt="Dahlia" />);
+    const img = container.querySelector('img') as HTMLImageElement;
+    expect(img.getAttribute('crossorigin')).toBe('anonymous');
+  });
+
+  it('hero preload carries the same CORS mode so the head hint matches the img fetch', () => {
+    const hero = heroPreloadLink({ src: 'plates/a.jpg', slot: 'plate', kind: 'plate' });
+    expect(hero.crossOrigin).toBe('anonymous');
+  });
+
   it('decorative images empty the alt and hide; content images require alt', () => {
     const error = vi.spyOn(console, 'error').mockImplementation(() => {});
     const { container } = render(<Image src="art/a.jpg" alt="" decorative />);

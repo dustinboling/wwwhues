@@ -12,6 +12,7 @@ import {
   MEDIA_SLOT_SIZES,
   MEDIA_WIDTH_LADDER,
   getMediaBaseUrl,
+  isMediaUrl,
   setMediaBaseUrl,
   srcSetFor,
   transformUrl,
@@ -155,5 +156,16 @@ describe('media layer client', () => {
     expect(() => transformUrl({ key: 'a.jpg', width: 320 })).toThrow(/base url/i);
     setMediaBaseUrl('https://media.example.test');
     expect(() => transformUrl({ key: 'https://cdn.test/a.jpg', width: 320 })).toThrow(/originals/i);
+  });
+
+  it('recognizes media-base urls only (Slice J CORS gate)', () => {
+    setMediaBaseUrl('https://media.example.test');
+    expect(isMediaUrl(transformUrl({ key: 'dahlias/a.jpg', width: 320 }))).toBe(true);
+    expect(isMediaUrl('/m/home.png')).toBe(false);
+    expect(isMediaUrl('https://cdn.test/a.jpg')).toBe(false);
+    expect(isMediaUrl('https://media.example.test.evil.test/a.jpg')).toBe(false);
+    setMediaBaseUrl('');
+    expect(isMediaUrl('https://media.example.test/cdn-cgi/image/a.jpg')).toBe(false);
+    setMediaBaseUrl('https://media.example.test');
   });
 });
