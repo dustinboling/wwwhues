@@ -13,13 +13,15 @@
     "cf-typegen": "wrangler types --env-interface CloudflareEnv cloudflare-env.d.ts",
     "verify:packages": "npm --prefix packages/tokens run verify && npm --prefix packages/fonts run verify && npm --prefix packages/ui run verify",
     "build:app:deps": "npm --prefix packages/tokens run build && npm --prefix packages/fonts run build && npm --prefix packages/ui run build",
-    "build:app": "npm run build:app:deps && node ./scripts/fetch-snapshots.mjs && node ./scripts/prepare-spa-public.mjs && vike build",
+    "build:app": "npm run build:app:deps && node ./scripts/fetch-snapshots.mjs && node ./scripts/prepare-spa-public.mjs && vike build && node ./scripts/write-spa-redirects.mjs && node ./scripts/fix-deploy-config.mjs",
+    "deploy:app": "wrangler deploy --config dist/server/wrangler.json",
     "lint:app": "eslint --config eslint.app.config.mjs routes renderer server content sw scripts tests vite.config.mts vitest.app.config.ts playwright.app.config.ts",
     "typecheck:app": "tsc --noEmit -p tsconfig.app.json",
     "test:app": "vitest run --config vitest.app.config.ts tests/unit",
     "test:app:content": "vitest run --config vitest.app.config.ts tests/html",
-    "test:app:visual": "npx playwright install chromium && playwright test -c playwright.app.config.ts",
-    "verify:app": "npm run lint:app && npm run build:app:deps && npm run typecheck:app && npm run test:app && npm run build:app && npm run test:app:content && npm run test:app:visual"
+    "test:app:deployed": "node ./scripts/smoke-deployed.mjs",
+    "test:app:visual": "node ./scripts/run-visual.mjs",
+    "verify:app": "npm run lint:app && npm run build:app:deps && npm run typecheck:app && npm run test:app && npm run build:app && npm run test:app:deployed && npm run test:app:content && npm run test:app:visual"
   },
   "browserslist": "defaults, not ie <= 11",
   "dependencies": {
