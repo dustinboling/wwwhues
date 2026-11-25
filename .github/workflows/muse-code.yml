@@ -254,6 +254,13 @@ jobs:
           path: ~/.npm
           key: npm-${{ runner.os }}-${{ hashFiles('package-lock.json', 'packages/*/package-lock.json') }}
 
+      - name: Log token usage (Dustin, 2026-11-24)
+        if: always()
+        env:
+          TASK_FILE: ${{ inputs.task_file }}
+        run: |
+          node scripts/bench-usage.mjs "${{ runner.temp }}/bench" >> "$GITHUB_STEP_SUMMARY" || true
+
       - name: Upload run logs and verify output
         if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
