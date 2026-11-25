@@ -6,6 +6,12 @@
 // the build-time snapshots' data (so live revalidation resolves to the
 // same bytes the prerender shows). /api/account/me answers 401 (signed
 // out); every other /api path 404s as JSON, like the Worker.
+//
+// Security headers come from the built dist/client/_headers file (the
+// same artifact the Worker deploys): /* headers apply to every response,
+// exact-path blocks override them. The SW regression spec depends on this
+// — the worker's own fetch() is governed by the CSP on the /sw.js
+// response, so serving it without the policy would hide the X1 defect.
 
 import { createServer } from 'node:http'
 import { readFileSync, existsSync, statSync } from 'node:fs'
@@ -14,6 +20,43 @@ import { fileURLToPath } from 'node:url'
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..')
 const client = join(root, 'dist', 'client')
+
+/** Parse a _headers file into [{ pattern, headers }], in file order. */
+function parseHeadersFile(body) {
+  const blocks = []
+  let current = null
+  for (const line of body.split('\n')) {
+    if (line.trim() === '' || line.trim().startsWith('#')) continue
+    if (!/^\s/.test(line)) {
+      current = { pattern: line.trim(), headers: {} }
+      blocks.push(current)
+    } else if (current !== null) {
+      const colon = line.indexOf(':')
+      if (colon !== -1) {
+        current.headers[line.slice(0, colon).trim()] = line.slice(colon + 1).trim()
+      }
+    }
+  }
+  return blocks
+}
+
+let headerBlocks = []
+try {
+  headerBlocks = parseHeadersFile(readFileSync(join(client, '_headers'), 'utf8'))
+} catch {
+  headerBlocks = []
+}
+
+/** Headers for a path: /* first, then an exact-path block wins. */
+function headersFor(pathname) {
+  const out = {}
+  for (const block of headerBlocks) {
+    if (block.pattern === '/*' || block.pattern === pathname) {
+      Object.assign(out, block.headers)
+    }
+  }
+  return out
+}
 
 const MIME = {
   '.html': 'text/html; charset=utf-8',
@@ -43,8 +86,8 @@ function snapshotData(name) {
 const playState = snapshotData('play')
 const volunteerState = snapshotData('volunteers')
 
-function send(res, status, contentType, body) {
-  res.writeHead(status, { 'Content-Type': contentType, 'Content-Length': Buffer.byteLength(body) })
+function send(res, status, contentType, body, extra = {}) {
+  res.writeHead(status, { ...extra, 'Content-Type': contentType, 'Content-Length': Buffer.byteLength(body) })
   res.end(body)
 }
 
@@ -52,8 +95,11 @@ const server = createServer((req, res) => {
   const url = new URL(req.url ?? '/', 'http://localhost')
   const pathname = normalize(url.pathname)
 
+  const security = headersFor(pathname)
+
   if (pathname === '/api/play/public-state') {
     res.writeHead(200, {
+      ...security,
       'Content-Type': 'application/json; charset=utf-8',
       'Cache-Control': 'public, max-age=60, stale-while-revalidate=300',
     })
@@ -62,6 +108,7 @@ const server = createServer((req, res) => {
   }
   if (pathname === '/api/volunteer/public-state') {
     res.writeHead(200, {
+      ...security,
       'Content-Type': 'application/json; charset=utf-8',
       'Cache-Control': 'public, max-age=60, stale-while-revalidate=300',
     })
@@ -69,17 +116,17 @@ const server = createServer((req, res) => {
     return
   }
   if (pathname === '/api/account/me') {
-    send(res, 401, 'application/json; charset=utf-8', JSON.stringify({ error: 'Not signed in.' }))
+    send(res, 401, 'application/json; charset=utf-8', JSON.stringify({ error: 'Not signed in.' }), security)
     return
   }
   if (pathname === '/api' || pathname.startsWith('/api/')) {
-    send(res, 404, 'application/json; charset=utf-8', JSON.stringify({ error: 'Not found.' }))
+    send(res, 404, 'application/json; charset=utf-8', JSON.stringify({ error: 'Not found.' }), security)
     return
   }
 
   let file = join(client, pathname)
   if (!file.startsWith(client)) {
-    send(res, 404, 'text/plain; charset=utf-8', 'Not found')
+    send(res, 404, 'text/plain; charset=utf-8', 'Not found', security)
     return
   }
   try {
@@ -89,6 +136,7 @@ const server = createServer((req, res) => {
     const body = readFileSync(file)
     const ext = file.slice(file.lastIndexOf('.'))
     res.writeHead(200, {
+      ...security,
       'Content-Type': MIME[ext] ?? 'application/octet-stream',
       'Content-Length': body.length,
     })
@@ -96,10 +144,14 @@ const server = createServer((req, res) => {
   } catch {
     try {
       const body = readFileSync(join(client, '404.html'))
-      res.writeHead(404, { 'Content-Type': 'text/html; charset=utf-8', 'Content-Length': body.length })
+      res.writeHead(404, {
+        ...security,
+        'Content-Type': 'text/html; charset=utf-8',
+        'Content-Length': body.length,
+      })
       res.end(body)
     } catch {
-      send(res, 404, 'text/plain; charset=utf-8', 'Not found')
+      send(res, 404, 'text/plain; charset=utf-8', 'Not found', security)
     }
   }
 })
