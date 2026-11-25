@@ -1,0 +1,227 @@
+{
+  "_comment": "Parity failures as of the P2 landing (pair id -> failed check ids). A pair on the allowlist may fail; a pair off it may not. Later packages remove the pairs they fix and may never add one (enforced by scripts/parity/run.mjs).",
+  "pairs": {
+    "d-404": [
+      "height-ratio",
+      "text-runs",
+      "axe-serious-critical"
+    ],
+    "d-about": [
+      "text-runs",
+      "axe-serious-critical"
+    ],
+    "d-account": [
+      "text-runs",
+      "axe-serious-critical"
+    ],
+    "d-arcade": [
+      "height-ratio",
+      "text-runs",
+      "heading-outline",
+      "axe-serious-critical"
+    ],
+    "d-dahlias": [
+      "text-runs",
+      "axe-serious-critical"
+    ],
+    "d-floral-park": [
+      "text-runs",
+      "axe-serious-critical"
+    ],
+    "d-gather": [
+      "height-ratio",
+      "text-runs",
+      "axe-serious-critical"
+    ],
+    "d-help": [
+      "height-ratio",
+      "text-runs",
+      "axe-serious-critical"
+    ],
+    "d-home": [
+      "height-ratio",
+      "text-runs",
+      "heading-outline",
+      "axe-serious-critical"
+    ],
+    "d-how-u-cut-works": [
+      "text-runs",
+      "axe-serious-critical"
+    ],
+    "d-music": [
+      "text-runs",
+      "axe-serious-critical"
+    ],
+    "d-nursery": [
+      "height-ratio",
+      "text-runs",
+      "axe-serious-critical"
+    ],
+    "d-privacy": [
+      "text-runs",
+      "axe-serious-critical"
+    ],
+    "d-season-fall": [
+      "text-runs",
+      "axe-serious-critical"
+    ],
+    "d-season-spring": [
+      "axe-serious-critical"
+    ],
+    "d-season-summer": [
+      "height-ratio",
+      "text-runs",
+      "axe-serious-critical"
+    ],
+    "d-sponsor": [
+      "height-ratio",
+      "text-runs",
+      "axe-serious-critical"
+    ],
+    "d-terms": [
+      "text-runs",
+      "axe-serious-critical"
+    ],
+    "d-visit": [
+      "text-runs",
+      "axe-serious-critical"
+    ],
+    "d-volunteer": [
+      "text-runs",
+      "axe-serious-critical"
+    ],
+    "d-whats-in-season": [
+      "height-ratio",
+      "text-runs",
+      "heading-outline",
+      "axe-serious-critical"
+    ],
+    "d-working-on": [
+      "text-runs",
+      "axe-serious-critical"
+    ],
+    "m-404": [
+      "height-ratio",
+      "text-runs",
+      "axe-serious-critical"
+    ],
+    "m-account": [
+      "height-ratio",
+      "text-runs",
+      "axe-serious-critical"
+    ],
+    "m-arcade": [
+      "height-ratio",
+      "text-runs",
+      "heading-outline",
+      "axe-serious-critical"
+    ],
+    "m-arcade-admin": [
+      "height-ratio",
+      "text-runs",
+      "heading-outline",
+      "axe-serious-critical"
+    ],
+    "m-dahlias": [
+      "height-ratio",
+      "text-runs",
+      "axe-serious-critical"
+    ],
+    "m-floral-park": [
+      "text-runs",
+      "axe-serious-critical"
+    ],
+    "m-gather": [
+      "height-ratio",
+      "text-runs",
+      "axe-serious-critical"
+    ],
+    "m-help": [
+      "height-ratio",
+      "text-runs",
+      "axe-serious-critical"
+    ],
+    "m-home": [
+      "height-ratio",
+      "text-runs",
+      "heading-outline",
+      "axe-serious-critical"
+    ],
+    "m-how-u-cut-works": [
+      "height-ratio",
+      "text-runs",
+      "heading-outline",
+      "axe-serious-critical"
+    ],
+    "m-music": [
+      "height-ratio",
+      "text-runs",
+      "heading-outline",
+      "axe-serious-critical"
+    ],
+    "m-nursery": [
+      "text-runs",
+      "axe-serious-critical"
+    ],
+    "m-privacy": [
+      "text-runs",
+      "axe-serious-critical"
+    ],
+    "m-season-fall": [
+      "height-ratio",
+      "text-runs",
+      "axe-serious-critical"
+    ],
+    "m-season-hub": [
+      "height-ratio",
+      "text-runs",
+      "heading-outline",
+      "axe-serious-critical"
+    ],
+    "m-season-spring": [
+      "height-ratio",
+      "axe-serious-critical"
+    ],
+    "m-season-summer": [
+      "height-ratio",
+      "text-runs",
+      "axe-serious-critical"
+    ],
+    "m-sponsor": [
+      "height-ratio",
+      "text-runs",
+      "axe-serious-critical"
+    ],
+    "m-story": [
+      "height-ratio",
+      "text-runs",
+      "heading-outline",
+      "axe-serious-critical"
+    ],
+    "m-terms": [
+      "text-runs",
+      "axe-serious-critical"
+    ],
+    "m-visit": [
+      "height-ratio",
+      "text-runs",
+      "heading-outline",
+      "axe-serious-critical"
+    ],
+    "m-volunteer": [
+      "height-ratio",
+      "text-runs",
+      "heading-outline",
+      "axe-serious-critical"
+    ],
+    "m-volunteer-admin": [
+      "text-runs",
+      "heading-outline",
+      "axe-serious-critical"
+    ],
+    "m-working-on": [
+      "text-runs",
+      "axe-serious-critical"
+    ]
+  }
+}

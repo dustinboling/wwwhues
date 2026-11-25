@@ -21,7 +21,8 @@
     "test:app:content": "vitest run --config vitest.app.config.ts tests/html",
     "test:app:deployed": "node ./scripts/smoke-deployed.mjs",
     "test:app:visual": "node ./scripts/run-visual.mjs",
-    "verify:app": "npm run lint:app && npm run build:app:deps && npm run typecheck:app && npm run test:app && npm run build:app && npm run test:app:deployed && npm run test:app:content && npm run test:app:visual"
+    "test:app:parity": "node ./scripts/parity/run.mjs",
+    "verify:app": "npm run lint:app && npm run build:app:deps && npm run typecheck:app && npm run test:app && npm run build:app && npm run test:app:deployed && npm run test:app:content && npm run test:app:visual && npm run test:app:parity"
   },
   "browserslist": "defaults, not ie <= 11",
   "dependencies": {
@@ -63,6 +64,7 @@
     "workbox-strategies": "^7.3.0"
   },
   "devDependencies": {
+    "@axe-core/playwright": "^4.14.1",
     "@cloudflare/vite-plugin": "1.20.0",
     "@opennextjs/aws": "^3.9.9",
     "@playwright/test": "^1.65.1",
