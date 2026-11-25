@@ -44,7 +44,10 @@ export default defineConfig({
           'assets/entries/routes_error.*.js',
           'assets/static/renderer_*.css',
           'assets/static/packages_*.css',
-          'assets/static/*-roman-latin.woff2',
+          // X14: Vite emits hashed names (<stem>.<hash>.woff2), so the
+          // stem glob must allow the hash segment — this matches exactly
+          // the three roman-latin faces, never italics or latin-ext.
+          'assets/static/*-roman-latin.*.woff2',
         ],
       },
       devOptions: { enabled: true, type: 'module' },

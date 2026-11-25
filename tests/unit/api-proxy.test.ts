@@ -426,6 +426,9 @@ describe('guards + routing', () => {
     const csp = res.headers.get('Content-Security-Policy') ?? ''
     expect(csp).toContain("default-src 'self'")
     expect(csp).toContain('https://challenges.cloudflare.com')
+    // X1: the Worker path agrees with _headers — connect-src carries the
+    // media origin so the worker's own fetch() calls are allowed it.
+    expect(csp).toContain("connect-src 'self' https://media.hues.flowers")
     expect(res.headers.get('X-Content-Type-Options')).toBe('nosniff')
     expect(res.headers.get('X-Frame-Options')).toBe('DENY')
     expect(res.headers.get('Strict-Transport-Security')).toContain('max-age=300')

@@ -10,7 +10,7 @@
  */
 
 export interface SecurityHeadersOptions {
-  /** R2 media domain allowlisted for img-src/media-src. */
+  /** R2 media domain allowlisted for img-src/media-src/connect-src. */
   mediaDomain?: string;
   /** Same-origin API connect-src entries (default: 'self'). */
   apiOrigins?: string[];
@@ -37,7 +37,10 @@ export function contentSecurityPolicy(options: SecurityHeadersOptions = {}): str
   const scriptSrc = ["'self'", ...(options.allowTurnstile === true ? [TURNSTILE] : [])];
   const frameSrc = options.allowTurnstile === true ? ['frame-src', TURNSTILE] : [];
   const media = options.mediaDomain !== undefined ? [options.mediaDomain] : [];
-  const connect = ['\'self\'', ...(options.apiOrigins ?? [])];
+  // The service worker's own fetch() calls are governed by the CSP on the
+  // /sw.js response (X1): without the media origin in connect-src, every
+  // SW-controlled visit refuses the media fetches and shows broken images.
+  const connect = ['\'self\'', ...media, ...(options.apiOrigins ?? [])];
   const styleSrc =
     options.allowInlineStyles === true ? "style-src 'self' 'unsafe-inline'" : "style-src 'self'";
   const directives = [
