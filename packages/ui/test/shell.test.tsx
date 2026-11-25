@@ -1,3 +1,9 @@
+import { readFileSync } from 'node:fs';
+// Node's URL, aliased: the jsdom test environment's global URL resolves
+// relative URLs against the document base and drops file:// bases, and a
+// same-name import is silently shadowed by that global.
+import { URL as NodeURL, fileURLToPath } from 'node:url';
+import { join } from 'node:path';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { describe, expect, it, vi } from 'vitest';
@@ -96,6 +102,22 @@ describe('SiteHeader', () => {
     await user.click(screen.getAllByRole('link', { name: 'Home' })[1] as HTMLElement);
     expect(trigger.getAttribute('aria-expanded')).toBe('false');
   });
+
+  it('brand accessible name contains the lockup text (WCAG 2.5.3)', () => {
+    render(
+      <SiteHeader
+        logo={<span>L</span>}
+        lockup={
+          <>
+            <span>Floral Park</span>
+            <span>a little world apart</span>
+          </>
+        }
+        items={items}
+      />,
+    );
+    expect(screen.getByRole('link', { name: /floral park.*a little world apart/i })).toBeDefined();
+  });
 });
 
 describe('SiteFooter', () => {
@@ -154,6 +176,16 @@ describe('SiteFooter', () => {
     expect(screen.queryByText('Full website')).toBeNull();
     expect(screen.queryByText('The print edition')).toBeNull();
     expect(footer.querySelector('h1, h2, h3, h4, h5, h6')).toBeNull();
+  });
+
+  it('phone footer bottom padding carries the tab-bar reservation (footer sits outside main)', () => {
+    const sheet = readFileSync(
+      join(fileURLToPath(new NodeURL('.', import.meta.url)), '..', 'src', 'styles', 'shell.css'),
+      'utf8',
+    );
+    const rule = sheet.match(/\.hues-site-footer--phone\s*\{[^}]*\}/)?.[0];
+    expect(rule).toBeDefined();
+    expect(rule).toContain('var(--shell-tabbar-reservation)');
   });
 });
 

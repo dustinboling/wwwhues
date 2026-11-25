@@ -59,7 +59,7 @@ export function SiteHeader({
   return (
     <header data-variant={variant} className={cx('hues-site-header', className)}>
       <div className="hues-site-header__inner">
-        <Link href="/" context="nav" aria-label="Hues Floral Park home" className="hues-site-header__brand">
+        <Link href="/" context="nav" aria-label="Hues home: Floral Park a little world apart" className="hues-site-header__brand">
           <span className="hues-site-header__logo">{logo}</span>
           {lockup !== undefined && <span className="hues-site-header__lockup">{lockup}</span>}
         </Link>

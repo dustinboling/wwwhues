@@ -574,10 +574,12 @@
 /* Phone footer: procession art, script logo, italic sign-off, contact
  * line, short link row. The contact line takes the faint text role
  * rather than production's sage: sage on paper is 3.77:1, below the
- * legal floor, while faint holds 6.24:1. */
+ * legal floor, while faint holds 6.24:1. The footer sits outside main,
+ * so its own bottom padding carries the tab-bar reservation: without
+ * it the fixed bar overlaps the link row. */
 
 .hues-site-footer--phone {
-  padding: var(--footer-phone-padding-top) var(--space-300) var(--space-200);
+  padding: var(--footer-phone-padding-top) var(--space-300) var(--shell-tabbar-reservation);
   text-align: center;
   color: var(--color-text);
 }

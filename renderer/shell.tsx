@@ -211,7 +211,7 @@ function ShellInner({ children }: { children: ReactNode }): JSX.Element {
             logo={<HuesScriptLogo />}
             lockup={
               <>
-                <span className="hues-site-header__lockup-overline">Floral Park</span>
+                <span className="hues-site-header__lockup-overline">Floral Park</span>{' '}
                 <span className="hues-site-header__lockup-tagline">a little world apart</span>
               </>
             }
