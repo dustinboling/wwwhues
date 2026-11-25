@@ -12,6 +12,16 @@
   padding-bottom: var(--shell-tabbar-reservation);
 }
 
+/* Phone content clearance (P4): the TopBar is fixed, so the main column
+ * starts below the real bar + safe-area inset on every phone route (the
+ * Privacy H1 case). The desktop header is sticky (in flow) and needs no
+ * offset. */
+@media (max-width: 767px) {
+  .hues-shell__main {
+    padding-top: var(--shell-top-clearance);
+  }
+}
+
 .hues-skip-link {
   position: absolute;
   top: 0;
@@ -62,15 +72,20 @@
   height: var(--header-topbar-logo);
 }
 
-/* Live /m header dress (Slice H): the script logo draws in ink, the
- * Plan pill in paper on the deep fill. Both beat the later .hues-link
- * color by specificity; the desktop header's dress is untouched. */
+/* Live /m header dress (Slice H, P4): the script logo draws in ink,
+ * the Plan pill in paper on the deep fill at the production phone size
+ * (13px semibold, tighter padding than the desktop pill). Both beat the
+ * later .hues-link color by specificity; the desktop header's dress is
+ * untouched. */
 .hues-topbar__inner .hues-topbar__logo {
   color: var(--color-text);
 }
 
 .hues-topbar__cluster .hues-topbar__plan {
   color: var(--button-primary-text);
+  padding: var(--space-100) var(--space-200);
+  font-size: var(--text-label-size);
+  font-weight: var(--weight-semibold);
 }
 
 .hues-topbar__cluster {
@@ -138,7 +153,8 @@
 .hues-site-header__brand {
   display: flex;
   align-items: center;
-  gap: var(--space-100);
+  gap: var(--header-brand-gap);
+  color: var(--color-text-strong);
   text-decoration: none;
 }
 
@@ -147,8 +163,30 @@
   height: var(--header-bar-logo);
 }
 
+/* Script lockup stack (P4): the FLORAL PARK overline above the italic
+ * tagline, ported from the production header. The SiteHeader only renders
+ * at 768px and up, so production's min-[420px] gate has no staging
+ * equivalent — the stack always shows. */
 .hues-site-header__lockup {
+  display: flex;
+  flex-direction: column;
+  gap: var(--header-lockup-gap);
+  line-height: 1;
+}
+
+.hues-site-header__lockup-overline {
+  font-size: var(--header-lockup-overline-size);
+  font-weight: var(--weight-bold);
   letter-spacing: var(--header-lockup-tracking);
+  text-transform: uppercase;
+  color: var(--color-accent-ink);
+}
+
+.hues-site-header__lockup-tagline {
+  font-family: var(--text-display-face);
+  font-size: var(--header-lockup-tagline-size);
+  font-style: italic;
+  color: var(--header-lockup-tagline-ink);
 }
 
 .hues-site-header__pill {
@@ -220,14 +258,18 @@
   padding: var(--space-100) var(--space-200);
   background-color: var(--color-surface);
   color: var(--color-text-strong);
-  border: var(--shell-topbar-border) solid var(--color-line);
+  border: var(--shell-topbar-border) solid var(--button-primary-ring);
   border-radius: var(--radius-full);
   font-size: var(--text-body-sm-size);
-  font-weight: var(--text-body-sm-weight);
+  font-weight: var(--weight-semibold);
+}
+
+.hues-site-header__menu-button:hover {
+  border-color: var(--color-accent);
 }
 
 .hues-site-header__menu-button svg {
-  color: var(--color-accent);
+  color: var(--color-accent-strong);
 }
 
 .hues-site-header__panel {
@@ -299,26 +341,295 @@
   }
 }
 
-/* Footer */
+/* Footer compositions (P4): desktop is the rounded deep-green card
+ * ported from the production footer; phone is the compact Print Edition
+ * ending ported from the /m home footer (minus "Full website" and "The
+ * print edition" per Q5). The app shows exactly one per breakpoint, like
+ * the TopBar/SiteHeader pair. Link ground colours live in actions.css;
+ * the rules below carry layout, type, and the production accents at
+ * higher specificity so they win at any bundle order. */
 
-.hues-site-footer {
-  background-color: var(--color-text-strong);
-  color: var(--color-on-deep);
-  padding: var(--space-400) var(--space-200);
+.hues-site-footer--desktop {
+  margin-top: var(--footer-top-margin);
+  padding: 0 var(--footer-outer-padding-x) var(--footer-outer-padding-bottom);
 }
 
-.hues-site-footer__sitemap ul {
+@media (min-width: 1024px) {
+  .hues-site-footer--desktop {
+    padding-right: var(--footer-outer-padding-x-lg);
+    padding-left: var(--footer-outer-padding-x-lg);
+  }
+}
+
+.hues-site-footer__card {
+  position: relative;
+  max-width: var(--header-bar-max-width);
+  margin: 0 auto;
+  overflow: hidden;
+  border-radius: var(--footer-card-radius);
+  background-color: var(--color-text-strong);
+  color: var(--color-on-deep);
+  box-shadow: var(--footer-card-shadow);
+}
+
+.hues-site-footer__card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  outline: var(--footer-card-stitch);
+  outline-offset: var(--footer-card-stitch-offset);
+  pointer-events: none;
+}
+
+.hues-site-footer__inner {
+  position: relative;
+  z-index: 1;
+  padding: var(--footer-inner-padding-y) var(--footer-inner-padding-x);
+}
+
+@media (min-width: 1024px) {
+  .hues-site-footer__inner {
+    padding-right: var(--footer-inner-padding-x-lg);
+    padding-left: var(--footer-inner-padding-x-lg);
+  }
+}
+
+.hues-site-footer__top {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-500);
+}
+
+@media (min-width: 1024px) {
+  .hues-site-footer__top {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+}
+
+.hues-site-footer__brand {
+  color: var(--color-on-deep);
+}
+
+.hues-site-footer--desktop .hues-site-footer__logo img,
+.hues-site-footer--desktop .hues-site-footer__logo svg {
+  display: block;
+  height: var(--footer-logo);
+  width: auto;
+}
+
+.hues-site-footer__overline {
+  display: block;
+  margin-top: var(--space-150);
+  font-size: var(--footer-overline-size);
+  font-weight: var(--weight-bold);
+  letter-spacing: var(--header-lockup-tracking);
+  text-transform: uppercase;
+  color: var(--footer-gold);
+}
+
+.hues-site-footer--desktop .hues-site-footer__signoff {
+  margin: var(--space-200) 0 0;
+  max-width: 28rem;
+  font-family: var(--text-display-face);
+  font-size: var(--footer-signoff-size);
+  line-height: var(--footer-signoff-leading);
+  font-style: italic;
+}
+
+.hues-site-footer__socials {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-200);
+}
+
+.hues-site-footer__socials-label {
+  margin: 0;
+  font-size: var(--text-caption-size);
+  font-weight: var(--weight-semibold);
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--footer-gold);
+}
+
+.hues-site-footer__chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-150);
+}
+
+.hues-site-footer--desktop .hues-site-footer__chips .hues-link {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-100);
+  padding: var(--space-100) var(--space-250) var(--space-100) var(--space-200);
+  border-radius: var(--radius-full);
+  background-color: color-mix(in srgb, white 5%, transparent);
+  border: var(--shell-topbar-border) solid color-mix(in srgb, white 15%, transparent);
+  font-size: var(--text-body-sm-size);
+  font-weight: var(--footer-nav-weight);
+}
+
+.hues-site-footer--desktop .hues-site-footer__chips .hues-link:hover {
+  color: var(--footer-gold);
+  border-color: color-mix(in srgb, var(--color-accent) 70%, transparent);
+  text-decoration: none;
+}
+
+.hues-site-footer__chips svg {
+  flex: none;
+  fill: var(--footer-gold);
+}
+
+.hues-site-footer--desktop .hues-site-footer__chips .hues-link:hover svg {
+  fill: var(--color-accent);
+}
+
+.hues-site-footer__rule {
+  display: flex;
+  align-items: center;
+  gap: var(--space-100);
+  margin-top: var(--layout-600);
+  opacity: 0.7;
+}
+
+.hues-site-footer__rule::before,
+.hues-site-footer__rule::after {
+  content: "";
+  height: var(--shell-topbar-border);
+  flex: 1;
+  background: linear-gradient(to right, transparent, var(--color-accent), transparent);
+}
+
+.hues-site-footer__rule i {
+  display: block;
+  width: var(--footer-rule-diamond);
+  height: var(--footer-rule-diamond);
+  background-color: var(--color-accent);
+  transform: rotate(45deg);
+}
+
+.hues-site-footer__bottom {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-500);
+  margin-top: var(--space-500);
+}
+
+@media (min-width: 768px) {
+  .hues-site-footer__bottom {
+    flex-direction: row;
+    justify-content: space-between;
+  }
+}
+
+.hues-site-footer__nav ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-100) var(--space-300);
+  max-width: 36rem;
   margin: 0;
   padding: 0;
   list-style: none;
 }
 
-.hues-site-footer__meta {
+.hues-site-footer--desktop .hues-site-footer__nav .hues-link {
+  font-size: var(--text-body-sm-size);
+  font-weight: var(--footer-nav-weight);
+  color: var(--footer-cream);
+}
+
+.hues-site-footer--desktop .hues-site-footer__nav .hues-link:hover {
+  color: var(--footer-gold);
+  text-decoration: none;
+}
+
+.hues-site-footer__address {
+  margin: 0;
+  font-style: normal;
+  font-size: var(--text-body-sm-size);
+  line-height: var(--footer-address-leading);
+  color: var(--footer-sand);
+}
+
+.hues-site-footer--desktop .hues-site-footer__address .hues-link {
+  color: var(--color-on-deep);
+  text-decoration: underline;
+  text-decoration-color: color-mix(in srgb, var(--color-accent) 60%, transparent);
+  text-underline-offset: var(--space-050);
+}
+
+.hues-site-footer--desktop .hues-site-footer__address .hues-link:hover {
+  color: var(--footer-gold);
+}
+
+.hues-site-footer__copyright {
+  margin: var(--space-500) 0 0;
+  font-size: var(--text-body-sm-size);
+  color: var(--footer-sage);
+}
+
+/* Phone footer: procession art, script logo, italic sign-off, contact
+ * line, short link row. The contact line takes the faint text role
+ * rather than production's sage: sage on paper is 3.77:1, below the
+ * legal floor, while faint holds 6.24:1. The footer sits outside main,
+ * so its own bottom padding carries the tab-bar reservation: without
+ * it the fixed bar overlaps the link row. */
+
+.hues-site-footer--phone {
+  padding: var(--footer-phone-padding-top) var(--space-300) var(--shell-tabbar-reservation);
+  text-align: center;
+  color: var(--color-text);
+}
+
+.hues-site-footer__art .hues-image {
+  width: var(--footer-phone-art-width);
+  margin-inline: auto;
+}
+
+.hues-site-footer--phone .hues-site-footer__logo {
+  display: block;
+  margin-top: var(--space-250);
+  color: var(--color-text);
+}
+
+.hues-site-footer--phone .hues-site-footer__logo img,
+.hues-site-footer--phone .hues-site-footer__logo svg {
+  display: block;
+  height: var(--footer-phone-logo);
+  width: auto;
+  margin-inline: auto;
+}
+
+.hues-site-footer--phone .hues-site-footer__signoff {
+  margin: var(--space-150) 0 0;
+  font-family: var(--text-display-face);
+  font-size: var(--text-body-serif-size);
+  font-style: italic;
+}
+
+.hues-site-footer--phone .hues-site-footer__contact {
+  margin: var(--space-200) 0 0;
+  font-size: var(--text-label-size);
+  color: var(--color-text-faint);
+}
+
+.hues-site-footer--phone .hues-site-footer__links ul {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--space-200);
-  margin-top: var(--space-300);
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--space-100) var(--space-250);
+  margin: var(--space-250) 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.hues-site-footer--phone .hues-site-footer__links .hues-link {
+  font-size: var(--text-label-size);
+  font-weight: var(--weight-semibold);
+  color: var(--color-text);
 }
 
 /* Game header */

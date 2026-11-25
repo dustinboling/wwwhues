@@ -36,6 +36,7 @@ const BASE_SOURCES = [
   'tokens/comp.shell.json',
   'tokens/comp.density.json',
   'tokens/comp.header.json',
+  'tokens/comp.footer.json',
   'tokens/tabbar.lock.json',
 ];
 

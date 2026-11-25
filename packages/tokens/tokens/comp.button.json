@@ -151,6 +151,12 @@
         "$description": "Icon round gold ring at 70 percent.",
         "$extensions": { "hues": { "source": "Mina §3.1 icon-round" } }
       },
+      "icon-round-initial-size": {
+        "$value": "15px",
+        "$type": "dimension",
+        "$description": "Account round signed-in initial size (bold).",
+        "$extensions": { "hues": { "source": "Plan P4 (production src/components/AccountButton.tsx text-[15px] font-bold, Dustin 2026-11-24)" } }
+      },
       "press-scale": {
         "$value": "0.95",
         "$type": "number",

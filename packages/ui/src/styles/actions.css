@@ -139,7 +139,7 @@
 }
 
 .hues-link.hues-account-button {
-  color: var(--color-text);
+  color: var(--color-text-strong);
 }
 
 .hues-link.hues-back-pill {
@@ -151,7 +151,8 @@
   display: inline-flex;
 }
 
-/* Account round */
+/* Account round: the production dress — deep-ink glyph or bold initial
+ * on raised paper inside the gold ring, pressing to 95 percent. */
 
 .hues-account-button {
   display: inline-flex;
@@ -161,15 +162,19 @@
   height: var(--button-icon-round-size);
   padding: 0;
   background-color: var(--color-surface);
-  color: var(--color-text);
+  color: var(--color-text-strong);
   border: var(--shell-topbar-border) solid var(--button-icon-round-ring);
   border-radius: var(--radius-full);
   cursor: pointer;
 }
 
+.hues-account-button:active {
+  scale: var(--button-press-scale);
+}
+
 .hues-account-button__initial {
-  font-size: var(--text-body-sm-size);
-  font-weight: var(--text-body-sm-weight);
+  font-size: var(--button-icon-round-initial-size);
+  font-weight: var(--weight-bold);
 }
 
 /* Back pill */
@@ -373,26 +378,32 @@
   border-bottom: var(--shell-topbar-border) solid var(--sheet-row-divider);
 }
 
-/* Footer ground (P3 cascade fix): the footer sits on deep green, so every
- * link in it — sitemap rows, the phone account link, socials — reads in
- * on-deep cream. These ground selectors beat .hues-link at any bundle
- * order. Hover keeps the underline language in softened cream; focus keeps
- * the deep double signal from base.css. */
-.hues-site-footer .hues-link {
+/* Footer grounds (P3 cascade fix, P4 compositions): the desktop footer
+ * sits on deep green, so every link in it reads in on-deep cream; the
+ * phone footer sits on paper, so its links read in ink. These ground
+ * selectors beat .hues-link at any bundle order, and the composition
+ * rules in shell.css beat them in turn for the production accents.
+ * Hover keeps the underline language in softened cream on desktop; focus
+ * keeps the ground-following double signal from base.css. */
+.hues-site-footer--desktop .hues-link {
   color: var(--color-on-deep);
 }
 
-.hues-site-footer .hues-link:hover {
+.hues-site-footer--desktop .hues-link:hover {
   color: var(--color-on-deep-soft);
   text-decoration: underline;
   text-decoration-thickness: 0.09em;
   text-underline-offset: 0.14em;
 }
 
-.hues-site-footer .hues-footer-link[data-current] .hues-footer-link__label {
+.hues-site-footer--phone .hues-link {
+  color: var(--color-text);
+}
+
+.hues-site-footer--desktop .hues-footer-link[data-current] .hues-footer-link__label {
   color: var(--color-on-deep);
 }
 
-.hues-site-footer .hues-footer-link__note {
+.hues-site-footer--desktop .hues-footer-link__note {
   color: var(--color-on-deep-soft);
 }

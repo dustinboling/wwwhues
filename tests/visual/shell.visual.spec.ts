@@ -96,13 +96,14 @@ function placeholderPng(): Buffer {
 
 const AUDIO_PATTERN = /\.(mp3|m4a|ogg|wav|opus|weba)(\?|$)/i
 
-// Shell-art stand-ins for the tab bar test: media key (SHELL_ART in
-// content/site.ts) → the same artwork as served fixtures under
-// public/m-art/tabbar/ (the live /m filename map: v19 plate, v18 disc,
-// v18 flank medallions — Help's medallion is the grow variant, as on
-// live /m). Paths are relative to the repo root, the suite's cwd.
-// Served ONLY to the tab bar test: every other baseline keeps the
-// layout-exact placeholder, so this art coverage touches no other shot.
+// Shell-art stand-ins for the tab bar and footer tests: media key
+// (SHELL_ART in content/site.ts) → the same artwork as served fixtures
+// (the tab bar takes the live /m filename map under public/m-art/tabbar/:
+// v19 plate, v18 disc, v18 flank medallions — Help's medallion is the
+// grow variant, as on live /m; the phone footer takes the procession
+// art). Paths are relative to the repo root, the suite's cwd. Served
+// ONLY to those tests: every other baseline keeps the layout-exact
+// placeholder, so this art coverage touches no other shot.
 const SHELL_FIXTURES: Record<string, string> = {
   'hues/shell/tab-plate.webp': 'public/m-art/tabbar/tabbar-v19-plate.webp',
   'hues/shell/seasons-disc.webp': 'public/m-art/tabbar/tabbar-v18-disc.webp',
@@ -112,6 +113,7 @@ const SHELL_FIXTURES: Record<string, string> = {
   'hues/shell/tab-arcade.webp': 'public/m-art/tabbar/tabbar-v18-med-arcade.webp',
   'hues/shell/tab-music.webp': 'public/m-art/tabbar/tabbar-v18-med-music.webp',
   'hues/shell/tab-more.webp': 'public/m-art/tabbar/tabbar-v18-med-more.webp',
+  'hues/shell/procession.webp': 'public/m-art/procession-full.webp',
 }
 
 function shellFixture(url: string): string | null {
@@ -129,10 +131,11 @@ async function stabilize(page: Page): Promise<void> {
 }
 
 test.beforeEach(async ({ page }, testInfo) => {
-  // Only the tab bar baseline pins shell artwork; the rest keep the
-  // placeholder (see SHELL_FIXTURES). A rename of the test below fails
-  // loudly — the real-art baseline mismatches the placeholder render.
-  const realShellArt = testInfo.title === 'tab bar'
+  // Only the tab bar and footer baselines pin shell artwork; the rest
+  // keep the placeholder (see SHELL_FIXTURES). A rename of a test below
+  // fails loudly — the real-art baseline mismatches the placeholder
+  // render.
+  const realShellArt = testInfo.title === 'tab bar' || testInfo.title === 'footer'
   await page.route('https://media.hues.flowers/**', (route) => {
     const url = route.request().url()
     if (AUDIO_PATTERN.test(url)) {
@@ -169,6 +172,18 @@ test.describe('shell baselines', () => {
     }
   })
 
+  test('footer', async ({ page }, testInfo) => {
+    await page.goto('/')
+    await stabilize(page)
+    // The phone footer is the compact Print Edition ending, the desktop
+    // footer the deep-green card.
+    const selector =
+      testInfo.project.name === 'mobile'
+        ? '.hues-site-footer--phone'
+        : '.hues-site-footer--desktop'
+    await expect(page.locator(selector).first()).toHaveScreenshot('footer.png')
+  })
+
   test('mini player idle (absent)', async ({ page }) => {
     await page.goto('/')
     await stabilize(page)
@@ -199,7 +214,7 @@ test.describe('shell baselines', () => {
     if (testInfo.project.name === 'mobile') {
       await page.locator('.hues-tabbar').getByRole('link', { name: 'Home' }).click()
     } else {
-      await page.locator('.hues-site-header').getByRole('link', { name: 'Hues Floral Park home' }).click()
+      await page.locator('.hues-site-header').getByRole('link', { name: 'Hues home: Floral Park a little world apart' }).click()
     }
     await page.waitForURL('/')
     await stabilize(page)

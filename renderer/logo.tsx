@@ -3,8 +3,8 @@ import type { JSX } from 'react'
 // The script "hues" wordmark, ported from the live phone tree
 // (src/app/m/Logo.tsx — the rebuilt solid master, fitted viewBox).
 // Colour comes from the parent's text colour (fill="currentColor").
-// Phone-only: the TopBar logo and the home masthead (Slice H); the
-// desktop header keeps the serif wordmark.
+// The TopBar logo, the home masthead (Slice H), the desktop header
+// lockup and both footers (P4).
 export function HuesScriptLogo({ className }: { className?: string }): JSX.Element {
   return (
     <svg viewBox="-2.10 -2.00 121.00 39.10" aria-label="Hues" role="img" className={className}>

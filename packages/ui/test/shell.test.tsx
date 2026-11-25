@@ -1,3 +1,9 @@
+import { readFileSync } from 'node:fs';
+// Node's URL, aliased: the jsdom test environment's global URL resolves
+// relative URLs against the document base and drops file:// bases, and a
+// same-name import is silently shadowed by that global.
+import { URL as NodeURL, fileURLToPath } from 'node:url';
+import { join } from 'node:path';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { describe, expect, it, vi } from 'vitest';
@@ -34,7 +40,7 @@ describe('AppShell landmarks (A11y #3)', () => {
             <a href="/">x</a>
           </nav>
         }
-        footer={<SiteFooter sitemap={<ul />} />}
+        footer={<SiteFooter variant="desktop" logo={<span>L</span>} sitemap={<ul />} />}
       >
         <h1 data-route-title>Visit</h1>
       </AppShell>,
@@ -95,6 +101,91 @@ describe('SiteHeader', () => {
     expect(panel).not.toBeNull();
     await user.click(screen.getAllByRole('link', { name: 'Home' })[1] as HTMLElement);
     expect(trigger.getAttribute('aria-expanded')).toBe('false');
+  });
+
+  it('brand accessible name contains the lockup text (WCAG 2.5.3)', () => {
+    render(
+      <SiteHeader
+        logo={<span>L</span>}
+        lockup={
+          <>
+            <span>Floral Park</span>
+            <span>a little world apart</span>
+          </>
+        }
+        items={items}
+      />,
+    );
+    expect(screen.getByRole('link', { name: /floral park.*a little world apart/i })).toBeDefined();
+  });
+});
+
+describe('SiteFooter', () => {
+  it('desktop renders the card: lockup, chips, nav, address, copyright', () => {
+    render(
+      <SiteFooter
+        variant="desktop"
+        logo={<span>Logo</span>}
+        overline="Floral Park"
+        signoff="Hues Floral Park, A little world apart."
+        socialsLabel="Follow along"
+        socials={<a href="https://instagram.com/huesflowers">@huesflowers</a>}
+        sitemap={
+          <ul>
+            <li>
+              <a href="/visit">Plan Your Visit</a>
+            </li>
+          </ul>
+        }
+        address={<span>93485 River Road</span>}
+        copyright="© 2026 Hues Flower Farm & Nursery. All rights reserved."
+      />,
+    );
+    const footer = screen.getByRole('contentinfo');
+    expect(footer.className).toContain('hues-site-footer--desktop');
+    expect(screen.getByText('Floral Park')).toBeDefined();
+    expect(screen.getByText('Hues Floral Park, A little world apart.')).toBeDefined();
+    expect(screen.getByText('Follow along')).toBeDefined();
+    expect(screen.getByRole('link', { name: '@huesflowers' })).toBeDefined();
+    expect(screen.getByRole('navigation', { name: 'Footer' })).toBeDefined();
+    expect(screen.getByRole('link', { name: 'Plan Your Visit' })).toBeDefined();
+    // No headings: the footer closes the page, it never outlines it.
+    expect(footer.querySelector('h1, h2, h3, h4, h5, h6')).toBeNull();
+  });
+
+  it('phone renders the compact ending with no footer labels', () => {
+    render(
+      <SiteFooter
+        variant="phone"
+        art={<img alt="The animal procession from the Hues watercolor" />}
+        logo={<span>Logo</span>}
+        signoff="Hues Floral Park, A little world apart"
+        address="93485 River Road, Junction City, OR · (458) 245-1323"
+        sitemap={
+          <ul>
+            <li>
+              <a href="/arcade">Hues Arcade</a>
+            </li>
+          </ul>
+        }
+      />,
+    );
+    const footer = screen.getByRole('contentinfo');
+    expect(footer.className).toContain('hues-site-footer--phone');
+    expect(screen.getByRole('img', { name: 'The animal procession from the Hues watercolor' })).toBeDefined();
+    expect(screen.queryByText('Full website')).toBeNull();
+    expect(screen.queryByText('The print edition')).toBeNull();
+    expect(footer.querySelector('h1, h2, h3, h4, h5, h6')).toBeNull();
+  });
+
+  it('phone footer bottom padding carries the tab-bar reservation (footer sits outside main)', () => {
+    const sheet = readFileSync(
+      join(fileURLToPath(new NodeURL('.', import.meta.url)), '..', 'src', 'styles', 'shell.css'),
+      'utf8',
+    );
+    const rule = sheet.match(/\.hues-site-footer--phone\s*\{[^}]*\}/)?.[0];
+    expect(rule).toBeDefined();
+    expect(rule).toContain('var(--shell-tabbar-reservation)');
   });
 });
 
