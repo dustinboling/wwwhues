@@ -1,7 +1,9 @@
 import { describe, expect, it } from 'vitest'
 import {
   DAHLIAS,
+  DAHLIAS_DESCRIPTION,
   DAHLIAS_HERO,
+  DAHLIAS_TWITTER_DESCRIPTION,
   EMPTY_DAHLIAS_QUERY,
   NO_PHOTO_ART_KEY,
   buildDahliasItemListJsonLd,
@@ -11,6 +13,7 @@ import {
   hasPhoto,
   parseDahliasQuery,
 } from '../../content/dahlias'
+import { DAHLIA_STRIP } from '../../content/home'
 
 // The cultivar collection: port fidelity (111 names from
 // src/lib/dahlias.ts), the media-key mapping rule, the A–Z grouping,
@@ -108,6 +111,32 @@ describe('dahlias filter + query', () => {
     for (const cultivar of runnersWithPhotos) {
       expect(hasPhoto(cultivar)).toBe(true)
       expect(cultivar.name.toLowerCase()).toContain('runner')
+    }
+  })
+})
+
+describe('dahlia variety count in copy (Athene F4)', () => {
+  // Single source: the grid renders DAHLIAS.length, and so does every
+  // "N varieties" claim — header lede, hero stat, home strip heading,
+  // and the /dahlias metadata (description + twitter description).
+  const claims = (): string[] => [
+    DAHLIAS_HERO.lede,
+    DAHLIAS_HERO.stats[0]?.big ?? '',
+    DAHLIA_STRIP.heading,
+    DAHLIAS_DESCRIPTION,
+    DAHLIAS_TWITTER_DESCRIPTION,
+  ]
+
+  it('states the live cultivar count in every count claim', () => {
+    for (const claim of claims()) {
+      expect(claim).toContain(String(DAHLIAS.length))
+    }
+  })
+
+  it('carries no stale hardcoded count', () => {
+    for (const claim of claims()) {
+      expect(claim).not.toContain('120')
+      expect(claim).not.toMatch(/hundreds of dahlia/i)
     }
   })
 })

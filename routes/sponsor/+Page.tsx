@@ -52,8 +52,13 @@ function useAccountPrefill(): { name: string; email: string; phone: string } {
 
 function FormMessage({ result }: { result: { ok: boolean; text: string } | null }): JSX.Element | null {
   if (result === null) return null
+  // m3 — one error voice: form errors assert (role="alert", as on
+  // volunteer + account); success stays a polite status.
   return (
-    <p role="status" className={`c-form__message ${result.ok ? 'c-form__message--ok' : 'c-form__message--error'}`}>
+    <p
+      role={result.ok ? 'status' : 'alert'}
+      className={`c-form__message ${result.ok ? 'c-form__message--ok' : 'c-form__message--error'}`}
+    >
       {result.text}
     </p>
   )
