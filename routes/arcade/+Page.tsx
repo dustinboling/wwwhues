@@ -24,7 +24,6 @@ function GameCard({ game }: { game: ArcadeGame }): JSX.Element {
         href={game.href}
         context="nav"
         className="c-game__link"
-        aria-label={`${game.name} — ${ARCADE_PLAY_NOW}`}
       >
         {game.featured === true && (
           <span aria-hidden="true" className="c-game__vs">

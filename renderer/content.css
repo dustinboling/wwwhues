@@ -714,15 +714,19 @@
   cursor: pointer;
 }
 
+/* Pale chip per the production season card (paper ground, deep text,
+ * hairline ring): the old gold fill with paper text was 3.07:1, and
+ * production's own gold arcade badge is 2.77:1 — neither meets AA. */
 .c-badge {
   display: inline-block;
   margin: var(--space-100) 0 0;
-  background: var(--color-accent);
-  color: var(--color-on-accent);
+  background: var(--color-on-deep);
+  color: var(--color-text-strong);
   border-radius: var(--radius-full);
   padding: var(--space-050) var(--space-150);
   font-size: var(--text-body-sm-size);
   font-weight: var(--weight-bold);
+  box-shadow: inset 0 0 0 var(--shell-topbar-border) var(--color-line);
 }
 
 .c-comingsoon__head {
@@ -873,8 +877,8 @@
   width: 3rem;
   height: 3rem;
   border-radius: var(--radius-full);
-  background: var(--color-accent);
-  color: var(--color-on-accent);
+  background: var(--color-on-deep);
+  color: var(--color-text-strong);
   font-weight: var(--weight-bold);
   transform: rotate(12deg);
 }

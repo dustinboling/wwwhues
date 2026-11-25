@@ -199,7 +199,7 @@ test.describe('shell baselines', () => {
     if (testInfo.project.name === 'mobile') {
       await page.locator('.hues-tabbar').getByRole('link', { name: 'Home' }).click()
     } else {
-      await page.locator('.hues-site-header').getByRole('link', { name: 'Hues home' }).click()
+      await page.locator('.hues-site-header').getByRole('link', { name: 'Hues Floral Park home' }).click()
     }
     await page.waitForURL('/')
     await stabilize(page)
