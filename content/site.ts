@@ -108,8 +108,8 @@ export const HEADER_NAV: NavItem[] = [
   { href: '/about', label: 'About' },
 ]
 
-// Footer sitemap, as today. /help joins in a later slice with the route;
-// the shell renders exactly today's inventory until then.
+// Footer sitemap, as today: no Help link, exactly like the live
+// footer — the hub lives in the tab bar, which links /help.
 export const FOOTER_SITEMAP: NavItem[] = [
   { href: '/visit', label: 'Plan Your Visit' },
   { href: '/floral-park', label: 'Floral Park' },

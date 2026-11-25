@@ -22,8 +22,8 @@ import '../../renderer/content.css'
 
 // The single visitor account (Nadia §4.1): one panel for every shell.
 // Ports AccountPanel against the same responses — signup/signin/update,
-// the 409 split-pair case (the proxy's plain-language error at the
-// field, entered data intact), expired-session welcome-back, and
+// the 409 split-pair case (the shared layer's designed message naming
+// the clash, entered data intact), expired-session welcome-back, and
 // edit-details confirmation. This route is client-rendered (ssr:false):
 // the prerender is the boot shell + meta, content is session data.
 

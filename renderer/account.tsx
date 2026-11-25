@@ -17,7 +17,8 @@ import { createContext, useCallback, useContext, useMemo } from 'react'
 import type { ReactNode } from 'react'
 import { useQueryClient } from '@tanstack/react-query'
 import { purgeServiceWorkerCaches } from '@hues/ui'
-import { ApiError, postApi } from './api-client'
+import { postApi } from './api-client'
+import { formErrorMessage } from './form-errors'
 import { LIVE_QUERY_KEYS, useAccountSession, type AccountVisitor } from './queries'
 
 export type { AccountVisitor }
@@ -42,9 +43,7 @@ interface AccountValue extends AccountMutations {
 const AccountContext = createContext<AccountValue | null>(null)
 
 function toMessage(error: unknown): string {
-  if (error instanceof ApiError) return error.message
-  if (error instanceof Error) return error.message
-  return 'Something went wrong — please try again.'
+  return formErrorMessage(error, 'account')
 }
 
 export function AccountProvider({ children }: { children: ReactNode }): ReactNode {

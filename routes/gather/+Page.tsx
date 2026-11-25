@@ -12,7 +12,8 @@ import {
 } from '../../content/gather'
 import playSnapshotJson from '../../content/snapshots/play.json'
 import { CONTACT_PHONE_DISPLAY, PARK_SIGNOFF } from '../../content/site'
-import { ApiError, RateLimitError, postApi, retryWaitLabel } from '../../renderer/api-client'
+import { postApi } from '../../renderer/api-client'
+import { formErrorMessage } from '../../renderer/form-errors'
 import { useAccount } from '../../renderer/account'
 import { LIVE_QUERY_KEYS, usePlayPublicState } from '../../renderer/queries'
 import { TurnstileWidget } from '../../renderer/turnstile'
@@ -91,7 +92,7 @@ function RsvpForm({ event }: { event: PlayEvent }): JSX.Element {
 
   // In-place RSVP on the event card (Nadia §4.6): success confirms on
   // the card itself and the counts revalidate; failures keep the form
-  // intact with the proxy's plain-language message.
+  // intact with the shared layer's designed message.
   async function submit(e: FormEvent): Promise<void> {
     e.preventDefault()
     setBusy(true)
@@ -104,17 +105,7 @@ function RsvpForm({ event }: { event: PlayEvent }): JSX.Element {
       setResult({ ok: true, text: 'You’re on the list — we can’t wait to work alongside you.' })
       await queryClient.invalidateQueries({ queryKey: [...LIVE_QUERY_KEYS.playPublic] })
     } catch (error) {
-      if (error instanceof RateLimitError) {
-        setResult({
-          ok: false,
-          text: `Too many tries just now — please wait ${retryWaitLabel(error.retryAfter)} and try again. Nothing you typed was lost.`,
-        })
-      } else {
-        setResult({
-          ok: false,
-          text: error instanceof ApiError ? error.message : 'Please check the form and try again.',
-        })
-      }
+      setResult({ ok: false, text: formErrorMessage(error) })
     } finally {
       setBusy(false)
     }

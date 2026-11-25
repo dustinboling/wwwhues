@@ -164,6 +164,16 @@ describe('redirect table (§5 chain-proof)', () => {
     expect(resolveRedirect('/m/play')).toEqual({ to: '/arcade', status: 301 })
   })
 
+  it('routes every legacy help entry to the real /help hub', () => {
+    // B1: the shell's Help tab links /help, so every redirect targeting
+    // it must land on a built page — /help is in CANONICAL_EXACT above
+    // (pinned by 'sends every 301 to a canonical route') and its
+    // prerendered HTML is pinned by the JS-disabled content test.
+    const toHelp = REDIRECTS.filter((entry) => entry.to === '/help')
+    expect(toHelp.map((entry) => entry.from)).toEqual(['/m/help'])
+    expect(resolveRedirect('/m/help')).toEqual({ to: '/help', status: 301 })
+  })
+
   it('collapses the historical chains to one hop', () => {
     // Bea §2.3 flag + middleware LEGACY: match/mahjong went through
     // /m/arcade/dahlia-*; /m2/* went through /m/*. All direct now.

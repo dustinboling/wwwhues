@@ -15,6 +15,7 @@ import { DAHLIAS, DAHLIAS_GAME_CARD, DAHLIAS_HERO, NO_PHOTO_ART_KEY } from '../.
 import { FLORAL_PARK_FACTS } from '../../content/floral-park'
 import { MUSIC_HERO, MUSIC_SETS, MUSIC_STAY_TUNED } from '../../content/music'
 import { buildGatherEventJsonLd } from '../../content/gather'
+import { HELP_HERO, HELP_SPONSOR_CARD, HELP_VOLUNTEER_CARD } from '../../content/help'
 import { parkTodayLabel } from '../../content/park-date'
 import {
   SEASONS,
@@ -185,6 +186,19 @@ const ROUTES: RouteContract[] = [
       'hues/m-art/pompon.webp',
       'hues/m-art/stones.webp',
     ],
+  },
+  {
+    dir: 'help',
+    path: '/help',
+    title: 'Help — Support Hues, Two Ways - Hues Flower Farm',
+    description:
+      'Support Hues financially by sponsoring a piece of the park, or physically by volunteering — both help expand the park and share its beauty with the community.',
+    ogImageKey: 'hues/og/give.jpg',
+    twitterTitle: 'Help — Hues Floral Park',
+    twitterDescription:
+      'Support Hues financially or physically — sponsor a piece of the park, or lend your hands to it.',
+    heroKey: 'hues/m-art/cards/help-hero-1080.webp',
+    contentKeys: ['hues/m-art/cards/help-hero-1080.webp'],
   },
   {
     dir: 'volunteer',
@@ -1186,5 +1200,38 @@ describe('prerendered /music HTML — primary content', () => {
     expect(html).not.toContain('"/music/tracks/')
     const blocks = jsonLdBlocks(html) as GraphBlock[]
     expect(blocks.filter((block) => block['@type'] !== undefined && block['@graph'] === undefined)).toHaveLength(0)
+  })
+})
+
+describe('prerendered /help HTML — primary content', () => {
+  it('carries the hub hero, both doors, and the signoff from the same source', () => {
+    const { html, text } = page('help')
+    expect(text).toContain(HELP_HERO.eyebrow)
+    expect(text).toContain(HELP_HERO.heading)
+    expect(text).toContain(HELP_HERO.intro)
+    expect(html).toContain(`alt="${HELP_HERO.artAlt}"`)
+    for (const card of [HELP_SPONSOR_CARD, HELP_VOLUNTEER_CARD]) {
+      expect(html).toContain(`href="${card.href}"`)
+      expect(text).toContain(card.eyebrow)
+      expect(text).toContain(card.heading)
+      expect(text).toContain(card.body)
+      expect(text).toContain(card.cta)
+    }
+    expect(text).toContain('Hues Floral Park, A little world apart.')
+  })
+
+  it('carries no page-level JSON-LD — the live hub has none', () => {
+    const { html } = page('help')
+    const blocks = jsonLdBlocks(html) as GraphBlock[]
+    expect(blocks.filter((block) => block['@type'] !== undefined && block['@graph'] === undefined)).toHaveLength(0)
+  })
+
+  it('lights the Help tab on the hub and on both pages it directs to', () => {
+    // The live behavior (2026-11-15): the Help tab stays lit on the
+    // Sponsor and Volunteer pages its hub directs to.
+    for (const dir of ['help', 'sponsor', 'volunteer']) {
+      const { text } = page(dir)
+      expect(text).toContain('hues-tab hues-tab--help" data-active')
+    }
   })
 })
