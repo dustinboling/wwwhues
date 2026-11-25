@@ -3,225 +3,177 @@
   "pairs": {
     "d-404": [
       "height-ratio",
-      "text-runs",
-      "axe-serious-critical"
+      "text-runs"
     ],
     "d-about": [
-      "text-runs",
-      "axe-serious-critical"
+      "text-runs"
     ],
     "d-account": [
-      "text-runs",
-      "axe-serious-critical"
+      "text-runs"
     ],
     "d-arcade": [
       "height-ratio",
       "text-runs",
-      "heading-outline",
-      "axe-serious-critical"
+      "heading-outline"
     ],
     "d-dahlias": [
-      "text-runs",
-      "axe-serious-critical"
+      "text-runs"
     ],
     "d-floral-park": [
-      "text-runs",
-      "axe-serious-critical"
+      "text-runs"
     ],
     "d-gather": [
       "height-ratio",
-      "text-runs",
-      "axe-serious-critical"
+      "text-runs"
     ],
     "d-help": [
       "height-ratio",
-      "text-runs",
-      "axe-serious-critical"
+      "text-runs"
     ],
     "d-home": [
       "height-ratio",
       "text-runs",
-      "heading-outline",
-      "axe-serious-critical"
+      "heading-outline"
     ],
     "d-how-u-cut-works": [
-      "text-runs",
-      "axe-serious-critical"
+      "text-runs"
     ],
     "d-music": [
-      "text-runs",
-      "axe-serious-critical"
+      "text-runs"
     ],
     "d-nursery": [
       "height-ratio",
-      "text-runs",
-      "axe-serious-critical"
+      "text-runs"
     ],
     "d-privacy": [
-      "text-runs",
-      "axe-serious-critical"
+      "text-runs"
     ],
     "d-season-fall": [
-      "text-runs",
-      "axe-serious-critical"
-    ],
-    "d-season-spring": [
-      "axe-serious-critical"
+      "text-runs"
     ],
     "d-season-summer": [
       "height-ratio",
-      "text-runs",
-      "axe-serious-critical"
+      "text-runs"
     ],
     "d-sponsor": [
       "height-ratio",
-      "text-runs",
-      "axe-serious-critical"
+      "text-runs"
     ],
     "d-terms": [
-      "text-runs",
-      "axe-serious-critical"
+      "text-runs"
     ],
     "d-visit": [
-      "text-runs",
-      "axe-serious-critical"
+      "text-runs"
     ],
     "d-volunteer": [
-      "text-runs",
-      "axe-serious-critical"
+      "text-runs"
     ],
     "d-whats-in-season": [
       "height-ratio",
       "text-runs",
-      "heading-outline",
-      "axe-serious-critical"
+      "heading-outline"
     ],
     "d-working-on": [
-      "text-runs",
-      "axe-serious-critical"
+      "text-runs"
     ],
     "m-404": [
       "height-ratio",
-      "text-runs",
-      "axe-serious-critical"
+      "text-runs"
     ],
     "m-account": [
       "height-ratio",
-      "text-runs",
-      "axe-serious-critical"
+      "text-runs"
     ],
     "m-arcade": [
       "height-ratio",
       "text-runs",
-      "heading-outline",
-      "axe-serious-critical"
+      "heading-outline"
     ],
     "m-arcade-admin": [
       "height-ratio",
       "text-runs",
-      "heading-outline",
-      "axe-serious-critical"
+      "heading-outline"
     ],
     "m-dahlias": [
       "height-ratio",
-      "text-runs",
-      "axe-serious-critical"
+      "text-runs"
     ],
     "m-floral-park": [
-      "text-runs",
-      "axe-serious-critical"
+      "text-runs"
     ],
     "m-gather": [
       "height-ratio",
-      "text-runs",
-      "axe-serious-critical"
+      "text-runs"
     ],
     "m-help": [
       "height-ratio",
-      "text-runs",
-      "axe-serious-critical"
+      "text-runs"
     ],
     "m-home": [
       "height-ratio",
       "text-runs",
-      "heading-outline",
-      "axe-serious-critical"
+      "heading-outline"
     ],
     "m-how-u-cut-works": [
       "height-ratio",
       "text-runs",
-      "heading-outline",
-      "axe-serious-critical"
+      "heading-outline"
     ],
     "m-music": [
       "height-ratio",
       "text-runs",
-      "heading-outline",
-      "axe-serious-critical"
+      "heading-outline"
     ],
     "m-nursery": [
-      "text-runs",
-      "axe-serious-critical"
+      "text-runs"
     ],
     "m-privacy": [
-      "text-runs",
-      "axe-serious-critical"
+      "text-runs"
     ],
     "m-season-fall": [
       "height-ratio",
-      "text-runs",
-      "axe-serious-critical"
+      "text-runs"
     ],
     "m-season-hub": [
       "height-ratio",
       "text-runs",
-      "heading-outline",
-      "axe-serious-critical"
+      "heading-outline"
     ],
     "m-season-spring": [
-      "height-ratio",
-      "axe-serious-critical"
+      "height-ratio"
     ],
     "m-season-summer": [
       "height-ratio",
-      "text-runs",
-      "axe-serious-critical"
+      "text-runs"
     ],
     "m-sponsor": [
       "height-ratio",
-      "text-runs",
-      "axe-serious-critical"
+      "text-runs"
     ],
     "m-story": [
       "height-ratio",
       "text-runs",
-      "heading-outline",
-      "axe-serious-critical"
+      "heading-outline"
     ],
     "m-terms": [
-      "text-runs",
-      "axe-serious-critical"
+      "text-runs"
     ],
     "m-visit": [
       "height-ratio",
       "text-runs",
-      "heading-outline",
-      "axe-serious-critical"
+      "heading-outline"
     ],
     "m-volunteer": [
       "height-ratio",
       "text-runs",
-      "heading-outline",
-      "axe-serious-critical"
+      "heading-outline"
     ],
     "m-volunteer-admin": [
       "text-runs",
-      "heading-outline",
-      "axe-serious-critical"
+      "heading-outline"
     ],
     "m-working-on": [
-      "text-runs",
-      "axe-serious-critical"
+      "text-runs"
     ]
   }
 }

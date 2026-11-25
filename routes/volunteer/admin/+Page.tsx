@@ -92,14 +92,14 @@ function SetupView({ onDone }: { onDone: () => void }): JSX.Element {
       <p>You only do this once. Enter the one-time setup code Hue gave you, then choose a password.</p>
       <form onSubmit={submit} className="c-admin__form">
         <TextField
-          label="Setup code (required)"
+          label="Setup code"
           note="The one-time code from Hue — not a password."
           value={code}
           onChange={(event) => setCode(event.target.value)}
           required
         />
         <TextField
-          label="Password (required)"
+          label="Password"
           type="password"
           autoComplete="new-password"
           note="At least 8 characters. You’re the only one who will know it."
@@ -108,7 +108,7 @@ function SetupView({ onDone }: { onDone: () => void }): JSX.Element {
           required
         />
         <TextField
-          label="Confirm password (required)"
+          label="Confirm password"
           type="password"
           autoComplete="new-password"
           value={confirm}
@@ -151,7 +151,7 @@ function LoginView({ onDone }: { onDone: () => void }): JSX.Element {
       <p>Sign in to look after the volunteer board. Forgot the password? Ask Hue to reset it.</p>
       <form onSubmit={submit} className="c-admin__form">
         <TextField
-          label="Password (required)"
+          label="Password"
           type="password"
           autoComplete="current-password"
           value={password}
@@ -218,7 +218,7 @@ function TaskDialog({
       dirty
     >
       <TextField
-        label="Title (required)"
+        label="Title"
         value={value.title}
         onChange={(event) => onChange({ ...value, title: event.target.value })}
         required
@@ -294,14 +294,14 @@ function SlotDialog({
       dirty={date !== '' || time !== ''}
     >
       <TextField
-        label="Date (required)"
+        label="Date"
         type="date"
         value={date}
         onChange={(event) => setDate(event.target.value)}
         required
       />
       <TextField
-        label="Start time (required)"
+        label="Start time"
         type="time"
         value={time}
         onChange={(event) => setTime(event.target.value)}

@@ -147,7 +147,6 @@ export default function Page(): JSX.Element {
                 href={`/season/${chapter.slug}`}
                 context="nav"
                 className="hues-content-card__link"
-                aria-label={`${chapter.title} — meet the flowers`}
               >
                 <span className="home-chapter__art">
                   <Image

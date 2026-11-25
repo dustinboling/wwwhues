@@ -98,6 +98,54 @@
   pointer-events: none;
 }
 
+/* Anchor-rendered controls (P3 cascade fix): Link always emits .hues-link,
+ * and media.css bundles after this sheet, so at equal specificity the link
+ * colour would win over every control colour above. These compound
+ * selectors restore the control colours on anchors without touching prose
+ * links; native <button> elements never carry .hues-link and are
+ * unaffected. (Precedent: the phone top bar dress in shell.css.) Choice:
+ * compound selectors, not cascade layers — the package has no layer
+ * infrastructure, and compounds keep the fix local to this sheet. */
+.hues-link.hues-button--primary {
+  color: var(--button-primary-text);
+}
+
+.hues-link.hues-button--primary:active {
+  color: var(--button-primary-pressed-text);
+}
+
+.hues-link.hues-button--secondary {
+  color: var(--button-secondary-text);
+}
+
+.hues-link.hues-button--secondary:active {
+  color: var(--button-secondary-pressed-text);
+}
+
+.hues-link.hues-button--quiet {
+  color: var(--button-quiet-text);
+}
+
+.hues-link.hues-button--destructive {
+  color: var(--button-destructive-text);
+}
+
+.hues-link.hues-button--destructive.hues-button--filled {
+  color: var(--button-destructive-fill-text);
+}
+
+.hues-link.hues-button--icon-round {
+  color: var(--color-text);
+}
+
+.hues-link.hues-account-button {
+  color: var(--color-text);
+}
+
+.hues-link.hues-back-pill {
+  color: var(--color-text-strong);
+}
+
 .hues-button__icon {
   flex: none;
   display: inline-flex;
@@ -323,4 +371,28 @@
 
 .hues-sheet-row {
   border-bottom: var(--shell-topbar-border) solid var(--sheet-row-divider);
+}
+
+/* Footer ground (P3 cascade fix): the footer sits on deep green, so every
+ * link in it — sitemap rows, the phone account link, socials — reads in
+ * on-deep cream. These ground selectors beat .hues-link at any bundle
+ * order. Hover keeps the underline language in softened cream; focus keeps
+ * the deep double signal from base.css. */
+.hues-site-footer .hues-link {
+  color: var(--color-on-deep);
+}
+
+.hues-site-footer .hues-link:hover {
+  color: var(--color-on-deep-soft);
+  text-decoration: underline;
+  text-decoration-thickness: 0.09em;
+  text-underline-offset: 0.14em;
+}
+
+.hues-site-footer .hues-footer-link[data-current] .hues-footer-link__label {
+  color: var(--color-on-deep);
+}
+
+.hues-site-footer .hues-footer-link__note {
+  color: var(--color-on-deep-soft);
 }

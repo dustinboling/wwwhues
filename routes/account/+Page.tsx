@@ -72,7 +72,7 @@ function AuthForm(): JSX.Element {
       <form onSubmit={onSubmit} className="c-account__form">
         {mode === 'create' && (
           <TextField
-            label="Your name (required)"
+            label="Your name"
             autoComplete="name"
             placeholder="Jamie Fields"
             value={name}
@@ -81,7 +81,7 @@ function AuthForm(): JSX.Element {
           />
         )}
         <TextField
-          label="Email (required)"
+          label="Email"
           type="email"
           autoComplete="email"
           inputMode="email"
@@ -91,7 +91,7 @@ function AuthForm(): JSX.Element {
           required
         />
         <TextField
-          label="Mobile number (required)"
+          label="Mobile number"
           type="tel"
           autoComplete="tel"
           inputMode="tel"
@@ -166,14 +166,14 @@ function SignedIn(): JSX.Element {
         <p className="c-account__blurb">{ACCOUNT_EDIT_NOTE}</p>
         <form onSubmit={onSaveEdit} className="c-account__form">
           <TextField
-            label="Your name (required)"
+            label="Your name"
             autoComplete="name"
             value={name}
             onChange={(event) => setName(event.target.value)}
             required
           />
           <TextField
-            label="Email (required)"
+            label="Email"
             type="email"
             autoComplete="email"
             inputMode="email"
@@ -182,7 +182,7 @@ function SignedIn(): JSX.Element {
             required
           />
           <TextField
-            label="Mobile number (required)"
+            label="Mobile number"
             type="tel"
             autoComplete="tel"
             inputMode="tel"

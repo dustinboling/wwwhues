@@ -61,7 +61,6 @@ export default function Page(): JSX.Element {
                 href={`/season/${season.slug}`}
                 context="nav"
                 className="seasons-panel__link"
-                aria-label={`${season.title} — meet the flowers`}
               >
                 <span className="seasons-panel__art">
                   <Image
