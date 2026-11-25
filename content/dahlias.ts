@@ -19,8 +19,8 @@
 
 export const DAHLIAS_TITLE = "Dusty's Dahlias"
 
-export const DAHLIAS_DESCRIPTION =
-  "Explore Dusty's Dahlias at Hues Flower Farm in Junction City, Oregon — hundreds of dahlia varieties in bloom for u-pick bouquets, with new cultivars trialed every season."
+// (DAHLIAS_DESCRIPTION and DAHLIAS_TWITTER_DESCRIPTION live below the
+// cultivar data: both state the variety count, so both derive from it.)
 
 export const DAHLIAS_OG_IMAGE_KEY = 'hues/og/dahlias.jpg'
 
@@ -29,9 +29,6 @@ export const DAHLIAS_OG_IMAGE_ALT = 'Dahlias in bloom at Hues Flower Farm'
 // The desktop tree carries no twitter title/description (card + image
 // only); the mobile tree's copy is the source for both.
 export const DAHLIAS_TWITTER_TITLE = 'Dahlias — Hues Floral Park'
-
-export const DAHLIAS_TWITTER_DESCRIPTION =
-  'Over 120 dahlia varieties grow at Hues Floral Park — dinnerplates, balls, pompoms, cactus and collarettes. Tubers in the spring; armfuls of cut blooms from August to the first frost.'
 
 export interface DahliaCultivar {
   name: string
@@ -160,12 +157,22 @@ export function hasPhoto(cultivar: DahliaCultivar): boolean {
   return cultivar.photoKey !== null
 }
 
+// Athene F4 — truthful count: every "N varieties" claim in copy derives
+// from the cultivar data above (the same DAHLIAS.length the grid
+// renders), so the claim can never drift from the grid again. The home
+// strip heading (content/home.ts) derives from it too.
+export const DAHLIAS_DESCRIPTION =
+  `Explore Dusty's Dahlias at Hues Flower Farm in Junction City, Oregon — ${DAHLIAS.length} dahlia varieties in bloom for u-pick bouquets, with new cultivars trialed every season.`
+
+export const DAHLIAS_TWITTER_DESCRIPTION =
+  `${DAHLIAS.length} dahlia varieties grow at Hues Floral Park — dinnerplates, balls, pompoms, cactus and collarettes. Tubers in the spring; armfuls of cut blooms from August to the first frost.`
+
 export const DAHLIAS_HERO = {
   eyebrow: 'Dusty’s dahlias',
   heading: 'The heart of Hues',
-  lede: 'Over 120 dahlia varieties — available as tubers in the spring, and as cut flowers August through October.',
+  lede: `${DAHLIAS.length} dahlia varieties — available as tubers in the spring, and as cut flowers August through October.`,
   stats: [
-    { big: '120+', small: 'varieties' },
+    { big: `${DAHLIAS.length}`, small: 'varieties' },
     { big: 'Aug–Oct', small: 'cut flowers' },
     { big: 'Spring', small: 'tuber sales' },
   ],

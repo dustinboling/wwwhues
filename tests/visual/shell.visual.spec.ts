@@ -137,7 +137,14 @@ test.describe('shell baselines', () => {
     await stabilize(page)
     await expect(page.locator('.hues-player')).toHaveCount(0)
     // Full viewport pins the idle chrome: tab bar last, no player above it.
-    await expect(page).toHaveScreenshot('miniplayer-idle.png')
+    // Quinn re-gate tolerance (Slice F): this full-page shot carries
+    // environment antialiasing variance — measured 403 px mobile / 396 px
+    // desktop, antialiasing only, content verified identical. The
+    // per-assertion cap absorbs it; baselines are environment-neutral and
+    // are never regenerated for environment reasons. Locator shots keep
+    // the global 150 px cap. (No maxDiffPixelRatio: Playwright takes the
+    // minimum of the two, so a ratio beside the cap can never loosen.)
+    await expect(page).toHaveScreenshot('miniplayer-idle.png', { maxDiffPixels: 600 })
   })
 
   test('mini player playing', async ({ page }, testInfo) => {

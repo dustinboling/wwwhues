@@ -1,5 +1,6 @@
 import { beforeAll, describe, expect, it } from 'vitest'
 import { bodyOf, headOf, oneLine, readBuiltFile } from './html-helpers'
+import { DAHLIA_STRIP } from '../../content/home'
 
 // JS-disabled content test (Bea's gate condition): the prerendered HTML
 // must carry the route's complete primary content, metadata, and JSON-LD
@@ -68,7 +69,9 @@ describe('prerendered home HTML', () => {
   })
 
   it('carries the dahlia strip, dusk band, and Meet Dusty', () => {
-    expect(text).toContain('Over 120 varieties in the ground')
+    // Athene F4: the strip heading derives from the cultivar data —
+    // tests/unit pins the derivation itself.
+    expect(text).toContain(DAHLIA_STRIP.heading)
     for (const key of [
       'hues/dahlias/labyrinth-closeup.jpg',
       'hues/dahlias/break-out-closeup.jpg',

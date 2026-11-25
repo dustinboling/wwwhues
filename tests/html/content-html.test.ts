@@ -11,7 +11,14 @@ import {
 } from './html-helpers'
 import { ABOUT_PARAGRAPHS } from '../../content/about'
 import { ARCADE_GAMES } from '../../content/arcade'
-import { DAHLIAS, DAHLIAS_GAME_CARD, DAHLIAS_HERO, NO_PHOTO_ART_KEY } from '../../content/dahlias'
+import {
+  DAHLIAS,
+  DAHLIAS_DESCRIPTION,
+  DAHLIAS_GAME_CARD,
+  DAHLIAS_HERO,
+  DAHLIAS_TWITTER_DESCRIPTION,
+  NO_PHOTO_ART_KEY,
+} from '../../content/dahlias'
 import { FLORAL_PARK_FACTS } from '../../content/floral-park'
 import { MUSIC_HERO, MUSIC_SETS, MUSIC_STAY_TUNED } from '../../content/music'
 import { buildGatherEventJsonLd } from '../../content/gather'
@@ -252,12 +259,13 @@ const ROUTES: RouteContract[] = [
     dir: 'dahlias',
     path: '/dahlias',
     title: "Dusty's Dahlias",
-    description:
-      "Explore Dusty's Dahlias at Hues Flower Farm in Junction City, Oregon — hundreds of dahlia varieties in bloom for u-pick bouquets, with new cultivars trialed every season.",
+    // Athene F4: the count claims derive from the cultivar data —
+    // the contract references the source, and tests/unit pins the
+    // derivation itself.
+    description: DAHLIAS_DESCRIPTION,
     ogImageKey: 'hues/og/dahlias.jpg',
     twitterTitle: 'Dahlias — Hues Floral Park',
-    twitterDescription:
-      'Over 120 dahlia varieties grow at Hues Floral Park — dinnerplates, balls, pompoms, cactus and collarettes. Tubers in the spring; armfuls of cut blooms from August to the first frost.',
+    twitterDescription: DAHLIAS_TWITTER_DESCRIPTION,
     heroKey: DAHLIAS_HERO.artKey,
     contentKeys: [...DAHLIAS_PHOTO_KEYS, NO_PHOTO_ART_KEY],
   },
@@ -1017,12 +1025,8 @@ describe('prerendered /dahlias HTML — primary content', () => {
   it('carries the hero, the stats, and the full A–Z grid', () => {
     const { html, text } = page('dahlias')
     expect(text).toContain('The heart of Hues')
-    expect(text).toContain('Over 120 dahlia varieties — available as tubers in the spring')
-    for (const [big, small] of [
-      ['120+', 'varieties'],
-      ['Aug–Oct', 'cut flowers'],
-      ['Spring', 'tuber sales'],
-    ]) {
+    expect(text).toContain(DAHLIAS_HERO.lede)
+    for (const { big, small } of DAHLIAS_HERO.stats) {
       expect(text).toContain(big)
       expect(text).toContain(small)
     }

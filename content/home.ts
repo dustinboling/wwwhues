@@ -4,6 +4,8 @@
 // Media keys are planned R2 paths (plan §1d); the bucket population is a
 // separate ops step, so artwork URLs 404 until then.
 
+import { DAHLIAS } from './dahlias'
+
 export const HERO = {
   eyebrow: 'Hues Floral Park · Junction City, Oregon',
   heading: 'A U-Pick Flower Farm Near Eugene, Oregon — Designed for Wandering and Wonder',
@@ -89,7 +91,9 @@ export const SEASON_CHAPTERS = {
 
 export const DAHLIA_STRIP = {
   eyebrow: 'Dusty’s dahlias',
-  heading: 'Over 120 varieties in the ground',
+  // Athene F4: the count derives from the cultivar data (single
+  // source) — never a hardcoded claim that can drift from the grid.
+  heading: `${DAHLIAS.length} varieties in the ground`,
   // Six cultivar close-ups in source order (labyrinth, break-out,
   // strawberry-ice, thomas-edison, golden-scepter, penhill-autumn-shade).
   artKeys: [
