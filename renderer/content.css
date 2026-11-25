@@ -714,15 +714,19 @@
   cursor: pointer;
 }
 
+/* Pale chip per the AA floor (paper ground, deep text, hairline ring):
+ * the gold fill with paper text was 3.07:1, and gold-ink text on paper
+ * clears 4.5:1 only by 0.09 — too thin a margin for a shared chip. */
 .c-badge {
   display: inline-block;
   margin: var(--space-100) 0 0;
-  background: var(--color-accent);
-  color: var(--color-on-accent);
+  background: var(--color-on-deep);
+  color: var(--color-text-strong);
   border-radius: var(--radius-full);
   padding: var(--space-050) var(--space-150);
   font-size: var(--text-body-sm-size);
   font-weight: var(--weight-bold);
+  box-shadow: inset 0 0 0 var(--shell-topbar-border) var(--color-line);
 }
 
 .c-comingsoon__head {
@@ -873,8 +877,8 @@
   width: 3rem;
   height: 3rem;
   border-radius: var(--radius-full);
-  background: var(--color-accent);
-  color: var(--color-on-accent);
+  background: var(--color-on-deep);
+  color: var(--color-text-strong);
   font-weight: var(--weight-bold);
   transform: rotate(12deg);
 }

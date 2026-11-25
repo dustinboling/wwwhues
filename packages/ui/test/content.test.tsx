@@ -36,7 +36,7 @@ describe('Cards', () => {
   it('content cards carry eyebrow, CTA, and the stretched link', () => {
     render(<ContentCard eyebrow="Visit" title="Hours" description="Daily" cta="Plan" href="/visit" />);
     expect(screen.getByText('Visit')).toBeDefined();
-    expect(screen.getByRole('link', { name: 'Hours: Plan' }).getAttribute('href')).toBe('/visit');
+    expect(screen.getByRole('link', { name: 'Visit Hours Daily Plan' }).getAttribute('href')).toBe('/visit');
   });
 
   it('fact and status cards swap inside reserved lines', () => {

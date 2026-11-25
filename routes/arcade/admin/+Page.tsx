@@ -98,7 +98,7 @@ function AuthForm({
         {mode === 'setup' && (
           <>
             <TextField
-              label="Setup code (required)"
+              label="Setup code"
               value={code}
               onChange={(event) => setCode(event.target.value)}
               required
@@ -106,7 +106,7 @@ function AuthForm({
           </>
         )}
         <TextField
-          label="Password (required)"
+          label="Password"
           type="password"
           autoComplete={mode === 'setup' ? 'new-password' : 'current-password'}
           value={password}
@@ -115,7 +115,7 @@ function AuthForm({
         />
         {mode === 'setup' && (
           <TextField
-            label="Confirm password (required)"
+            label="Confirm password"
             type="password"
             autoComplete="new-password"
             value={confirm}
@@ -747,8 +747,8 @@ export default function Page(): JSX.Element {
       >
         {eventDraft !== null && (
           <>
-            <TextField label="Title (required)" value={eventDraft.title} onChange={(e) => setEventDraft({ ...eventDraft, title: e.target.value })} required />
-            <TextField label="Date (required)" type="date" value={eventDraft.date} onChange={(e) => setEventDraft({ ...eventDraft, date: e.target.value })} required />
+            <TextField label="Title" value={eventDraft.title} onChange={(e) => setEventDraft({ ...eventDraft, title: e.target.value })} required />
+            <TextField label="Date" type="date" value={eventDraft.date} onChange={(e) => setEventDraft({ ...eventDraft, date: e.target.value })} required />
             <TextField label="Start time" type="time" value={eventDraft.startTime} onChange={(e) => setEventDraft({ ...eventDraft, startTime: e.target.value })} />
             <TextField label="End time" type="time" value={eventDraft.endTime} onChange={(e) => setEventDraft({ ...eventDraft, endTime: e.target.value })} />
             <TextField label="Project" value={eventDraft.project} onChange={(e) => setEventDraft({ ...eventDraft, project: e.target.value })} />
@@ -777,7 +777,7 @@ export default function Page(): JSX.Element {
       >
         {itemDraft !== null && (
           <>
-            <TextField label="Name (required)" value={itemDraft.name} onChange={(e) => setItemDraft({ ...itemDraft, name: e.target.value })} required />
+            <TextField label="Name" value={itemDraft.name} onChange={(e) => setItemDraft({ ...itemDraft, name: e.target.value })} required />
             <TextField label="Description" value={itemDraft.description} onChange={(e) => setItemDraft({ ...itemDraft, description: e.target.value })} />
             <TextField label="Price (dollars, blank for none)" inputMode="decimal" value={itemDraft.price} onChange={(e) => setItemDraft({ ...itemDraft, price: e.target.value })} />
             <TextField label="Cap (blank for unlimited)" type="number" inputMode="numeric" value={itemDraft.cap} onChange={(e) => setItemDraft({ ...itemDraft, cap: e.target.value })} />
@@ -803,7 +803,7 @@ export default function Page(): JSX.Element {
       >
         {sizeDraft !== null && (
           <>
-            <TextField label="Name (required)" value={sizeDraft.name} onChange={(e) => setSizeDraft({ ...sizeDraft, name: e.target.value })} required />
+            <TextField label="Name" value={sizeDraft.name} onChange={(e) => setSizeDraft({ ...sizeDraft, name: e.target.value })} required />
             <TextField label="Dimensions" value={sizeDraft.dimensions} onChange={(e) => setSizeDraft({ ...sizeDraft, dimensions: e.target.value })} />
             <TextField label="Price (dollars)" inputMode="decimal" value={sizeDraft.price} onChange={(e) => setSizeDraft({ ...sizeDraft, price: e.target.value })} />
             <TextField label="Fits" value={sizeDraft.fits} onChange={(e) => setSizeDraft({ ...sizeDraft, fits: e.target.value })} />

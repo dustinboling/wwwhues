@@ -101,7 +101,6 @@ function SeasonDetail({ season }: { season: Season }): JSX.Element {
             href={SEASON_DAHLIAS_CARD.href}
             context="nav"
             className="seasons-catalog"
-            aria-label={`${SEASON_DAHLIAS_CARD.title} — the Dahlias page`}
           >
             <span className="c-eyebrow">{SEASON_DAHLIAS_CARD.eyebrow}</span>
             <span className="seasons-catalog__title">{SEASON_DAHLIAS_CARD.title}</span>

@@ -18,15 +18,29 @@ export interface ContentCardProps {
 
 /**
  * Plain raised card: eyebrow, title, description, gold-ink CTA row. When
- * linked, the whole card is the link with the title's stretched hit area.
+ * linked, the whole card is the link with the title's stretched hit area;
+ * the accessible name comes from the card content (a shorter aria-label
+ * override would fail label-in-name, WCAG 2.5.3). The explicit spaces
+ * between the parts keep the name spaced ("Visit Hours Daily Plan") in
+ * every name computation — stylesheet block boundaries alone do not space
+ * it outside a laid-out page. Between block parts the spaces collapse, so
+ * the rendered card is unchanged.
  */
 export function ContentCard({ eyebrow, title, description, cta, href, children, loading = false, updated = false, className }: ContentCardProps): JSX.Element {
   if (loading) return <Skeleton shape="card" label={`Loading ${title}`} className={className} />;
   const body = (
     <>
-      {eyebrow !== undefined && <span className="hues-content-card__eyebrow">{eyebrow}</span>}
-      <span className="hues-content-card__title">{title}</span>
-      {description !== undefined && <span className="hues-content-card__description">{description}</span>}
+      {eyebrow !== undefined && (
+        <>
+          <span className="hues-content-card__eyebrow">{eyebrow}</span>{' '}
+        </>
+      )}
+      <span className="hues-content-card__title">{title}</span>{' '}
+      {description !== undefined && (
+        <>
+          <span className="hues-content-card__description">{description}</span>{' '}
+        </>
+      )}
       {children}
       {cta !== undefined && (
         <span className="hues-content-card__cta">
@@ -41,7 +55,7 @@ export function ContentCard({ eyebrow, title, description, cta, href, children, 
       {href === undefined ? (
         body
       ) : (
-        <Link href={href} context="nav" className="hues-content-card__link" aria-label={cta === undefined ? title : `${title}: ${cta}`}>
+        <Link href={href} context="nav" className="hues-content-card__link">
           {body}
         </Link>
       )}
