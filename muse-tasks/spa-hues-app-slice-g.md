@@ -46,3 +46,12 @@ Two defects in the DEPLOYED shape that local suites cannot see:
 - The PR body states: the root cause of the 307s and the layer
   fixed; the deploy command that now works from a clean checkout;
   smoke-test results (statuses per path) or the sandbox limit hit.
+
+## Hard constraint (added after run 45534162611)
+
+Do NOT create or modify ANY file under `.github/workflows/` — the
+bench token cannot push workflow files and the run dies at its
+first checkpoint if the diff touches one. If the deploy-path fix
+implies a change to `spa-rebuild.yml` (e.g. a different deploy
+command), do NOT edit it: state the exact change needed in the PR
+body and the lead lands it in a separate human PR.
