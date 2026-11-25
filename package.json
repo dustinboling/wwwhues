@@ -21,7 +21,9 @@
     "test:app:content": "vitest run --config vitest.app.config.ts tests/html",
     "test:app:deployed": "node ./scripts/smoke-deployed.mjs",
     "test:app:visual": "node ./scripts/run-visual.mjs",
-    "verify:app": "npm run lint:app && npm run build:app:deps && npm run typecheck:app && npm run test:app && npm run build:app && npm run test:app:deployed && npm run test:app:content && npm run test:app:visual"
+    "check:app:media": "node ./scripts/check-media.mjs",
+    "check:app:media:deployed": "node ./scripts/check-media.mjs --deployed",
+    "verify:app": "npm run lint:app && npm run build:app:deps && npm run typecheck:app && npm run test:app && npm run build:app && npm run check:app:media && npm run test:app:deployed && npm run test:app:content && npm run test:app:visual"
   },
   "browserslist": "defaults, not ie <= 11",
   "dependencies": {

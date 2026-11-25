@@ -9,6 +9,7 @@ describe('security headers', () => {
     expect(csp).toContain("style-src 'self'");
     expect(csp).not.toContain('unsafe-inline');
     expect(csp).toContain("frame-ancestors 'none'");
+    expect(csp).toContain("connect-src 'self';");
     const headers = buildSecurityHeaders();
     expect(headers['X-Content-Type-Options']).toBe('nosniff');
     expect(headers['X-Frame-Options']).toBe('DENY');
@@ -25,6 +26,10 @@ describe('security headers', () => {
     expect(csp).toContain('https://challenges.cloudflare.com');
     expect(csp).toContain('frame-src https://challenges.cloudflare.com');
     expect(csp).toContain('img-src \'self\' https://media.hues.flowers');
+    // X1: the worker's own fetch() is governed by the CSP on /sw.js, so
+    // the media origin must be in connect-src or every SW-controlled
+    // visit refuses the media fetches and shows broken images.
+    expect(csp).toContain('connect-src \'self\' https://media.hues.flowers');
     expect(csp).toContain("style-src 'self' 'unsafe-inline'");
     // script-src stays strict even with inline styles allowed.
     expect(csp).toContain("script-src 'self' https://challenges.cloudflare.com");
