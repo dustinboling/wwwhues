@@ -6,6 +6,21 @@
 
 import { DAHLIAS } from './dahlias'
 
+// Phone opening (Slice H), ported from src/app/m/page.tsx: the masthead
+// lockup and the framed Procession figure. Phone-only; the desktop
+// home keeps the H1 hero block below.
+export const MASTHEAD = {
+  park: 'Floral Park',
+  tagline: 'a little world apart',
+}
+
+export const PROCESSION = {
+  artKey: 'hues/home/procession.webp',
+  artAlt:
+    'Watercolor of the cottage beds at Hues, with the animal procession walking the stone path',
+  caption: 'The Procession · Hues Floral Park',
+}
+
 export const HERO = {
   eyebrow: 'Hues Floral Park · Junction City, Oregon',
   heading: 'A U-Pick Flower Farm Near Eugene, Oregon — Designed for Wandering and Wonder',

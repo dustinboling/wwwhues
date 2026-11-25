@@ -1,6 +1,9 @@
 /* Home composition. One centered column (80rem caps the hero at the
  * media contract's 1280px hero slot); phone stacks, wider breakpoints
- * open the grids. Type and color name token roles only. */
+ * open the grids. Type and color name token roles only. The opening is
+ * per-breakpoint (Slice H): the /m masthead + Procession figure on
+ * phone, the H1 hero block on desktop — toggled at the shell's 768px
+ * split, like the TopBar/SiteHeader pair. */
 
 .home {
   max-width: 80rem;
@@ -24,10 +27,112 @@
   color: var(--color-accent-ink);
 }
 
-/* Hero */
+/* Phone opening: the /m masthead (script logo, letterspaced caps,
+ * italic tagline, gold rule with centre diamond) and the framed
+ * Procession figure. Phone-only; hidden at the desktop split below. */
+
+.home-masthead {
+  padding-top: var(--layout-800);
+  text-align: center;
+}
+
+.home-masthead__brand {
+  margin: 0;
+  color: var(--color-text);
+}
+
+.home-masthead__logo {
+  display: block;
+  height: 5rem;
+  width: auto;
+  margin-inline: auto;
+}
+
+.home-masthead__park {
+  display: block;
+  margin-top: var(--space-150);
+  font-family: var(--text-body-sm-face);
+  font-size: 0.9375rem;
+  font-weight: var(--weight-semibold);
+  letter-spacing: 0.34em;
+  text-transform: uppercase;
+}
+
+.home-masthead__tagline {
+  margin: var(--space-100) 0 0;
+  font-family: var(--text-display-face);
+  font-size: 1.1875rem;
+  font-style: italic;
+  color: var(--color-text-muted);
+}
+
+.home-masthead__rule {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+  max-width: 17.5rem;
+  margin: var(--space-300) auto 0;
+}
+
+.home-masthead__rule::before,
+.home-masthead__rule::after {
+  content: "";
+  height: 0.0625rem;
+  flex: 1;
+  background: linear-gradient(to right, transparent, var(--color-accent), transparent);
+}
+
+.home-masthead__rule i {
+  display: block;
+  width: 0.4375rem;
+  height: 0.4375rem;
+  background: var(--color-accent);
+  transform: rotate(45deg);
+}
+
+.home-procession {
+  margin: 1.75rem 0 0;
+  padding: var(--space-100);
+  border-radius: 1.375rem;
+  background-color: var(--color-surface);
+  border: var(--shell-topbar-border) solid
+    color-mix(in srgb, var(--color-accent) 50%, transparent);
+  box-shadow: var(--elevation-card);
+}
+
+.home-procession .hues-image {
+  border-radius: var(--radius-lg);
+}
+
+.home-procession__caption {
+  padding: 0.625rem var(--space-100) 0.375rem;
+  text-align: center;
+  font-family: var(--text-body-sm-face);
+  font-size: 0.65625rem;
+  font-weight: var(--weight-bold);
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  color: var(--color-accent-ink);
+}
+
+@media (min-width: 768px) {
+  .home-masthead,
+  .home-procession {
+    display: none;
+  }
+}
+
+/* Hero (desktop-only; phone renders the masthead opening instead). */
 
 .home-hero {
+  display: none;
   text-align: center;
+}
+
+@media (min-width: 768px) {
+  .home-hero {
+    display: block;
+  }
 }
 
 .home-hero__title {

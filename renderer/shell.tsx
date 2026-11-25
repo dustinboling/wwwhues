@@ -25,6 +25,7 @@ import type { TabDefinition } from '@hues/ui'
 import { QueryClientProvider } from '@tanstack/react-query'
 import { usePageContext } from 'vike-react/usePageContext'
 import { AccountProvider, useAccount } from './account'
+import { HuesScriptLogo } from './logo'
 import { huesQueryClient, useHourBoundarySync } from './queries'
 import {
   CONTACT_PHONE_DISPLAY,
@@ -192,7 +193,7 @@ function ShellInner({ children }: { children: ReactNode }): JSX.Element {
       offline={offlineLabel !== null}
       header={
         <>
-          <TopBar logo={<Wordmark />} account={<AccountLink />} />
+          <TopBar logo={<HuesScriptLogo />} account={<AccountLink />} />
           <SiteHeader
             logo={<Wordmark />}
             items={HEADER_NAV}

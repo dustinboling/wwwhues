@@ -1,5 +1,6 @@
 import type { JSX } from 'react'
 import { ContentCard, Image, Link } from '@hues/ui'
+import { HuesScriptLogo } from '../../renderer/logo'
 import { parkTodayLabel } from '../../content/park-date'
 import {
   CONTACT_PHONE_DISPLAY,
@@ -11,8 +12,10 @@ import {
   DUSK_BAND,
   HERO,
   HOME_CARDS,
+  MASTHEAD,
   MEET_DUSTY,
   MUSIC_CARD,
+  PROCESSION,
   RIGHT_NOW,
   SEASON_CHAPTERS,
   SEASON_STATUS,
@@ -24,14 +27,38 @@ function Eyebrow({ children }: { children: string }): JSX.Element {
   return <p className="home-eyebrow">{children}</p>
 }
 
-// Home (/): prerendered with the complete primary content — hero, the
-// season-status build-time snapshot (honestly labelled, never live),
-// the season chapters, Right Now, dahlias, the dusk band, Meet Dusty,
+// Home (/): prerendered with the complete primary content. The opening
+// is per-breakpoint (Slice H): phone renders the /m masthead and the
+// Procession figure, desktop the H1 hero block; everything from the
+// season-status snapshot on (honestly labelled, never live) is shared —
+// Right Now, the season chapters, dahlias, the dusk band, Meet Dusty,
 // the visit packet, and the gather/sponsor/volunteer/music cards.
 export default function Page(): JSX.Element {
   const buildDate = parkTodayLabel()
   return (
     <div className="home">
+      <section className="home-masthead">
+        <h1 data-route-title className="home-masthead__brand">
+          <HuesScriptLogo className="home-masthead__logo" />
+          <span className="home-masthead__park">{MASTHEAD.park}</span>
+        </h1>
+        <p className="home-masthead__tagline">{MASTHEAD.tagline}</p>
+        <div className="home-masthead__rule" aria-hidden="true">
+          <i />
+        </div>
+      </section>
+
+      <figure className="home-procession">
+        <Image
+          src={PROCESSION.artKey}
+          alt={PROCESSION.artAlt}
+          kind="plate"
+          slot="plate"
+          ratio="3/2"
+        />
+        <figcaption className="home-procession__caption">{PROCESSION.caption}</figcaption>
+      </figure>
+
       <section className="home-hero" aria-labelledby="home-title">
         <Eyebrow>{HERO.eyebrow}</Eyebrow>
         <h1 id="home-title" data-route-title className="home-hero__title">
