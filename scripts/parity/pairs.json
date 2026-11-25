@@ -1,0 +1,121 @@
+{
+  "_comment": "Parity pairs from docs/parity/remediation-plan.md §Route coverage: 22 desktop (1280x900, hues-full cookie) + 24 phone (390x844, iPhone UA). Production desktop pairs without a desktop page use the /m source at desktop width (documented per pair); phone pairs without an /m page use the desktop page phones receive today.",
+  "desktop": {
+    "viewport": { "width": 1280, "height": 900 },
+    "cookie": "hues-full",
+    "pairs": [
+      { "id": "d-home", "prod": "/", "staging": "/" },
+      { "id": "d-visit", "prod": "/visit", "staging": "/visit" },
+      { "id": "d-floral-park", "prod": "/floral-park", "staging": "/floral-park" },
+      { "id": "d-whats-in-season", "prod": "/whats-in-season", "staging": "/whats-in-season" },
+      {
+        "id": "d-season-spring",
+        "prod": "/m/season/spring",
+        "staging": "/season/spring",
+        "note": "no desktop production page; staging ports the /m page"
+      },
+      {
+        "id": "d-season-summer",
+        "prod": "/m/season/summer",
+        "staging": "/season/summer",
+        "note": "no desktop production page; staging ports the /m page"
+      },
+      {
+        "id": "d-season-fall",
+        "prod": "/m/season/fall",
+        "staging": "/season/fall",
+        "note": "no desktop production page; staging ports the /m page"
+      },
+      { "id": "d-music", "prod": "/music", "staging": "/music" },
+      { "id": "d-dahlias", "prod": "/dahlias", "staging": "/dahlias" },
+      { "id": "d-about", "prod": "/about", "staging": "/about" },
+      { "id": "d-sponsor", "prod": "/sponsor", "staging": "/sponsor" },
+      { "id": "d-gather", "prod": "/gather", "staging": "/gather" },
+      { "id": "d-volunteer", "prod": "/volunteer", "staging": "/volunteer" },
+      {
+        "id": "d-help",
+        "prod": "/m/help",
+        "staging": "/help",
+        "note": "no desktop production page; desktop visitors get the /m page"
+      },
+      {
+        "id": "d-arcade",
+        "prod": "/m/arcade",
+        "staging": "/arcade",
+        "note": "production /play redirects to /m/arcade, shown full width"
+      },
+      { "id": "d-account", "prod": "/account", "staging": "/account" },
+      { "id": "d-how-u-cut-works", "prod": "/how-u-cut-works", "staging": "/how-u-cut-works" },
+      { "id": "d-nursery", "prod": "/nursery", "staging": "/nursery" },
+      { "id": "d-working-on", "prod": "/working-on", "staging": "/working-on" },
+      { "id": "d-privacy", "prod": "/privacy", "staging": "/privacy" },
+      { "id": "d-terms", "prod": "/terms", "staging": "/terms" },
+      { "id": "d-404", "prod": "/__parity_missing__", "staging": "/__parity_missing__" }
+    ]
+  },
+  "phone": {
+    "viewport": { "width": 390, "height": 844 },
+    "userAgent": "Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 Mobile/15E148 Safari/604.1",
+    "pairs": [
+      { "id": "m-home", "prod": "/m", "staging": "/" },
+      { "id": "m-visit", "prod": "/m/visit", "staging": "/visit" },
+      {
+        "id": "m-floral-park",
+        "prod": "/floral-park",
+        "staging": "/floral-park",
+        "note": "no /m page; phones get the desktop page"
+      },
+      { "id": "m-season-hub", "prod": "/m/season", "staging": "/whats-in-season" },
+      { "id": "m-season-spring", "prod": "/m/season/spring", "staging": "/season/spring" },
+      { "id": "m-season-summer", "prod": "/m/season/summer", "staging": "/season/summer" },
+      { "id": "m-season-fall", "prod": "/m/season/fall", "staging": "/season/fall" },
+      { "id": "m-music", "prod": "/m/music", "staging": "/music" },
+      { "id": "m-dahlias", "prod": "/m/dahlias", "staging": "/dahlias" },
+      { "id": "m-story", "prod": "/m/story", "staging": "/about" },
+      { "id": "m-sponsor", "prod": "/m/sponsor", "staging": "/sponsor" },
+      { "id": "m-gather", "prod": "/m/gather", "staging": "/gather" },
+      { "id": "m-volunteer", "prod": "/m/volunteer", "staging": "/volunteer" },
+      { "id": "m-help", "prod": "/m/help", "staging": "/help" },
+      { "id": "m-arcade", "prod": "/m/arcade", "staging": "/arcade" },
+      { "id": "m-account", "prod": "/m/account", "staging": "/account" },
+      { "id": "m-how-u-cut-works", "prod": "/m/how-u-cut-works", "staging": "/how-u-cut-works" },
+      {
+        "id": "m-nursery",
+        "prod": "/nursery",
+        "staging": "/nursery",
+        "note": "no /m page; phones get the desktop page"
+      },
+      {
+        "id": "m-working-on",
+        "prod": "/working-on",
+        "staging": "/working-on",
+        "note": "no /m page; phones get the desktop page"
+      },
+      {
+        "id": "m-privacy",
+        "prod": "/privacy",
+        "staging": "/privacy",
+        "note": "no /m page; phones get the desktop page"
+      },
+      {
+        "id": "m-terms",
+        "prod": "/terms",
+        "staging": "/terms",
+        "note": "no /m page; phones get the desktop page"
+      },
+      { "id": "m-404", "prod": "/m/__parity_missing__", "staging": "/__parity_missing__" },
+      {
+        "id": "m-volunteer-admin",
+        "prod": "/volunteer/admin",
+        "staging": "/volunteer/admin",
+        "note": "no /m page; phones get the desktop page"
+      },
+      {
+        "id": "m-arcade-admin",
+        "prod": "/play/admin",
+        "staging": "/arcade/admin",
+        "note": "no /m page; phones get the desktop page"
+      }
+    ]
+  }
+}

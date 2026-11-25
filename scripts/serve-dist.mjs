@@ -119,6 +119,13 @@ const server = createServer((req, res) => {
     send(res, 401, 'application/json; charset=utf-8', JSON.stringify({ error: 'Not signed in.' }), security)
     return
   }
+  if (req.method === 'GET' && (pathname === '/api/play/admin' || pathname === '/api/volunteer/admin')) {
+    // Fresh-worker state, mirroring the parity stand-in API (whose
+    // /auth/status reports setup not done): both admin screens show
+    // first-time setup — the same state on both sides of the pair.
+    send(res, 200, 'application/json; charset=utf-8', JSON.stringify({ setupDone: false, authed: false }))
+    return
+  }
   if (pathname === '/api' || pathname.startsWith('/api/')) {
     send(res, 404, 'application/json; charset=utf-8', JSON.stringify({ error: 'Not found.' }), security)
     return
