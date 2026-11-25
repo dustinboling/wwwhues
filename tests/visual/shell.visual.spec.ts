@@ -9,7 +9,11 @@ import { expect, test, type Page } from '@playwright/test'
 // Deterministic media: the media domain is unreachable from CI, so the
 // spec fulfills it — playable WAV bytes for audio (headless Chromium
 // really starts playback, which is what flips player state), a solid
-// paper PNG for images (aspect-ratio slots keep layout exact).
+// paper PNG for images (aspect-ratio slots keep layout exact). The one
+// exception is the tab bar test, which serves the repo's own shell-art
+// fixtures (below) so the baseline pins the real drawn artwork — a DOM
+// rect check cannot see plate-art scale, which is how the ~2× socket
+// shipped with every rect green.
 
 /** One second of 8 kHz mono 16-bit sine — valid, playable, tiny. */
 function wavBytes(): Buffer {
@@ -92,6 +96,31 @@ function placeholderPng(): Buffer {
 
 const AUDIO_PATTERN = /\.(mp3|m4a|ogg|wav|opus|weba)(\?|$)/i
 
+// Shell-art stand-ins for the tab bar test: media key (SHELL_ART in
+// content/site.ts) → the same artwork as served fixtures under
+// public/m-art/tabbar/ (the live /m filename map: v19 plate, v18 disc,
+// v18 flank medallions — Help's medallion is the grow variant, as on
+// live /m). Paths are relative to the repo root, the suite's cwd.
+// Served ONLY to the tab bar test: every other baseline keeps the
+// layout-exact placeholder, so this art coverage touches no other shot.
+const SHELL_FIXTURES: Record<string, string> = {
+  'hues/shell/tab-plate.webp': 'public/m-art/tabbar/tabbar-v19-plate.webp',
+  'hues/shell/seasons-disc.webp': 'public/m-art/tabbar/tabbar-v18-disc.webp',
+  'hues/shell/tab-home.webp': 'public/m-art/tabbar/tabbar-v18-med-home.webp',
+  'hues/shell/tab-visit.webp': 'public/m-art/tabbar/tabbar-v18-med-visit.webp',
+  'hues/shell/tab-help.webp': 'public/m-art/tabbar/tabbar-v18-med-grow.webp',
+  'hues/shell/tab-arcade.webp': 'public/m-art/tabbar/tabbar-v18-med-arcade.webp',
+  'hues/shell/tab-music.webp': 'public/m-art/tabbar/tabbar-v18-med-music.webp',
+  'hues/shell/tab-more.webp': 'public/m-art/tabbar/tabbar-v18-med-more.webp',
+}
+
+function shellFixture(url: string): string | null {
+  for (const [key, fixture] of Object.entries(SHELL_FIXTURES)) {
+    if (url.endsWith(`/${key}`)) return fixture
+  }
+  return null
+}
+
 async function stabilize(page: Page): Promise<void> {
   // Fonts settle before any pixel is pinned; the live queries resolve
   // to the snapshot bytes from serve-dist (no layout change either way).
@@ -99,11 +128,19 @@ async function stabilize(page: Page): Promise<void> {
   await page.waitForLoadState('networkidle').catch(() => undefined)
 }
 
-test.beforeEach(async ({ page }) => {
+test.beforeEach(async ({ page }, testInfo) => {
+  // Only the tab bar baseline pins shell artwork; the rest keep the
+  // placeholder (see SHELL_FIXTURES). A rename of the test below fails
+  // loudly — the real-art baseline mismatches the placeholder render.
+  const realShellArt = testInfo.title === 'tab bar'
   await page.route('https://media.hues.flowers/**', (route) => {
     const url = route.request().url()
     if (AUDIO_PATTERN.test(url)) {
       return route.fulfill({ status: 200, contentType: 'audio/wav', body: wavBytes() })
+    }
+    const fixture = realShellArt ? shellFixture(url) : null
+    if (fixture !== null) {
+      return route.fulfill({ status: 200, path: fixture })
     }
     return route.fulfill({ status: 200, contentType: 'image/png', body: placeholderPng() })
   })
