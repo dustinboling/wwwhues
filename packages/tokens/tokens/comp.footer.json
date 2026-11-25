@@ -1,0 +1,156 @@
+{
+  "comp": {
+    "footer": {
+      "outer-padding-x": {
+        "$value": "32px",
+        "$type": "dimension",
+        "$description": "Desktop footer outer horizontal padding. Production steps px-4/sm:px-8/lg:px-12; the desktop composition shows at 768px and up, so the base takes the sm step and the lg step lands at 1024px.",
+        "$extensions": { "hues": { "source": "Plan P4 (production src/components/Footer.tsx px-4 sm:px-8 lg:px-12, Dustin 2026-11-24)" } }
+      },
+      "outer-padding-x-lg": {
+        "$value": "48px",
+        "$type": "dimension",
+        "$description": "Desktop footer outer horizontal padding at 1024px and up.",
+        "$extensions": { "hues": { "source": "Plan P4 (production src/components/Footer.tsx lg:px-12, Dustin 2026-11-24)" } }
+      },
+      "outer-padding-bottom": {
+        "$value": "32px",
+        "$type": "dimension",
+        "$description": "Desktop footer outer bottom padding.",
+        "$extensions": { "hues": { "source": "Plan P4 (production src/components/Footer.tsx pb-8, Dustin 2026-11-24)" } }
+      },
+      "inner-padding-x": {
+        "$value": "40px",
+        "$type": "dimension",
+        "$description": "Desktop footer card inner horizontal padding. Production steps px-6/sm:px-10/lg:px-14; the composition shows at 768px and up, so the base takes the sm step.",
+        "$extensions": { "hues": { "source": "Plan P4 (production src/components/Footer.tsx sm:px-10, Dustin 2026-11-24)" } }
+      },
+      "inner-padding-x-lg": {
+        "$value": "56px",
+        "$type": "dimension",
+        "$description": "Desktop footer card inner horizontal padding at 1024px and up.",
+        "$extensions": { "hues": { "source": "Plan P4 (production src/components/Footer.tsx lg:px-14, Dustin 2026-11-24)" } }
+      },
+      "inner-padding-y": {
+        "$value": "48px",
+        "$type": "dimension",
+        "$description": "Desktop footer card inner vertical padding.",
+        "$extensions": { "hues": { "source": "Plan P4 (production src/components/Footer.tsx py-12, Dustin 2026-11-24)" } }
+      },
+      "card-radius": {
+        "$value": "32px",
+        "$type": "dimension",
+        "$description": "Desktop footer card corner radius.",
+        "$extensions": { "hues": { "source": "Plan P4 (production src/components/Footer.tsx rounded-[2rem], Dustin 2026-11-24)" } }
+      },
+      "card-shadow": {
+        "$value": "0 24px 48px rgba(35, 54, 43, 0.25)",
+        "$type": "other",
+        "$description": "Desktop footer card shadow. Deep-ink colour, per the elevation discipline.",
+        "$extensions": { "hues": { "source": "Plan P4 (production src/components/Footer.tsx shadow, Dustin 2026-11-24)" } }
+      },
+      "card-stitch": {
+        "$value": "1.5px dashed rgba(217, 188, 118, 0.4)",
+        "$type": "other",
+        "$description": "Desktop footer card dashed inner stitch (the d-cardback outline).",
+        "$extensions": { "hues": { "source": "Plan P4 (production src/styles/tailwind.css .d-cardback::after, Dustin 2026-11-24)" } }
+      },
+      "card-stitch-offset": {
+        "$value": "-9px",
+        "$type": "dimension",
+        "$description": "Desktop footer card stitch inset from the card edge.",
+        "$extensions": { "hues": { "source": "Plan P4 (production src/styles/tailwind.css .d-cardback::after, Dustin 2026-11-24)" } }
+      },
+      "top-margin": {
+        "$value": "112px",
+        "$type": "dimension",
+        "$description": "Desktop footer top margin above the card.",
+        "$extensions": { "hues": { "source": "Plan P4 (production src/components/Footer.tsx mt-28, Dustin 2026-11-24)" } }
+      },
+      "logo": {
+        "$value": "48px",
+        "$type": "dimension",
+        "$description": "Desktop footer script logo height.",
+        "$extensions": { "hues": { "source": "Plan P4 (production src/components/Footer.tsx logo h-12, Dustin 2026-11-24)" } }
+      },
+      "overline-size": {
+        "$value": "11px",
+        "$type": "dimension",
+        "$description": "Desktop footer FLORAL PARK overline size. Tracking reuses the lockup-only exception token.",
+        "$extensions": { "hues": { "source": "Plan P4 (production src/components/Footer.tsx text-[11px], Dustin 2026-11-24)" } }
+      },
+      "signoff-size": {
+        "$value": "24px",
+        "$type": "dimension",
+        "$description": "Desktop footer italic sign-off size.",
+        "$extensions": { "hues": { "source": "Plan P4 (production src/components/Footer.tsx text-2xl, Dustin 2026-11-24)" } }
+      },
+      "signoff-leading": {
+        "$value": "1.375",
+        "$type": "number",
+        "$description": "Desktop footer italic sign-off line height.",
+        "$extensions": { "hues": { "source": "Plan P4 (production src/components/Footer.tsx leading-snug, Dustin 2026-11-24)" } }
+      },
+      "nav-weight": {
+        "$value": "500",
+        "$type": "fontWeight",
+        "$description": "Desktop footer nav and chip weight (medium).",
+        "$extensions": { "hues": { "source": "Plan P4 (production src/components/Footer.tsx font-medium, Dustin 2026-11-24)" } }
+      },
+      "address-leading": {
+        "$value": "24px",
+        "$type": "dimension",
+        "$description": "Desktop footer address block line height.",
+        "$extensions": { "hues": { "source": "Plan P4 (production src/components/Footer.tsx leading-6, Dustin 2026-11-24)" } }
+      },
+      "gold": {
+        "$value": "#d9bc76",
+        "$type": "color",
+        "$description": "Footer gold accents on deep (overline, chips, hover). Production swatch; 6.98:1 on deep. Scoped here, not in the shared palette, pending a palette ruling.",
+        "$extensions": { "hues": { "source": "Plan P4 (production src/components/Footer.tsx #d9bc76, Dustin 2026-11-24)" } }
+      },
+      "cream": {
+        "$value": "#e9e2c8",
+        "$type": "color",
+        "$description": "Desktop footer nav text. Production swatch; 9.90:1 on deep. Scoped here pending a palette ruling.",
+        "$extensions": { "hues": { "source": "Plan P4 (production src/components/Footer.tsx #e9e2c8, Dustin 2026-11-24)" } }
+      },
+      "sand": {
+        "$value": "#cfc9a8",
+        "$type": "color",
+        "$description": "Desktop footer address text. Production swatch; 7.69:1 on deep. Scoped here pending a palette ruling.",
+        "$extensions": { "hues": { "source": "Plan P4 (production src/components/Footer.tsx #cfc9a8, Dustin 2026-11-24)" } }
+      },
+      "sage": {
+        "$value": "#a9b39b",
+        "$type": "color",
+        "$description": "Desktop footer copyright text. Production swatch; 5.88:1 on deep. Scoped here pending a palette ruling.",
+        "$extensions": { "hues": { "source": "Plan P4 (production src/components/Footer.tsx #a9b39b, Dustin 2026-11-24)" } }
+      },
+      "rule-diamond": {
+        "$value": "7px",
+        "$type": "dimension",
+        "$description": "Desktop footer gold-rule centre diamond size.",
+        "$extensions": { "hues": { "source": "Plan P4 (production src/styles/tailwind.css .d-rule i, Dustin 2026-11-24)" } }
+      },
+      "phone-padding-top": {
+        "$value": "56px",
+        "$type": "dimension",
+        "$description": "Phone footer top padding.",
+        "$extensions": { "hues": { "source": "Plan P4 (production src/app/m/page.tsx footer pt-14, Dustin 2026-11-24)" } }
+      },
+      "phone-art-width": {
+        "$value": "256px",
+        "$type": "dimension",
+        "$description": "Phone footer procession art width.",
+        "$extensions": { "hues": { "source": "Plan P4 (production src/app/m/page.tsx footer w-64, Dustin 2026-11-24)" } }
+      },
+      "phone-logo": {
+        "$value": "44px",
+        "$type": "dimension",
+        "$description": "Phone footer script logo height.",
+        "$extensions": { "hues": { "source": "Plan P4 (production src/app/m/page.tsx footer h-11, Dustin 2026-11-24)" } }
+      }
+    }
+  }
+}

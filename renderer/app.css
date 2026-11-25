@@ -21,6 +21,14 @@ body {
   display: none;
 }
 
+/* Footer compositions follow the same split: the compact Print Edition
+ * ending on phone, the deep-green card on tablet/desktop. display:none
+ * removes the inactive tree from the accessibility tree, so each
+ * breakpoint exposes exactly one contentinfo landmark. */
+.hues-site-footer--desktop {
+  display: none;
+}
+
 @media (min-width: 768px) {
   .hues-topbar,
   .hues-tabbar {
@@ -30,14 +38,22 @@ body {
   .hues-site-header {
     display: block;
   }
+
+  .hues-site-footer--phone {
+    display: none;
+  }
+
+  .hues-site-footer--desktop {
+    display: block;
+  }
 }
 
-/* Interim wordmark until Elena's lockup artwork lands. */
-.hues-wordmark {
-  font-family: var(--font-display);
-  font-weight: var(--weight-semibold);
-  color: var(--color-text-strong);
-  white-space: nowrap;
+/* Phone anchor clearance (P4): fragment jumps and focus land below the
+ * fixed TopBar, matching the main-column offset in shell.css. */
+@media (max-width: 767px) {
+  html {
+    scroll-padding-top: var(--shell-top-clearance);
+  }
 }
 
 /* The account round is an anchor in this slice (real link, never a

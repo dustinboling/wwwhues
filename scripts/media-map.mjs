@@ -59,7 +59,8 @@ export const MEDIA_BASE_URL = MEDIA_ORIGIN
  *   (src/app/page.tsx dLabyrinth/dBreakOut/dPenhill/dGolden/
  *   dStrawberry/dThomas).
  * - hues/shell/*: the tab-bar artwork fixtures
- *   (mirrors SHELL_FIXTURES in tests/visual/shell.visual.spec.ts).
+ *   (mirrors SHELL_FIXTURES in tests/visual/shell.visual.spec.ts) plus
+ *   the phone footer procession art (src/app/m/page.tsx footer).
  */
 export const MEDIA_OVERRIDES = {
   'hues/home/procession.webp': 'public/m-art/painting-1080.webp',
@@ -96,6 +97,7 @@ export const MEDIA_OVERRIDES = {
   'hues/shell/tab-arcade.webp': 'public/m-art/tabbar/tabbar-v18-med-arcade.webp',
   'hues/shell/tab-music.webp': 'public/m-art/tabbar/tabbar-v18-med-music.webp',
   'hues/shell/tab-more.webp': 'public/m-art/tabbar/tabbar-v18-med-more.webp',
+  'hues/shell/procession.webp': 'public/m-art/procession-full.webp',
 }
 
 /**

@@ -73,12 +73,19 @@ test.describe('home opening', () => {
     expect(planColor).toBe('rgb(247, 241, 222)')
   })
 
-  test('desktop header keeps the serif wordmark', async ({ page }, testInfo) => {
+  test('desktop header carries the script lockup', async ({ page }, testInfo) => {
     test.skip(testInfo.project.name !== 'desktop', 'desktop header only')
     await page.goto('/')
     await stabilize(page)
-    await expect(page.locator('.hues-site-header .hues-wordmark')).toContainText(
-      'Hues Floral Park',
+    // Script "hues" artwork with the FLORAL PARK overline and the italic
+    // tagline — the interim serif wordmark is gone.
+    await expect(page.locator('.hues-site-header__logo svg')).toBeVisible()
+    await expect(page.locator('.hues-site-header .hues-wordmark')).toHaveCount(0)
+    await expect(page.locator('.hues-site-header__lockup-overline')).toContainText(
+      'Floral Park',
+    )
+    await expect(page.locator('.hues-site-header__lockup-tagline')).toContainText(
+      'a little world apart',
     )
   })
 })

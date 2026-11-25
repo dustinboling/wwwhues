@@ -95,6 +95,7 @@ describe('locked geometry wiring', () => {
     expect(sheet).toContain('var(--shell-tabbar-reservation)');
     expect(sheet).toContain('var(--shell-scroll-padding-top)');
     expect(sheet).toContain('var(--shell-scroll-padding-bottom)');
+    expect(sheet).toContain('var(--shell-top-clearance)');
     expect(css('overlays.css')).toContain('var(--shell-top-clearance)');
   });
 

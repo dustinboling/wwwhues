@@ -103,6 +103,36 @@
         "$description": "Desktop header logo height at the sm step.",
         "$extensions": { "hues": { "source": "Mina §2.2 (logo h-10, sm:h-11)" } }
       },
+      "brand-gap": {
+        "$value": "14px",
+        "$type": "dimension",
+        "$description": "Desktop header gap between the script logo and the lockup stack.",
+        "$extensions": { "hues": { "source": "Plan P4 (production src/components/Header.tsx gap-3.5, Dustin 2026-11-24)" } }
+      },
+      "lockup-overline-size": {
+        "$value": "11px",
+        "$type": "dimension",
+        "$description": "Desktop header FLORAL PARK overline size. Tracking reuses the lockup-only exception token.",
+        "$extensions": { "hues": { "source": "Plan P4 (production src/components/Header.tsx text-[11px], Dustin 2026-11-24)" } }
+      },
+      "lockup-tagline-size": {
+        "$value": "15px",
+        "$type": "dimension",
+        "$description": "Desktop header italic tagline size.",
+        "$extensions": { "hues": { "source": "Plan P4 (production src/components/Header.tsx text-[15px], Dustin 2026-11-24)" } }
+      },
+      "lockup-tagline-ink": {
+        "$value": "{ref.color.pine-1}",
+        "$type": "color",
+        "$description": "Desktop header italic tagline ink; 5.60:1 on paper.",
+        "$extensions": { "hues": { "source": "Plan P4 (production src/components/Header.tsx #55644f, Dustin 2026-11-24)" } }
+      },
+      "lockup-gap": {
+        "$value": "6px",
+        "$type": "dimension",
+        "$description": "Desktop header gap between the overline and the tagline.",
+        "$extensions": { "hues": { "source": "Plan P4 (production src/components/Header.tsx tagline mt-1.5, Dustin 2026-11-24)" } }
+      },
       "lockup-tracking": {
         "$value": "0.34em",
         "$type": "dimension",

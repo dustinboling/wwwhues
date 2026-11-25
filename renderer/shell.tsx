@@ -2,9 +2,9 @@ import { useEffect, useRef, useState } from 'react'
 import type { JSX, ReactNode } from 'react'
 import {
   AppShell,
-  FooterLink,
   HUES_TABS,
   Icon,
+  Image,
   Link,
   MiniPlayer,
   OfflineBanner,
@@ -27,13 +27,24 @@ import { usePageContext } from 'vike-react/usePageContext'
 import { AccountProvider, useAccount } from './account'
 import { HuesScriptLogo } from './logo'
 import { huesQueryClient, useHourBoundarySync } from './queries'
+import { InstagramIcon, MailIcon, TikTokIcon } from './social-icons'
 import {
-  CONTACT_PHONE_DISPLAY,
   CONTACT_PHONE_HREF,
+  FOOTER_BUSINESS_NAME,
+  FOOTER_CITY,
+  FOOTER_ENTRANCE,
+  FOOTER_PHONE_CONTACT,
+  FOOTER_PHONE_DISPLAY,
+  FOOTER_PHONE_LEAD,
+  FOOTER_PHONE_LINKS,
+  FOOTER_PHONE_SIGNOFF,
   FOOTER_SITEMAP,
-  FOOTER_SOCIALS,
+  FOOTER_SOCIAL_CHIPS,
+  FOOTER_SOCIALS_LABEL,
+  FOOTER_STREET,
   HEADER_NAV,
   MORE_SHEET_ROWS,
+  PARK_SIGNOFF,
   SHELL_ART,
 } from '../content/site'
 import {
@@ -49,9 +60,11 @@ import {
 // against the media domain. Idempotent; runs once per environment.
 setMediaBaseUrl('https://media.hues.flowers')
 
-function Wordmark(): JSX.Element {
-  return <span className="hues-wordmark">Hues Floral Park</span>
-}
+const SOCIAL_ICONS = {
+  instagram: InstagramIcon,
+  tiktok: TikTokIcon,
+  mail: MailIcon,
+} as const
 
 // The account round is a real link to /account (never a click-handler
 // button — Bea §1.5(3)): the person glyph signed out, the account
@@ -195,7 +208,13 @@ function ShellInner({ children }: { children: ReactNode }): JSX.Element {
         <>
           <TopBar logo={<HuesScriptLogo />} account={<AccountLink />} />
           <SiteHeader
-            logo={<Wordmark />}
+            logo={<HuesScriptLogo />}
+            lockup={
+              <>
+                <span className="hues-site-header__lockup-overline">Floral Park</span>
+                <span className="hues-site-header__lockup-tagline">a little world apart</span>
+              </>
+            }
             items={HEADER_NAV}
             currentHref={urlPathname}
             account={<AccountLink />}
@@ -214,35 +233,88 @@ function ShellInner({ children }: { children: ReactNode }): JSX.Element {
         />
       }
       footer={
-        <SiteFooter
-          sitemap={
-            <ul>
-              {FOOTER_SITEMAP.map((item) => (
-                <li key={item.href}>
-                  <FooterLink href={item.href} current={item.href === urlPathname}>
-                    {item.label}
-                  </FooterLink>
-                </li>
-              ))}
-            </ul>
-          }
-          accountLink={
-            <Link href={CONTACT_PHONE_HREF} context="nav">
-              {CONTACT_PHONE_DISPLAY}
-            </Link>
-          }
-          socials={
-            <ul>
-              {FOOTER_SOCIALS.map((item) => (
-                <li key={item.href}>
-                  <Link href={item.href} context="nav">
-                    {item.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          }
-        />
+        <>
+          <SiteFooter
+            variant="phone"
+            art={
+              <Image
+                src={SHELL_ART.procession}
+                alt="The animal procession from the Hues watercolor"
+                slot="card"
+              />
+            }
+            logo={<HuesScriptLogo />}
+            signoff={FOOTER_PHONE_SIGNOFF}
+            address={FOOTER_PHONE_CONTACT}
+            sitemap={
+              <ul>
+                {FOOTER_PHONE_LINKS.map((item) => (
+                  <li key={item.href}>
+                    <Link href={item.href} context="nav">
+                      {item.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            }
+          />
+          <SiteFooter
+            variant="desktop"
+            logo={<HuesScriptLogo />}
+            overline="Floral Park"
+            signoff={PARK_SIGNOFF}
+            socialsLabel={FOOTER_SOCIALS_LABEL}
+            socials={FOOTER_SOCIAL_CHIPS.map((chip) => {
+              const ChipIcon = SOCIAL_ICONS[chip.icon]
+              return (
+                <Link
+                  key={chip.href}
+                  href={chip.href}
+                  context="nav"
+                  {...(chip.external === true ? { target: '_blank', rel: 'noreferrer' } : {})}
+                >
+                  <ChipIcon />
+                  {chip.label}
+                  {chip.external === true && (
+                    <span className="hues-visually-hidden">(opens in new tab)</span>
+                  )}
+                </Link>
+              )
+            })}
+            sitemap={
+              <ul>
+                {FOOTER_SITEMAP.map((item) => (
+                  <li key={item.href}>
+                    <Link href={item.href} context="nav">
+                      {item.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            }
+            address={
+              <>
+                {FOOTER_BUSINESS_NAME}
+                <br />
+                {FOOTER_STREET}
+                <br />
+                {FOOTER_CITY}
+                <br />
+                {FOOTER_ENTRANCE}
+                <br />
+                {FOOTER_PHONE_LEAD}
+                <Link href={CONTACT_PHONE_HREF} context="nav">
+                  {FOOTER_PHONE_DISPLAY}
+                </Link>
+              </>
+            }
+            copyright={
+              <>
+                © {new Date().getFullYear()} {FOOTER_BUSINESS_NAME}. All rights reserved.
+              </>
+            }
+          />
+        </>
       }
       player={
         <MiniPlayer

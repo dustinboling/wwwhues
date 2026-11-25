@@ -55,6 +55,7 @@ const TOKEN_FILES = [
   'comp.shell.json',
   'comp.density.json',
   'comp.header.json',
+  'comp.footer.json',
   'tabbar.lock.json',
   'theme.park.json',
   'theme.seeds.json',
