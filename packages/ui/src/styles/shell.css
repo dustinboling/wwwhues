@@ -62,6 +62,17 @@
   height: var(--header-topbar-logo);
 }
 
+/* Live /m header dress (Slice H): the script logo draws in ink, the
+ * Plan pill in paper on the deep fill. Both beat the later .hues-link
+ * color by specificity; the desktop header's dress is untouched. */
+.hues-topbar__inner .hues-topbar__logo {
+  color: var(--color-text);
+}
+
+.hues-topbar__cluster .hues-topbar__plan {
+  color: var(--button-primary-text);
+}
+
 .hues-topbar__cluster {
   display: flex;
   align-items: center;

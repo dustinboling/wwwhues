@@ -19,10 +19,14 @@ export function focusableIn(container: HTMLElement): HTMLElement[] {
 
 /**
  * Move focus to the route target: the route h1 (given tabindex -1), falling
- * back to main. Never body or the router wrapper (A11y #1).
+ * back to main. Never body or the router wrapper (A11y #1). Home carries
+ * one route h1 per breakpoint (Slice H), so the rendered one wins; the
+ * no-layout fallback keeps the first, preserving the single-h1 contract.
  */
 export function focusRouteTarget(root: ParentNode = document): HTMLElement | null {
-  const heading = root.querySelector<HTMLElement>('h1[data-route-title]');
+  const headings = [...root.querySelectorAll<HTMLElement>('h1[data-route-title]')];
+  const heading =
+    headings.find((candidate) => candidate.getClientRects().length > 0) ?? headings[0] ?? null;
   const target = heading ?? root.querySelector<HTMLElement>('main[data-route-main]');
   if (target === null) return null;
   if (target.tabIndex < 0 || target.getAttribute('tabindex') === null) {
