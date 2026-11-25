@@ -42,7 +42,7 @@
 # work is correct. Correctness is gated on the verify command passing
 # in full, twice (in-loop and at the gate).
 #
-# The run is bounded two ways: the job timeout (90 minutes) and the
+# The run is bounded two ways: the job timeout (180 minutes; raised from 90 on 2026-11-25 after two parity-package runs died on the verification tail) and the
 # `max_model_steps` input passed to `muse exec`. A headless run cannot
 # answer approval prompts, so the run uses `--approval-mode never`;
 # the Muse sandbox still contains the run.
@@ -79,7 +79,7 @@ jobs:
   muse-task:
     name: Muse task
     runs-on: ubuntu-latest
-    timeout-minutes: 90
+    timeout-minutes: 180
     permissions:
       contents: write # WIP branch pushes; no pull-requests grant, so this job cannot open PRs. contents:write is repo-wide by platform design — the bar on pushing straight to main is the repo's branch protection (PR required on main, set 2026-11-23), not this grant.
     steps:
