@@ -65,11 +65,35 @@ function prerenderedRoutes(): string[] {
   return routes.sort()
 }
 
+const REQUIRED_SERVICES = [
+  { binding: 'ACCOUNTS_API', service: 'hues-accounts-api' },
+  { binding: 'PLAY_API', service: 'hues-play-api' },
+  { binding: 'VOLUNTEER_API', service: 'hues-volunteers-api' },
+  { binding: 'THISORTHAT_API', service: 'hues-thisorthat-api' },
+]
+
+function servicePairs(config: unknown): string[] {
+  const services = (config as { services?: unknown }).services
+  if (!Array.isArray(services)) return []
+  return services.map((entry) => {
+    if (entry === null || typeof entry !== 'object') return ''
+    const typed = entry as { binding?: unknown; service?: unknown }
+    return `${String(typed.binding)}→${String(typed.service)}`
+  })
+}
+
 describe('input wrangler-spa.jsonc', () => {
   it('keeps the drop-trailing-slash assets contract in source', () => {
     const config = readJsonc('wrangler-spa.jsonc') as { assets: AssetsConfig }
     expect(config.assets.html_handling).toBe('drop-trailing-slash')
     expect(config.assets.not_found_handling).toBe('404-page')
+  })
+
+  it('declares all four backend service bindings in source', () => {
+    const pairs = servicePairs(readJsonc('wrangler-spa.jsonc'))
+    for (const entry of REQUIRED_SERVICES) {
+      expect(pairs).toContain(`${entry.binding}→${entry.service}`)
+    }
   })
 })
 
@@ -81,6 +105,13 @@ describe('generated dist/server/wrangler.json', () => {
 
   it('carries no legacy_env key (current wrangler rejects the file otherwise)', () => {
     expect(config).not.toHaveProperty('legacy_env')
+  })
+
+  it('carries all four backend service bindings (a staging deploy without them cannot reach the backends)', () => {
+    const pairs = servicePairs(config)
+    for (const entry of REQUIRED_SERVICES) {
+      expect(pairs).toContain(`${entry.binding}→${entry.service}`)
+    }
   })
 
   it('keeps the entry, assets directory, and html handling the deploy needs', () => {

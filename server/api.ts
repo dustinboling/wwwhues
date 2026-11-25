@@ -16,10 +16,12 @@ import type { Context } from 'hono'
 import { buildSecurityHeaders } from '@hues/ui'
 import {
   backendBase,
+  backendFetcher,
   backendGetJson,
   backendPostJson,
   forwardedPreconditions,
   type BackendEnv,
+  type BackendName,
 } from './backends'
 import { checkCsrf } from './csrf'
 import {
@@ -113,6 +115,18 @@ export function registerApp(app: App, deps: AppDeps): App {
   /** Worker bindings win over injected env (tests inject, prod binds). */
   function effEnv(c: ApiContext): BackendEnv {
     return { ...deps.env, ...c.env }
+  }
+
+  /**
+   * Fetcher for a backend call (Slice K): the injected test fetcher wins
+   * outright when present (the seam stays as it is); otherwise the
+   * backend's service binding routes the dispatch when the env carries
+   * it (deployed worker), else global fetch (local dev, tests).
+   * Turnstile verification never routes through here (external host).
+   */
+  function fetchFor(c: ApiContext, backend: BackendName): typeof fetch {
+    if (deps.fetcher !== undefined) return deps.fetcher
+    return backendFetcher(effEnv(c), backend, fetcher)
   }
 
   // Every Worker response carries the security suite + no-store unless
@@ -224,7 +238,7 @@ export function registerApp(app: App, deps: AppDeps): App {
       path,
       body,
       forwardedPreconditions(c.req.raw),
-      fetcher,
+      fetchFor(c, 'ACCOUNTS_API_URL'),
     )
     if (status !== 200 || typeof data.sessionToken !== 'string') {
       return backendPassthrough(status, data, setCookies, 'no-store')
@@ -260,7 +274,7 @@ export function registerApp(app: App, deps: AppDeps): App {
         '/signout',
         {},
         { 'X-Account-Session': session },
-        fetcher,
+        fetchFor(c, 'ACCOUNTS_API_URL'),
       )
     }
     const headers = new Headers({ 'Content-Type': 'application/json' })
@@ -283,7 +297,7 @@ export function registerApp(app: App, deps: AppDeps): App {
       backendBase(effEnv(c), 'ACCOUNTS_API_URL'),
       '/me',
       { 'X-Account-Session': session },
-      fetcher,
+      fetchFor(c, 'ACCOUNTS_API_URL'),
     )
     // Per-user read: private, no-cache (§1a.4).
     return backendPassthrough(status, data, setCookies, 'private, no-cache')
@@ -301,7 +315,7 @@ export function registerApp(app: App, deps: AppDeps): App {
       '/update',
       body,
       { 'X-Account-Session': session, ...forwardedPreconditions(c.req.raw) },
-      fetcher,
+      fetchFor(c, 'ACCOUNTS_API_URL'),
     )
     return backendPassthrough(status, data, setCookies, 'no-store')
   })
@@ -320,7 +334,7 @@ export function registerApp(app: App, deps: AppDeps): App {
       '/signup',
       body,
       forwardedPreconditions(c.req.raw),
-      fetcher,
+      fetchFor(c, 'VOLUNTEER_API_URL'),
     )
     return backendPassthrough(status, data, setCookies, 'no-store')
   })
@@ -332,7 +346,7 @@ export function registerApp(app: App, deps: AppDeps): App {
       backendBase(effEnv(c), 'VOLUNTEER_API_URL'),
       '/public-state',
       {},
-      fetcher,
+      fetchFor(c, 'VOLUNTEER_API_URL'),
     )
     // Public unauthenticated GET: edge TTLs are the freshness contract
     // (§1a.4 / Data #2.2).
@@ -362,7 +376,7 @@ export function registerApp(app: App, deps: AppDeps): App {
         backendPath,
         body,
         forwardedPreconditions(c.req.raw),
-        fetcher,
+        fetchFor(c, 'PLAY_API_URL'),
       )
       return backendPassthrough(status, data, setCookies, 'no-store')
     })
@@ -375,7 +389,7 @@ export function registerApp(app: App, deps: AppDeps): App {
       backendBase(effEnv(c), 'PLAY_API_URL'),
       '/public-state',
       {},
-      fetcher,
+      fetchFor(c, 'PLAY_API_URL'),
     )
     return backendPassthrough(status, data, setCookies, 'public, max-age=60, stale-while-revalidate=300')
   })
@@ -391,7 +405,8 @@ export function registerApp(app: App, deps: AppDeps): App {
       const limited = checkLimit(c, 'admin-authed')
       if (limited !== null) return limited
       const base = backendBase(effEnv(c), backend)
-      const statusRes = await backendGetJson(base, '/auth/status', {}, fetcher)
+      const backendFetch = fetchFor(c, backend)
+      const statusRes = await backendGetJson(base, '/auth/status', {}, backendFetch)
       const setupDone = (statusRes.data as { setupDone?: boolean }).setupDone
       if (setupDone !== true) {
         return backendPassthrough(200, { setupDone: false, authed: false }, statusRes.setCookies, 'no-store')
@@ -404,7 +419,7 @@ export function registerApp(app: App, deps: AppDeps): App {
         base,
         '/admin/state',
         { 'X-Session': session },
-        fetcher,
+        backendFetch,
       )
       return backendPassthrough(status, data, [...statusRes.setCookies, ...setCookies], 'no-store')
     })
@@ -414,6 +429,7 @@ export function registerApp(app: App, deps: AppDeps): App {
       if (body === null) return jsonError('Invalid request.', 400)
       const action = typeof body.action === 'string' ? body.action : ''
       const base = backendBase(effEnv(c), backend)
+      const backendFetch = fetchFor(c, backend)
 
       if (action === 'setup' || action === 'login') {
         const limited = checkLimit(c, 'admin-auth')
@@ -423,7 +439,7 @@ export function registerApp(app: App, deps: AppDeps): App {
           action === 'setup' ? '/auth/setup' : '/auth/login',
           { code: body.code, password: body.password },
           {},
-          fetcher,
+          backendFetch,
         )
         if (status !== 200 || typeof data.sessionToken !== 'string') {
           return backendPassthrough(status, data, setCookies, 'no-store')
@@ -457,7 +473,7 @@ export function registerApp(app: App, deps: AppDeps): App {
         '/admin/action',
         body,
         { 'X-Session': session, ...forwardedPreconditions(c.req.raw) },
-        fetcher,
+        backendFetch,
       )
       return backendPassthrough(status, data, setCookies, 'no-store')
     })
@@ -476,10 +492,13 @@ export function registerApp(app: App, deps: AppDeps): App {
     if (session === null) return jsonError('Not signed in.', 401)
     let res: Response
     try {
-      res = await fetcher(`${backendBase(effEnv(c), 'PLAY_API_URL')}/admin/plaques.csv`, {
-        headers: { 'X-Session': session },
-        cache: 'no-store',
-      })
+      res = await fetchFor(c, 'PLAY_API_URL')(
+        `${backendBase(effEnv(c), 'PLAY_API_URL')}/admin/plaques.csv`,
+        {
+          headers: { 'X-Session': session },
+          cache: 'no-store',
+        },
+      )
     } catch {
       return jsonError('The park’s board didn’t answer — please try again in a moment.', 502)
     }
@@ -501,13 +520,14 @@ export function registerApp(app: App, deps: AppDeps): App {
     if (limited !== null) return limited
     const suffix = new URL(c.req.url).pathname.slice('/api/thisorthat'.length) || '/'
     const base = backendBase(effEnv(c), 'THISORThat_API_URL')
+    const backendFetch = fetchFor(c, 'THISORThat_API_URL')
     if (c.req.method === 'GET' || c.req.method === 'HEAD') {
       const cookie = c.req.raw.headers.get('Cookie')
       const { status, data, setCookies } = await backendGetJson(
         base,
         suffix,
         cookie === null ? {} : { Cookie: cookie },
-        fetcher,
+        backendFetch,
       )
       return backendPassthrough(status, data, setCookies, 'private, no-cache')
     }
@@ -518,7 +538,7 @@ export function registerApp(app: App, deps: AppDeps): App {
       suffix,
       body,
       forwardedPreconditions(c.req.raw),
-      fetcher,
+      backendFetch,
     )
     return backendPassthrough(status, data, setCookies, 'no-store')
   })
