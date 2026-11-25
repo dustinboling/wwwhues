@@ -28,8 +28,11 @@
   max-width: 100%;
   height: var(--tabbar-plate-height);
   margin: 0 auto;
-  object-fit: none;
-  object-position: top center;
+  /* The plate asset is a 3× export (1170×336) of this exact 390×112
+     box, so it scales into the box undistorted (live /m: h-full
+     w-full) and the stitched socket draws at disc size. object-fit:
+     none drew it at natural size, centre-cropped — a ~2× socket. */
+  object-fit: fill;
 }
 
 /* Beyond 390px wide, a plain paper panel continues the lower half full-width from y=47px. */
