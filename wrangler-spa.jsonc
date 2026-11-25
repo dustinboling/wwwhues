@@ -50,5 +50,17 @@
     "PLAY_API_URL": "https://hues-play-api.dustin-boling.workers.dev",
     "VOLUNTEER_API_URL": "https://hues-volunteers-api.dustin-boling.workers.dev",
     "THISORThat_API_URL": "https://hues-thisorthat-api.dustin-boling.workers.dev"
-  }
+  },
+  // Slice K: worker-to-worker service bindings. On the edge, this Worker
+  // fetching a sibling backend's workers.dev URL over the public internet
+  // is refused (404 "error code: 1042"); dispatching the SAME full URL
+  // through the binding's fetch() stays in-platform and succeeds. The
+  // *_API_URL vars above stay the addressing scheme — the binding only
+  // routes the dispatch (server/backends.ts backendFetcher).
+  "services": [
+    { "binding": "ACCOUNTS_API", "service": "hues-accounts-api" },
+    { "binding": "PLAY_API", "service": "hues-play-api" },
+    { "binding": "VOLUNTEER_API", "service": "hues-volunteers-api" },
+    { "binding": "THISORTHAT_API", "service": "hues-thisorthat-api" }
+  ]
 }

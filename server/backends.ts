@@ -19,12 +19,23 @@
 //   them yet ignore them, which keeps the §2.1(e)/Data #2.5 client
 //   pattern additive and safe.
 
+/** Minimal shape of a Cloudflare service binding (worker-to-worker). */
+export interface Fetcher {
+  fetch: typeof fetch
+}
+
 export interface BackendEnv {
   ACCOUNTS_API_URL?: string
   PLAY_API_URL?: string
   VOLUNTEER_API_URL?: string
   THISORThat_API_URL?: string
   TURNSTILE_SECRET_KEY?: string
+  /** Slice K: optional service bindings — present on the deployed worker,
+   *  absent in local dev and tests (which keep using global fetch). */
+  ACCOUNTS_API?: Fetcher
+  PLAY_API?: Fetcher
+  VOLUNTEER_API?: Fetcher
+  THISORTHAT_API?: Fetcher
 }
 
 const FALLBACKS = {
@@ -40,6 +51,36 @@ export function backendBase(env: BackendEnv, name: BackendName): string {
   const fromEnv = env[name]
   if (typeof fromEnv === 'string' && fromEnv !== '') return fromEnv.replace(/\/$/, '')
   return FALLBACKS[name]
+}
+
+/** Service binding per backend URL var (Slice K). */
+const BINDINGS = {
+  ACCOUNTS_API_URL: 'ACCOUNTS_API',
+  PLAY_API_URL: 'PLAY_API',
+  VOLUNTEER_API_URL: 'VOLUNTEER_API',
+  THISORThat_API_URL: 'THISORTHAT_API',
+} as const
+
+/**
+ * Fetcher for a backend: when the env carries that backend's service
+ * binding, dispatch through binding.fetch() with the SAME full URL the
+ * global path would use (the *_API_URL bases stay the addressing
+ * scheme; the binding only routes the dispatch in-platform, avoiding
+ * the edge 1042 refusal on workers.dev URLs). Otherwise fall back to
+ * the given fetcher (global fetch in production, the injected mock in
+ * tests). Turnstile verification never routes through here — it is an
+ * external host, not a sibling backend.
+ */
+export function backendFetcher(
+  env: BackendEnv,
+  name: BackendName,
+  fallback: typeof fetch = fetch,
+): typeof fetch {
+  const binding = env[BINDINGS[name]]
+  if (binding === undefined) return fallback
+  // Arrow wrapper: binding.fetch must keep its receiver.
+  return ((input: string | URL | Request, init?: RequestInit) =>
+    binding.fetch(input, init)) as typeof fetch
 }
 
 export const BACKEND_UNREACHABLE_MESSAGE =
