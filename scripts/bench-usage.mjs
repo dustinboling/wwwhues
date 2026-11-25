@@ -20,6 +20,11 @@ const RATES = {
   'muse-spark-1.3-contributor': { input: 0.1, cachedInput: 0.002, output: 0.2 },
   'muse-spark-1.3': { input: 1.25, cachedInput: 0.15, output: 4.25 },
   'muse-wonder-1.0': { input: 4.0, cachedInput: 0.2, output: 20.0 },
+  // Anthropic API, Claude Opus 5.5 — published rates checked
+  // 2026-11-24. FLOOR ONLY: Anthropic also bills cache writes
+  // ($5.00/1M, 5-min TTL), not modelled here, and its tokenizer
+  // counts the same text higher than Meta's.
+  'claude-opus-5-5': { input: 4.0, cachedInput: 0.2, output: 20.0 },
 }
 
 const cost = (u, r) =>
@@ -91,6 +96,7 @@ const report = {
     what_if_same_usage: {
       'muse-wonder-1.0': +cost(all, RATES['muse-wonder-1.0']).toFixed(4),
       'muse-spark-1.3': +cost(all, RATES['muse-spark-1.3']).toFixed(4),
+      'claude-opus-5-5': +cost(all, RATES['claude-opus-5-5']).toFixed(4),
     },
   },
 }
@@ -110,5 +116,5 @@ console.log(`## Bench token usage
 | --- | ---: | ---: | ---: | ---: |
 ${rows}
 
-Same usage priced as **Muse Wonder**: ${usd(cost(all, RATES['muse-wonder-1.0']))} · as **Muse Spark (standard)**: ${usd(cost(all, RATES['muse-spark-1.3']))}.
+Same usage priced as **Muse Wonder**: ${usd(cost(all, RATES['muse-wonder-1.0']))} · as **Muse Spark (standard)**: ${usd(cost(all, RATES['muse-spark-1.3']))} · as **Claude Opus 5.5**: ${usd(cost(all, RATES['claude-opus-5-5']))} (floor — excludes Anthropic cache-write charges).
 Full record: \`bench-usage.json\` in the muse-run-logs artifact.`)
