@@ -32,7 +32,7 @@
 }
 
 .hues-tabbar :focus-visible,
-.hues-site-footer :focus-visible {
+.hues-site-footer--desktop :focus-visible {
   outline-color: var(--color-focus-ring-deep);
   box-shadow: 0 0 0 calc(var(--shell-focus-ring-width) + var(--shell-focus-offset-width)) var(--color-focus-offset-deep);
 }

@@ -127,11 +127,46 @@ export const FOOTER_SITEMAP: NavItem[] = [
   { href: '/terms', label: 'Terms' },
 ]
 
-export const FOOTER_SOCIALS: NavItem[] = [
-  { href: 'https://instagram.com/huesflowers', label: 'Instagram' },
-  { href: 'https://www.tiktok.com/@www.hues.flowers', label: 'TikTok' },
-  { href: 'mailto:hello@hues.flowers', label: 'Email' },
+export interface SocialChip {
+  href: string
+  label: string
+  icon: 'instagram' | 'tiktok' | 'mail'
+  external?: boolean
+}
+
+// Desktop footer Follow-along chips, as on production (handles, not
+// generic network names).
+export const FOOTER_SOCIAL_CHIPS: SocialChip[] = [
+  { href: 'https://instagram.com/huesflowers', label: '@huesflowers', icon: 'instagram', external: true },
+  { href: 'https://www.tiktok.com/@www.hues.flowers', label: '@www.hues.flowers', icon: 'tiktok', external: true },
+  { href: 'mailto:hello@hues.flowers', label: 'hello@hues.flowers', icon: 'mail' },
 ]
+
+export const FOOTER_SOCIALS_LABEL = 'Follow along'
+
+// Phone footer short link row, as on the /m home footer minus the
+// dropped "Full website" label (Q5).
+export const FOOTER_PHONE_LINKS: NavItem[] = [
+  { href: '/arcade', label: 'Hues Arcade' },
+  { href: '/gather', label: 'Gather' },
+  { href: '/sponsor', label: 'Sponsor' },
+  { href: '/volunteer', label: 'Volunteer' },
+]
+
+// Phone footer contact line, as printed on the /m home footer.
+export const FOOTER_PHONE_CONTACT = '93485 River Road, Junction City, OR · (458) 245-1323'
+
+// Phone footer sign-off: no trailing period, as printed on /m (the
+// desktop card keeps PARK_SIGNOFF with its period).
+export const FOOTER_PHONE_SIGNOFF = 'Hues Floral Park, A little world apart'
+
+// Desktop footer address block, as on production.
+export const FOOTER_BUSINESS_NAME = 'Hues Flower Farm & Nursery'
+export const FOOTER_STREET = '93485 River Road'
+export const FOOTER_CITY = 'Junction City, OR 97448'
+export const FOOTER_ENTRANCE = 'Visitor entrance: Browns Landing Rd'
+export const FOOTER_PHONE_LEAD = 'Text or call: '
+export const FOOTER_PHONE_DISPLAY = '+1 (458) 245-1323'
 
 // More sheet rows (Nadia §3): account first, then the sheet order with
 // Sponsor directly above Volunteer. The share row lands with the share
@@ -151,6 +186,7 @@ export const MORE_SHEET_ROWS: NavItem[] = [
 export const SHELL_ART = {
   tabPlate: 'hues/shell/tab-plate.webp',
   seasonsDisc: 'hues/shell/seasons-disc.webp',
+  procession: 'hues/shell/procession.webp',
   tabs: {
     home: 'hues/shell/tab-home.webp',
     visit: 'hues/shell/tab-visit.webp',

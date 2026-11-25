@@ -12,6 +12,12 @@ export interface NavItem {
 export interface SiteHeaderProps {
   variant?: 'park' | 'seeds';
   logo: ReactNode;
+  /**
+   * Script lockup stack lines. Compose with the
+   * hues-site-header__lockup-overline and
+   * hues-site-header__lockup-tagline classes (production: FLORAL PARK
+   * over "a little world apart").
+   */
   lockup?: ReactNode;
   items: NavItem[];
   currentHref?: string;
