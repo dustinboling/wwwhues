@@ -11,6 +11,7 @@ import type { TabDefinition } from '../src/shell/TabBar';
 import { TabBar } from '../src/shell/TabBar';
 import { HUES_TABS } from '../src/shell/tabs';
 import { GameHeader } from '../src/shell/GameHeader';
+import { setMediaBaseUrl } from '../src/lib/media';
 
 const TABS: TabDefinition[] = [
   { id: 'home', label: 'Home', href: '/', medallion: '/m/home.png', medallionLit: '/m/home-lit.png' },
@@ -135,6 +136,34 @@ describe('TabBar', () => {
     bar({ currentPath: '/', arcadeActive: true });
     expect(screen.getByRole('link', { current: 'page' }).textContent).toContain('Arcade');
     expect(document.querySelector('.hues-tab__disc[data-glow]')).toBeNull();
+  });
+
+  it('requests media-base shell art in CORS mode (Slice J)', () => {
+    setMediaBaseUrl('https://media.example.test');
+    const media = (key: string): string => `https://media.example.test/cdn-cgi/image/format=auto,width=320/${key}`;
+    const { container } = render(
+      <TabBar
+        tabs={TABS.map((tab) => ({ ...tab, medallion: media(`${tab.id}.webp`), medallionLit: media(`${tab.id}-lit.webp`) }))}
+        currentPath="/"
+        discArt={media('disc.webp')}
+        plateArt={media('plate.webp')}
+        onMoreTab={() => {}}
+      />,
+    );
+    const imgs = container.querySelectorAll('img');
+    expect(imgs.length).toBeGreaterThan(0);
+    for (const img of imgs) {
+      expect(img.getAttribute('crossorigin')).toBe('anonymous');
+    }
+  });
+
+  it('leaves same-origin shell art without a crossorigin attribute', () => {
+    const { container } = bar();
+    const imgs = container.querySelectorAll('img');
+    expect(imgs.length).toBeGreaterThan(0);
+    for (const img of imgs) {
+      expect(img.hasAttribute('crossorigin')).toBe(false);
+    }
   });
 
   it('active disc carries the gold glow; press runs the flourish hook', async () => {

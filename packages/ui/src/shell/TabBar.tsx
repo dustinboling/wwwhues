@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import type { JSX } from 'react';
 import { Link } from '../media/Link';
+import { isMediaUrl } from '../lib/media';
 import { usePrefersReducedMotion } from '../lib/reduced-motion';
 import { cx } from '../lib/cx';
 
@@ -66,7 +67,13 @@ export function TabBar({ tabs, currentPath, discArt, plateArt, arcadeActive = fa
   return (
     <nav aria-label="Hues" className={cx('hues-tabbar', className)}>
       <div className="hues-tabbar__plate" role="presentation">
-        <img src={plateArt} alt="" aria-hidden="true" className="hues-tabbar__plate-art" />
+        <img
+          src={plateArt}
+          alt=""
+          aria-hidden="true"
+          crossOrigin={isMediaUrl(plateArt) ? 'anonymous' : undefined}
+          className="hues-tabbar__plate-art"
+        />
       </div>
       <ul className="hues-tabbar__tabs">
         {tabs.map((tab) => {
@@ -74,20 +81,23 @@ export function TabBar({ tabs, currentPath, discArt, plateArt, arcadeActive = fa
           const isDisc = tab.id === 'seasons';
           const isMoreButton = tab.id === 'more' && onMoreTab !== undefined;
           const glow = isDisc && active && !arcadeActive;
+          const medallionSrc = active && tab.medallionLit !== undefined ? tab.medallionLit : tab.medallion;
           const art = isDisc ? (
             <img
               src={discArt}
               alt=""
               aria-hidden="true"
+              crossOrigin={isMediaUrl(discArt) ? 'anonymous' : undefined}
               data-glow={glow || undefined}
               data-flourish={flourish && !reducedMotion ? true : undefined}
               className="hues-tab__disc"
             />
           ) : (
             <img
-              src={active && tab.medallionLit !== undefined ? tab.medallionLit : tab.medallion}
+              src={medallionSrc}
               alt=""
               aria-hidden="true"
+              crossOrigin={isMediaUrl(medallionSrc) ? 'anonymous' : undefined}
               className="hues-tab__medallion"
             />
           );

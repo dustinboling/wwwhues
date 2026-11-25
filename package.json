@@ -54,6 +54,7 @@
     "typescript": "^5.8.3",
     "vike": "^0.4.270",
     "vike-react": "^0.6.32",
+    "workbox-cacheable-response": "^7.3.0",
     "workbox-core": "^7.3.0",
     "workbox-expiration": "^7.3.0",
     "workbox-precaching": "^7.3.0",

@@ -18,9 +18,11 @@
 //   visits); unknown URLs offline get the designed offline content.
 // - static assets (hashed js/css/woff2): CacheFirst (immutable).
 // - media images (media domain + same-host art): stale-while-revalidate,
-//   ≤ 120 entries LRU (≈50 MB worst case, re-measured per property).
-// - audio (media domain): cached on first play only, range requests;
-//   track lists load metadata only, never full speculative downloads.
+//   ≤ 120 entries LRU (≈50 MB worst case, re-measured per property),
+//   200 responses only (never opaque, never errors).
+// - audio (media domain): cached on first play only, range requests,
+//   200 responses only; track lists load metadata only, never full
+//   speculative downloads.
 // - public API GETs (/api/play/public-state, /api/volunteer/public-state):
 //   NetworkFirst under the edge TTLs — the edge owns freshness, never the SW.
 // - denied (NetworkOnly, never cached): /account, /volunteer/admin,
@@ -32,6 +34,7 @@
 import { cleanupOutdatedCaches, precacheAndRoute } from 'workbox-precaching'
 import { registerRoute } from 'workbox-routing'
 import { CacheFirst, NetworkFirst, NetworkOnly, StaleWhileRevalidate } from 'workbox-strategies'
+import { CacheableResponsePlugin } from 'workbox-cacheable-response'
 import { ExpirationPlugin } from 'workbox-expiration'
 import { RangeRequestsPlugin } from 'workbox-range-requests'
 import type { WorkboxPlugin } from 'workbox-core'
@@ -62,9 +65,14 @@ interface InstallEventLike {
   waitUntil(promise: Promise<unknown>): void
 }
 
+interface ActivateEventLike {
+  waitUntil(promise: Promise<unknown>): void
+}
+
 declare const self: {
   __WB_MANIFEST: Array<{ url: string; revision: string | null }>
   addEventListener(type: 'install', listener: (event: InstallEventLike) => void): void
+  addEventListener(type: 'activate', listener: (event: ActivateEventLike) => void): void
   addEventListener(type: 'message', listener: (event: MessageEvent) => void): void
   addEventListener(type: 'sync', listener: (event: SyncEventLike) => void): void
   skipWaiting(): Promise<void>
@@ -108,6 +116,14 @@ self.addEventListener('install', (event) => {
   )
 })
 
+// Slice J cutover: the legacy v1 image cache may hold poisoned entries
+// from the pre-CORS worker (opaque/error responses cached without a
+// status gate). Delete it on activate so the first SW-controlled load
+// after this update starts clean; the v2 cache then fills with 200s.
+self.addEventListener('activate', (event) => {
+  event.waitUntil(caches.delete('hues-images').then(() => undefined))
+})
+
 // SecOps #13 gate as a strategy plugin: denied classes and
 // session-carrying requests never reach any cache.
 const secOpsGate: WorkboxPlugin = {
@@ -149,8 +165,13 @@ registerRoute(
   ({ request, url }) =>
     classifyRequest({ url: url.href, mode: request.mode }, PROPERTY_CONFIG) === 'media-image',
   new StaleWhileRevalidate({
-    cacheName: 'hues-images',
+    cacheName: 'hues-images-v2',
     plugins: [
+      // Slice J: only genuine 200s are cacheable. Without this gate the
+      // route cached whatever came back — including opaque no-cors
+      // responses, which WebKit's Cache Storage cannot store, breaking
+      // every image on SW-controlled loads (i.e. every reload).
+      asWorkboxPlugin(new CacheableResponsePlugin({ statuses: [200] })),
       asWorkboxPlugin(
         new ExpirationPlugin({
           maxEntries: PROPERTY_CONFIG.imageCacheEntries,
@@ -166,7 +187,12 @@ registerRoute(
     classifyRequest({ url: url.href, mode: request.mode }, PROPERTY_CONFIG) === 'media-audio',
   new CacheFirst({
     cacheName: 'hues-audio',
-    plugins: [asWorkboxPlugin(new RangeRequestsPlugin())],
+    plugins: [
+      // Slice J: same 200-only gate as the image route — a cached audio
+      // failure must never play as a stored response.
+      asWorkboxPlugin(new CacheableResponsePlugin({ statuses: [200] })),
+      asWorkboxPlugin(new RangeRequestsPlugin()),
+    ],
   }),
 )
 

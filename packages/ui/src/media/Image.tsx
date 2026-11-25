@@ -29,7 +29,9 @@ export interface ImageProps extends Omit<ImgHTMLAttributes<HTMLImageElement>, 's
 /**
  * Image component contract (plan §1d, Perf #4, Data #1.4e): srcset from the
  * closed width ladder, sizes from the component slot, LCP priority for the
- * hero only, lazy everything else, required alt reviewed like copy.
+ * hero only, lazy everything else, required alt reviewed like copy. Every
+ * src resolves against the media base, so the fetch runs in CORS mode
+ * (Slice J): the service worker then caches real statuses, never opaque.
  */
 export function Image({
   src,
@@ -64,6 +66,7 @@ export function Image({
         sizes={resolvedSizes}
         alt={decorative ? '' : alt}
         aria-hidden={decorative ? true : undefined}
+        crossOrigin="anonymous"
         fetchPriority={priority ? 'high' : 'auto'}
         loading={priority ? 'eager' : 'lazy'}
         decoding="async"
@@ -81,11 +84,15 @@ export function heroPreloadLink(props: Pick<ImageProps, 'src' | 'slot' | 'sizes'
   as: 'image';
   imageSrcSet: string;
   imageSizes: string;
+  crossOrigin: 'anonymous';
 } {
   const slot = props.slot ?? 'card';
   return {
     rel: 'preload',
     as: 'image',
+    // Slice J: the hero <img> fetches in CORS mode, so the preload must
+    // carry the same mode or the browser fetches the hero twice.
+    crossOrigin: 'anonymous',
     imageSrcSet: srcSetFor(props.src, {
       quality: props.kind === 'plate' ? PLATE_QUALITY : PHOTO_QUALITY,
       fit: props.kind === 'plate' ? 'pad' : 'cover',
