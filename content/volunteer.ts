@@ -93,8 +93,6 @@ export const VOLUNTEER_BOARD_EMPTY =
 
 export const VOLUNTEER_SIGNUP_ENDPOINT = '/api/volunteer/signup'
 
-export const VOLUNTEER_SIGNUP_ERROR = 'Something went wrong — please try again.'
-
 export interface BoardSlot {
   id: string
   label: string

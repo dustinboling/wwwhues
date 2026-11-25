@@ -20,7 +20,6 @@ import {
   VOLUNTEER_HEADING,
   VOLUNTEER_INTRO,
   VOLUNTEER_SIGNUP_ENDPOINT,
-  VOLUNTEER_SIGNUP_ERROR,
   buildBoard,
   type BoardSlot,
   type BoardTask,
@@ -28,7 +27,8 @@ import {
 } from '../../content/volunteer'
 import volunteerSnapshotJson from '../../content/snapshots/volunteers.json'
 import { CONTACT_PHONE_DISPLAY, PARK_SIGNOFF } from '../../content/site'
-import { ApiError, RateLimitError, postApi, retryWaitLabel } from '../../renderer/api-client'
+import { ApiError, postApi } from '../../renderer/api-client'
+import { formErrorMessage } from '../../renderer/form-errors'
 import { prettyPhone, useAccount } from '../../renderer/account'
 import { LIVE_QUERY_KEYS, useVolunteerPublicState } from '../../renderer/queries'
 import { TurnstileWidget } from '../../renderer/turnstile'
@@ -146,17 +146,7 @@ function VolunteerBoard({ tasks }: { tasks: Array<BoardTask> }): JSX.Element {
           // Fall through to the honest error below.
         }
       }
-      if (error instanceof RateLimitError) {
-        setPhase({
-          kind: 'error',
-          message: `Too many tries just now — please wait ${retryWaitLabel(error.retryAfter)} and try again. Nothing you typed was lost.`,
-        })
-        return
-      }
-      setPhase({
-        kind: 'error',
-        message: error instanceof ApiError ? error.message : VOLUNTEER_SIGNUP_ERROR,
-      })
+      setPhase({ kind: 'error', message: formErrorMessage(error) })
     }
   }
 

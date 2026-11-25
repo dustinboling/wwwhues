@@ -25,13 +25,8 @@ import {
 } from '../../content/sponsor'
 import playSnapshotJson from '../../content/snapshots/play.json'
 import { CONTACT_PHONE_DISPLAY, PARK_SIGNOFF } from '../../content/site'
-import {
-  ApiError,
-  RateLimitError,
-  VersionConflictError,
-  postApi,
-  retryWaitLabel,
-} from '../../renderer/api-client'
+import { postApi } from '../../renderer/api-client'
+import { formErrorMessage } from '../../renderer/form-errors'
 import { useAccount } from '../../renderer/account'
 import { LIVE_QUERY_KEYS, usePlayPublicState } from '../../renderer/queries'
 import { TurnstileWidget } from '../../renderer/turnstile'
@@ -53,17 +48,6 @@ function useAccountPrefill(): { name: string; email: string; phone: string } {
     }
   }, [state])
   return prefill
-}
-
-function submitErrorMessage(error: unknown): string {
-  if (error instanceof RateLimitError) {
-    return `Too many tries just now — please wait ${retryWaitLabel(error.retryAfter)} and try again. Nothing you typed was lost.`
-  }
-  if (error instanceof VersionConflictError) {
-    return 'Someone just reserved the last one — the card below shows what’s left now. Your details are still here.'
-  }
-  if (error instanceof ApiError) return error.message
-  return 'Something went wrong — please try again.'
 }
 
 function FormMessage({ result }: { result: { ok: boolean; text: string } | null }): JSX.Element | null {
@@ -154,7 +138,7 @@ function SponsorForm({
       })
       await queryClient.invalidateQueries({ queryKey: [...LIVE_QUERY_KEYS.playPublic] })
     } catch (error) {
-      setResult({ ok: false, text: submitErrorMessage(error) })
+      setResult({ ok: false, text: formErrorMessage(error) })
       await queryClient.invalidateQueries({ queryKey: [...LIVE_QUERY_KEYS.playPublic] })
     } finally {
       setBusy(false)
@@ -296,7 +280,7 @@ function InterestForm({
       await postApi<{ ok?: boolean }>(url, { name, email, website, ...extra }, { turnstileToken })
       setResult({ ok: true, text: 'You’re on the list — we’ll write when there’s news.' })
     } catch (error) {
-      setResult({ ok: false, text: submitErrorMessage(error) })
+      setResult({ ok: false, text: formErrorMessage(error) })
     } finally {
       setBusy(false)
     }
@@ -401,7 +385,7 @@ function PaverSection({ state }: { state: PlayPublicState }): JSX.Element {
         text: 'Your paver is reserved. Dusty will be in touch to arrange payment and a time to make any prints at the park. Nothing is charged here.',
       })
     } catch (error) {
-      setResult({ ok: false, text: submitErrorMessage(error) })
+      setResult({ ok: false, text: formErrorMessage(error) })
     } finally {
       setBusy(false)
     }

@@ -68,6 +68,11 @@ export const CANONICAL_ROUTES: RouteEntry[] = [
     summary: 'small ways to help the park grow.',
   },
   {
+    path: '/help',
+    label: 'Help',
+    summary: 'two ways to support Hues — sponsor a piece of the park, or lend a hand.',
+  },
+  {
     path: '/privacy',
     label: 'Privacy Policy',
     summary: 'how the park collects, uses, and protects your information.',
