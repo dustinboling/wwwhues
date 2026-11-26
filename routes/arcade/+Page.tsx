@@ -18,6 +18,10 @@ function Eyebrow({ children }: { children: string }): JSX.Element {
 }
 
 function GameCard({ game }: { game: ArcadeGame }): JSX.Element {
+  // Production's card order (PlayHub): the thumbs + badge row, the
+  // game name as an h3, the description, and the play pill. The whole
+  // card is one outbound anchor; the h3 inside it restores the titles'
+  // heading role (P9).
   return (
     <article className={`c-game hues-packet-card${game.featured === true ? ' c-game--featured' : ''}`}>
       <Link
@@ -30,15 +34,19 @@ function GameCard({ game }: { game: ArcadeGame }): JSX.Element {
             VS
           </span>
         )}
-        {game.thumbs.length > 0 && (
-          <span className="c-game__thumbs" aria-hidden="true">
-            {game.thumbs.map((thumb) => (
-              <Image key={thumb} src={thumb} alt="" decorative slot="card" ratio="1/1" />
-            ))}
+        {game.thumbs.length > 0 ? (
+          <span className="c-game__top">
+            <span className="c-game__thumbs" aria-hidden="true">
+              {game.thumbs.map((thumb) => (
+                <Image key={thumb} src={thumb} alt="" decorative slot="card" ratio="1/1" />
+              ))}
+            </span>
+            <span className="c-badge">{game.badge}</span>
           </span>
+        ) : (
+          <span className="c-badge">{game.badge}</span>
         )}
-        <span className="c-badge">{game.badge}</span>
-        <span className="c-game__name">{game.name}</span>
+        <h3 className="c-game__name">{game.name}</h3>
         <span className="c-game__text">{game.description}</span>
         <span className="hues-button hues-button--primary">{ARCADE_PLAY_NOW}</span>
       </Link>

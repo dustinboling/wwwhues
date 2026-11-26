@@ -54,6 +54,9 @@
 }
 
 .seasons-panel__title {
+  /* An h3 inside the panel link (P9, Q3): the hub's season heading
+   * in the production desktop outline. */
+  margin: 0;
   font-family: var(--text-display-face);
   font-size: var(--text-h2-size);
   line-height: var(--text-h2-leading);
