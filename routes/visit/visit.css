@@ -1,0 +1,233 @@
+/* Visit composition (P7). Phone renders the /m/visit order — photo hero,
+ * Maps/Call pills, the 13 fact cards in production order, the How U-Cut
+ * door, the stones art with the Take Hues With You install card, and the
+ * desktop-only FAQ + driving directions behind closed disclosures (Q1).
+ * Desktop keeps its Slice B composition untouched below. The -m and -d
+ * variants toggle with display:none at the shell's 768px split, like the
+ * TopBar/SiteHeader pair; production literals are cited inline. */
+
+.visit-m {
+  max-width: var(--container-outer-max);
+  margin-inline: auto;
+  padding-bottom: var(--layout-800);
+}
+
+@media (min-width: 768px) {
+  .visit-m {
+    display: none;
+  }
+}
+
+@media (max-width: 767px) {
+  .visit-d {
+    display: none;
+  }
+}
+
+.visit-m__body {
+  /* Production px-5 gutters on the phone sections. */
+  padding: 1.5rem 1.25rem 0;
+}
+
+/* Pills: flex-1 pair, production py-3.5 text-sm semibold. */
+
+.visit-m__pills {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.visit-m__pills .hues-button {
+  flex: 1;
+  justify-content: center;
+  padding-block: 0.875rem;
+  font-size: 0.875rem;
+}
+
+/* Fact cards: white rounded-3xl ring cards, production order. */
+
+.visit-m__facts {
+  margin-top: 1.5rem;
+  display: grid;
+  gap: 0.75rem;
+}
+
+.visit-m__fact {
+  display: flex;
+  gap: 1rem;
+  border-radius: 1.5rem;
+  background-color: var(--color-surface);
+  padding: 1.25rem;
+  box-shadow: 0 10px 30px rgba(28, 42, 33, 0.06);
+  /* Production ring-1 ring-[#e0d5b8]. */
+  border: 1px solid #e0d5b8;
+  color: inherit;
+}
+
+a.visit-m__fact {
+  display: flex;
+  text-decoration: none;
+  color: inherit;
+  transition: transform 120ms ease-out;
+}
+
+a.visit-m__fact:active {
+  transform: scale(0.99);
+}
+
+.visit-m__facticon {
+  font-size: 22px;
+  line-height: 1.4;
+}
+
+.visit-m__facttitle {
+  margin: 0;
+  font-family: var(--text-body-face);
+  font-size: 15.5px;
+  font-weight: var(--weight-semibold);
+  color: var(--color-text-strong);
+}
+
+.visit-m__facttext {
+  margin: 0.25rem 0 0;
+  font-size: 0.875rem;
+  line-height: 1.625;
+  /* Production text-[#43534a]. */
+  color: #43534a;
+}
+
+.visit-m__cue {
+  margin: 0.5rem 0 0;
+  font-size: 13px;
+  font-weight: var(--weight-bold);
+  /* Production text-[#2e4438] with the gold rule beneath. */
+  color: #2e4438;
+  text-decoration: underline;
+  text-decoration-color: #b08d37;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 4px;
+}
+
+/* The How U-Cut door sits on the same card pattern, one section down. */
+
+.visit-m__door {
+  margin-top: 1.5rem;
+}
+
+/* Install card: stones spot art over the deep-green panel. */
+
+.visit-m__install {
+  margin-top: 2.5rem;
+}
+
+.visit-m__install .hues-spot-art {
+  margin-bottom: 1.25rem;
+}
+
+.visit-m__panel {
+  border-radius: 28px;
+  background-color: #23362b;
+  padding: 1.5rem;
+  color: #f7f1de;
+}
+
+.visit-m__paneltitle {
+  margin: 0;
+  font-family: var(--text-display-face);
+  font-size: 22px;
+  font-weight: 560;
+  color: #f7f1de;
+}
+
+.visit-m__panelbody {
+  margin: 0.5rem 0 0;
+  font-size: 0.875rem;
+  line-height: 1.625;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.visit-m__steps {
+  margin: 1rem 0 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 0.625rem;
+}
+
+.visit-m__steps li {
+  display: flex;
+  gap: 0.75rem;
+  align-items: flex-start;
+  font-size: 0.875rem;
+  line-height: 1.625;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.visit-m__stepnum {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: var(--radius-full);
+  background-color: rgba(255, 255, 255, 0.15);
+  font-size: 12px;
+  font-weight: var(--weight-bold);
+  color: #f7f1de;
+}
+
+/* Desktop-only sections stay in the HTML behind closed disclosures (Q1). */
+
+.visit-m__more {
+  margin-top: 1.5rem;
+  display: grid;
+  gap: 0.75rem;
+}
+
+.visit-m__details {
+  border-radius: 1.5rem;
+  background-color: var(--color-surface);
+  border: 1px solid #e0d5b8;
+}
+
+.visit-m__summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1.25rem;
+  cursor: pointer;
+  font-family: var(--text-display-face);
+  font-size: 19px;
+  font-weight: 560;
+  color: var(--color-text-strong);
+  list-style: none;
+}
+
+.visit-m__summary::-webkit-details-marker {
+  display: none;
+}
+
+.visit-m__summary::after {
+  content: "+";
+  flex: none;
+  font-size: 22px;
+  line-height: 1;
+  color: var(--color-accent-ink);
+}
+
+.visit-m__details[open] .visit-m__summary::after {
+  content: "–";
+}
+
+.visit-m__detailbody {
+  padding: 0 1.25rem 1.25rem;
+}
+
+.visit-m__detailbody .c-faq__question {
+  margin-top: 1rem;
+}
+
+.visit-m__detailbody .c-faq__question:first-child {
+  margin-top: 0;
+}

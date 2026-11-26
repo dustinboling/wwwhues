@@ -1,14 +1,16 @@
 import { useEffect, useState } from 'react'
 import type { FormEvent, JSX } from 'react'
-import { EmptyState, Image, Link, StaleLabel } from '@hues/ui'
+import { EmptyState, Image, Link, PacketCard, StaleLabel } from '@hues/ui'
 import { useQueryClient } from '@tanstack/react-query'
 import { parkTodayLabel } from '../../content/park-date'
 import { formatEventDate, formatPrice, type PlayEvent, type PlaySnapshot } from '../../content/play'
 import {
   GATHER_EMPTY,
+  GATHER_EVENT_PASSED,
   GATHER_HERO,
   GATHER_RSVP_ENDPOINT,
   GATHER_VOLUNTEER_CARD,
+  upcomingEvents,
 } from '../../content/gather'
 import playSnapshotJson from '../../content/snapshots/play.json'
 import { CONTACT_PHONE_DISPLAY, PARK_SIGNOFF } from '../../content/site'
@@ -18,12 +20,9 @@ import { useAccount } from '../../renderer/account'
 import { LIVE_QUERY_KEYS, usePlayPublicState } from '../../renderer/queries'
 import { TurnstileWidget } from '../../renderer/turnstile'
 import '../../renderer/content.css'
+import './gather.css'
 
 const snapshot = playSnapshotJson as unknown as PlaySnapshot
-
-function Eyebrow({ children }: { children: string }): JSX.Element {
-  return <p className="c-eyebrow">{children}</p>
-}
 
 function FormMessage({ result }: { result: { ok: boolean; text: string } | null }): JSX.Element | null {
   if (result === null) return null
@@ -88,7 +87,7 @@ function RsvpForm({ event }: { event: PlayEvent }): JSX.Element {
         type="button"
         onClick={() => setOpen(true)}
         aria-expanded={open}
-        className="hues-button hues-button--primary"
+        className="hues-button hues-button--primary gather-submit"
       >
         RSVP for this event
       </button>
@@ -100,6 +99,15 @@ function RsvpForm({ event }: { event: PlayEvent }): JSX.Element {
   // intact with the shared layer's designed message.
   async function submit(e: FormEvent): Promise<void> {
     e.preventDefault()
+    // B6 on the RSVP path: a gathering that just passed refuses the
+    // submit with the designed message.
+    const todayPT = new Intl.DateTimeFormat('en-CA', { timeZone: 'America/Los_Angeles' }).format(
+      new Date(),
+    )
+    if (event.date < todayPT) {
+      setResult({ ok: false, text: GATHER_EVENT_PASSED })
+      return
+    }
     setBusy(true)
     try {
       await postApi<{ ok?: boolean }>(
@@ -195,7 +203,7 @@ function RsvpForm({ event }: { event: PlayEvent }): JSX.Element {
         </label>
       )}
       <TurnstileWidget onToken={setTurnstileToken} />
-      <button type="submit" disabled={busy} className="hues-button hues-button--primary">
+      <button type="submit" disabled={busy} className="hues-button hues-button--primary gather-submit">
         {busy ? 'Saving…' : 'Save my spot'}
       </button>
       <FormMessage result={result} />
@@ -206,7 +214,7 @@ function RsvpForm({ event }: { event: PlayEvent }): JSX.Element {
 function EventCard({ event }: { event: PlayEvent }): JSX.Element {
   const when = `${formatEventDate(event.date)}${event.startTime !== '' ? ` · ${event.startTime}` : ''}${event.endTime !== '' ? ` – ${event.endTime}` : ''}`
   return (
-    <article className="c-event hues-packet-card">
+    <PacketCard title="" radius="xl" className="c-event gather-event">
       <p className="c-event__when">{when}</p>
       <h3 className="c-event__title">{event.title}</h3>
       {event.project !== '' && <p className="c-event__project">{event.project}</p>}
@@ -237,42 +245,47 @@ function EventCard({ event }: { event: PlayEvent }): JSX.Element {
         <p className="c-event__paid">Dusty will be in touch to arrange payment — nothing is charged here.</p>
       )}
       <RsvpForm event={event} />
-    </article>
+    </PacketCard>
   )
 }
 
-// Gather (/gather): project events with inline RSVP — prerendered from
-// the build-time snapshot (labelled, never live-posing), then
-// revalidated on mount + visibility return + hour boundary. When no
-// project day is scheduled, the designed empty state is the page.
+// Gather (/gather): one responsive composition (P7) — production keeps
+// no separate desktop source (desktop renders the same GatherPage), so
+// both widths render the packet hero, the event packets, and the
+// whole-card volunteer door. B6: only upcoming gatherings render or
+// take RSVPs, at prerender and on live refresh alike; past days fall to
+// the designed empty state. Prerendered from the build-time snapshot
+// (labelled, never live-posing), then revalidated on mount +
+// visibility return + hour boundary.
 export default function Page(): JSX.Element {
   const live = usePlayPublicState(snapshot.data)
-  const { events } = live.data?.data ?? snapshot.data
+  const { events: allEvents } = live.data?.data ?? snapshot.data
+  const events = upcomingEvents(allEvents)
   const nextEvent = events[0]
   const snapshotDate = parkTodayLabel(new Date(snapshot.fetchedAt))
   const checkedLive = live.isFetchedAfterMount && !live.isError
   return (
-    <div className="c-page c-page--narrow">
-      <section className="c-packet hues-packet-card" aria-label="Gather at Hues">
-        <Eyebrow>{GATHER_HERO.eyebrow}</Eyebrow>
-        <h1 data-route-title className="c-title c-title--left">
+    <div className="gather c-page c-page--narrow">
+      <PacketCard title="" radius="xl" className="gather-hero">
+        <p className="gather-eyebrow">{GATHER_HERO.eyebrow}</p>
+        <h1 data-route-title className="gather-title">
           {GATHER_HERO.heading}
         </h1>
-        <p className="c-prose">{GATHER_HERO.intro}</p>
+        <p className="gather-intro">{GATHER_HERO.intro}</p>
         <Image
           src={GATHER_HERO.artKey}
           alt={GATHER_HERO.artAlt}
           slot="hero"
-          ratio="21/9"
           priority
+          className="gather-heroart"
         />
         {nextEvent !== undefined && (
-          <p className="c-note c-note--highlight">
+          <p className="gather-next">
             <strong>Next gathering:</strong> {nextEvent.title} — {formatEventDate(nextEvent.date)} ·{' '}
             {nextEvent.spotsLeft} spots left
           </p>
         )}
-      </section>
+      </PacketCard>
 
       <p className="c-snapshot">
         <StaleLabel
@@ -285,7 +298,7 @@ export default function Page(): JSX.Element {
         — dates and spots change; call {CONTACT_PHONE_DISPLAY} to confirm the latest.
       </p>
 
-      <section aria-label="Upcoming project events" className="c-stack">
+      <section aria-label="Upcoming project events" className="gather-list">
         {events.length === 0 ? (
           <EmptyState variant="gather-none" title={GATHER_EMPTY.heading} body={GATHER_EMPTY.body} />
         ) : (
@@ -293,17 +306,19 @@ export default function Page(): JSX.Element {
         )}
       </section>
 
-      <section aria-label="Volunteer at Hues" className="c-section">
-        <article className="c-packet hues-packet-card">
-          <h2 className="c-section__title">{GATHER_VOLUNTEER_CARD.heading}</h2>
-          <p className="c-prose">{GATHER_VOLUNTEER_CARD.body}</p>
-          <Link href={GATHER_VOLUNTEER_CARD.href} context="prose">
-            {GATHER_VOLUNTEER_CARD.cta} <span aria-hidden="true">→</span>
-          </Link>
-        </article>
+      <section aria-label="Volunteer at Hues" className="gather-door">
+        <Link href={GATHER_VOLUNTEER_CARD.href} context="nav" className="gather-doorcard">
+          <PacketCard title="" radius="xl" className="gather-doorpacket">
+            <h2 className="gather-doortitle">{GATHER_VOLUNTEER_CARD.heading}</h2>
+            <p className="gather-doorbody">{GATHER_VOLUNTEER_CARD.body}</p>
+            <p className="gather-doorcta">
+              {GATHER_VOLUNTEER_CARD.cta} <span aria-hidden="true">→</span>
+            </p>
+          </PacketCard>
+        </Link>
       </section>
 
-      <p className="c-signoff">{PARK_SIGNOFF}</p>
+      <p className="gather-signoff">{PARK_SIGNOFF}</p>
     </div>
   )
 }

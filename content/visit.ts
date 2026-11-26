@@ -216,6 +216,100 @@ export const VISIT_DRIVING: DrivingRoute[] = [
   },
 ]
 
+// Phone composition copy, ported verbatim from src/app/m/visit/page.tsx
+// (Q1: phone shows the /m words — its own card order, titles, and two
+// extra cards, Kids and Overnight stays). The desktop strings above stay
+// untouched.
+
+export const VISIT_PHONE_FACTS: VisitFact[] = [
+  {
+    icon: '🕔',
+    title: 'Hours',
+    text: 'Every day, 9:30 AM to sunset. Closing time follows the sun through the year.',
+  },
+  {
+    icon: '🌿',
+    title: 'Right now',
+    text: 'The picking is done for the season, but the park is open — wander the paths, feed the ducks and chickens, and visit Hue and Cocoa, our Angora bunnies. Planting for spring is already underway.',
+  },
+  {
+    icon: '🎟️',
+    title: 'Admission',
+    text: 'Free to wander.',
+  },
+  {
+    icon: '🪣',
+    title: 'Bring',
+    text: 'We provide everything for picking — personal clippers and buckets aren’t allowed in the park. Just bring comfortable shoes, and a bucket, vase, or jar with water for the ride home.',
+  },
+  {
+    icon: '🚻',
+    title: 'Good to know',
+    text: 'There’s no restroom on site, so please plan accordingly.',
+  },
+  {
+    icon: '🧒',
+    title: 'Kids',
+    text: 'Children are welcome — please keep them close by on the paths.',
+  },
+  {
+    icon: '🐾',
+    title: 'Pets',
+    text: 'Please leave pets at home — they can scare the animals who live at the park.',
+  },
+  {
+    icon: '🚭',
+    title: 'Smoking',
+    text: 'No smoking inside the park.',
+  },
+  {
+    icon: '📱',
+    title: 'Phone calls',
+    text: 'Please keep calls quiet — loud conversations carry across the beds and spoil the calm.',
+  },
+  {
+    icon: '🌙',
+    title: 'Overnight stays',
+    text: 'Day visits only — no RVs, camping, or overnight stays.',
+  },
+  {
+    icon: '📸',
+    title: 'Photography',
+    text: 'Photography sessions are welcome — with a U-cut ticket.',
+  },
+  {
+    icon: '🦆',
+    title: 'The animals',
+    text: 'Feed the ducks and chickens — food for them is available for purchase at the park — and visit Hue and Cocoa, our two Angora bunnies. They’re here all year, and always glad to see you.',
+  },
+  {
+    icon: '📍',
+    title: 'Find us',
+    text: 'The visitor entrance is on Browns Landing Rd, just off River Road — about twenty minutes from Eugene, five from Junction City. Mailing address: 93485 River Road, Junction City. Browns Landing has no street numbers, so follow the signs to the entrance.',
+  },
+]
+
+export const VISIT_PHONE_FIND_US_CTA = 'Get directions'
+
+export const VISIT_PHONE_UCUT_DOOR = {
+  icon: '✂️',
+  title: 'How U-Cut works',
+  text: 'New to cutting your own? Here’s the whole gentle process — and a cutting guide for every flower in the beds, so your bouquet lasts.',
+  cta: 'See how it works',
+  href: '/how-u-cut-works',
+}
+
+export const VISIT_PHONE_INSTALL = {
+  heading: 'Take Hues with you',
+  body: 'Add this little site to your home screen and it opens like an app — full-screen, one tap away, all season long.',
+  spotKey: 'hues/m-art/stones.webp',
+  steps: [
+    { lead: 'Tap the ', strong: 'Share', tail: ' button in Safari' },
+    { lead: 'Choose ', strong: 'Add to Home Screen', tail: '' },
+    { lead: 'Tap ', strong: 'Add', tail: ' — look for the green Hues icon' },
+  ],
+}
+
 export const VISIT_NEXT_STEPS = [
   {
     href: '/whats-in-season',

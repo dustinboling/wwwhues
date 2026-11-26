@@ -27,6 +27,8 @@ export interface PhoneHeroProps {
   photo?: PhoneHeroPhoto;
   /** Photo-hero preset: standard (Visit) or tall (Dahlias). */
   photoSize?: 'standard' | 'tall';
+  /** Mark the title as the route focus target (one h1 per breakpoint). */
+  routeTitle?: boolean;
   className?: string;
 }
 
@@ -47,6 +49,7 @@ export function PhoneHero({
   artFrame = 'gold',
   photo,
   photoSize = 'standard',
+  routeTitle = false,
   className,
 }: PhoneHeroProps): JSX.Element {
   if (photo !== undefined) {
@@ -58,7 +61,7 @@ export function PhoneHero({
         </div>
         <div className="hues-phone-hero__plate">
           <p className="hues-phone-hero__eyebrow">{eyebrow}</p>
-          <h1 className="hues-phone-hero__title">{title}</h1>
+          <h1 className="hues-phone-hero__title" data-route-title={routeTitle || undefined}>{title}</h1>
           {intro !== undefined && (
             <p className={cx('hues-phone-hero__intro', introTone === 'soft' && 'hues-phone-hero__intro--soft')}>{intro}</p>
           )}
@@ -69,7 +72,7 @@ export function PhoneHero({
   return (
     <section className={cx('hues-phone-hero', className)}>
       <p className="hues-phone-hero__eyebrow">{eyebrow}</p>
-      <h1 className="hues-phone-hero__title">{title}</h1>
+      <h1 className="hues-phone-hero__title" data-route-title={routeTitle || undefined}>{title}</h1>
       {intro !== undefined && (
         <p className={cx('hues-phone-hero__intro', introTone === 'soft' && 'hues-phone-hero__intro--soft')}>{intro}</p>
       )}

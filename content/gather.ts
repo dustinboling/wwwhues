@@ -44,6 +44,9 @@ export const GATHER_VOLUNTEER_CARD = {
 
 export const GATHER_RSVP_ENDPOINT = '/api/play/rsvp'
 
+/** Designed message when a gathering passes before its RSVP lands (B6). */
+export const GATHER_EVENT_PASSED = 'That gathering day has just passed — the next one will bloom here soon.'
+
 /** Events on or after today at the park — past days never get markup. */
 export function upcomingEvents(events: PlayEvent[], now: Date = new Date()): PlayEvent[] {
   const todayPT = new Intl.DateTimeFormat('en-CA', { timeZone: 'America/Los_Angeles' }).format(now)
