@@ -214,20 +214,20 @@ function PhoneLetterGroups({ groups }: { groups: CultivarLetterGroup[] }): JSX.E
   )
 }
 
-// Dahlias (/dahlias): per-breakpoint composition (P8). Phone renders
-// the /m/dahlias order — the tall photo hero, stats, the collection
-// with production tiles, letter nav, and the arcade game card —
-// keeping the staging search + photo filters above the grid. Desktop
-// keeps its Slice B composition untouched. The grid's filter state is
+// Dahlias (/dahlias): per-breakpoint composition (P8 phone, P9b
+// desktop heading repair). Phone renders the /m/dahlias order — the
+// tall photo hero, stats, the collection with production tiles, letter
+// nav, and the arcade game card — keeping the staging search + photo
+// filters above the grid. Desktop keeps its Slice B composition with
+// its h1 title, as production renders it. The grid's filter state is
 // client state mirrored into the URL query (q + photo): the
 // prerender carries the full A–Z grid in both variants, typing
 // searches in place via replaceState, and the photo facet pushes one
 // history entry per deliberate change. The two variants share no
 // ids (phone letter anchors take the m-letter- prefix); the inactive
-// one is display:none. The phone hero carries the page h1 and the
-// desktop title renders as h2 (same styling), keeping the one-h1
-// prerender contract. Cultivar data, the ItemList JSON-LD, and the
-// counted 111 (Q2) do not change.
+// one is display:none, so the visible outline holds one h1 per
+// breakpoint (the home precedent). Cultivar data, the ItemList JSON-LD,
+// and the counted 111 (Q2) do not change.
 export default function Page(): JSX.Element {
   const [query, setQuery] = useState<DahliasQuery>(EMPTY_DAHLIAS_QUERY)
   const announce = useAnnouncer()
@@ -356,12 +356,13 @@ export default function Page(): JSX.Element {
       <div className="dahl-d c-page">
         <section className="c-head" aria-labelledby="dahlias-title">
           <Eyebrow>{DAHLIAS_HERO.eyebrow}</Eyebrow>
-          {/* h2, not h1: the phone hero already carries the page h1 and
-              the prerender contract is one h1 per page. Same id, class,
-              and text, so the desktop rendering is unchanged. */}
-          <h2 id="dahlias-title" className="c-title">
+          {/* h1, as production renders it (P9b): the phone hero carries
+              the page h1 at its breakpoint and this title carries it at
+              desktop — the inactive variant is display:none, so the
+              visible outline holds one h1 either way. */}
+          <h1 id="dahlias-title" data-route-title className="c-title">
             {DAHLIAS_HERO.heading}
-          </h2>
+          </h1>
           <p className="c-lede">{DAHLIAS_HERO.lede}</p>
         </section>
 

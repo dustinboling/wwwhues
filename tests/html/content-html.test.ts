@@ -59,6 +59,13 @@ interface RouteContract {
   heroKey: string | null
   /** Every non-shell, non-og hues/* media key the template must render. */
   contentKeys: string[]
+  /**
+   * Raw-HTML h1 count. Dual-variant templates whose desktop title keeps
+   * production's h1 (P9b, the home precedent) carry one h1 per
+   * breakpoint — the inactive variant is display:none, so the visible
+   * outline holds one h1 either way. Defaults to 1.
+   */
+  h1Count?: number
 }
 
 const FLORAL_PARK_KEYS = [
@@ -286,6 +293,8 @@ const ROUTES: RouteContract[] = [
     twitterDescription: DAHLIAS_TWITTER_DESCRIPTION,
     heroKey: DAHLIAS_HERO.artKey,
     contentKeys: [...DAHLIAS_PHOTO_KEYS, NO_PHOTO_ART_KEY],
+    // P9b: phone hero h1 + desktop title h1 (production's outline).
+    h1Count: 2,
   },
   {
     dir: 'whats-in-season',
@@ -320,6 +329,8 @@ const ROUTES: RouteContract[] = [
     twitterDescription: SPRING_META.twitterDescription,
     heroKey: SPRING.groups[0]?.artKey ?? null,
     contentKeys: SPRING_KEYS,
+    // P9b: phone hero h1 + desktop title h1 (production's outline).
+    h1Count: 2,
   },
   {
     dir: 'music',
@@ -333,6 +344,8 @@ const ROUTES: RouteContract[] = [
       'The music of Hues Floral Park, song by song: all 38 easy-listening songs by name — 19 with vocals, 19 instrumentals. Press play, and for a little while the park is not so far away.',
     heroKey: MUSIC_HERO.artKey,
     contentKeys: [MUSIC_HERO.artKey],
+    // P9b: phone hero h1 + desktop title h1 (production's outline).
+    h1Count: 2,
   },
 ]
 
@@ -414,9 +427,9 @@ for (const route of ROUTES) {
       }
     })
 
-    it('renders one h1 inside the shell, and only shell-or-template media keys', () => {
+    it('renders the route h1(s) inside the shell, and only shell-or-template media keys', () => {
       const { html, text } = page(route.dir)
-      expect(html.match(/<h1/g) ?? []).toHaveLength(1)
+      expect(html.match(/<h1/g) ?? []).toHaveLength(route.h1Count ?? 1)
       expect(text).toContain('Skip to content')
       expect(html).toContain('aria-label="Hues"')
       expect(html).toContain('href="/visit"')
@@ -1077,6 +1090,9 @@ describe('prerendered /volunteer HTML — primary content', () => {
 describe('prerendered /dahlias HTML — primary content', () => {
   it('carries the hero, the stats, and the full A–Z grid', () => {
     const { html, text } = page('dahlias')
+    // P9b: the desktop title keeps production's h1 (the phone hero
+    // carries the page h1 at its breakpoint).
+    expect(html).toContain('<h1 id="dahlias-title"')
     expect(text).toContain('The heart of Hues')
     expect(text).toContain(DAHLIAS_HERO.lede)
     for (const { big, small } of DAHLIAS_HERO.stats) {
@@ -1262,9 +1278,10 @@ describe('prerendered /season/spring HTML — primary content', () => {
 
   it('carries the phone /m composition: hero band, stacked cards, sign-off', () => {
     const { html, text } = page('season/spring')
-    // The phone hero band carries the page h1; the desktop title
-    // renders the same words one level down.
-    expect(html.match(/<h1/g)).toHaveLength(1)
+    // One h1 per breakpoint (P9b): the phone hero band carries the page
+    // h1 and the desktop title keeps production's h1 at the same words.
+    expect(html.match(/<h1/g)).toHaveLength(2)
+    expect(html).toContain('<h1 id="season-title"')
     expect(text).toContain('Spring at Hues')
     // All 19 spring flowers render as phone cards (edge-to-edge
     // paintings, Q6) alongside the 19 desktop cards.
@@ -1305,10 +1322,11 @@ describe('prerendered /music HTML — primary content', () => {
 
   it('carries the phone hero band with the /m heading', () => {
     const { html, text } = page('music')
-    // The phone band carries the page h1 in the /m words (Q1); the
-    // desktop title renders its own words one level down. The dusk
-    // painting hangs inside the band.
-    expect(html.match(/<h1/g)).toHaveLength(1)
+    // One h1 per breakpoint (P9b): the phone band carries the page h1
+    // in the /m words (Q1) and the desktop title keeps production's h1
+    // in its own words. The dusk painting hangs inside the band.
+    expect(html.match(/<h1/g)).toHaveLength(2)
+    expect(html).toContain('<h1 id="music-title"')
     expect(text).toContain('The music that plays in the park.')
     expect(html).toContain('hues-phone-hero')
     expect(html).toContain(

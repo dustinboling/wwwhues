@@ -56,10 +56,10 @@ test.describe('music composition', () => {
     await expect(page.locator('.music-hero-m')).toBeHidden()
     const hero = page.locator('.music-hero-d')
     await expect(hero).toBeVisible()
-    // The desktop title renders the same words one level down: the
-    // phone hero carries the page h1 and the prerender contract is
-    // one h1 per page.
-    await expect(hero.locator('h2.c-title')).toContainText('The Music of Hues')
+    // One h1 per breakpoint (P9b): the phone hero carries the page h1
+    // and the desktop title keeps production's h1 in its own words —
+    // the inactive hero is display:none.
+    await expect(hero.locator('h1.c-title')).toContainText('The Music of Hues')
     await expect(hero.locator('.c-tagline')).toContainText('The music that plays in the park.')
     await expect(page.locator('.music-set')).toHaveCount(2)
     await expect(page.locator('.music-row')).toHaveCount(38)
