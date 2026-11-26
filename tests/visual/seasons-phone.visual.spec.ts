@@ -175,7 +175,7 @@ test.describe('season detail composition', () => {
     await expect(page.locator('.seas-m')).toBeHidden()
     const desktop = page.locator('.seas-d')
     await expect(desktop).toBeVisible()
-    await expect(desktop.locator('h2.c-title')).toContainText('Spring at Hues')
+    await expect(desktop.locator('h1.c-title')).toContainText('Spring at Hues')
     await expect(desktop.locator('.c-plate')).toHaveCount(3)
     await expect(desktop.locator('.seasons-flower')).toHaveCount(19)
     await expect(desktop.locator('.seasons-footer')).toContainText('Next: Summer ›')

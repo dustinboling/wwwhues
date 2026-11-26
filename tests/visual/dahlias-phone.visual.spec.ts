@@ -119,10 +119,10 @@ test.describe('dahlias composition', () => {
     await expect(page.locator('.dahl-m')).toBeHidden()
     const desktop = page.locator('.dahl-d')
     await expect(desktop).toBeVisible()
-    // The desktop title renders the same words one level down: the
-    // phone hero carries the page h1 and the prerender contract is
-    // one h1 per page.
-    await expect(desktop.locator('h2.c-title')).toContainText('The heart of Hues')
+    // One h1 per breakpoint (P9b): the phone hero carries the page h1
+    // and the desktop title keeps production's h1 at the same words —
+    // the inactive variant is display:none.
+    await expect(desktop.locator('h1.c-title')).toContainText('The heart of Hues')
     await expect(desktop.locator('.dahlias-stats__stat')).toHaveCount(3)
     await expect(desktop.locator('form[role="search"]')).toBeVisible()
     await expect(desktop.locator('.dahlias-card')).toHaveCount(111)
