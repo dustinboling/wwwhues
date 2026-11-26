@@ -19,8 +19,9 @@
   font-weight: var(--weight-bold);
   letter-spacing: 0.22em;
   text-transform: uppercase;
-  /* Production text-[#927128]. */
-  color: #927128;
+  /* Production text-[#927128] darkened to the text-weight gold: gold-3
+   * is 4.47:1 on paper and fails AA for normal text (Ada ruling 1). */
+  color: var(--color-accent-ink);
 }
 
 .help-title {
@@ -97,7 +98,8 @@ a.help-card {
 }
 
 .help-carderyebrow--gold {
-  color: #927128;
+  /* Text-weight gold for the same AA reason (4.77:1 on gold-0). */
+  color: var(--color-accent-ink);
 }
 
 .help-carderyebrow--green {

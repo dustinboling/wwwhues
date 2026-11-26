@@ -35,7 +35,9 @@
   font-weight: var(--weight-bold);
   letter-spacing: 0.22em;
   text-transform: uppercase;
-  color: #927128;
+  /* Text-weight gold, not the production gold-3 literal: gold-3 is
+   * 4.47:1 on paper and fails AA for normal text (Ada ruling 1). */
+  color: var(--color-accent-ink);
 }
 
 /* Hero packet: heading row with the pompon beside it, intro, art plate,
@@ -167,7 +169,8 @@
   font-weight: var(--weight-bold);
   letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: #927128;
+  /* Text-weight gold for the same AA reason as .vol-eyebrow. */
+  color: var(--color-accent-ink);
 }
 
 .vol-task-title {

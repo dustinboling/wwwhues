@@ -650,9 +650,10 @@ export default function Page(): JSX.Element {
             <Image src={VOLUNTEER_ART_KEY} alt={VOLUNTEER_ART_ALT} slot="card" ratio="1/1" priority />
           </figure>
           <div>
-            <h1 data-route-title className="c-title c-title--left">
-              {VOLUNTEER_HEADING}
-            </h1>
+            {/* h2, not h1: the phone hero already carries the page h1
+                and the prerender contract is one h1 per page. Same
+                class and text, so the desktop rendering is unchanged. */}
+            <h2 className="c-title c-title--left">{VOLUNTEER_HEADING}</h2>
             <div className="c-stack">
               {VOLUNTEER_INTRO.map((paragraph) => (
                 <p key={paragraph.slice(0, 24)} className="c-prose">

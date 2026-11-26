@@ -55,8 +55,9 @@ function FactBody({
 // (Q1). Desktop keeps its Slice B composition untouched: hero, fact
 // grid, driving directions, FAQ (mirrored in FAQPage JSON-LD from the
 // same source), and next-step cards. The two variants share no ids; the
-// inactive one is display:none, so the visible heading outline stays one
-// h1 per breakpoint.
+// inactive one is display:none. The phone hero carries the page h1 and
+// the desktop title renders as h2 (same styling), keeping the one-h1
+// prerender contract.
 export default function Page(): JSX.Element {
   return (
     <div className="visit">
@@ -175,9 +176,12 @@ export default function Page(): JSX.Element {
       <div className="visit-d c-page">
         <section className="c-head" aria-labelledby="visit-title">
           <Eyebrow>{VISIT_HERO.eyebrow}</Eyebrow>
-          <h1 id="visit-title" data-route-title className="c-title">
+          {/* h2, not h1: the phone hero already carries the page h1 and
+              the prerender contract is one h1 per page. Same id, class,
+              and text, so the desktop rendering is unchanged. */}
+          <h2 id="visit-title" className="c-title">
             {VISIT_HERO.heading}
-          </h1>
+          </h2>
           <p className="c-lede">{VISIT_HERO.lede}</p>
           <div className="c-ctas">
             <Link href={MAPS_URL} context="nav" className="hues-button hues-button--primary">
