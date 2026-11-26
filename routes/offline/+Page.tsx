@@ -1,6 +1,6 @@
 import type { JSX } from 'react'
 import { EmptyState, Link } from '@hues/ui'
-import { CONTACT_PHONE_DISPLAY, PARK_SIGNOFF } from '../../content/site'
+import { CONTACT_PHONE_DISPLAY, CONTACT_PHONE_HREF, PARK_SIGNOFF } from '../../content/site'
 import '../../renderer/content.css'
 
 // Offline landing (§1b): the navigation fallback when the network and
@@ -29,7 +29,11 @@ export default function Page(): JSX.Element {
           </Link>
         </p>
         <p className="c-prose">
-          In a hurry? Call {CONTACT_PHONE_DISPLAY}.
+          In a hurry? Call{' '}
+          <Link href={CONTACT_PHONE_HREF} context="prose">
+            {CONTACT_PHONE_DISPLAY}
+          </Link>
+          .
         </p>
         <p className="c-prose">{PARK_SIGNOFF}</p>
       </div>

@@ -1,0 +1,48 @@
+/* Arcade hub at production's measurements (PlayHub): 30px hero h1,
+ * 24px game h3s, p-5 game cards, the gold featured pill and VS badge.
+ * The pale shared c-badge stays on the regular cards — production's
+ * gold badge fails AA contrast. Type stays on the display face the
+ * shared classes already set; only sizes and the featured card's
+ * gold move here. */
+
+.arcade .c-title {
+  font-size: 30px;
+  line-height: 1.25;
+}
+
+.arcade-games__head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--space-200);
+}
+
+.arcade .c-game {
+  padding: 1.25rem;
+}
+
+.arcade .c-game__name {
+  font-size: 24px;
+  line-height: 1.25;
+}
+
+/* Featured card: production's gold pill, lightened to the VS gold so
+ * the deep text clears AA (7.9:1) — the dark-gold/paper pairing is
+ * the 2.8:1 failure the shared badge ruling already rejected. */
+.arcade .c-game--featured .c-badge {
+  background: #f5c542;
+  color: #23362b;
+  box-shadow: none;
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  padding: 0.25rem 0.75rem;
+}
+
+.arcade .c-game__vs {
+  background: #f5c542;
+  color: #23362b;
+  box-shadow:
+    0 0 0 2px #f7f1de,
+    3px 3px 0 0 rgba(0, 0, 0, 0.35);
+}
