@@ -1,5 +1,5 @@
 {
-  "_comment": "Parity failures as of the P8 lead-side update, 2026-11-25 (pair id -> failed check ids). A pair on the allowlist may fail; a pair off it may not. Later packages remove the pairs they fix and may never add one (enforced by scripts/parity/run.mjs). History: P4P removed 7 shell-fixed pairs, widened 7. P6: home heights fixed. P7: phone wave 1 improved; d-volunteer added as intentional B6 divergence (closes at cutover); d-visit/d-sponsor heading-outline regressions owned by P9. P8: m-season-spring PASSES fully (removed); m-dahlias height fixed (15438/15108 = 1.02, was 1.83x); m-season-fall height fixed (1.06); m-season-hub heading closed. Five DESKTOP heading-outline regressions from P8's shared-component rewrites (d-season-spring, d-season-summer, d-season-fall, d-music, d-dahlias) are recorded here and owned by P9b \u2014 fixes, not permanent exceptions. d-account and m-volunteer-admin heights are data-dependent (production heights oscillate with snapshot state) and stay listed.",
+  "_comment": "Parity failures as of the P9 lead-side update, 2026-11-26 (pair id -> failed check ids). A pair on the allowlist may fail; a pair off it may not. Later packages remove the pairs they fix and may never add one (enforced by scripts/parity/run.mjs). History: P4P removed 7 shell-fixed pairs. P6: home heights fixed. P7: phone wave 1 improved; d-volunteer added as intentional B6 divergence (closes at cutover only). P8: m-season-spring passed; five desktop heading regressions recorded. P9 update (fresh build:app first): d-music, d-season-spring and m-how-u-cut-works PASS fully (removed) \u2014 7/46 outright. P9b closed the heading check on d-season-summer, d-season-fall, d-dahlias; P9 closed d-arcade headings and the hub's text-runs (Q3 catalog). d-visit and d-sponsor headings still fail (P9's item-1 diff was comment-only) and d-how-u-cut-works gained a heading failure from its phone composition \u2014 all three owned by P9d. d-account and m-volunteer-admin heights are data-dependent (production oscillates with snapshot state) and stay listed.",
   "pairs": {
     "d-404": [
       "height-ratio",
@@ -14,12 +14,10 @@
     ],
     "d-arcade": [
       "height-ratio",
-      "text-runs",
-      "heading-outline"
+      "text-runs"
     ],
     "d-dahlias": [
-      "text-runs",
-      "heading-outline"
+      "text-runs"
     ],
     "d-gather": [
       "height-ratio",
@@ -37,12 +35,10 @@
       "text-runs"
     ],
     "d-season-fall": [
-      "text-runs",
-      "heading-outline"
+      "text-runs"
     ],
     "d-season-summer": [
-      "text-runs",
-      "heading-outline"
+      "text-runs"
     ],
     "d-sponsor": [
       "height-ratio",
@@ -51,7 +47,6 @@
     ],
     "d-whats-in-season": [
       "height-ratio",
-      "text-runs",
       "heading-outline"
     ],
     "d-working-on": [
@@ -92,11 +87,6 @@
       "text-runs"
     ],
     "m-home": [
-      "text-runs",
-      "heading-outline"
-    ],
-    "m-how-u-cut-works": [
-      "height-ratio",
       "text-runs",
       "heading-outline"
     ],
@@ -164,10 +154,7 @@
       "text-runs",
       "heading-outline"
     ],
-    "d-season-spring": [
-      "heading-outline"
-    ],
-    "d-music": [
+    "d-how-u-cut-works": [
       "heading-outline"
     ]
   }
