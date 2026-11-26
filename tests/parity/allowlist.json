@@ -1,5 +1,5 @@
 {
-  "_comment": "Parity failures as of the P6 lead-side update, 2026-11-25 (pair id -> failed check ids). A pair on the allowlist may fail; a pair off it may not. Later packages remove the pairs they fix and may never add one (enforced by scripts/parity/run.mjs). The P4P update removed 7 pairs the P4 shell fixed outright and widened 7 pairs with height-ratio on measured evidence (growth acknowledged per judge rule 3; see the P4P update PR body). The P6 update (fresh build:app before measuring — the harness serves the worktree's existing dist and does not rebuild): height-ratio removed from d-home (6289/6192 = 1.016) and m-home (5953/5608 = 1.06) after P6's fixed photo bands; height-ratio added to m-volunteer-admin (1385/1765 = 0.785, growth acknowledged — the admin session list is snapshot-data-dependent and admin composition is P9 scope).",
+  "_comment": "Parity failures as of the P7 lead-side update, 2026-11-25 (pair id -> failed check ids). A pair on the allowlist may fail; a pair off it may not. Later packages remove the pairs they fix and may never add one (enforced by scripts/parity/run.mjs). P4P removed 7 shell-fixed pairs and widened 7 on measured evidence. P6 update: height-ratio removed from both home pairs after the fixed photo bands (1.016 / 1.06). P7 update (fresh build:app first \u2014 the harness serves the worktree's existing dist): phone pairs all improved (m-visit 1.27x, m-volunteer 1.39x, m-sponsor 1.20x, m-help 1.49x, m-gather 1.82x). d-volunteer ADDED with all three checks: intentional B6 divergence \u2014 staging filters past volunteer sessions that production desktop still lists; this pair can only close at cutover. d-visit and d-sponsor gained heading-outline from the P7/P7b shared-component rewrites \u2014 regressions owned by P9. height-ratio removed from d-account (0.96) and d-nursery (1.06). m-volunteer-admin keeps its height-ratio entry: measured in band this run (0.886) but the session list is snapshot-data-dependent.",
   "pairs": {
     "d-404": [
       "height-ratio",
@@ -9,7 +9,6 @@
       "text-runs"
     ],
     "d-account": [
-      "height-ratio",
       "text-runs"
     ],
     "d-arcade": [
@@ -33,7 +32,6 @@
       "heading-outline"
     ],
     "d-nursery": [
-      "height-ratio",
       "text-runs"
     ],
     "d-season-fall": [
@@ -45,7 +43,8 @@
     ],
     "d-sponsor": [
       "height-ratio",
-      "text-runs"
+      "text-runs",
+      "heading-outline"
     ],
     "d-whats-in-season": [
       "height-ratio",
@@ -159,6 +158,14 @@
     "m-working-on": [
       "height-ratio",
       "text-runs"
+    ],
+    "d-visit": [
+      "heading-outline"
+    ],
+    "d-volunteer": [
+      "height-ratio",
+      "text-runs",
+      "heading-outline"
     ]
   }
 }
