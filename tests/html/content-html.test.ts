@@ -97,7 +97,7 @@ const ROUTES: RouteContract[] = [
     twitterDescription:
       'Everything you need for a visit to Hues Floral Park: season status, hours, admission, what to bring, and directions.',
     heroKey: 'hues/park/circle-seating-2025.webp',
-    contentKeys: ['hues/park/circle-seating-2025.webp'],
+    contentKeys: ['hues/park/circle-seating-2025.webp', 'hues/m-art/stones.webp'],
   },
   {
     dir: 'floral-park',
@@ -218,7 +218,11 @@ const ROUTES: RouteContract[] = [
     twitterDescription:
       'Pick a garden task, pick a time. Volunteer days at Hues Floral Park in Junction City, Oregon.',
     heroKey: 'hues/park/dahlia-beds-lawn.jpg',
-    contentKeys: ['hues/park/dahlia-beds-lawn.jpg'],
+    contentKeys: [
+      'hues/park/dahlia-beds-lawn.jpg',
+      'hues/m-art/cards/help-hero-1080.webp',
+      'hues/m-art/pompon.webp',
+    ],
   },
   {
     dir: 'privacy',

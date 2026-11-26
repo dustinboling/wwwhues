@@ -30,6 +30,14 @@ describe('upcomingEvents', () => {
     ]
     expect(upcomingEvents(events, now).map((e) => e.id)).toEqual(['today', 'future'])
   })
+
+  it('draws the today line in park time, not UTC (B6)', () => {
+    // 07:30 UTC Nov 24 is still 23:30 Nov 23 at the park: a Nov 23
+    // gathering is today, not past.
+    const now = new Date('2026-11-24T07:30:00Z')
+    const events = [event({ id: 'park-today', date: '2026-11-23' })]
+    expect(upcomingEvents(events, now).map((e) => e.id)).toEqual(['park-today'])
+  })
 })
 
 describe('buildGatherEventJsonLd', () => {

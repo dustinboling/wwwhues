@@ -1,0 +1,240 @@
+/* Gather composition (P7). One responsive composition: production keeps
+ * no separate desktop source (desktop renders the same GatherPage), so
+ * both widths render the hero packet, the event packets with the gold
+ * date pills, and the whole-card volunteer door. Overrides of the shared
+ * c-* and hues-* classes stay scoped under .gather; production literals
+ * (PlayHub GatherPage) are cited inline. */
+
+.gather .hues-packet-card__title:empty {
+  display: none;
+}
+
+.gather-hero {
+  padding: 1.25rem;
+}
+
+.gather-eyebrow {
+  margin: 0;
+  font-family: var(--text-overline-face);
+  font-size: 11px;
+  font-weight: var(--weight-bold);
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  /* Text-weight gold, not the production gold-3 literal: gold-3 is
+   * 4.47:1 on paper and fails AA for normal text (Ada ruling 1). */
+  color: var(--color-accent-ink);
+}
+
+.gather-title {
+  margin: 0.25rem 0 0;
+  font-family: var(--text-display-face);
+  font-size: 30px;
+  line-height: 1.25;
+  font-weight: 560;
+  color: #2e4438;
+}
+
+.gather-intro {
+  margin: 0.375rem 0 0;
+  font-size: 15px;
+  line-height: 1.625;
+  color: #55644f;
+}
+
+.gather-heroart {
+  height: 180px;
+  margin-top: 1rem;
+  overflow: hidden;
+  border-radius: 18px;
+  border: 1px solid #e0d5b8;
+}
+
+.gather-heroart .hues-image__img {
+  height: 100%;
+  object-fit: cover;
+}
+
+.gather-next {
+  margin: 1rem 0 0;
+  border-radius: 12px;
+  background-color: #fdf6d8;
+  padding: 0.75rem 1rem;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  color: #2e4438;
+}
+
+/* Event packets. */
+
+.gather-list {
+  margin-top: 1.5rem;
+  display: grid;
+  gap: 1rem;
+}
+
+.gather-event {
+  padding: 1.25rem;
+}
+
+.gather .c-event__when {
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  /* Production bg-[#b08d37] pill. */
+  background-color: #b08d37;
+  color: #f7f1de;
+  padding: 0.25rem 0.75rem;
+}
+
+.gather .c-event__title {
+  font-size: 22px;
+  line-height: 1.3;
+  font-weight: 560;
+  color: #2e4438;
+}
+
+.gather .c-event__project {
+  font-size: 15px;
+  line-height: 1.625;
+  color: #55644f;
+}
+
+.gather .c-event__facts {
+  font-size: 0.875rem;
+  color: #55644f;
+}
+
+.gather .c-event__paid {
+  font-size: 0.875rem;
+  color: rgba(85, 100, 79, 0.8);
+}
+
+.gather .c-spotsbar {
+  border-color: rgba(35, 54, 43, 0.25);
+  background-color: #f7f1de;
+}
+
+.gather .c-spotsbar__fill {
+  /* Production pink → orange → yellow fill. */
+  background: linear-gradient(90deg, #ec4899, #fb923c, #facc15);
+}
+
+/* RSVP form dressing; the wiring is untouched. */
+
+.gather .c-form__label {
+  font-size: 0.875rem;
+  color: #55644f;
+}
+
+.gather .c-form__input {
+  margin-top: 0.25rem;
+  border-color: #cbbd93;
+  border-radius: 12px;
+  background-color: #fffdf4;
+  padding: 0.75rem 0.875rem;
+  font-size: 16px;
+  color: #2e4438;
+}
+
+.gather .c-form__input::placeholder {
+  color: rgba(46, 68, 56, 0.35);
+}
+
+.gather .c-form__input:focus {
+  border-color: #927128;
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(176, 141, 55, 0.4);
+}
+
+.gather .c-form__confirm {
+  background-color: #fdf6d8;
+  border-radius: 12px;
+  color: #2e4438;
+}
+
+.gather .c-form__confirm input[type="checkbox"] {
+  flex: none;
+  width: 1.25rem;
+  height: 1.25rem;
+  margin-top: 0.125rem;
+  accent-color: #23362b;
+}
+
+.gather .c-form__message {
+  border-radius: 12px;
+  font-weight: 500;
+}
+
+.gather .c-form__message--ok {
+  background-color: #eef3e4;
+  color: #2e4438;
+}
+
+.gather .c-form__message--error {
+  background-color: #fbe9e9;
+  color: #7c2d2d;
+}
+
+.gather-submit {
+  width: 100%;
+  justify-content: center;
+  min-height: 3rem;
+  margin-top: 1rem;
+  font-size: 1rem;
+}
+
+/* Whole-card volunteer door. */
+
+.gather-door {
+  margin-top: 1.5rem;
+}
+
+a.gather-doorcard {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+  transition: transform 120ms ease-out;
+}
+
+a.gather-doorcard:active {
+  transform: scale(0.99);
+}
+
+.gather-doorpacket {
+  padding: 1.25rem;
+}
+
+.gather-doortitle {
+  margin: 0;
+  font-family: var(--text-display-face);
+  font-size: 20px;
+  font-weight: 560;
+  color: #2e4438;
+}
+
+.gather-doorbody {
+  margin: 0.25rem 0 0;
+  font-size: 0.875rem;
+  line-height: 1.625;
+  color: #55644f;
+}
+
+.gather-doorcta {
+  margin: 0.5rem 0 0;
+  font-size: 13px;
+  font-weight: var(--weight-bold);
+  color: #2e4438;
+  text-decoration: underline;
+  text-decoration-color: #b08d37;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 4px;
+}
+
+.gather-signoff {
+  margin: 2.5rem 0 0;
+  text-align: center;
+  font-family: var(--text-display-face);
+  font-size: 17px;
+  font-style: italic;
+  color: #2e4438;
+}
