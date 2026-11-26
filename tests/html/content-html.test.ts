@@ -278,7 +278,7 @@ const ROUTES: RouteContract[] = [
     twitterTitle: 'Hues Arcade — Hues Floral Park',
     twitterDescription: 'Little games to play among the flowers — Hue and Cocoa presiding.',
     heroKey: 'hues/play/arcade-hero-trio.webp',
-    contentKeys: ['hues/play/arcade-hero-trio.webp', ...ARCADE_THUMB_KEYS],
+    contentKeys: ['hues/play/arcade-hero-trio.webp', 'hues/m-art/rabbit.webp', ...ARCADE_THUMB_KEYS],
   },
   {
     dir: 'dahlias',

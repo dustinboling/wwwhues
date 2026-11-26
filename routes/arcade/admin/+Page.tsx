@@ -109,6 +109,7 @@ function AuthForm({
           label="Password"
           type="password"
           autoComplete={mode === 'setup' ? 'new-password' : 'current-password'}
+          note={mode === 'setup' ? '8+ characters.' : undefined}
           value={password}
           onChange={(event) => setPassword(event.target.value)}
           required

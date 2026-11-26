@@ -89,3 +89,90 @@ a.hues-account-button {
   justify-content: center;
   gap: var(--space-150);
 }
+
+/* 404 phone variant (src/app/m/not-found.tsx): the stones spot art
+ * over the dark card with its Home / Plan a visit pills. Beside the
+ * untouched desktop variant — dual h1s per the P9b precedent, the
+ * inactive variant display:none at the shell's 768px split. Global
+ * (not route CSS): the season page renders NotFound in place too. */
+.hues-notfound-m .hues-spot-art--above {
+  margin-bottom: 1.25rem;
+}
+
+.hues-notfound-m__card {
+  border-radius: 28px;
+  background: #23362b;
+  padding: 1.5rem;
+  color: #f7f1de;
+  text-align: center;
+}
+
+.hues-notfound-m__eyebrow {
+  margin: 0;
+  font-size: 11px;
+  font-weight: var(--weight-bold);
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: #e8cf8f;
+}
+
+.hues-notfound-m__title {
+  margin: 0.5rem 0 0;
+  font-family: var(--text-display-face);
+  font-size: 26px;
+  line-height: 1.25;
+  font-weight: 560;
+  color: #f7f1de;
+}
+
+.hues-notfound-m__body {
+  margin: 0.5rem 0 0;
+  font-size: 0.875rem;
+  line-height: 1.625;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.hues-notfound-m__actions {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 1.25rem;
+}
+
+.hues-notfound-m__home,
+.hues-notfound-m__visit {
+  flex: 1;
+  border-radius: var(--radius-full);
+  padding: 0.875rem 1rem;
+  font-size: 0.875rem;
+  font-weight: var(--weight-semibold);
+  text-align: center;
+  text-decoration: none;
+}
+
+.hues-notfound-m__home {
+  background: #f7f1de;
+  color: #23362b;
+}
+
+.hues-notfound-m__visit {
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.4);
+}
+
+@media (max-width: 767px) {
+  /* Phone rhythm: production px-5 pt-10. */
+  .hues-notfound {
+    padding: 2.5rem 1.25rem;
+  }
+
+  .hues-notfound-d {
+    display: none;
+  }
+}
+
+@media (min-width: 768px) {
+  .hues-notfound-m {
+    display: none;
+  }
+}

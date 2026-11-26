@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 import type { JSX } from 'react'
-import { Image, Link } from '@hues/ui'
+import { Image, Link, SpotArt } from '@hues/ui'
 import {
   ARCADE_GAMES,
   ARCADE_GAMES_HEAD,
@@ -12,6 +12,7 @@ import {
 } from '../../content/arcade'
 import { PARK_SIGNOFF } from '../../content/site'
 import '../../renderer/content.css'
+import './arcade.css'
 
 function Eyebrow({ children }: { children: string }): JSX.Element {
   return <p className="c-eyebrow">{children}</p>
@@ -86,7 +87,7 @@ export default function Page(): JSX.Element {
   }, [])
 
   return (
-    <div className="c-page c-page--narrow">
+    <div className="arcade c-page c-page--narrow">
       <section className="c-packet hues-packet-card" aria-label="Welcome to the Hues Arcade">
         <Image
           src={ARCADE_HERO.artKey}
@@ -107,9 +108,14 @@ export default function Page(): JSX.Element {
       </section>
 
       <section id="games" aria-label="Games" className="c-section">
-        <Eyebrow>{ARCADE_GAMES_HEAD.eyebrow}</Eyebrow>
-        <h2 className="c-section__title">{ARCADE_GAMES_HEAD.heading}</h2>
-        <p className="c-lede c-lede--left">{ARCADE_GAMES_HEAD.blurb}</p>
+        <div className="arcade-games__head">
+          <div>
+            <Eyebrow>{ARCADE_GAMES_HEAD.eyebrow}</Eyebrow>
+            <h2 className="c-section__title">{ARCADE_GAMES_HEAD.heading}</h2>
+            <p className="c-lede c-lede--left">{ARCADE_GAMES_HEAD.blurb}</p>
+          </div>
+          <SpotArt src={ARCADE_GAMES_HEAD.artKey} size="sm" />
+        </div>
         <div className="c-stack">
           {ARCADE_GAMES.map((game) => (
             <GameCard key={game.href} game={game} />

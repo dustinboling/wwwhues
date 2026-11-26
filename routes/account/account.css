@@ -1,0 +1,78 @@
+/* Account at both widths: the PhoneHero band on phone, the desktop
+ * Container column (max-w-2xl) at desktop, one shared panel below.
+ * Only the heroes split by breakpoint — the panel renders once and
+ * its card chrome switches in CSS, like production's AccountPanel
+ * app/desktop variants, which differ only in the card class. Heroes
+ * toggle with display:none at the shell's 768px split. */
+
+.account-m {
+  max-width: var(--container-outer-max);
+  margin-inline: auto;
+}
+
+@media (min-width: 768px) {
+  .account-m {
+    display: none;
+  }
+}
+
+@media (max-width: 767px) {
+  .account-d {
+    display: none;
+  }
+}
+
+/* Phone panel rhythm below the band: production px-5 py-8. */
+.account-body {
+  padding: 2rem 1.25rem var(--layout-800);
+}
+
+/* Desktop: production's Container column — max-w-2xl, mt-16 sm:mt-24
+ * (the variant only shows at desktop widths, so the sm margin holds). */
+@media (min-width: 768px) {
+  .account-body {
+    max-width: 42rem;
+    margin-inline: auto;
+    padding: 6rem 1.5rem var(--layout-800);
+  }
+}
+
+.account-title {
+  margin: var(--space-150) 0 0;
+  font-family: var(--text-display-face);
+  font-size: 3rem;
+  line-height: 1.05;
+  letter-spacing: var(--text-display-tracking);
+  font-weight: var(--text-h2-weight);
+  color: var(--color-text-strong);
+}
+
+.account-lede {
+  margin: var(--space-200) 0 0;
+  font-size: var(--text-body-size);
+  line-height: 1.75;
+  color: var(--color-text);
+}
+
+/* Desktop panel offset: production mt-8. Scoped to desktop — the
+ * display:none hero still matches + * at phone widths, which would
+ * double the body's own top padding. */
+@media (min-width: 768px) {
+  .account-d + * {
+    margin-top: var(--space-400);
+  }
+}
+
+/* Phone card chrome: production's app card (white, 28px, hairline
+ * ring, soft lift). Desktop keeps the packet card untouched — the
+ * d-packet half of production's pair. */
+@media (max-width: 767px) {
+  .account .account-panel {
+    background: #fff;
+    border-color: #e4dabf;
+    border-radius: 28px;
+    box-shadow: 0 10px 30px rgba(35, 54, 43, 0.08);
+    outline: none;
+    padding: 1.5rem;
+  }
+}

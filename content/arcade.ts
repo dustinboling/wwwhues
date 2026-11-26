@@ -31,6 +31,7 @@ export const ARCADE_GAMES_HEAD = {
   eyebrow: 'Games',
   heading: 'Small games, grown here',
   blurb: 'Made with love and a lot of flowers.',
+  artKey: 'hues/m-art/rabbit.webp',
 }
 
 // Connection warming: all six games live on their own subdomains, so

@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import type { FormEvent, JSX } from 'react'
-import { Button, Link, SegmentedControl, TextField } from '@hues/ui'
+import { Button, Link, PhoneHero, SegmentedControl, TextField } from '@hues/ui'
 import { prettyPhone, useAccount } from '../../renderer/account'
 import { TurnstileWidget } from '../../renderer/turnstile'
 import {
@@ -17,8 +17,8 @@ import {
   ACCOUNT_WHERE,
   ACCOUNT_WHERE_HEADING,
 } from '../../content/account'
-import { CONTACT_PHONE_DISPLAY, PARK_SIGNOFF } from '../../content/site'
 import '../../renderer/content.css'
+import './account.css'
 
 // The single visitor account (Nadia §4.1): one panel for every shell.
 // Ports AccountPanel against the same responses — signup/signin/update,
@@ -55,7 +55,7 @@ function AuthForm(): JSX.Element {
   }
 
   return (
-    <div className="hues-packet-card c-account">
+    <div className="hues-packet-card c-account account-panel">
       <SegmentedControl
         label="Create an account or sign in"
         segments={[
@@ -161,7 +161,7 @@ function SignedIn(): JSX.Element {
 
   if (editing) {
     return (
-      <div className="hues-packet-card c-account">
+      <div className="hues-packet-card c-account account-panel">
         <h2 className="c-account__title">Edit your details</h2>
         <p className="c-account__blurb">{ACCOUNT_EDIT_NOTE}</p>
         <form onSubmit={onSaveEdit} className="c-account__form">
@@ -209,7 +209,7 @@ function SignedIn(): JSX.Element {
   }
 
   return (
-    <div className="hues-packet-card c-account">
+    <div className="hues-packet-card c-account account-panel">
       <h2 className="c-account__title">Hello, {firstName}</h2>
       <p className="c-account__blurb">{ACCOUNT_SIGNED_IN_NOTE}</p>
       {saved && (
@@ -267,7 +267,7 @@ function Panel(): JSX.Element {
   })
   if (state.status === 'loading') {
     return (
-      <div className="hues-packet-card c-account" aria-busy="true">
+      <div className="hues-packet-card c-account account-panel" aria-busy="true">
         <p>{ACCOUNT_LOADING}</p>
       </div>
     )
@@ -283,16 +283,34 @@ function Panel(): JSX.Element {
   return <SignedIn />
 }
 
+// Account (/account, N1 canonical): dual heroes per production — the
+// PhoneHero band on phone (src/app/m/account), the Container column on
+// desktop (src/app/account) — over one shared panel whose card chrome
+// switches in CSS (the production AccountPanel's app/desktop variants
+// differ only in the card class). The inactive hero is display:none,
+// so the visible outline holds one h1 either way (the P9b precedent).
+// Production carries no sign-off on either account page.
 export default function Page(): JSX.Element {
   return (
-    <article className="c-article">
-      <Eyebrow>{ACCOUNT_EYEBROW}</Eyebrow>
-      <h1>{ACCOUNT_HEADING}</h1>
-      <p className="c-lede">{ACCOUNT_INTRO}</p>
-      <Panel />
-      <p className="c-signoff">
-        Questions? Call {CONTACT_PHONE_DISPLAY}. {PARK_SIGNOFF}
-      </p>
-    </article>
+    <div className="account">
+      <div className="account-m">
+        <PhoneHero
+          eyebrow={ACCOUNT_EYEBROW}
+          title={ACCOUNT_HEADING}
+          intro={ACCOUNT_INTRO}
+          routeTitle
+        />
+      </div>
+      <div className="account-body">
+        <div className="account-d">
+          <Eyebrow>{ACCOUNT_EYEBROW}</Eyebrow>
+          <h1 data-route-title className="account-title">
+            {ACCOUNT_HEADING}
+          </h1>
+          <p className="account-lede">{ACCOUNT_INTRO}</p>
+        </div>
+        <Panel />
+      </div>
+    </div>
   )
 }
