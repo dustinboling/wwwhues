@@ -1,0 +1,312 @@
+/* Sponsor composition (P7b). Phone renders the /m/sponsor order — the
+ * packet hero with the pompon beside the title, the age-honest snapshot
+ * note, the sponsorship packets with the spots pills, the paver packet
+ * with the stones art, and the coming-soon packets. Desktop keeps its
+ * Slice B/D composition untouched. The -m and -d variants toggle with
+ * display:none at the shell's 768px split, like the TopBar/SiteHeader
+ * pair. Production literals (PlayHub SponsorPage) are cited inline. */
+
+.spon-m {
+  max-width: var(--container-outer-max);
+  margin-inline: auto;
+  padding: var(--space-400) 1.25rem var(--layout-800);
+}
+
+@media (min-width: 768px) {
+  .spon-m {
+    display: none;
+  }
+}
+
+@media (max-width: 767px) {
+  .spon-d {
+    display: none;
+  }
+}
+
+.spon-m .hues-packet-card__title:empty {
+  display: none;
+}
+
+/* Hero packet: heading row with the pompon beside it, intro, art plate. */
+
+.spon-hero {
+  /* Production p-5 packet. */
+  padding: 1.25rem;
+}
+
+.spon-hero-top {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.spon-eyebrow {
+  margin: 0;
+  font-family: var(--text-overline-face);
+  font-size: 11px;
+  font-weight: var(--weight-bold);
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  /* Text-weight gold, not the production gold-3 literal: gold-3 is
+   * 4.47:1 on paper and fails AA for normal text (Ada ruling 1). */
+  color: var(--color-accent-ink);
+}
+
+.spon-title {
+  margin: 0.25rem 0 0;
+  font-family: var(--text-display-face);
+  font-size: 30px;
+  line-height: 1.25;
+  font-weight: 560;
+  color: #2e4438;
+}
+
+.spon-intro {
+  margin: 0.375rem 0 0;
+  font-size: 15px;
+  line-height: 1.625;
+  color: #55644f;
+}
+
+.spon-heroart {
+  /* Production h-[180px] inset art plate. */
+  height: 180px;
+  margin-top: 1rem;
+  overflow: hidden;
+  border-radius: 18px;
+  border: 1px solid #e0d5b8;
+}
+
+.spon-heroart .hues-image__img {
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Opportunity packets. */
+
+.spon-list {
+  margin-top: 1.5rem;
+  display: grid;
+  gap: 1rem;
+}
+
+.spon-item {
+  padding: 1.25rem;
+}
+
+.spon-itemtitle {
+  margin: 0;
+  font-family: var(--text-display-face);
+  font-size: 22px;
+  font-weight: 560;
+  color: #2e4438;
+}
+
+.spon-itembody {
+  margin: 0.375rem 0 0;
+  font-size: 15px;
+  line-height: 1.625;
+  color: #55644f;
+}
+
+/* Spots-left pill: production pink, 6.07:1, AA-safe as printed. */
+
+.spon-m .spon-spots {
+  margin: 0.5rem 0 0;
+  background-color: #fbe3ef;
+  color: #9d2460;
+  box-shadow: inset 0 0 0 1px rgba(219, 39, 119, 0.4);
+  font-size: 0.875rem;
+  padding: 0.25rem 0.75rem;
+}
+
+.spon-m .c-spotsbar {
+  border-color: rgba(35, 54, 43, 0.25);
+  background-color: #f7f1de;
+}
+
+.spon-m .c-spotsbar__fill {
+  /* Production pink → orange → yellow fill. */
+  background: linear-gradient(90deg, #ec4899, #fb923c, #facc15);
+}
+
+/* Coming-soon head: name with the rotated badge beside it. The badge
+ * keeps the shared pale chip — production's gold fill with paper text
+ * is 4.03:1 and fails AA for small text — with production's tilt and
+ * offset shadow carrying the framing. */
+
+.spon-soonhead {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.spon-m .spon-soon {
+  flex: none;
+  margin: 0;
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  transform: rotate(2deg);
+  box-shadow:
+    inset 0 0 0 1px var(--color-line),
+    2px 2px 0 0 rgba(46, 68, 56, 0.35);
+}
+
+.spon-soonbody {
+  margin: 0.5rem 0 0;
+  font-size: 0.875rem;
+  /* Solid ink, not production's /85 fade: the fade is 3.31:1 on the
+   * packet and fails AA for this always-rendered note. */
+  color: #55644f;
+}
+
+.spon-pavertop {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+/* Entry and submit buttons: full-width pills, production mt-4. */
+
+.spon-submit {
+  width: 100%;
+  justify-content: center;
+  min-height: 3rem;
+  margin-top: 1rem;
+  font-size: 1rem;
+}
+
+/* Form dressing; the Slice D/E wiring is untouched. */
+
+.spon-m .c-form {
+  margin-top: 1rem;
+}
+
+.spon-m .c-form__label {
+  font-size: 0.875rem;
+  color: #55644f;
+}
+
+.spon-m .c-form__input {
+  margin-top: 0.25rem;
+  border-color: #cbbd93;
+  border-radius: 12px;
+  background-color: #fffdf4;
+  padding: 0.75rem 0.875rem;
+  font-size: 16px;
+  color: #2e4438;
+}
+
+.spon-m .c-form__input::placeholder {
+  color: rgba(46, 68, 56, 0.35);
+}
+
+.spon-m .c-form__input:focus {
+  border-color: #927128;
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(176, 141, 55, 0.4);
+}
+
+.spon-m .c-form__hint {
+  font-size: 0.875rem;
+  /* Solid ink, not production's /85 fade (3.31:1, fails AA): the paver
+   * interest note renders in the prerender. */
+  color: #55644f;
+}
+
+.spon-m .c-form__message {
+  border-radius: 12px;
+  font-weight: 500;
+}
+
+.spon-m .c-form__message--ok {
+  background-color: #eef3e4;
+  color: #2e4438;
+}
+
+.spon-m .c-form__message--error {
+  background-color: #fbe9e9;
+  color: #7c2d2d;
+}
+
+/* Plaque-type pills: production hides the radio circle and the pill is
+ * the control (checked = deep green). Keyboard focus lands a visible
+ * ring on the pill — production omits it; the route keeps it. */
+
+.spon-m .c-form__radio {
+  position: relative;
+  min-height: 3rem;
+  border-color: #cbbd93;
+  border-radius: 12px;
+  background-color: #fffdf4;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #2e4438;
+}
+
+.spon-m .c-form__radio input[type="radio"] {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  white-space: nowrap;
+  clip-path: inset(50%);
+}
+
+.spon-m .c-form__radio:has(input:checked) {
+  background-color: #23362b;
+  border-color: #23362b;
+  color: #f7f1de;
+}
+
+.spon-m .c-form__radio:has(input:focus-visible) {
+  outline: 2px solid #927128;
+  outline-offset: 2px;
+}
+
+/* Plaque preview: production bronze plate. */
+
+.spon-m .c-plaque {
+  border-radius: 12px;
+  background-color: #5b4423;
+  box-shadow: inset 0 0 0 1px #3d2c14;
+  padding: 1.25rem 1rem;
+}
+
+.spon-m .c-plaque__text {
+  font-size: 1.125rem;
+  letter-spacing: 0.025em;
+  color: #fdf3d0;
+}
+
+.spon-m .c-plaque__park {
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  color: rgba(253, 243, 208, 0.7);
+}
+
+/* Reserve notes: production cream inset. */
+
+.spon-m .c-note--highlight {
+  border: none;
+  border-radius: 12px;
+  background-color: #fdf6d8;
+  padding: 0.75rem 1rem;
+  font-size: 0.875rem;
+  color: #2e4438;
+}
+
+.spon-signoff {
+  margin: 2.5rem 0 0;
+  text-align: center;
+  font-family: var(--text-display-face);
+  font-size: 17px;
+  font-style: italic;
+  color: #2e4438;
+}
