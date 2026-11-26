@@ -1,5 +1,5 @@
 {
-  "_comment": "Parity failures as of the P4P lead-side update, 2026-11-25 (pair id -> failed check ids). A pair on the allowlist may fail; a pair off it may not. Later packages remove the pairs they fix and may never add one (enforced by scripts/parity/run.mjs). The P4P update removed 7 pairs the P4 shell fixed outright and widened 7 pairs with height-ratio on measured evidence (growth acknowledged per judge rule 3; see the P4P update PR body).",
+  "_comment": "Parity failures as of the P6 lead-side update, 2026-11-25 (pair id -> failed check ids). A pair on the allowlist may fail; a pair off it may not. Later packages remove the pairs they fix and may never add one (enforced by scripts/parity/run.mjs). The P4P update removed 7 pairs the P4 shell fixed outright and widened 7 pairs with height-ratio on measured evidence (growth acknowledged per judge rule 3; see the P4P update PR body). The P6 update (fresh build:app before measuring — the harness serves the worktree's existing dist and does not rebuild): height-ratio removed from d-home (6289/6192 = 1.016) and m-home (5953/5608 = 1.06) after P6's fixed photo bands; height-ratio added to m-volunteer-admin (1385/1765 = 0.785, growth acknowledged — the admin session list is snapshot-data-dependent and admin composition is P9 scope).",
   "pairs": {
     "d-404": [
       "height-ratio",
@@ -29,7 +29,6 @@
       "text-runs"
     ],
     "d-home": [
-      "height-ratio",
       "text-runs",
       "heading-outline"
     ],
@@ -92,7 +91,6 @@
       "text-runs"
     ],
     "m-home": [
-      "height-ratio",
       "text-runs",
       "heading-outline"
     ],
@@ -154,6 +152,7 @@
       "heading-outline"
     ],
     "m-volunteer-admin": [
+      "height-ratio",
       "text-runs",
       "heading-outline"
     ],
