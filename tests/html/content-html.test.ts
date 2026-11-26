@@ -1199,11 +1199,15 @@ describe('prerendered /whats-in-season HTML — primary content', () => {
     expect(text).toContain(SEASONS_PHONE_STATUS.headline)
     expect(text).toContain('Saturday morning, October 24')
     expect(text).toContain('The flowers are resting now')
-    // The rainbow over the glance, and whole-card chapter links with
-    // the /m aria labels.
+    // The rainbow over the glance, and whole-card chapter links
+    // named by their content: production's "— meet the flowers"
+    // aria-label fails label-in-name (WCAG 2.5.3) against the card's
+    // visible text, so staging omits it (same as the home season
+    // rail) and the axe gate pins the absence.
     expect(text).toContain(SEASONS_PHONE_YEAR.title)
     for (const season of SEASONS) {
-      expect(html).toContain(`aria-label="${season.title} — meet the flowers"`)
+      expect(html).toContain(`href="/season/${season.slug}"`)
+      expect(html).not.toContain(`aria-label="${season.title} — meet the flowers"`)
     }
     // The /m working-on framing (title + intro differ from desktop).
     expect(text).toContain(SEASONS_PHONE_WORKING_ON.title)

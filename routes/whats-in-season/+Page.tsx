@@ -75,12 +75,15 @@ export default function Page(): JSX.Element {
             {SEASONS_PHONE_YEAR.title}
           </h2>
           <div className="seash-m__chapters">
+            {/* Card names come from the card content (no aria-label):
+                production's "— meet the flowers" label fails label-in-name
+                (WCAG 2.5.3) against the card's visible text — same as the
+                home season rail. */}
             {SEASONS.map((season) => (
               <Link
                 key={season.slug}
                 href={`/season/${season.slug}`}
                 context="nav"
-                aria-label={SEASONS_PHONE_YEAR.cardLabel(season.title)}
                 className="seash-m__chapterlink"
               >
                 <article className="seash-m__chapter">

@@ -265,6 +265,8 @@ export const SEASONS_PHONE_YEAR = {
   // the heading instead (w-44, left-aligned).
   title: 'The season at a glance',
   spotKey: 'hues/m-art/rainbow.webp',
+  // Production's /m chapter label, kept as the ported words only:
+  // staging omits it on the cards (label-in-name, WCAG 2.5.3).
   cardLabel: (title: string): string => `${title} — meet the flowers`,
 }
 
