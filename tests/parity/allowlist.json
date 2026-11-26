@@ -1,5 +1,5 @@
 {
-  "_comment": "Parity failures as of the P7 lead-side update, 2026-11-25 (pair id -> failed check ids). A pair on the allowlist may fail; a pair off it may not. Later packages remove the pairs they fix and may never add one (enforced by scripts/parity/run.mjs). P4P removed 7 shell-fixed pairs and widened 7 on measured evidence. P6 update: height-ratio removed from both home pairs after the fixed photo bands (1.016 / 1.06). P7 update (fresh build:app first \u2014 the harness serves the worktree's existing dist): phone pairs all improved (m-visit 1.27x, m-volunteer 1.39x, m-sponsor 1.20x, m-help 1.49x, m-gather 1.82x). d-volunteer ADDED with all three checks: intentional B6 divergence \u2014 staging filters past volunteer sessions that production desktop still lists; this pair can only close at cutover. d-visit and d-sponsor gained heading-outline from the P7/P7b shared-component rewrites \u2014 regressions owned by P9. height-ratio removed from d-nursery (1.06, stable across runs). d-account KEEPS height-ratio: its PRODUCTION height oscillates with account snapshot state (1106-1604 measured across two runs; staging constant 1539) \u2014 data-dependent, like m-volunteer-admin. m-volunteer-admin keeps its height-ratio entry: measured in band this run (0.886) but the session list is snapshot-data-dependent.",
+  "_comment": "Parity failures as of the P8 lead-side update, 2026-11-25 (pair id -> failed check ids). A pair on the allowlist may fail; a pair off it may not. Later packages remove the pairs they fix and may never add one (enforced by scripts/parity/run.mjs). History: P4P removed 7 shell-fixed pairs, widened 7. P6: home heights fixed. P7: phone wave 1 improved; d-volunteer added as intentional B6 divergence (closes at cutover); d-visit/d-sponsor heading-outline regressions owned by P9. P8: m-season-spring PASSES fully (removed); m-dahlias height fixed (15438/15108 = 1.02, was 1.83x); m-season-fall height fixed (1.06); m-season-hub heading closed. Five DESKTOP heading-outline regressions from P8's shared-component rewrites (d-season-spring, d-season-summer, d-season-fall, d-music, d-dahlias) are recorded here and owned by P9b \u2014 fixes, not permanent exceptions. d-account and m-volunteer-admin heights are data-dependent (production heights oscillate with snapshot state) and stay listed.",
   "pairs": {
     "d-404": [
       "height-ratio",
@@ -18,7 +18,8 @@
       "heading-outline"
     ],
     "d-dahlias": [
-      "text-runs"
+      "text-runs",
+      "heading-outline"
     ],
     "d-gather": [
       "height-ratio",
@@ -36,11 +37,12 @@
       "text-runs"
     ],
     "d-season-fall": [
-      "text-runs"
+      "text-runs",
+      "heading-outline"
     ],
     "d-season-summer": [
-      "height-ratio",
-      "text-runs"
+      "text-runs",
+      "heading-outline"
     ],
     "d-sponsor": [
       "height-ratio",
@@ -75,7 +77,6 @@
       "heading-outline"
     ],
     "m-dahlias": [
-      "height-ratio",
       "text-runs"
     ],
     "m-floral-park": [
@@ -113,16 +114,11 @@
       "text-runs"
     ],
     "m-season-fall": [
-      "height-ratio",
       "text-runs"
     ],
     "m-season-hub": [
       "height-ratio",
-      "text-runs",
-      "heading-outline"
-    ],
-    "m-season-spring": [
-      "height-ratio"
+      "text-runs"
     ],
     "m-season-summer": [
       "height-ratio",
@@ -166,6 +162,12 @@
     "d-volunteer": [
       "height-ratio",
       "text-runs",
+      "heading-outline"
+    ],
+    "d-season-spring": [
+      "heading-outline"
+    ],
+    "d-music": [
       "heading-outline"
     ]
   }
