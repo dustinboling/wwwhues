@@ -966,6 +966,24 @@ describe('prerendered /sponsor HTML — primary content', () => {
       expect(text).toContain('Put me on the paver list')
     }
   })
+
+  it('pins the P7b per-breakpoint composition: phone h1, desktop h2, unique ids', () => {
+    const { html } = page('sponsor')
+    // Both variants prerender; the phone hero carries the page h1 and
+    // the desktop title renders the same words one level down.
+    const phoneAt = html.indexOf('class="spon-m"')
+    const desktopAt = html.indexOf('class="spon-d')
+    const h1At = html.indexOf('<h1')
+    expect(phoneAt).toBeGreaterThan(-1)
+    expect(desktopAt).toBeGreaterThan(phoneAt)
+    expect(h1At).toBeGreaterThan(phoneAt)
+    expect(h1At).toBeLessThan(desktopAt)
+    expect(html).toContain('data-route-title')
+    expect(html).toContain('<h2 class="c-title c-title--left">Sponsor a piece of the park</h2>')
+    // The doubled composition shares no ids across breakpoints.
+    const ids = [...html.matchAll(/ id="([^"]+)"/g)].map((match) => match[1])
+    expect(new Set(ids).size).toBe(ids.length)
+  })
 })
 
 describe('prerendered /volunteer HTML — primary content', () => {
