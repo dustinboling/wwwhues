@@ -335,3 +335,347 @@
   rotate: 45deg;
   background-color: var(--color-accent);
 }
+
+/* P5 visual primitives: production-ported treatments. Radii, heights,
+ * widths, and scrims resolve from comp.primitives tokens; the stitch,
+ * stock, and type roles stay shared. */
+
+/* Packet radii + flush-top art (season/info cards). */
+
+.hues-packet-card--radius-sm {
+  border-radius: var(--packet-radius-sm);
+}
+
+.hues-packet-card--radius-md {
+  border-radius: var(--packet-radius-md);
+}
+
+.hues-packet-card--radius-lg {
+  border-radius: var(--packet-radius-lg);
+}
+
+.hues-packet-card--radius-xl {
+  border-radius: var(--packet-radius-xl);
+}
+
+.hues-packet-card.hues-packet-card--art {
+  overflow: hidden;
+  padding-top: 0;
+}
+
+.hues-packet-card__art {
+  margin-inline: calc(var(--density-comfortable-card-inset-phone) * -1);
+}
+
+[data-density="compact"] .hues-packet-card__art {
+  margin-inline: calc(var(--density-compact-card-inset-phone) * -1);
+}
+
+.hues-packet-card--art .hues-packet-card__title {
+  margin-top: var(--space-200);
+}
+
+@media (min-width: 1024px) {
+  .hues-packet-card__art {
+    margin-inline: calc(var(--density-comfortable-card-inset-desktop) * -1);
+  }
+
+  [data-density="compact"] .hues-packet-card__art {
+    margin-inline: calc(var(--density-compact-card-inset-desktop) * -1);
+  }
+}
+
+/* Plate frames: paper mat with a gold ring (tile, frame) or the stitched
+ * packet mat (plate). Rings render as borders (the button precedent), so
+ * they survive forced-colors; the 1px sits inside the mat, invisible. */
+
+.hues-plate-frame {
+  position: relative;
+  margin: 0;
+  background-color: var(--card-surface);
+}
+
+.hues-plate-frame--tile {
+  padding: var(--plate-tile-pad);
+  border: var(--shell-topbar-border) solid var(--plate-tile-ring);
+  border-radius: var(--plate-tile-radius);
+  box-shadow: var(--plate-tile-shadow);
+}
+
+.hues-plate-frame--frame {
+  padding: var(--plate-frame-pad);
+  border: var(--shell-topbar-border) solid var(--plate-frame-ring);
+  border-radius: var(--plate-frame-radius);
+  box-shadow: var(--plate-frame-shadow);
+}
+
+.hues-plate-frame--plate {
+  padding: var(--plate-plate-pad);
+  border: var(--card-border) solid var(--card-border-color);
+  border-radius: var(--plate-plate-radius);
+  box-shadow: var(--card-shadow);
+  outline: var(--card-stitch);
+  outline-offset: var(--card-stitch-offset);
+}
+
+.hues-plate-frame__art {
+  display: block;
+  overflow: hidden;
+}
+
+.hues-plate-frame--tile .hues-plate-frame__art {
+  border-radius: var(--plate-tile-inner);
+}
+
+.hues-plate-frame--frame .hues-plate-frame__art {
+  border-radius: var(--plate-frame-inner);
+}
+
+.hues-plate-frame--plate .hues-plate-frame__art {
+  border-radius: var(--plate-plate-inner);
+}
+
+.hues-plate-frame__art .hues-image {
+  width: 100%;
+}
+
+.hues-plate-frame__caption {
+  display: block;
+  padding: var(--plate-caption-pad-top) var(--space-100) var(--plate-caption-pad-bottom);
+  text-align: center;
+  font-family: var(--text-caption-face);
+  font-size: var(--plate-caption-size);
+  font-weight: var(--weight-bold);
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  color: var(--color-accent-strong);
+}
+
+.hues-plate-frame__overlay {
+  position: absolute;
+  top: var(--plate-chip-offset);
+  left: var(--plate-chip-offset);
+  display: inline-block;
+  padding: var(--plate-chip-pad-y) var(--space-200);
+  border-radius: var(--radius-full);
+  background-color: var(--plate-chip-bg);
+  backdrop-filter: blur(var(--plate-chip-blur));
+  font-family: var(--text-caption-face);
+  font-size: var(--plate-chip-size);
+  font-weight: var(--weight-semibold);
+  letter-spacing: 0.34em;
+  text-transform: uppercase;
+  color: var(--color-accent-strong);
+}
+
+/* Swipe rails: scroll-snap card rows with a hidden scrollbar and gutters
+ * to the phone edge. Children keep intrinsic widths and refuse to shrink,
+ * so the settled rail always peeks the next card. */
+
+.hues-card-rail {
+  display: flex;
+  gap: var(--rail-gap-roomy);
+  overflow-x: auto;
+  padding-inline: var(--container-phone-gutter);
+  padding-bottom: var(--space-100);
+  scroll-snap-type: x proximity;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.hues-card-rail::-webkit-scrollbar {
+  display: none;
+}
+
+.hues-card-rail > * {
+  flex-shrink: 0;
+  scroll-snap-align: start;
+}
+
+.hues-card-rail--tight {
+  gap: var(--rail-gap-tight);
+}
+
+/* Rail end cards: the deep-green typographic stop. The anchor selector
+ * outranks .hues-link at any bundle order (the P3 button precedent). */
+
+a.hues-rail-end {
+  display: flex;
+  align-self: stretch;
+  background-color: var(--color-text-strong);
+  color: var(--color-on-deep);
+  text-decoration: none;
+}
+
+.hues-rail-end--center {
+  width: var(--rail-end-wide);
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-100);
+  border-radius: var(--rail-end-radius-center);
+  padding: var(--space-200);
+}
+
+.hues-rail-end--center .hues-rail-end__arrow {
+  font-size: var(--rail-end-arrow);
+  line-height: 1;
+}
+
+.hues-rail-end__title {
+  padding-inline: var(--space-150);
+  text-align: center;
+  font-size: var(--rail-end-title);
+  font-weight: var(--weight-semibold);
+}
+
+.hues-rail-end--stack {
+  width: var(--rail-end-narrow);
+  flex-direction: column;
+  justify-content: space-between;
+  gap: var(--space-100);
+  border: var(--shell-topbar-border) solid var(--plate-tile-ring);
+  border-radius: var(--rail-end-radius-stack);
+  box-shadow: var(--plate-tile-shadow);
+  padding: var(--space-200);
+}
+
+.hues-rail-end__kicker {
+  font-size: var(--rail-end-kicker);
+  font-weight: var(--weight-bold);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  line-height: 1.7;
+  color: var(--color-accent);
+}
+
+.hues-rail-end__heading {
+  display: block;
+  font-size: var(--rail-end-heading);
+  font-weight: var(--weight-semibold);
+  line-height: 1.375;
+  color: var(--color-on-deep);
+}
+
+.hues-rail-end--stack .hues-rail-end__arrow {
+  display: block;
+  margin-top: var(--space-100);
+  font-size: var(--rail-end-arrow-stack);
+  line-height: 1;
+  color: var(--color-accent);
+}
+
+/* Phone hero bands: deep-green openings with the gold eyebrow and the
+ * display title. Photo heroes swap the band for a fixed photo slot the
+ * title plate overlaps. */
+
+.hues-phone-hero {
+  background-color: var(--color-text-strong);
+  color: var(--hero-ink);
+  padding: var(--hero-pad-top) var(--container-hero-gutter) var(--hero-pad-bottom);
+}
+
+.hues-phone-hero.hues-phone-hero--photo {
+  overflow: hidden;
+  padding: 0;
+}
+
+.hues-phone-hero__eyebrow {
+  margin: 0;
+  font-family: var(--text-label-face);
+  font-size: var(--hero-eyebrow-size);
+  font-weight: var(--weight-bold);
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--color-on-deep-soft);
+}
+
+.hues-phone-hero__title {
+  margin: var(--space-100) 0 0;
+  font-family: var(--font-display);
+  font-size: var(--hero-title-size);
+  font-weight: var(--weight-display);
+  line-height: 1.25;
+  text-wrap: balance;
+  color: inherit;
+}
+
+.hues-phone-hero__intro {
+  margin: var(--space-150) 0 0;
+  font-size: var(--hero-intro-size);
+  line-height: 1.625;
+  color: var(--hero-intro-ink);
+}
+
+.hues-phone-hero__intro--soft {
+  font-size: var(--hero-intro-soft-size);
+  color: var(--hero-intro-soft-ink);
+}
+
+.hues-phone-hero__art {
+  margin-top: var(--hero-art-gap);
+  overflow: hidden;
+  border: var(--shell-topbar-border) solid var(--hero-art-ring-gold);
+  border-radius: var(--hero-art-radius-gold);
+}
+
+.hues-phone-hero__art--frost {
+  height: var(--hero-art-height-frost);
+  border-color: var(--hero-art-ring-frost);
+  border-radius: var(--hero-art-radius-frost);
+  box-shadow: var(--hero-art-shadow-frost);
+}
+
+.hues-phone-hero__art--frost .hues-image {
+  height: 100%;
+}
+
+.hues-phone-hero__slot {
+  position: relative;
+  height: var(--hero-photo-standard);
+}
+
+.hues-phone-hero--tall .hues-phone-hero__slot {
+  height: var(--hero-photo-tall);
+}
+
+.hues-phone-hero__slot .hues-image {
+  height: 100%;
+}
+
+.hues-phone-hero__scrim {
+  position: absolute;
+  inset: 0;
+  background: var(--hero-overlay-visit);
+}
+
+.hues-phone-hero--tall .hues-phone-hero__scrim {
+  background: var(--hero-overlay-dahlia);
+}
+
+.hues-phone-hero__plate {
+  position: relative;
+  margin-top: calc(var(--hero-overlap-standard) * -1);
+  padding: 0 var(--container-hero-gutter) var(--hero-pad-bottom-photo);
+}
+
+.hues-phone-hero--tall .hues-phone-hero__plate {
+  margin-top: calc(var(--hero-overlap-tall) * -1);
+}
+
+/* Round deep-green step numerals (How U-Cut Works). */
+
+.hues-step-numeral {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  width: var(--space-400);
+  height: var(--space-400);
+  border-radius: var(--radius-full);
+  background-color: var(--color-text-strong);
+  color: var(--color-on-deep);
+  font-size: var(--text-label-size);
+  font-weight: var(--text-label-weight);
+  line-height: 1;
+}

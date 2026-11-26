@@ -61,6 +61,12 @@
         "$description": "Deepest ground; dashboard frame base; evening surface.",
         "$extensions": { "hues": { "source": "Iris §2.1 Layer 0 deep green scale; Iris §3 evening theme" } }
       },
+      "dusk": {
+        "$value": "#12241a",
+        "$type": "color",
+        "$description": "Night-top gradient stop for the phone photo-hero scrims.",
+        "$extensions": { "hues": { "source": "Plan P5 (production src/app/m/visit/page.tsx to-[#12241a]/40)" } }
+      },
       "frame": {
         "$value": "#16241b",
         "$type": "color",

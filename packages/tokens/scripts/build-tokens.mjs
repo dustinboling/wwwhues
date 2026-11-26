@@ -37,6 +37,7 @@ const BASE_SOURCES = [
   'tokens/comp.density.json',
   'tokens/comp.header.json',
   'tokens/comp.footer.json',
+  'tokens/comp.primitives.json',
   'tokens/tabbar.lock.json',
 ];
 
@@ -84,6 +85,18 @@ function isTextSize(path) {
   const dotted = path.join('.');
   if (dotted === 'comp.button.label-size') return true;
   if (dotted === 'comp.notice.banner-size') return true;
+  // P5 primitive text sizes (production-measured; Thea resize rule: text in rem).
+  if (dotted === 'comp.hero.eyebrow-size') return true;
+  if (dotted === 'comp.hero.title-size') return true;
+  if (dotted === 'comp.hero.intro-size') return true;
+  if (dotted === 'comp.hero.intro-soft-size') return true;
+  if (dotted === 'comp.plate.caption-size') return true;
+  if (dotted === 'comp.plate.chip-size') return true;
+  if (dotted === 'comp.rail.end-title') return true;
+  if (dotted === 'comp.rail.end-heading') return true;
+  if (dotted === 'comp.rail.end-kicker') return true;
+  if (dotted === 'comp.rail.end-arrow') return true;
+  if (dotted === 'comp.rail.end-arrow-stack') return true;
   return path[0] === 'sys' && path[1] === 'type' && path[path.length - 1] === 'size';
 }
 
