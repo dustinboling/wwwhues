@@ -100,16 +100,16 @@ function PhoneFlowerCard({ flower }: { flower: SeasonFlower }): JSX.Element {
   )
 }
 
-// Season detail (/season/:slug, N1): per-breakpoint composition (P8).
-// Phone renders the /m/season/[slug] order — the hero band, the group
-// card art with its when chip, and the flower cards stacked with
-// their paintings cropped edge-to-edge as production crops them (Q6:
-// kind="photo" cover, overriding the pad-never-crop plate rule for
-// season cards specifically). Desktop keeps its Slice B composition
-// untouched. The two variants share no ids; the inactive one is
-// display:none. The phone hero carries the page h1 and the desktop
-// title renders as h2 (same styling), keeping the one-h1 prerender
-// contract.
+// Season detail (/season/:slug, N1): per-breakpoint composition (P8
+// phone, P9b desktop heading repair). Phone renders the
+// /m/season/[slug] order — the hero band, the group card art with its
+// when chip, and the flower cards stacked with their paintings cropped
+// edge-to-edge as production crops them (Q6: kind="photo" cover,
+// overriding the pad-never-crop plate rule for season cards
+// specifically). Desktop keeps its Slice B composition with its h1
+// title, as production renders it. The two variants share no ids; the
+// inactive one is display:none, so the visible outline holds one h1
+// per breakpoint (the home precedent).
 //
 // Preloads: the head preload covers the desktop first plate (pad
 // fit); the phone renders the same keys at cover fit, so there is no
@@ -179,12 +179,13 @@ function SeasonDetail({ season }: { season: Season }): JSX.Element {
       <div className="seas-d c-page">
         <section className="c-head" aria-labelledby="season-title">
           <Eyebrow>{`What’s in season · ${season.when}`}</Eyebrow>
-          {/* h2, not h1: the phone hero already carries the page h1 and
-              the prerender contract is one h1 per page. Same id, class,
-              and text, so the desktop rendering is unchanged. */}
-          <h2 id="season-title" className="c-title">
+          {/* h1, as production renders it (P9b): the phone hero carries
+              the page h1 at its breakpoint and this title carries it at
+              desktop — the inactive variant is display:none, so the
+              visible outline holds one h1 either way. */}
+          <h1 id="season-title" data-route-title className="c-title">
             {season.title} at Hues
-          </h2>
+          </h1>
           <p className="c-lede">{season.lede}</p>
         </section>
 

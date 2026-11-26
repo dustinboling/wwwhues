@@ -108,17 +108,18 @@ function SongSet({ set }: { set: MusicSet }): JSX.Element {
   )
 }
 
-// Music (/music): the shell player's full view (P8). Phone gains
-// production's hero band treatment — the deep-green band with the /m
-// heading (Q1), the soft intro, and the dusk painting inside it —
-// while desktop keeps its Slice B packet hero. Only the hero splits
-// by breakpoint: the Sound packet, both set lists, Stay Tuned, and
-// the sign-off are identical at both widths and render once, so the
-// served HTML carries every song exactly once and the shell player
-// keeps a single row per track. The phone hero carries the page h1
-// (the /m words) and the desktop title renders as h2 (same styling),
-// keeping the one-h1 prerender contract. Both heroes share the one
-// painting key, so the single image preload serves both.
+// Music (/music): the shell player's full view (P8 phone, P9b desktop
+// heading repair). Phone gains production's hero band treatment — the
+// deep-green band with the /m heading (Q1), the soft intro, and the
+// dusk painting inside it — while desktop keeps its Slice B packet
+// hero with its h1 title, as production renders it. Only the hero
+// splits by breakpoint: the Sound packet, both set lists, Stay Tuned,
+// and the sign-off are identical at both widths and render once, so
+// the served HTML carries every song exactly once and the shell player
+// keeps a single row per track. The inactive hero is display:none, so
+// the visible outline holds one h1 per breakpoint (the home
+// precedent). Both heroes share the one painting key, so the single
+// image preload serves both.
 export default function Page(): JSX.Element {
   return (
     <div className="music">
@@ -146,12 +147,13 @@ export default function Page(): JSX.Element {
         <div className="music-hero-d">
           <section className="c-head" aria-labelledby="music-title">
             <Eyebrow>{MUSIC_HERO.eyebrow}</Eyebrow>
-            {/* h2, not h1: the phone hero already carries the page h1 and
-                the prerender contract is one h1 per page. Same id, class,
-                and text, so the desktop rendering is unchanged. */}
-            <h2 id="music-title" className="c-title">
+            {/* h1, as production renders it (P9b): the phone hero carries
+                the page h1 at its breakpoint and this title carries it
+                at desktop — the inactive hero is display:none, so the
+                visible outline holds one h1 either way. */}
+            <h1 id="music-title" data-route-title className="c-title">
               {MUSIC_HERO.heading}
-            </h2>
+            </h1>
             <p className="c-tagline">{MUSIC_HERO.tagline}</p>
             <p className="c-lede">{MUSIC_HERO.intro}</p>
           </section>
