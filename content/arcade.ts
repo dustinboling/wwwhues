@@ -31,6 +31,9 @@ export const ARCADE_GAMES_HEAD = {
   eyebrow: 'Games',
   heading: 'Small games, grown here',
   blurb: 'Made with love and a lot of flowers.',
+  // The rabbit watercolor beside the games heading (PlayHub
+  // SectionHead art) — decorative, as production marks it.
+  artKey: 'hues/m-art/rabbit.webp',
 }
 
 // Connection warming: all six games live on their own subdomains, so

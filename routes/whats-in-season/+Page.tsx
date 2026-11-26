@@ -17,6 +17,7 @@ import {
   SEASONS_STATUS,
   SEASONS_WORKING_ON,
   SEASONS_YEAR,
+  type SeasonFlower,
 } from '../../content/seasons'
 import '../../renderer/content.css'
 import '../../renderer/seasons.css'
@@ -26,17 +27,48 @@ function Eyebrow({ children }: { children: string }): JSX.Element {
   return <p className="c-eyebrow">{children}</p>
 }
 
-// Season hub (/whats-in-season): per-breakpoint composition (P8).
-// Phone renders the /m/season order — the frost-frame hero band, the
-// /m season-status card (Q1 words, with the staging snapshot note the
-// prerender owes), the rainbow over "The season at a glance", the
-// three chapter cards, and the working-on list — with the
-// desktop-only plan-your-visit close staying in the HTML via the
-// desktop variant. Desktop keeps its Slice B composition untouched:
-// hero, status snapshot, year panels, working-on, plan-your-visit.
-// The two variants share no ids; the inactive one is display:none.
-// The phone hero carries the page h1 and the desktop title renders
-// as h2 (same styling), keeping the one-h1 prerender contract.
+// Hub flower card (P9, Q3): production's desktop catalog card — the
+// watercolor plate, name, tag chip, when line, and text. Same classes
+// as the detail flower card, one heading level deeper (h5): the hub
+// nests season (h3) → group (h4) → flower (h5), exactly the production
+// desktop outline.
+function HubFlowerCard({ flower }: { flower: SeasonFlower }): JSX.Element {
+  return (
+    <article className="seasons-flower hues-packet-card">
+      {flower.photoKey !== undefined && (
+        <Image
+          src={flower.photoKey}
+          alt={flower.photoAlt ?? `${flower.name} at Hues Floral Park`}
+          kind="plate"
+          slot="plate"
+          ratio="4/3"
+        />
+      )}
+      <div className="seasons-flower__body">
+        <div className="seasons-flower__head">
+          <h5 className="seasons-flower__name">{flower.name}</h5>
+          <span className="c-badge">{flower.tag}</span>
+        </div>
+        <p className="seasons-flower__when">{flower.when}</p>
+        <p className="seasons-flower__text">{flower.text}</p>
+      </div>
+    </article>
+  )
+}
+
+// Season hub (/whats-in-season): per-breakpoint composition (P8 phone,
+// P9 desktop catalog + heading repair). Phone renders the /m/season
+// order — the frost-frame hero band, the /m season-status card (Q1
+// words, with the staging snapshot note the prerender owes), the
+// rainbow over "The season at a glance", the three chapter cards, and
+// the working-on list — with the desktop-only plan-your-visit close
+// staying in the HTML via the desktop variant. Desktop renders the
+// production desktop composition: hero, status snapshot, the full
+// 40-flower catalog inline under the season panels (Q3: the catalog
+// AND the season pages), working-on, plan-your-visit. The two variants
+// share no ids; the inactive one is display:none. Each variant carries
+// its own h1 (production's desktop outline restored, P9), so the
+// visible outline stays one h1 per breakpoint.
 export default function Page(): JSX.Element {
   const buildDate = parkTodayLabel()
   return (
@@ -133,12 +165,15 @@ export default function Page(): JSX.Element {
 
       <div className="seash-d c-page">
         <section className="c-head" aria-labelledby="seasons-title">
-          {/* h2, not h1: the phone hero already carries the page h1 and
-              the prerender contract is one h1 per page. Same id, class,
-              and text, so the desktop rendering is unchanged. */}
-          <h2 id="seasons-title" className="c-title">
+          {/* h1, as production renders it: the P8 phone-h1/desktop-h2
+              split regressed the desktop heading outline (P9). Each
+              variant carries its own h1; the inactive one is
+              display:none, so the visible outline stays one h1 per
+              breakpoint. Same id, class, and text, so the desktop
+              rendering is unchanged. */}
+          <h1 id="seasons-title" data-route-title className="c-title">
             {SEASONS_HERO.heading}
-          </h2>
+          </h1>
           {SEASONS_HERO.ledes.map((lede) => (
             <p key={lede.slice(0, 24)} className="c-lede">
               {lede}
@@ -160,39 +195,58 @@ export default function Page(): JSX.Element {
               {SEASONS_YEAR.title}
             </h2>
           </div>
-          <div className="seasons-panels">
+          {/* Q3: the season doors stay (the panel link cards), and the
+              full 40-flower catalog renders inline beneath them, as
+              production's desktop hub does — season (h3) → group (h4)
+              → flower (h5), the production outline. */}
+          <div className="seasons-hubseasons">
             {SEASONS.map((season) => (
-              <article key={season.slug} className="seasons-panel hues-packet-card">
-                <Link
-                  href={`/season/${season.slug}`}
-                  context="nav"
-                  className="seasons-panel__link"
-                >
-                  <span className="seasons-panel__art">
-                    <Image
-                      src={season.artKey}
-                      alt=""
-                      decorative
-                      kind="plate"
-                      slot="plate"
-                      ratio="16/9"
-                    />
-                    <span className="seasons-panel__when">{season.when}</span>
-                  </span>
-                  <span className="seasons-panel__body">
-                    <span className="seasons-panel__title">{season.title}</span>
-                    <span className="seasons-panel__lede">{season.lede}</span>
-                    <span className="seasons-panel__points">
-                      {season.points.map((point) => (
-                        <span key={point} className="seasons-panel__point">
-                          {point}
-                        </span>
-                      ))}
+              <div key={season.slug} className="seasons-hubseason">
+                <article className="seasons-panel hues-packet-card">
+                  <Link
+                    href={`/season/${season.slug}`}
+                    context="nav"
+                    className="seasons-panel__link"
+                  >
+                    <span className="seasons-panel__art">
+                      <Image
+                        src={season.artKey}
+                        alt=""
+                        decorative
+                        kind="plate"
+                        slot="plate"
+                        ratio="16/9"
+                      />
+                      <span className="seasons-panel__when">{season.when}</span>
                     </span>
-                    <span className="seasons-panel__cta">{SEASONS_YEAR.cta}</span>
-                  </span>
-                </Link>
-              </article>
+                    <span className="seasons-panel__body">
+                      <h3 className="seasons-panel__title">{season.title}</h3>
+                      <span className="seasons-panel__lede">{season.lede}</span>
+                      <span className="seasons-panel__points">
+                        {season.points.map((point) => (
+                          <span key={point} className="seasons-panel__point">
+                            {point}
+                          </span>
+                        ))}
+                      </span>
+                      <span className="seasons-panel__cta">{SEASONS_YEAR.cta}</span>
+                    </span>
+                  </Link>
+                </article>
+                {season.groups.map((group) => (
+                  <div key={group.heading} className="seasons-hubgroup">
+                    <div className="seasons-hubgroup__head">
+                      <h4 className="seasons-hubgroup__title">{group.heading}</h4>
+                      <span className="seasons-hubgroup__when">{group.when}</span>
+                    </div>
+                    <div className="seasons-flowers">
+                      {group.flowers.map((flower) => (
+                        <HubFlowerCard key={flower.name} flower={flower} />
+                      ))}
+                    </div>
+                  </div>
+                ))}
+              </div>
             ))}
           </div>
         </section>

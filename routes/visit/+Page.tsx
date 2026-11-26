@@ -48,16 +48,16 @@ function FactBody({
   )
 }
 
-// Visit (/visit): per-breakpoint composition (P7). Phone renders the
-// /m/visit order — the photo hero, Maps/Call pills, the 13 fact cards,
-// the How U-Cut door, and the Take Hues With You install card — with
-// the desktop-only FAQ and driving directions behind closed disclosures
-// (Q1). Desktop keeps its Slice B composition untouched: hero, fact
-// grid, driving directions, FAQ (mirrored in FAQPage JSON-LD from the
-// same source), and next-step cards. The two variants share no ids; the
-// inactive one is display:none. The phone hero carries the page h1 and
-// the desktop title renders as h2 (same styling), keeping the one-h1
-// prerender contract.
+// Visit (/visit): per-breakpoint composition (P7 phone, P9 desktop
+// heading repair). Phone renders the /m/visit order — the photo hero,
+// Maps/Call pills, the 13 fact cards, the How U-Cut door, and the Take
+// Hues With You install card — with the desktop-only FAQ and driving
+// directions behind closed disclosures (Q1). Desktop keeps its Slice B
+// composition: hero, fact grid, driving directions, FAQ (mirrored in
+// FAQPage JSON-LD from the same source), and next-step cards. The two
+// variants share no ids; the inactive one is display:none. Each variant
+// carries its own h1 (production's desktop outline restored, P9), so
+// the visible outline stays one h1 per breakpoint.
 export default function Page(): JSX.Element {
   return (
     <div className="visit">
@@ -176,12 +176,16 @@ export default function Page(): JSX.Element {
       <div className="visit-d c-page">
         <section className="c-head" aria-labelledby="visit-title">
           <Eyebrow>{VISIT_HERO.eyebrow}</Eyebrow>
-          {/* h2, not h1: the phone hero already carries the page h1 and
-              the prerender contract is one h1 per page. Same id, class,
-              and text, so the desktop rendering is unchanged. */}
-          <h2 id="visit-title" className="c-title">
+          {/* h1, as production renders it: the P7 phone-h1/desktop-h2
+              split regressed the desktop heading outline (P9). Each
+              variant carries its own h1; the inactive one is
+              display:none, so the visible outline stays one h1 per
+              breakpoint and route focus still lands on the rendered
+              title. Same id, class, and text — the desktop rendering
+              is unchanged. */}
+          <h1 id="visit-title" data-route-title className="c-title">
             {VISIT_HERO.heading}
-          </h2>
+          </h1>
           <p className="c-lede">{VISIT_HERO.lede}</p>
           <div className="c-ctas">
             <Link href={MAPS_URL} context="nav" className="hues-button hues-button--primary">

@@ -696,11 +696,13 @@ function ActiveItemCard({
   )
 }
 
-// Sponsor (/sponsor): per-breakpoint composition (P7b). Phone renders
-// the /m/sponsor order — the packet hero with the pompon beside the
-// title, the age-honest snapshot note, the sponsorship packets, the
-// paver packet, and the coming-soon packets. Desktop keeps its Slice
-// B/D composition untouched. Both presentations share the live play
+// Sponsor (/sponsor): per-breakpoint composition (P7b phone, P9 desktop
+// heading repair). Phone renders the /m/sponsor order — the packet hero
+// with the pompon beside the title, the age-honest snapshot note, the
+// sponsorship packets, the paver packet, and the coming-soon packets.
+// Desktop keeps its Slice B/D composition, with its own h1 restoring
+// production's desktop heading outline (P9). Both presentations share
+// the live play
 // state; each keeps its own form fields (only the visible variant is
 // ever touched). Prerendered from the build-time snapshot (labelled,
 // never live-posing), then revalidated on mount + visibility return +
@@ -782,10 +784,15 @@ export default function Page(): JSX.Element {
           <div className="c-hero-split">
             <div>
               <Eyebrow>{SPONSOR_HERO.eyebrow}</Eyebrow>
-              {/* h2, not h1: the phone hero already carries the page h1
-                  and the prerender contract is one h1 per page. Same
-                  class and text, so the desktop rendering is unchanged. */}
-              <h2 className="c-title c-title--left">{SPONSOR_HERO.heading}</h2>
+              {/* h1, as production renders it: the P7b phone-h1/desktop-h2
+                  split regressed the desktop heading outline (P9). Each
+                  variant carries its own h1; the inactive one is
+                  display:none, so the visible outline stays one h1 per
+                  breakpoint. Same class and text, so the desktop
+                  rendering is unchanged. */}
+              <h1 data-route-title className="c-title c-title--left">
+                {SPONSOR_HERO.heading}
+              </h1>
             </div>
             <Image src={SPONSOR_HERO.flourishKey} alt="" decorative slot="card" />
           </div>

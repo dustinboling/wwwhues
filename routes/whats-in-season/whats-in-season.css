@@ -260,3 +260,42 @@
   line-height: 1.625;
   color: #43534a;
 }
+
+/* Desktop catalog (P9, Q3): the seasons stack as production stacks
+ * them (space-y-20), each panel followed by its groups inline. The
+ * group head pairs the h4 with its gold when-line, as production. */
+
+.seasons-hubseasons {
+  display: grid;
+  gap: 5rem;
+  margin-top: var(--space-400);
+}
+
+.seasons-hubgroup {
+  margin-top: var(--space-400);
+}
+
+.seasons-hubgroup__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  column-gap: 0.75rem;
+  row-gap: 0.25rem;
+}
+
+.seasons-hubgroup__title {
+  margin: 0;
+  font-size: var(--text-h3-size);
+  line-height: var(--text-h3-leading);
+  font-weight: var(--text-h3-weight);
+  letter-spacing: var(--text-h3-tracking);
+  color: var(--color-text-strong);
+}
+
+.seasons-hubgroup__when {
+  font-size: var(--text-body-size);
+  font-weight: var(--text-h3-weight);
+  letter-spacing: var(--text-overline-tracking);
+  text-transform: var(--text-overline-case);
+  color: var(--color-accent-ink);
+}

@@ -56,6 +56,37 @@ export const UCUT_CLOSING_LINKS = [
   { href: '/whats-in-season', label: 'What’s in season ›' },
 ]
 
+// Phone composition copy (P9), ported verbatim from
+// src/app/m/how-u-cut-works/page.tsx (Q1: where /m and desktop words
+// differ, the phone shows the /m words). Steps, facts, guides, lede,
+// and resting copy are identical on both trees, so the phone reuses
+// the arrays above and carries only its own hero, section headings,
+// closing doors (the /m doors on the unified canonicals), and sign-off
+// (no trailing period, as printed on /m) here.
+export const UCUT_PHONE_HERO = {
+  eyebrow: 'How U-Cut Works',
+  heading: 'How U-Cut works at Hues',
+}
+
+export const UCUT_PHONE_STEPS = {
+  eyebrow: 'Step by step',
+  heading: 'How it works',
+}
+
+export const UCUT_PHONE_GUIDES = {
+  eyebrow: 'Cutting guides',
+  heading: 'Flower by flower',
+}
+
+export const UCUT_PHONE_DAHLIA_CHIP = 'Start here'
+
+export const UCUT_PHONE_CLOSING_LINKS = [
+  { href: '/visit', label: 'Plan your visit ›' },
+  { href: '/whats-in-season', label: 'What’s in season ›' },
+]
+
+export const UCUT_PHONE_SIGNOFF = 'Hues Floral Park, A little world apart'
+
 
 
 export interface UCutStep {

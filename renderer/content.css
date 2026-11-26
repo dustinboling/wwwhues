@@ -892,10 +892,29 @@
   width: 3rem;
 }
 
+/* Thumbs + badge share one row, as on the production cards. */
+.c-game__top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-200);
+}
+
 .c-game__name {
+  /* An h3 inside the card link (P9): the game titles' heading role. */
+  margin: 0;
   font-family: var(--text-display-face);
   font-size: var(--text-h2-size);
   color: var(--color-text-strong);
+}
+
+/* Games heading with the rabbit spot art beside it (PlayHub
+ * SectionHead), text left and art right. */
+.c-gameshead {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--space-200);
 }
 
 .c-game__text {
