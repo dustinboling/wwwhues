@@ -98,11 +98,16 @@
   pointer-events: none;
 }
 
-/* Anchor-rendered controls (P3 cascade fix): Link always emits .hues-link,
- * and media.css bundles after this sheet, so at equal specificity the link
- * colour would win over every control colour above. These compound
- * selectors restore the control colours on anchors without touching prose
- * links; native <button> elements never carry .hues-link and are
+/* Anchor-rendered controls (P3 cascade fix, P4F shape extension): Link
+ * always emits .hues-link, and media.css bundles after this sheet, so
+ * at equal specificity the link rules win over every control rule above
+ * — not just colour (.hues-link sets border-radius: radius-xs, and the
+ * deployed bundle has carried link padding too), which turned the
+ * account round into a padded rounded square on staging (P4F field
+ * report). The colour compounds restore control colours on anchors; the
+ * shape compounds below restate each round control's own
+ * padding/radius/background/border so its silhouette wins at any bundle
+ * order. Native <button> elements never carry .hues-link and are
  * unaffected. (Precedent: the phone top bar dress in shell.css.) Choice:
  * compound selectors, not cascade layers — the package has no layer
  * infrastructure, and compounds keep the fix local to this sheet. */
@@ -134,16 +139,32 @@
   color: var(--button-destructive-fill-text);
 }
 
+/* P4F shape compounds: each restates its control's own dress (values
+ * copied from the control rule below, never new values), so the
+ * silhouette survives any .hues-link rule at any bundle order.
+ * icon-round's radius is the pill it inherits from .hues-button. */
 .hues-link.hues-button--icon-round {
   color: var(--color-text);
+  padding: 0;
+  background-color: var(--color-surface);
+  border: var(--shell-topbar-border) solid var(--button-icon-round-ring);
+  border-radius: var(--button-radius);
 }
 
 .hues-link.hues-account-button {
   color: var(--color-text-strong);
+  padding: 0;
+  background-color: var(--color-surface);
+  border: var(--shell-topbar-border) solid var(--button-icon-round-ring);
+  border-radius: var(--radius-full);
 }
 
 .hues-link.hues-back-pill {
   color: var(--color-text-strong);
+  padding: 0 var(--space-200);
+  background-color: var(--color-surface);
+  border: var(--shell-topbar-border) solid var(--button-icon-round-ring);
+  border-radius: var(--radius-full);
 }
 
 .hues-button__icon {
