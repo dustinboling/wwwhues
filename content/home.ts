@@ -219,3 +219,40 @@ export const MUSIC_CARD = {
 
 // Social-card art, pending the media migration (1200×630 source).
 export const OG_IMAGE_KEY = 'hues/og/home.webp'
+
+// Phone-only home content (P6), ported verbatim from src/app/m/page.tsx:
+// the /m section copy where it differs from desktop, the spot-art keys,
+// and the rail end cards. Additive — every export above is untouched.
+// Link targets stay on the unified canonicals (no /m prefix).
+export const HOME_PHONE = {
+  chaptersLede:
+    'From the first daffodils to the last dahlias, there’s always something new to discover. Swipe through the year.',
+  rightNowSpotKey: 'hues/m-art/spring-cluster.webp',
+  bloomsSpotKey: 'hues/m-art/rainbow.webp',
+  dahliaSpotKey: 'hues/m-art/peach.webp',
+  visitSpotKey: 'hues/m-art/stones.webp',
+  seasonEndCard: 'The full season',
+  dahliaEndKicker: 'The full catalog',
+  dahliaEndTitle: 'Every variety, A to Z',
+  visitBucket:
+    'We provide everything for picking — just bring comfortable shoes (and a jar of water for the ride home)',
+}
+
+// Phone-only green Volunteer bar (src/app/m/page.tsx): its own copy, not
+// the desktop Volunteer packet card.
+export const VOLUNTEER_BAR = {
+  href: '/volunteer',
+  title: 'Volunteer',
+  text: 'Lend a hand in the beds — pick a task and a time.',
+}
+
+// Phone-only Hues Arcade banner (src/app/m/page.tsx, concept v2): the
+// games-only card copy.
+export const ARCADE_BANNER = {
+  href: '/arcade',
+  artKey: 'hues/play/arcade-hero-trio.webp',
+  titleLead: 'Hues ',
+  titleAccent: 'Arcade',
+  text: 'A little corner of games, tucked among the flowers.',
+  cta: 'Come play →',
+}

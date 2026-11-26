@@ -89,3 +89,41 @@ test.describe('home opening', () => {
     )
   })
 })
+
+test.describe('home photo bands', () => {
+  async function slotHeight(page: Page, band: string): Promise<number> {
+    const box = await page.locator(`.hues-photo-band--${band} .hues-photo-band__slot`).first().boundingBox()
+    expect(box).not.toBeNull()
+    return box?.height ?? -1
+  }
+
+  test('desktop bands render at production fixed heights', async ({ page }, testInfo) => {
+    test.skip(testInfo.project.name !== 'desktop', 'desktop band heights only')
+    await page.goto('/')
+    await stabilize(page)
+    // Production src/app/page.tsx: h-[380px] sm:h-[430px] dusk,
+    // h-[260px] sm:h-[300px] Meet Dusty — staging desktop (1280px) sits
+    // inside the sm window, so the slots render 430px and 300px, never
+    // the natural image height (~1,500px / ~2,000px).
+    await expect(page.locator('.hues-photo-band--dusk .hues-photo-band__slot')).toBeVisible()
+    await expect(
+      page.locator('.hues-photo-band--meet-dusty .hues-photo-band__slot'),
+    ).toBeVisible()
+    expect(await slotHeight(page, 'dusk')).toBe(430)
+    expect(await slotHeight(page, 'meet-dusty')).toBe(300)
+  })
+
+  test('phone bands render at production fixed heights', async ({ page }, testInfo) => {
+    test.skip(testInfo.project.name !== 'mobile', 'phone band heights only')
+    await page.goto('/')
+    await stabilize(page)
+    // Production src/app/m/page.tsx: h-[430px] dusk (full-bleed),
+    // h-[230px] Meet Dusty.
+    await expect(page.locator('.hues-photo-band--dusk .hues-photo-band__slot')).toBeVisible()
+    await expect(
+      page.locator('.hues-photo-band--meet-dusty .hues-photo-band__slot'),
+    ).toBeVisible()
+    expect(await slotHeight(page, 'dusk')).toBe(430)
+    expect(await slotHeight(page, 'meet-dusty')).toBe(230)
+  })
+})

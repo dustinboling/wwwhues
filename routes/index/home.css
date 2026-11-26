@@ -1,12 +1,14 @@
-/* Home composition. One centered column (80rem caps the hero at the
- * media contract's 1280px hero slot); phone stacks, wider breakpoints
- * open the grids. Type and color name token roles only. The opening is
- * per-breakpoint (Slice H): the /m masthead + Procession figure on
- * phone, the H1 hero block on desktop — toggled at the shell's 768px
- * split, like the TopBar/SiteHeader pair. */
+/* Home composition. One centered column capped at the P5 outer container
+ * token; phone stacks, wider breakpoints open the grids. Type and color
+ * name token roles only, except production-measured literals cited
+ * inline. The composition is per-breakpoint at the shell's 768px split:
+ * phone renders the /m page order (Slice H opening + P6 rails, bands,
+ * bar, banner), desktop the H1 hero block with the framed plate and the
+ * overlapping status packet. Phone-only (-m) and desktop-only (-d)
+ * variants toggle with display:none, like the TopBar/SiteHeader pair. */
 
 .home {
-  max-width: 80rem;
+  max-width: var(--container-outer-max);
   margin-inline: auto;
   padding: var(--space-400) var(--space-200) var(--layout-800);
 }
@@ -167,27 +169,34 @@
   font-weight: var(--weight-semibold);
 }
 
+/* The framed golden-hour plate (P5 PlateFrame): the stitched mat, inner
+ * radius, and on-art caption chip all come from the primitive. */
+
 .home-hero__plate {
   margin: var(--space-400) 0 0;
+  text-align: left;
 }
 
-.home-hero__plate .hues-image {
-  border-radius: var(--radius-xl);
-}
-
-.home-hero__caption {
-  margin-top: var(--space-150);
-  font-family: var(--text-caption-face);
-  font-size: var(--text-caption-size);
-  color: var(--color-text-muted);
-}
-
-/* Season status snapshot */
+/* Season status snapshot. Phone keeps the Slice H flow untouched; on
+ * desktop production pastes the packet over the hero plate's lower edge
+ * (sm:-mt-20 overlap, max-w-3xl packet, stitched radius). */
 
 .home-status {
   margin-top: var(--space-400);
   padding: var(--space-500) var(--space-400);
   text-align: center;
+}
+
+@media (min-width: 768px) {
+  .home-status {
+    position: relative;
+    z-index: 1;
+    max-width: 48rem;
+    margin-inline: auto;
+    margin-top: -5rem;
+    padding-block: 2.25rem;
+    border-radius: var(--packet-radius-xl);
+  }
 }
 
 .home-status__headline {
@@ -222,7 +231,9 @@
   color: var(--color-text-muted);
 }
 
-/* Sections */
+/* Sections. Spacing follows production per breakpoint (phone pt-12/
+ * mt-12 sections at 48px, phone trailing cards at 24px; desktop
+ * mt-20/sm:mt-24 sections at 96px in the sm window staging renders). */
 
 .home-section {
   margin-top: var(--layout-800);
@@ -231,10 +242,18 @@
 .home-section__title {
   margin: var(--space-150) 0 0;
   font-family: var(--text-h2-face);
-  font-size: var(--text-h2-size);
-  line-height: var(--text-h2-leading);
-  font-weight: var(--text-h2-weight);
+  font-size: 1.625rem;
+  line-height: 1.25;
+  font-weight: 560;
   color: var(--color-text-strong);
+}
+
+@media (min-width: 768px) {
+  .home-section__title {
+    font-size: var(--text-h2-size);
+    line-height: var(--text-h2-leading);
+    font-weight: var(--text-h2-weight);
+  }
 }
 
 .home-seasons {
@@ -259,7 +278,65 @@
   justify-content: center;
 }
 
-/* Card trios */
+/* Heading row with beside spot art (Right Now, phone dahlia strip):
+ * production's flex items-end justify-between. */
+
+.home-headrow {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--space-200);
+}
+
+/* Full-bleed phone elements (swipe rails, dusk band) cancel the .home
+ * phone gutter; desktop compositions stay contained. */
+
+.home-bleed {
+  margin-inline: calc(var(--space-200) * -1);
+}
+
+@media (min-width: 768px) {
+  .home-bleed {
+    margin-inline: 0;
+  }
+}
+
+/* Right Now: one responsive section; the spot art is phone-only and the
+ * cards stack on phone, trio on desktop. Card radii are production's
+ * (rounded-[22px] phone, rounded-[1.75rem] desktop). */
+
+.home-rightnow {
+  margin-top: 3rem;
+}
+
+@media (min-width: 768px) {
+  .home-rightnow {
+    margin-top: 6rem;
+  }
+
+  .home-rightnow__spot {
+    display: none;
+  }
+}
+
+.home-rightnow .home-trio__card {
+  border-radius: var(--packet-radius-sm);
+}
+
+@media (min-width: 768px) {
+  .home-rightnow .home-trio__card {
+    border-radius: var(--packet-radius-xl);
+  }
+}
+
+.home-rightnow > .hues-link {
+  display: inline-block;
+  margin-top: var(--space-250);
+  font-size: 0.875rem;
+  font-weight: var(--weight-semibold);
+}
+
+/* Card trios (Right Now, desktop season grid, desktop Gather row). */
 
 .home-trio {
   margin-top: var(--space-300);
@@ -297,32 +374,252 @@
   line-height: var(--text-body-sm-leading);
 }
 
-.home-chapter__art {
+/* The year in blooms, phone: centred head with rainbow spot art and the
+ * swipe rail of stitched season cards plus the centred end card. */
+
+.home-seasons-m {
+  margin-top: 3rem;
+}
+
+@media (min-width: 768px) {
+  .home-seasons-m {
+    display: none;
+  }
+}
+
+.home-seasons-m__head {
+  text-align: center;
+}
+
+.home-seasons-m .home-section__lede,
+.home-seasons-d .home-section__lede {
+  font-family: var(--text-body-face);
+  line-height: 1.625;
+  color: var(--color-text-muted);
+}
+
+.home-seasons-m .home-section__lede {
+  max-width: 300px;
+  font-size: 0.875rem;
+}
+
+.home-seasons-d .home-section__lede {
+  max-width: 28rem;
+  font-size: 1rem;
+}
+
+.home-seasons-m .hues-card-rail,
+.home-dahlia-m .hues-card-rail {
+  margin-top: var(--space-250);
+}
+
+/* Season cards: whole-card links wrapping P5 PacketCards with flush-top
+ * art. PacketCard requires a title string; the chapter heading is a real
+ * h3 in children (production heading outline), so the span stays empty. */
+
+.home-chapterlink {
+  display: block;
+  color: inherit;
+}
+
+.home-seasons-m .home-chapterlink {
+  width: 262px;
+}
+
+.home-chaptercard .hues-packet-card__title:empty {
+  display: none;
+}
+
+.home-chaptercard {
+  padding-bottom: 16px;
+}
+
+@media (min-width: 768px) {
+  .home-chaptercard {
+    padding: 16px 20px;
+  }
+}
+
+.home-chaptercard__title {
+  margin: 16px 0 0;
+  font-family: var(--text-display-face);
+  font-size: 18.5px;
+  line-height: 1.375;
+  font-weight: 560;
+  color: var(--color-text-strong);
+}
+
+@media (min-width: 768px) {
+  .home-chaptercard__title {
+    font-size: 18px;
+  }
+}
+
+.home-chaptercard__text {
+  margin: 6px 0 0;
+  font-size: 13.5px;
+  line-height: 1.625;
+  color: var(--color-text-muted);
+}
+
+@media (min-width: 768px) {
+  .home-chaptercard__text {
+    font-size: 0.875rem;
+  }
+}
+
+.home-chapterart {
   position: relative;
   display: block;
-  margin-bottom: var(--space-150);
 }
 
-.home-chapter__art .hues-image {
-  border-radius: var(--radius-lg);
+.home-chapterart--m {
+  height: 158px;
 }
 
-.home-chapter__when {
+.home-chapterart--d {
+  height: 180px;
+}
+
+.home-chapterart .hues-image {
+  height: 100%;
+}
+
+.home-chapterart__when {
   position: absolute;
-  top: var(--space-150);
-  left: var(--space-150);
-  padding: var(--space-050) var(--space-150);
+  top: 12px;
+  left: 12px;
+  padding: 4px 12px;
   border-radius: var(--radius-full);
-  background-color: var(--color-text-strong);
+  background-color: color-mix(in srgb, var(--color-text-strong) 75%, transparent);
+  backdrop-filter: blur(4px);
   color: var(--color-on-deep);
   font-family: var(--text-caption-face);
-  font-size: var(--text-caption-size);
+  font-size: 10.5px;
   font-weight: var(--weight-bold);
+  letter-spacing: 0.05em;
   text-transform: uppercase;
-  letter-spacing: 0.06em;
 }
 
-/* Dahlia strip */
+/* The year in blooms, desktop: packet-card grid with the CTA pill. */
+
+.home-seasons-d {
+  display: none;
+  margin-top: 6rem;
+}
+
+@media (min-width: 768px) {
+  .home-seasons-d {
+    display: block;
+  }
+}
+
+/* Dahlia strip, phone: heading row with peach spot art and the tight
+ * rail of fixed framed tiles plus the stacked end card. */
+
+.home-dahlia-m {
+  margin-top: 3rem;
+}
+
+@media (min-width: 768px) {
+  .home-dahlia-m {
+    display: none;
+  }
+}
+
+.home-dtile-m {
+  width: 148px;
+  height: 186px;
+}
+
+.home-dtile-m .hues-plate-frame__art,
+.home-dtile-d .hues-plate-frame__art {
+  height: 100%;
+}
+
+.home-dtile-m .hues-image,
+.home-dtile-d .hues-image {
+  height: 100%;
+}
+
+/* Dahlia rail stacked end card in route styles: the P5 stack treatment
+ * (narrow width, tile ring/shadow/radius, kicker over heading and gold
+ * arrow) with the accessible name from the card content. The kicker
+ * renders in the page's light gold (#e8cf8f, 8.42:1): production's
+ * kicker gold (#b08d37) computes to 4.11:1 on the deep card, below the
+ * 4.5:1 floor (B3 precedent). The arrow is decorative (aria-hidden). */
+
+.home-railend-stack {
+  display: flex;
+  align-self: stretch;
+  width: var(--rail-end-narrow);
+  flex-direction: column;
+  justify-content: space-between;
+  gap: var(--space-100);
+  border: var(--shell-topbar-border) solid var(--plate-tile-ring);
+  border-radius: var(--rail-end-radius-stack);
+  box-shadow: var(--plate-tile-shadow);
+  padding: var(--space-200);
+  background-color: var(--color-text-strong);
+  color: var(--color-on-deep);
+}
+
+.home-railend-stack__kicker {
+  font-size: var(--rail-end-kicker);
+  font-weight: var(--weight-bold);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  line-height: 1.7;
+  color: #e8cf8f;
+}
+
+.home-railend-stack__body {
+  display: block;
+}
+
+.home-railend-stack__heading {
+  display: block;
+  font-size: var(--rail-end-heading);
+  font-weight: var(--weight-semibold);
+  line-height: 1.375;
+  color: var(--color-on-deep);
+}
+
+.home-railend-stack__arrow {
+  display: block;
+  margin-top: var(--space-100);
+  font-size: var(--rail-end-arrow-stack);
+  line-height: 1;
+  color: var(--color-accent);
+}
+
+.home-dahlia-m__copy {
+  margin: 12px 0 0;
+  font-family: var(--text-body-face);
+  font-size: 0.875rem;
+  line-height: 1.625;
+  color: var(--color-text-muted);
+}
+
+.home-dahlia-m__more {
+  display: inline-block;
+  margin-top: 12px;
+  font-size: 0.875rem;
+  font-weight: var(--weight-semibold);
+}
+
+/* Dahlia strip, desktop: framed 4:5 tiles in the responsive grid. */
+
+.home-dahlia-d {
+  display: none;
+  margin-top: 6rem;
+}
+
+@media (min-width: 768px) {
+  .home-dahlia-d {
+    display: block;
+  }
+}
 
 .home-strip {
   margin-top: var(--space-300);
@@ -343,106 +640,227 @@
   }
 }
 
-.home-strip .hues-image {
-  border-radius: var(--radius-lg);
+.home-dtile-d {
+  aspect-ratio: 4 / 5;
 }
 
-/* Dusk band */
-
-.home-band {
-  position: relative;
-  margin: var(--layout-800) 0 0;
+.home-dahlia-d__copy {
+  margin: 16px 0 0;
+  max-width: var(--container-inner-max-compact);
+  font-family: var(--text-body-face);
+  font-size: 1rem;
+  line-height: 1.625;
+  color: var(--color-text-muted);
 }
 
-.home-band .hues-image {
-  border-radius: var(--radius-xl);
+.home-dahlia-d__more {
+  display: inline-block;
+  margin-top: 12px;
+  font-size: 0.875rem;
+  font-weight: var(--weight-semibold);
 }
 
-.home-band__caption {
-  position: absolute;
-  right: var(--space-300);
-  bottom: var(--space-300);
-  left: var(--space-300);
-  color: var(--color-on-deep);
+/* Dusk band: the P5 PhotoBand at production's fixed 430px slot both
+ * widths. Phone runs full-bleed; desktop frames the band (rounded-2rem
+ * ring + shadow). Caption type stays with the route. */
+
+.home-bandframe {
+  margin-top: 3rem;
+}
+
+.home-bandframe .hues-photo-band__caption {
+  color: var(--ref-color-white);
+}
+
+@media (min-width: 768px) {
+  .home-bandframe {
+    margin-top: 5rem;
+    overflow: hidden;
+    border-radius: 2rem;
+    border: var(--shell-topbar-border) solid
+      color-mix(in srgb, var(--color-text-strong) 20%, transparent);
+    box-shadow: 0 18px 44px rgba(35, 54, 43, 0.25);
+  }
 }
 
 .home-band__quote {
   margin: 0;
-  max-width: 40rem;
   font-family: var(--text-h2-face);
-  font-size: var(--text-h3-size);
-  line-height: var(--text-h3-leading);
+  font-size: 24px;
+  line-height: 1.375;
   font-style: italic;
 }
 
-.home-band__text {
-  margin: var(--space-100) 0 0;
-  font-size: var(--text-body-sm-size);
+@media (min-width: 768px) {
+  .home-band__quote {
+    max-width: 36rem;
+    font-size: 28px;
+  }
 }
 
-/* Meet Dusty: the one deep-ground panel on the route. */
+.home-band__text {
+  margin: 8px 0 0;
+  font-size: 13px;
+  letter-spacing: 0.025em;
+  color: color-mix(in srgb, var(--ref-color-white) 85%, transparent);
+}
+
+@media (min-width: 768px) {
+  .home-band__text {
+    font-size: 0.875rem;
+  }
+}
+
+/* Meet Dusty: the deep-ground panel. The P5 PhotoBand carries the circle
+ * photo at production's fixed slot (230px phone, 300px desktop); the
+ * round portrait overlaps the band's lower edge into the body. */
 
 .home-dusty {
-  margin-top: var(--layout-800);
+  margin-top: 3rem;
   overflow: hidden;
-  border-radius: var(--radius-xl);
+  border-radius: var(--packet-radius-lg);
   background-color: var(--color-text-strong);
   color: var(--color-on-deep);
 }
 
-.home-dusty__body {
-  padding: var(--space-400) var(--space-300);
+@media (min-width: 768px) {
+  .home-dusty {
+    margin-top: 6rem;
+    border-radius: 2rem;
+  }
+}
+
+.home-dusty__media {
+  position: relative;
 }
 
 .home-dusty__portrait {
-  display: block;
-  width: 6rem;
-  margin-top: -5rem;
+  position: absolute;
+  left: 20px;
+  bottom: -36px;
+  width: 76px;
+}
+
+@media (min-width: 768px) {
+  .home-dusty__portrait {
+    left: 40px;
+    bottom: -40px;
+    width: 96px;
+  }
 }
 
 .home-dusty__portrait .hues-image {
   border-radius: var(--radius-full);
+  box-shadow: 0 0 0 4px var(--color-text-strong);
+}
+
+.home-dusty__body {
+  padding: 48px 24px 24px;
+}
+
+@media (min-width: 768px) {
+  .home-dusty__body {
+    padding: 64px 40px 36px;
+  }
 }
 
 .home-dusty__quote {
-  margin: var(--space-200) 0 0;
+  margin: 0;
   font-family: var(--text-h2-face);
-  font-size: var(--text-h3-size);
-  line-height: var(--text-h3-leading);
+  font-size: 21px;
+  line-height: 1.375;
   font-style: italic;
 }
 
+@media (min-width: 768px) {
+  .home-dusty__quote {
+    max-width: 42rem;
+    font-size: 1.5rem;
+  }
+}
+
 .home-dusty__copy {
-  margin: var(--space-150) 0 0;
-  max-width: 44rem;
-  line-height: var(--text-body-leading);
+  margin: 12px 0 0;
+  font-size: 0.875rem;
+  line-height: 1.625;
+  color: color-mix(in srgb, var(--color-on-deep) 80%, transparent);
+}
+
+@media (min-width: 768px) {
+  .home-dusty__copy {
+    max-width: 42rem;
+    font-size: 1rem;
+  }
 }
 
 .home-dusty__cta {
   display: inline-block;
-  margin-top: var(--space-200);
-  padding: var(--button-padding-y) var(--button-padding-x);
+  margin-top: 16px;
+  padding: 10px 20px;
   border-radius: var(--button-radius);
   background-color: var(--color-on-deep);
   color: var(--color-text-strong);
-  font-size: var(--button-label-size);
-  font-weight: var(--button-label-weight);
+  font-size: 0.875rem;
+  font-weight: var(--weight-semibold);
   text-decoration: none;
 }
 
-/* Visit packet */
+@media (min-width: 768px) {
+  .home-dusty__cta {
+    margin-top: 20px;
+    padding: 12px 24px;
+  }
+}
+
+/* Visit packet: stones spot art above on phone; the picking-bucket fact,
+ * the U-Cut link, and the written driving directions are desktop-only
+ * per Q1/Q4 (the /m page omits them), kept in the HTML. */
+
+.home-visitwrap {
+  margin-top: 3rem;
+}
+
+@media (min-width: 768px) {
+  .home-visitwrap {
+    margin-top: 6rem;
+  }
+
+  .home-visit__spot {
+    display: none;
+  }
+}
+
+.home-visit__spot {
+  margin-bottom: var(--space-250);
+}
 
 .home-visit {
-  margin-top: var(--layout-800);
-  padding: var(--space-500) var(--space-400);
+  padding: 28px;
+  border-radius: var(--packet-radius-lg);
+}
+
+@media (min-width: 768px) {
+  .home-visit {
+    padding: 32px;
+    border-radius: var(--packet-radius-xl);
+  }
 }
 
 .home-visit__facts {
   list-style: none;
-  margin: var(--space-200) 0 0;
+  margin: 16px 0 0;
   padding: 0;
   display: grid;
-  gap: var(--space-150);
+  gap: 12px;
+  font-size: 15px;
+}
+
+@media (min-width: 768px) {
+  .home-visit__facts {
+    margin-top: 20px;
+    gap: 14px;
+    font-size: 1rem;
+  }
 }
 
 .home-visit__fact {
@@ -450,17 +868,67 @@
   gap: var(--space-150);
 }
 
+.home-visit__fact--d {
+  display: none;
+}
+
+@media (min-width: 768px) {
+  .home-visit__fact--m {
+    display: none;
+  }
+
+  .home-visit__fact--d {
+    display: flex;
+  }
+}
+
+.home-visit__ctas {
+  margin-top: 20px;
+}
+
+.home-visit__ctas .hues-button {
+  flex: 1 1 0;
+}
+
+@media (min-width: 768px) {
+  .home-visit__ctas {
+    margin-top: 24px;
+  }
+
+  .home-visit__ctas .hues-button {
+    flex: none;
+  }
+}
+
+.home-visit__ucut {
+  display: none;
+}
+
+@media (min-width: 768px) {
+  .home-visit__ucut {
+    display: block;
+    margin: 20px 0 0;
+  }
+
+  .home-visit__ucut .hues-link {
+    font-size: 0.875rem;
+    font-weight: var(--weight-semibold);
+  }
+}
+
 .home-driving {
-  margin-top: var(--space-400);
-  display: grid;
-  gap: var(--space-300);
-  grid-template-columns: 1fr;
-  text-align: left;
+  display: none;
 }
 
 @media (min-width: 768px) {
   .home-driving {
+    display: grid;
+    margin-top: 32px;
+    padding-top: 32px;
+    border-top: var(--shell-topbar-border) solid var(--color-line);
+    gap: var(--space-300);
     grid-template-columns: repeat(2, 1fr);
+    text-align: left;
   }
 }
 
@@ -479,4 +947,294 @@
   gap: var(--space-050);
   font-size: var(--text-body-sm-size);
   line-height: var(--text-body-sm-leading);
+}
+
+/* Gather / Sponsor, phone: compact stitched packets side by side. */
+
+.home-gsv-m {
+  margin-top: 1.5rem;
+}
+
+@media (min-width: 768px) {
+  .home-gsv-m {
+    display: none;
+  }
+}
+
+.home-gsv-m__grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+
+/* Gather / Sponsor / Volunteer / Music packet compositions: the route
+ * link wraps an unlinked P5 PacketCard (see the route: the linked
+ * variant's title-only name fails label-in-name). The card stacks
+ * vertically and the eyebrow orders first, so the visual order is
+ * eyebrow, title, text, CTA while the title stays first in the DOM.
+ * Titles and CTAs follow production's display/underline treatments per
+ * breakpoint. */
+
+.home-gpcardlink {
+  display: block;
+  height: 100%;
+  color: inherit;
+}
+
+.home-gpcardlink > .hues-packet-card {
+  height: 100%;
+}
+
+.home-gpcard {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.home-gpcard__eyebrow {
+  order: -1;
+}
+
+.home-gpcard .hues-packet-card__title {
+  margin-top: 8px;
+  font-family: var(--text-display-face);
+  font-weight: 560;
+  line-height: 1.375;
+}
+
+.home-gpcard__text {
+  display: block;
+  margin-top: 6px;
+  font-size: 0.875rem;
+  line-height: 1.625;
+  color: var(--color-text-muted);
+}
+
+.home-gpcard__cta {
+  display: block;
+  margin-top: 12px;
+  font-size: 0.875rem;
+  font-weight: var(--weight-bold);
+  color: var(--color-text);
+  text-decoration: underline;
+  text-decoration-color: var(--color-accent);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 4px;
+}
+
+.home-gpcard--compact {
+  padding: 16px;
+}
+
+.home-gpcard--compact .hues-packet-card__title {
+  margin-top: 6px;
+  font-size: 19px;
+}
+
+.home-gpcard--compact .home-gpcard__text {
+  margin-top: 4px;
+  font-size: 13px;
+}
+
+.home-gpcard--compact .home-gpcard__cta {
+  margin-top: 10px;
+  font-size: 13px;
+}
+
+/* Gather / Sponsor / Volunteer, desktop: three stitched packets. */
+
+.home-gsv-d {
+  display: none;
+  margin-top: 5rem;
+}
+
+@media (min-width: 768px) {
+  .home-gsv-d {
+    display: block;
+  }
+}
+
+.home-gsv-d .home-gpcard {
+  padding: 28px;
+}
+
+.home-gsv-d .home-gpcard .hues-packet-card__title {
+  font-size: 24px;
+}
+
+/* Green Volunteer bar, phone-only: the deep link bar with the gold arrow. */
+
+.home-volbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-top: 12px;
+  padding: 16px 20px;
+  border-radius: var(--packet-radius-sm);
+  background-color: var(--color-text-strong);
+  color: var(--color-on-deep);
+  border: var(--shell-topbar-border) solid var(--plate-frame-ring);
+  box-shadow: 0 12px 28px rgba(35, 54, 43, 0.18);
+}
+
+.home-volbar__titles {
+  display: block;
+}
+
+.home-volbar__title {
+  display: block;
+  font-family: var(--text-display-face);
+  font-weight: 560;
+  font-size: 19px;
+}
+
+.home-volbar__text {
+  display: block;
+  margin-top: 2px;
+  font-size: 13px;
+  color: color-mix(in srgb, var(--color-on-deep) 80%, transparent);
+}
+
+.home-volbar__arrow {
+  font-size: 20px;
+  color: #e8cf8f;
+}
+
+/* The Music of Hues: one responsive stitched packet link with the pill. */
+
+.home-music {
+  margin-top: 1.5rem;
+}
+
+@media (min-width: 768px) {
+  .home-music {
+    margin-top: 2rem;
+  }
+}
+
+.home-music__card {
+  padding: 24px 28px;
+  border-radius: var(--packet-radius-lg);
+}
+
+@media (min-width: 768px) {
+  .home-music__card {
+    padding: 28px 32px;
+    border-radius: var(--packet-radius-xl);
+  }
+}
+
+.home-music__card .hues-packet-card__title {
+  font-size: 23px;
+}
+
+@media (min-width: 768px) {
+  .home-music__card .hues-packet-card__title {
+    font-size: 30px;
+  }
+
+  .home-music__card .home-gpcard__text {
+    max-width: 36rem;
+    font-size: 1rem;
+  }
+}
+
+.home-music__pill {
+  display: inline-block;
+  margin-top: 14px;
+  padding: 6px 16px;
+  border-radius: var(--button-radius);
+  background-color: var(--color-text-strong);
+  color: var(--color-on-deep);
+  font-size: 0.875rem;
+  font-weight: var(--weight-semibold);
+}
+
+@media (min-width: 768px) {
+  .home-music__pill {
+    margin-top: 16px;
+    padding: 8px 20px;
+  }
+}
+
+/* Hues Arcade banner, phone-only: deep card with the trio art up top, a
+ * cream fade over the art's upper edge, and the gold pill. */
+
+.home-arcade {
+  margin-top: 1.5rem;
+}
+
+@media (min-width: 768px) {
+  .home-arcade {
+    display: none;
+  }
+}
+
+.home-arcade__card {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  border-radius: var(--packet-radius-sm);
+  background-color: var(--color-text-strong);
+  border: var(--shell-topbar-border) solid var(--color-text-strong);
+  box-shadow: 6px 6px 0 0 color-mix(in srgb, var(--color-accent) 55%, transparent);
+  color: var(--color-on-deep);
+}
+
+.home-arcade__art {
+  display: block;
+  height: 176px;
+  border-bottom: var(--shell-topbar-border) solid var(--plate-frame-ring);
+}
+
+.home-arcade__art .hues-image {
+  height: 100%;
+}
+
+.home-arcade__fade {
+  position: absolute;
+  inset-inline: 0;
+  top: 0;
+  height: 24px;
+  background: linear-gradient(
+    to bottom,
+    var(--color-on-deep),
+    color-mix(in srgb, var(--color-on-deep) 55%, transparent),
+    transparent
+  );
+}
+
+.home-arcade__body {
+  display: block;
+  padding: 16px 20px;
+}
+
+.home-arcade__title {
+  display: block;
+  font-family: var(--text-display-face);
+  font-size: 22px;
+}
+
+.home-arcade__accent {
+  color: #f5c542;
+}
+
+.home-arcade__text {
+  display: block;
+  margin-top: 2px;
+  font-size: 0.875rem;
+  line-height: 1.625;
+  color: color-mix(in srgb, var(--color-on-deep) 85%, transparent);
+}
+
+.home-arcade__pill {
+  display: inline-block;
+  margin-top: 10px;
+  padding: 6px 16px;
+  border-radius: var(--button-radius);
+  background-color: #f5c542;
+  color: var(--color-text-strong);
+  font-size: 0.875rem;
+  font-weight: var(--weight-bold);
 }
