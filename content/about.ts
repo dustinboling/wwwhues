@@ -57,3 +57,8 @@ export const ABOUT_PARAGRAPHS: AboutParagraph[] = [
 export const ABOUT_SIGNOFF = 'Thanks for being part of it,'
 
 export const ABOUT_SIGNOFF_NAME = 'Dusty'
+
+// The onward link from the story (P8 audit minor: staging About
+// dead-ends). Ported from src/app/m/story/page.tsx, where it closes
+// the story — the full-width plan-your-visit pill.
+export const ABOUT_ONWARD = { href: '/visit', label: 'Plan your visit' }

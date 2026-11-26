@@ -1,5 +1,5 @@
 import type { JSX, MouseEvent } from 'react'
-import { Icon, Image } from '@hues/ui'
+import { Icon, Image, PhoneHero } from '@hues/ui'
 import { PARK_SIGNOFF } from '../../content/site'
 import {
   MUSIC_HERO,
@@ -108,66 +108,102 @@ function SongSet({ set }: { set: MusicSet }): JSX.Element {
   )
 }
 
-// Music (/music): the shell player's full view — both sets in the
-// served HTML, every song by name. Playback state lives in the shell
-// engine (renderer/player.ts), never here: pressing play and leaving
-// the page keeps the song playing.
+// Music (/music): the shell player's full view (P8). Phone gains
+// production's hero band treatment — the deep-green band with the /m
+// heading (Q1), the soft intro, and the dusk painting inside it —
+// while desktop keeps its Slice B packet hero. Only the hero splits
+// by breakpoint: the Sound packet, both set lists, Stay Tuned, and
+// the sign-off are identical at both widths and render once, so the
+// served HTML carries every song exactly once and the shell player
+// keeps a single row per track. The phone hero carries the page h1
+// (the /m words) and the desktop title renders as h2 (same styling),
+// keeping the one-h1 prerender contract. Both heroes share the one
+// painting key, so the single image preload serves both.
 export default function Page(): JSX.Element {
   return (
-    <div className="c-page">
-      <section className="c-head" aria-labelledby="music-title">
-        <Eyebrow>{MUSIC_HERO.eyebrow}</Eyebrow>
-        <h1 id="music-title" data-route-title className="c-title">
-          {MUSIC_HERO.heading}
-        </h1>
-        <p className="c-tagline">{MUSIC_HERO.tagline}</p>
-        <p className="c-lede">{MUSIC_HERO.intro}</p>
-      </section>
-
-      <figure className="c-plate hues-packet-card">
-        <Image
-          src={MUSIC_HERO.artKey}
-          alt={MUSIC_HERO.artAlt}
-          slot="hero"
-          ratio="21/9"
-          focalPoint="50% 35%"
-          priority
+    <div className="music">
+      <div className="music-hero-m">
+        <PhoneHero
+          eyebrow={MUSIC_HERO.eyebrow}
+          title={MUSIC_HERO.tagline}
+          intro={MUSIC_HERO.intro}
+          introTone="soft"
+          art={
+            <Image
+              src={MUSIC_HERO.artKey}
+              alt={MUSIC_HERO.artAlt}
+              kind="photo"
+              slot="band"
+              ratio="3/2"
+              priority
+            />
+          }
+          routeTitle
         />
-      </figure>
+      </div>
 
-      <section className="c-section" aria-labelledby="sound-of-hues">
-        <div className="music-sound hues-packet-card">
-          <p className="music-sound__badge">
-            <span aria-hidden="true" className="music-sound__dot" />
-            {SOUND_OF_HUES.badge}
-          </p>
-          <h2 id="sound-of-hues" className="c-section__title">
-            {SOUND_OF_HUES.heading}
-          </h2>
-          <p className="c-lede c-lede--left">{SOUND_OF_HUES.copy}</p>
-          <p className="music-sound__tagline">{SOUND_OF_HUES.tagline}</p>
-        </div>
-        <div className="music-sets">
-          {MUSIC_SETS.map((set) => (
-            <SongSet key={set.key} set={set} />
-          ))}
-        </div>
-      </section>
+      <div className="c-page">
+        <div className="music-hero-d">
+          <section className="c-head" aria-labelledby="music-title">
+            <Eyebrow>{MUSIC_HERO.eyebrow}</Eyebrow>
+            {/* h2, not h1: the phone hero already carries the page h1 and
+                the prerender contract is one h1 per page. Same id, class,
+                and text, so the desktop rendering is unchanged. */}
+            <h2 id="music-title" className="c-title">
+              {MUSIC_HERO.heading}
+            </h2>
+            <p className="c-tagline">{MUSIC_HERO.tagline}</p>
+            <p className="c-lede">{MUSIC_HERO.intro}</p>
+          </section>
 
-      <section className="c-section" aria-labelledby="stay-tuned">
-        <Eyebrow>{MUSIC_STAY_TUNED.eyebrow}</Eyebrow>
-        <h2 id="stay-tuned" className="c-section__title">
-          {MUSIC_STAY_TUNED.heading}
-        </h2>
-        <p className="c-lede c-lede--left">{MUSIC_STAY_TUNED.body}</p>
-      </section>
-
-      <section className="c-section" aria-label="Sign-off">
-        <div className="music-signoff hues-packet-card">
-          <p className="c-lede c-lede--left">{MUSIC_SIGNOFF.body}</p>
-          <p className="music-signoff__park">{PARK_SIGNOFF}</p>
+          <figure className="c-plate hues-packet-card">
+            <Image
+              src={MUSIC_HERO.artKey}
+              alt={MUSIC_HERO.artAlt}
+              slot="hero"
+              ratio="21/9"
+              focalPoint="50% 35%"
+              priority
+            />
+          </figure>
         </div>
-      </section>
+
+        <div className="music-body">
+          <section className="c-section" aria-labelledby="sound-of-hues">
+            <div className="music-sound hues-packet-card">
+              <p className="music-sound__badge">
+                <span aria-hidden="true" className="music-sound__dot" />
+                {SOUND_OF_HUES.badge}
+              </p>
+              <h2 id="sound-of-hues" className="c-section__title">
+                {SOUND_OF_HUES.heading}
+              </h2>
+              <p className="c-lede c-lede--left">{SOUND_OF_HUES.copy}</p>
+              <p className="music-sound__tagline">{SOUND_OF_HUES.tagline}</p>
+            </div>
+            <div className="music-sets">
+              {MUSIC_SETS.map((set) => (
+                <SongSet key={set.key} set={set} />
+              ))}
+            </div>
+          </section>
+
+          <section className="c-section" aria-labelledby="stay-tuned">
+            <Eyebrow>{MUSIC_STAY_TUNED.eyebrow}</Eyebrow>
+            <h2 id="stay-tuned" className="c-section__title">
+              {MUSIC_STAY_TUNED.heading}
+            </h2>
+            <p className="c-lede c-lede--left">{MUSIC_STAY_TUNED.body}</p>
+          </section>
+
+          <section className="c-section" aria-label="Sign-off">
+            <div className="music-signoff hues-packet-card">
+              <p className="c-lede c-lede--left">{MUSIC_SIGNOFF.body}</p>
+              <p className="music-signoff__park">{PARK_SIGNOFF}</p>
+            </div>
+          </section>
+        </div>
+      </div>
     </div>
   )
 }

@@ -147,6 +147,37 @@
   color: var(--color-text-faint);
 }
 
+/* Phone hero band (P8): only the hero splits by breakpoint — the
+ * Sound packet, both set lists, Stay Tuned, and the sign-off render
+ * once and are shared. The heroes toggle with display:none at the
+ * shell's 768px split, like the TopBar/SiteHeader pair. */
+
+.music-hero-m {
+  max-width: var(--container-outer-max);
+  margin-inline: auto;
+}
+
+@media (min-width: 768px) {
+  .music-hero-m {
+    display: none;
+  }
+}
+
+@media (max-width: 767px) {
+  .music-hero-d {
+    display: none;
+  }
+
+  /* Phone body rhythm below the band: production px-5 pt-6. */
+  .music > .c-page {
+    padding: 1.5rem 1.25rem var(--layout-800);
+  }
+
+  .music-body > .c-section:first-child {
+    margin-top: 0;
+  }
+}
+
 .music-signoff {
   padding: var(--space-400);
 }

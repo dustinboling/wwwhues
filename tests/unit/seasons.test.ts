@@ -1,6 +1,11 @@
 import { describe, expect, it } from 'vitest'
 import {
   SEASONS,
+  SEASONS_PHONE_HERO,
+  SEASONS_PHONE_STATUS,
+  SEASONS_PHONE_WORKING_ON,
+  SEASONS_PHONE_YEAR,
+  SEASON_PHONE_SIGNOFF,
   seasonBySlug,
   seasonDetailMeta,
   seasonNext,
@@ -72,5 +77,34 @@ describe('seasonDetailMeta', () => {
       expect(meta.twitterTitle).toBe(`${season.title} at Hues Floral Park`)
       expect(meta.twitterDescription).toBe(meta.description)
     }
+  })
+})
+
+// The phone hub copy (P8): the /m words (Q1) with the media keys the
+// phone composition renders.
+describe('SEASONS phone copy', () => {
+  it('carries the /m hero band with the frost-frame panorama key', () => {
+    expect(SEASONS_PHONE_HERO.eyebrow).toBe('What’s in season')
+    expect(SEASONS_PHONE_HERO.heading).toBe('A little magic blooms in every season.')
+    expect(SEASONS_PHONE_HERO.artKey).toBe('hues/m-art/cards/seasons-hero.webp')
+    expect(SEASONS_PHONE_HERO.artAlt).toContain('Watercolor panorama of the Hues year')
+  })
+
+  it('carries the /m status card and working-on framing', () => {
+    expect(SEASONS_PHONE_STATUS.headline).toBe('The 2026 bloom season has ended')
+    expect(SEASONS_PHONE_STATUS.body).toContain('Saturday morning, October 24')
+    expect(SEASONS_PHONE_WORKING_ON.eyebrow).toBe('Working on')
+    expect(SEASONS_PHONE_WORKING_ON.title).toBe('What it’s all for')
+    expect(SEASONS_PHONE_WORKING_ON.intro).toContain('May’s main attractions')
+  })
+
+  it('carries the glance title, rainbow key, and chapter card labels', () => {
+    expect(SEASONS_PHONE_YEAR.title).toBe('The season at a glance')
+    expect(SEASONS_PHONE_YEAR.spotKey).toBe('hues/m-art/rainbow.webp')
+    expect(SEASONS_PHONE_YEAR.cardLabel('Spring')).toBe('Spring — meet the flowers')
+  })
+
+  it('signs the phone detail off without the trailing period', () => {
+    expect(SEASON_PHONE_SIGNOFF).toBe('Hues Floral Park, A little world apart')
   })
 })
