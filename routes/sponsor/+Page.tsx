@@ -696,12 +696,13 @@ function ActiveItemCard({
   )
 }
 
-// Sponsor (/sponsor): per-breakpoint composition (P7b phone, P9 desktop
-// heading repair). Phone renders the /m/sponsor order — the packet hero
-// with the pompon beside the title, the age-honest snapshot note, the
-// sponsorship packets, the paver packet, and the coming-soon packets.
-// Desktop keeps its Slice B/D composition, its title one level under
-// the phone h1 so the prerendered document holds a single h1 (P7b).
+// Sponsor (/sponsor): per-breakpoint composition (P7b phone, P9d
+// desktop heading repair). Phone renders the /m/sponsor order — the
+// packet hero with the pompon beside the title, the age-honest snapshot
+// note, the sponsorship packets, the paver packet, and the coming-soon
+// packets. Desktop keeps its Slice B/D composition with its h1 title,
+// as production renders it — the inactive variant is display:none, so
+// the visible outline holds one h1 per breakpoint (the P9b precedent).
 // Both presentations share the live play
 // state; each keeps its own form fields (only the visible variant is
 // ever touched). Prerendered from the build-time snapshot (labelled,
@@ -784,11 +785,13 @@ export default function Page(): JSX.Element {
           <div className="c-hero-split">
             <div>
               <Eyebrow>{SPONSOR_HERO.eyebrow}</Eyebrow>
-              {/* h2 under the phone h1 (P7b): both variants prerender
-                  in one document, so the desktop title renders the same
-                  words one level down to keep a single h1. Same class
-                  and text, so the desktop rendering is unchanged. */}
-              <h2 className="c-title c-title--left">{SPONSOR_HERO.heading}</h2>
+              {/* h1, as production renders it (P9d): the phone hero carries
+                  the page h1 at its breakpoint and this title carries it
+                  at desktop — the inactive variant is display:none, so the
+                  visible outline holds one h1 either way. */}
+              <h1 data-route-title className="c-title c-title--left">
+                {SPONSOR_HERO.heading}
+              </h1>
             </div>
             <Image src={SPONSOR_HERO.flourishKey} alt="" decorative slot="card" />
           </div>

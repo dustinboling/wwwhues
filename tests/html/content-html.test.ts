@@ -119,6 +119,8 @@ const ROUTES: RouteContract[] = [
       'Everything you need for a visit to Hues Floral Park: season status, hours, admission, what to bring, and directions.',
     heroKey: 'hues/park/circle-seating-2025.webp',
     contentKeys: ['hues/park/circle-seating-2025.webp', 'hues/m-art/stones.webp'],
+    // P9d: phone hero h1 + desktop title h1 (production's outline).
+    h1Count: 2,
   },
   {
     dir: 'floral-park',
@@ -158,6 +160,8 @@ const ROUTES: RouteContract[] = [
       'How cutting your own flowers works at Hues Floral Park — we provide the clippers and the bucket, you wander the beds. A cutting guide for every flower in the park, from the spring cutting beds to peak dahlia season.',
     heroKey: 'hues/park/dahlia-beds-lawn.jpg',
     contentKeys: ['hues/park/dahlia-beds-lawn.jpg', ...UCUT_GUIDE_KEYS],
+    // P9d: phone hero h1 + desktop title h1 (production's outline).
+    h1Count: 2,
   },
   {
     dir: 'working-on',
@@ -214,6 +218,8 @@ const ROUTES: RouteContract[] = [
       'hues/m-art/pompon.webp',
       'hues/m-art/stones.webp',
     ],
+    // P9d: phone hero h1 + desktop title h1 (production's outline).
+    h1Count: 2,
   },
   {
     dir: 'help',
@@ -475,6 +481,10 @@ for (const route of ROUTES) {
 describe('prerendered /visit HTML — primary content', () => {
   it('carries the hero, the fact grid, and the driving directions', () => {
     const { html, text } = page('visit')
+    // One h1 per breakpoint (P9d): the phone hero carries the page h1
+    // and the desktop title keeps production's h1 at the same words.
+    expect(html.match(/<h1/g)).toHaveLength(2)
+    expect(html).toContain('<h1 id="visit-title"')
     expect(text).toContain('Come ready for the outdoors')
     expect(text).toContain('garden made for wandering')
     expect(text).toContain('Get directions')
@@ -621,6 +631,12 @@ describe('prerendered /about HTML — primary content', () => {
 describe('prerendered /how-u-cut-works HTML — primary content', () => {
   it('carries the head plate and the season-status snapshot', () => {
     const { html, text } = page('how-u-cut-works')
+    // One h1 per breakpoint (P9d): the phone hero band carries the page
+    // h1 and the desktop title keeps production's h1 at the same words.
+    expect(html.match(/<h1/g)).toHaveLength(2)
+    expect(html).toContain(
+      '<h1 data-route-title="true" class="c-title">How U-Cut Works at Hues</h1>',
+    )
     expect(text).toContain('How U-Cut Works at Hues')
     expect(text).toContain('U-cut is the heart of a visit to Hues')
     expect(text).toContain('The Beds in Bloom · Hues Floral Park')
@@ -1011,19 +1027,25 @@ describe('prerendered /sponsor HTML — primary content', () => {
     }
   })
 
-  it('pins the P7b per-breakpoint composition: phone h1, desktop h2, unique ids', () => {
+  it('pins the P9d per-breakpoint composition: phone h1, desktop h1, unique ids', () => {
     const { html } = page('sponsor')
-    // Both variants prerender; the phone hero carries the page h1 and
-    // the desktop title renders the same words one level down.
+    // Both variants prerender with one h1 each (P9d, the P9b precedent):
+    // the phone hero carries the page h1 and the desktop title keeps
+    // production's h1 at the same words — the inactive variant is
+    // display:none, so the visible outline holds one h1 either way.
+    expect(html.match(/<h1/g)).toHaveLength(2)
     const phoneAt = html.indexOf('class="spon-m"')
     const desktopAt = html.indexOf('class="spon-d')
-    const h1At = html.indexOf('<h1')
+    const phoneH1At = html.indexOf('<h1')
+    const desktopH1At = html.indexOf(
+      '<h1 data-route-title="true" class="c-title c-title--left">Sponsor a piece of the park</h1>',
+    )
     expect(phoneAt).toBeGreaterThan(-1)
     expect(desktopAt).toBeGreaterThan(phoneAt)
-    expect(h1At).toBeGreaterThan(phoneAt)
-    expect(h1At).toBeLessThan(desktopAt)
+    expect(phoneH1At).toBeGreaterThan(phoneAt)
+    expect(phoneH1At).toBeLessThan(desktopAt)
+    expect(desktopH1At).toBeGreaterThan(desktopAt)
     expect(html).toContain('data-route-title')
-    expect(html).toContain('<h2 class="c-title c-title--left">Sponsor a piece of the park</h2>')
     // The doubled composition shares no ids across breakpoints.
     const ids = [...html.matchAll(/ id="([^"]+)"/g)].map((match) => match[1])
     expect(new Set(ids).size).toBe(ids.length)

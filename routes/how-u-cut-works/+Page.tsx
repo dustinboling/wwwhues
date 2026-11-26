@@ -67,16 +67,16 @@ function PhoneGuideRows({ guide }: { guide: CuttingGuide }): JSX.Element {
   )
 }
 
-// How U-Cut Works (/how-u-cut-works): per-breakpoint composition (P9).
-// Phone renders the /m/how-u-cut-works order — the hero band, the
-// season-status card, the five numbered steps, the dahlia lead guide
-// with its plate, the grouped cutting guides, the good-to-know cards
-// (Find us taps through to Maps), and the closing doors. Desktop keeps
-// its Slice B composition untouched: head plate, status, steps with the
+// How U-Cut Works (/how-u-cut-works): per-breakpoint composition (P9
+// phone, P9d desktop heading repair). Phone renders the
+// /m/how-u-cut-works order — the hero band, the season-status card, the
+// five numbered steps, the dahlia lead guide with its plate, the grouped
+// cutting guides, the good-to-know cards (Find us taps through to Maps),
+// and the closing doors. Desktop keeps its Slice B composition with its
+// h1 title, as production renders it: head plate, status, steps with the
 // cutting aside, guides, facts, closing. The two variants share no ids;
-// the inactive one is display:none. The phone hero carries the page h1
-// and the desktop title renders the same words one level down, so the
-// prerendered document holds one h1.
+// the inactive one is display:none, so the visible outline holds one h1
+// per breakpoint (the P9b precedent).
 export default function Page(): JSX.Element {
   const buildDate = parkTodayLabel()
   return (
@@ -234,11 +234,13 @@ export default function Page(): JSX.Element {
       <div className="ucut-d c-page">
         <header className="c-head">
           <Eyebrow>{UCUT_HEAD.eyebrow}</Eyebrow>
-          {/* h2 under the phone h1: both variants prerender in one
-              document, so the desktop title steps one level down to
-              keep a single h1. Same class and text — the desktop
-              rendering is unchanged. */}
-          <h2 className="c-title">{UCUT_HEAD.heading}</h2>
+          {/* h1, as production renders it (P9d): the phone hero carries
+              the page h1 at its breakpoint and this title carries it at
+              desktop — the inactive variant is display:none, so the
+              visible outline holds one h1 either way. */}
+          <h1 data-route-title className="c-title">
+            {UCUT_HEAD.heading}
+          </h1>
           <p className="c-lede">{UCUT_LEDE}</p>
         </header>
 

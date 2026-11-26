@@ -69,10 +69,10 @@ test.describe('sponsor composition', () => {
     await expect(page.locator('.spon-m')).toBeHidden()
     const desktop = page.locator('.spon-d')
     await expect(desktop).toBeVisible()
-    // The desktop title renders the same words one level down: the
-    // phone hero carries the page h1 and the prerender contract is
-    // one h1 per page.
-    await expect(desktop.locator('h2.c-title')).toContainText('Sponsor a piece of the park')
+    // One h1 per breakpoint (P9d, the P9b precedent): the phone hero
+    // carries the page h1 and the desktop title keeps production's h1
+    // at the same words — the inactive variant is display:none.
+    await expect(desktop.locator('h1.c-title')).toContainText('Sponsor a piece of the park')
     await expect(desktop.locator('.c-snapshot')).toContainText('Sponsorship snapshot from')
     await expect(desktop.locator('.c-signoff')).toContainText('Hues Floral Park, A little world apart.')
   })
