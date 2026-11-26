@@ -26,9 +26,14 @@ import { HELP_HERO, HELP_SPONSOR_CARD, HELP_VOLUNTEER_CARD } from '../../content
 import { parkTodayLabel } from '../../content/park-date'
 import {
   SEASONS,
+  SEASONS_PHONE_HERO,
+  SEASONS_PHONE_STATUS,
+  SEASONS_PHONE_WORKING_ON,
+  SEASONS_PHONE_YEAR,
   SEASONS_PLAN_VISIT,
   SEASONS_STATUS,
   SEASONS_WORKING_ON,
+  SEASON_PHONE_SIGNOFF,
   seasonBySlug,
   seasonDetailMeta,
 } from '../../content/seasons'
@@ -284,7 +289,15 @@ const ROUTES: RouteContract[] = [
     twitterDescription:
       'The year in blooms at Hues Floral Park — Mother’s Day cutting beds, May’s lupine and iris, the cottage beds of summer, and dahlias at their peak come fall.',
     heroKey: null,
-    contentKeys: SEASONS.map((season) => season.artKey),
+    // P8: the phone hero panorama + the rainbow spot art join the
+    // three season panels (the phone art loads lazily in-viewport —
+    // the desktop half carries no lead visual, so the hub keeps its
+    // zero-preload head).
+    contentKeys: [
+      ...SEASONS.map((season) => season.artKey),
+      'hues/m-art/cards/seasons-hero.webp',
+      'hues/m-art/rainbow.webp',
+    ],
   },
   {
     dir: 'season/spring',
@@ -571,6 +584,13 @@ describe('prerendered /about HTML — primary content', () => {
     expect(text).toContain('Watch your kids chase chickens')
     expect(text).toContain('Thanks for being part of it')
     expect(text).toContain('Dusty')
+  })
+
+  it('closes the story with the onward plan-your-visit pill', () => {
+    const { html, text } = page('about')
+    // The shell links /visit too — the pill's own words pin the story link.
+    expect(text).toContain('Plan your visit')
+    expect(html).toContain('Plan your visit</a>')
   })
 })
 
@@ -1061,9 +1081,30 @@ describe('prerendered /dahlias HTML — primary content', () => {
       // Decoded text: React escapes the apostrophe in aria-labels as &#x27;.
       expect(text).toContain(`See photos of ${cultivar.name} on Google`)
     }
-    // 35 park photos with content alt text; 76 printed plates.
-    expect(html.match(/dahlia in bloom at Hues Floral Park/g)).toHaveLength(35)
+    // Both variants render the collection: 35 park photos × 2 with
+    // content alt text; the desktop printed plates stay 76 (the phone
+    // renders the compact /m plates instead, pinned below).
+    expect(html.match(/dahlia in bloom at Hues Floral Park/g)).toHaveLength(70)
     expect(html.match(/dahlias-card__nophoto/g)).toHaveLength(76)
+  })
+
+  it('carries the phone /m composition: tall hero, compact tiles, letter nav', () => {
+    const { html, text } = page('dahlias')
+    // Tall photo hero with the counted stats (Q2), game card, sign-off.
+    expect(text).toContain('The heart of Hues')
+    expect(text).toContain(DAHLIAS_HERO.lede)
+    expect(text).toContain('This or That? — help pick next year’s dahlias')
+    // Phone tiles: photo tiles carry the name once with no link; the
+    // 76 compact no-photo plates carry the pompon + "See photos" link.
+    expect(html.match(/dahl-m__tile"/g)).toHaveLength(111)
+    expect(html.match(/dahl-m__nophoto"/g)).toHaveLength(76)
+    // Phone letter anchors take the m-letter- prefix (the desktop
+    // letter- ids stay exactly as they were).
+    const letters = [...new Set(DAHLIAS.map((cultivar) => cultivar.name.charAt(0).toUpperCase()))].sort()
+    for (const letter of letters) {
+      expect(html).toContain(`href="#m-letter-${letter}"`)
+      expect(html).toContain(`id="m-letter-${letter}"`)
+    }
   })
 
   it('carries the letter nav, the filter surface, and the game card', () => {
@@ -1148,6 +1189,30 @@ describe('prerendered /whats-in-season HTML — primary content', () => {
     expect(html).toContain('tel:+14582451323')
     expect(html).toContain('href="/floral-park"')
   })
+
+  it('carries the phone /m composition: hero band, status, glance, working-on', () => {
+    const { html, text } = page('whats-in-season')
+    // Frost-frame hero band with the /m heading (Q1) and panorama.
+    expect(text).toContain(SEASONS_PHONE_HERO.heading)
+    expect(html).toContain(`alt="${SEASONS_PHONE_HERO.artAlt}"`)
+    // The /m status card (Q1 words) with the staging snapshot note.
+    expect(text).toContain(SEASONS_PHONE_STATUS.headline)
+    expect(text).toContain('Saturday morning, October 24')
+    expect(text).toContain('The flowers are resting now')
+    // The rainbow over the glance, and whole-card chapter links
+    // named by their content: production's "— meet the flowers"
+    // aria-label fails label-in-name (WCAG 2.5.3) against the card's
+    // visible text, so staging omits it (same as the home season
+    // rail) and the axe gate pins the absence.
+    expect(text).toContain(SEASONS_PHONE_YEAR.title)
+    for (const season of SEASONS) {
+      expect(html).toContain(`href="/season/${season.slug}"`)
+      expect(html).not.toContain(`aria-label="${season.title} — meet the flowers"`)
+    }
+    // The /m working-on framing (title + intro differ from desktop).
+    expect(text).toContain(SEASONS_PHONE_WORKING_ON.title)
+    expect(text).toContain('May’s main attractions, and a fragrant welcome')
+  })
 })
 
 describe('prerendered /season/spring HTML — primary content', () => {
@@ -1183,6 +1248,20 @@ describe('prerendered /season/spring HTML — primary content', () => {
     const blocks = jsonLdBlocks(html) as GraphBlock[]
     expect(blocks.filter((block) => block['@type'] !== undefined && block['@graph'] === undefined)).toHaveLength(0)
   })
+
+  it('carries the phone /m composition: hero band, stacked cards, sign-off', () => {
+    const { html, text } = page('season/spring')
+    // The phone hero band carries the page h1; the desktop title
+    // renders the same words one level down.
+    expect(html.match(/<h1/g)).toHaveLength(1)
+    expect(text).toContain('Spring at Hues')
+    // All 19 spring flowers render as phone cards (edge-to-edge
+    // paintings, Q6) alongside the 19 desktop cards.
+    expect(html.match(/seas-m__flower"/g)).toHaveLength(19)
+    expect(html.match(/seasons-flower hues-/g)).toHaveLength(19)
+    // The phone sign-off drops the period, as printed on /m.
+    expect(text).toContain(SEASON_PHONE_SIGNOFF)
+  })
 })
 
 describe('prerendered /music HTML — primary content', () => {
@@ -1211,6 +1290,19 @@ describe('prerendered /music HTML — primary content', () => {
     expect(text).toContain('Hues Floral Park, A little world apart.')
     // No coming-soon song listings — the retired section stays retired.
     expect(text).not.toContain('On Their Way')
+  })
+
+  it('carries the phone hero band with the /m heading', () => {
+    const { html, text } = page('music')
+    // The phone band carries the page h1 in the /m words (Q1); the
+    // desktop title renders its own words one level down. The dusk
+    // painting hangs inside the band.
+    expect(html.match(/<h1/g)).toHaveLength(1)
+    expect(text).toContain('The music that plays in the park.')
+    expect(html).toContain('hues-phone-hero')
+    expect(html).toContain(
+      'alt="Watercolor of the dahlia beds at dusk under string lights, with golden musical notes drifting over the flowers"',
+    )
   })
 
   it('points every track at the media-domain delivery with no page-level JSON-LD', () => {

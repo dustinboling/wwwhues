@@ -1,7 +1,8 @@
 import type { JSX } from 'react'
-import { Image } from '@hues/ui'
+import { Image, Link } from '@hues/ui'
 import {
   ABOUT_HEADING,
+  ABOUT_ONWARD,
   ABOUT_PARAGRAPHS,
   ABOUT_PORTRAIT_ALT,
   ABOUT_PORTRAIT_KEY,
@@ -21,8 +22,9 @@ function Paragraph({ lead, em, tail }: { lead: string; em?: string; tail?: strin
   )
 }
 
-// About (/about): Dusty's story in his own words, with his portrait.
-// Absorbs the retired /m/story (Bea §2.1).
+// About (/about): Dusty's story in his own words, with his portrait
+// and the onward plan-your-visit pill from the story (P8: the page no
+// longer dead-ends). Absorbs the retired /m/story (Bea §2.1).
 export default function Page(): JSX.Element {
   return (
     <div className="c-page">
@@ -47,6 +49,15 @@ export default function Page(): JSX.Element {
               {ABOUT_SIGNOFF}
               <br />
               <strong>{ABOUT_SIGNOFF_NAME}</strong>
+            </p>
+            <p className="c-prose">
+              <Link
+                href={ABOUT_ONWARD.href}
+                context="nav"
+                className="hues-button hues-button--primary"
+              >
+                {ABOUT_ONWARD.label}
+              </Link>
             </p>
           </div>
         </div>

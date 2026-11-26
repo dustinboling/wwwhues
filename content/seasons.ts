@@ -238,3 +238,45 @@ export const SEASON_DAHLIAS_CARD = {
   text: 'The forms above are only the shapes — the varieties themselves, all of them, live on the Dahlias page.',
   href: '/dahlias',
 }
+
+// Phone hub copy (P8), ported verbatim from src/app/m/season/page.tsx
+// (Q1: where /m and desktop words differ, the phone shows the /m
+// words). The working-on items are identical on both trees, so the
+// phone reuses SEASONS_WORKING_ON.items and carries only its own
+// eyebrow, title, and intro here.
+export const SEASONS_PHONE_HERO = {
+  eyebrow: 'What’s in season',
+  heading: 'A little magic blooms in every season.',
+  // The /m hero panorama (seasons-hero.webp); the frost-frame art the
+  // PhoneHero seasons preset was built for (P5).
+  artKey: 'hues/m-art/cards/seasons-hero.webp',
+  artAlt:
+    'Watercolor panorama of the Hues year — daffodils and ranunculus, lupine and allium borders, cottage beds, and the dahlia rows in fall',
+}
+
+export const SEASONS_PHONE_STATUS = {
+  eyebrow: 'Season status',
+  headline: 'The 2026 bloom season has ended',
+  body: 'The first hard frost arrived on Saturday morning, October 24, and brought the season to a close — the dahlias, as they do, bowed out overnight. Thank you to everyone who wandered, picked, and lingered a while longer than planned this season. The flowers are resting now — the park stays open all winter, and November planting for next spring has already begun.',
+}
+
+export const SEASONS_PHONE_YEAR = {
+  // The /m section carries no eyebrow — the rainbow spot art sits over
+  // the heading instead (w-44, left-aligned).
+  title: 'The season at a glance',
+  spotKey: 'hues/m-art/rainbow.webp',
+  // Production's /m chapter label, kept as the ported words only:
+  // staging omits it on the cards (label-in-name, WCAG 2.5.3).
+  cardLabel: (title: string): string => `${title} — meet the flowers`,
+}
+
+export const SEASONS_PHONE_WORKING_ON = {
+  eyebrow: 'Working on',
+  title: 'What it’s all for',
+  intro: 'Mother’s Day color, May’s main attractions, and a fragrant welcome — sweet peas at the entrance, so the first thing the park gives you is a scent. Here’s the work underneath it, happening now:',
+}
+
+// Phone detail sign-off, as printed on /m (no trailing period — the
+// desktop detail keeps PARK_SIGNOFF with its period, like the
+// footers).
+export const SEASON_PHONE_SIGNOFF = 'Hues Floral Park, A little world apart'
