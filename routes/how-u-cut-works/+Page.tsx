@@ -74,9 +74,9 @@ function PhoneGuideRows({ guide }: { guide: CuttingGuide }): JSX.Element {
 // (Find us taps through to Maps), and the closing doors. Desktop keeps
 // its Slice B composition untouched: head plate, status, steps with the
 // cutting aside, guides, facts, closing. The two variants share no ids;
-// the inactive one is display:none. Each variant carries its own h1
-// (production's desktop outline kept), so the visible outline stays one
-// h1 per breakpoint.
+// the inactive one is display:none. The phone hero carries the page h1
+// and the desktop title renders the same words one level down, so the
+// prerendered document holds one h1.
 export default function Page(): JSX.Element {
   const buildDate = parkTodayLabel()
   return (
@@ -234,9 +234,11 @@ export default function Page(): JSX.Element {
       <div className="ucut-d c-page">
         <header className="c-head">
           <Eyebrow>{UCUT_HEAD.eyebrow}</Eyebrow>
-          <h1 data-route-title className="c-title">
-            {UCUT_HEAD.heading}
-          </h1>
+          {/* h2 under the phone h1: both variants prerender in one
+              document, so the desktop title steps one level down to
+              keep a single h1. Same class and text — the desktop
+              rendering is unchanged. */}
+          <h2 className="c-title">{UCUT_HEAD.heading}</h2>
           <p className="c-lede">{UCUT_LEDE}</p>
         </header>
 

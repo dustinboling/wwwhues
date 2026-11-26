@@ -90,6 +90,15 @@ const SPRING_KEYS = [
   ),
 ]
 
+// P9 (Q3): the desktop hub renders the full flower catalog inline, so
+// every catalog photo is a key the hub template owns. Group plates
+// stay on the season detail pages — the hub shows flower photos only.
+const SEASONS_CATALOG_PHOTO_KEYS = SEASONS.flatMap((season) =>
+  season.groups.flatMap((group) =>
+    group.flowers.flatMap((flower) => (flower.photoKey === undefined ? [] : [flower.photoKey])),
+  ),
+)
+
 const ROUTES: RouteContract[] = [
   {
     dir: 'visit',
@@ -292,9 +301,11 @@ const ROUTES: RouteContract[] = [
     // P8: the phone hero panorama + the rainbow spot art join the
     // three season panels (the phone art loads lazily in-viewport —
     // the desktop half carries no lead visual, so the hub keeps its
-    // zero-preload head).
+    // zero-preload head). P9 (Q3): the desktop hub renders the full
+    // flower catalog inline, so every catalog photo joins too.
     contentKeys: [
       ...SEASONS.map((season) => season.artKey),
+      ...SEASONS_CATALOG_PHOTO_KEYS,
       'hues/m-art/cards/seasons-hero.webp',
       'hues/m-art/rainbow.webp',
     ],

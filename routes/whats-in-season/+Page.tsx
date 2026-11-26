@@ -66,9 +66,9 @@ function HubFlowerCard({ flower }: { flower: SeasonFlower }): JSX.Element {
 // production desktop composition: hero, status snapshot, the full
 // 40-flower catalog inline under the season panels (Q3: the catalog
 // AND the season pages), working-on, plan-your-visit. The two variants
-// share no ids; the inactive one is display:none. Each variant carries
-// its own h1 (production's desktop outline restored, P9), so the
-// visible outline stays one h1 per breakpoint.
+// share no ids; the inactive one is display:none. The phone hero carries
+// the page h1 and the desktop title renders the same words one level
+// down, so the prerendered document holds one h1.
 export default function Page(): JSX.Element {
   const buildDate = parkTodayLabel()
   return (
@@ -165,15 +165,13 @@ export default function Page(): JSX.Element {
 
       <div className="seash-d c-page">
         <section className="c-head" aria-labelledby="seasons-title">
-          {/* h1, as production renders it: the P8 phone-h1/desktop-h2
-              split regressed the desktop heading outline (P9). Each
-              variant carries its own h1; the inactive one is
-              display:none, so the visible outline stays one h1 per
-              breakpoint. Same id, class, and text, so the desktop
-              rendering is unchanged. */}
-          <h1 id="seasons-title" data-route-title className="c-title">
+          {/* h2 under the phone h1: both variants prerender in one
+              document, so the desktop title steps one level down to
+              keep a single h1 (the P8 composition). Same id, class,
+              and text, so the desktop rendering is unchanged. */}
+          <h2 id="seasons-title" className="c-title">
             {SEASONS_HERO.heading}
-          </h1>
+          </h2>
           {SEASONS_HERO.ledes.map((lede) => (
             <p key={lede.slice(0, 24)} className="c-lede">
               {lede}

@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 import type { JSX } from 'react'
-import { Image, Link, SpotArt } from '@hues/ui'
+import { Image, Link } from '@hues/ui'
 import {
   ARCADE_GAMES,
   ARCADE_GAMES_HEAD,
@@ -107,14 +107,9 @@ export default function Page(): JSX.Element {
       </section>
 
       <section id="games" aria-label="Games" className="c-section">
-        <div className="c-gameshead">
-          <div>
-            <Eyebrow>{ARCADE_GAMES_HEAD.eyebrow}</Eyebrow>
-            <h2 className="c-section__title">{ARCADE_GAMES_HEAD.heading}</h2>
-            <p className="c-lede c-lede--left">{ARCADE_GAMES_HEAD.blurb}</p>
-          </div>
-          <SpotArt src={ARCADE_GAMES_HEAD.artKey} size="sm" placement="beside" />
-        </div>
+        <Eyebrow>{ARCADE_GAMES_HEAD.eyebrow}</Eyebrow>
+        <h2 className="c-section__title">{ARCADE_GAMES_HEAD.heading}</h2>
+        <p className="c-lede c-lede--left">{ARCADE_GAMES_HEAD.blurb}</p>
         <div className="c-stack">
           {ARCADE_GAMES.map((game) => (
             <GameCard key={game.href} game={game} />

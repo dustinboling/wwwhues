@@ -700,9 +700,9 @@ function ActiveItemCard({
 // heading repair). Phone renders the /m/sponsor order — the packet hero
 // with the pompon beside the title, the age-honest snapshot note, the
 // sponsorship packets, the paver packet, and the coming-soon packets.
-// Desktop keeps its Slice B/D composition, with its own h1 restoring
-// production's desktop heading outline (P9). Both presentations share
-// the live play
+// Desktop keeps its Slice B/D composition, its title one level under
+// the phone h1 so the prerendered document holds a single h1 (P7b).
+// Both presentations share the live play
 // state; each keeps its own form fields (only the visible variant is
 // ever touched). Prerendered from the build-time snapshot (labelled,
 // never live-posing), then revalidated on mount + visibility return +
@@ -784,15 +784,11 @@ export default function Page(): JSX.Element {
           <div className="c-hero-split">
             <div>
               <Eyebrow>{SPONSOR_HERO.eyebrow}</Eyebrow>
-              {/* h1, as production renders it: the P7b phone-h1/desktop-h2
-                  split regressed the desktop heading outline (P9). Each
-                  variant carries its own h1; the inactive one is
-                  display:none, so the visible outline stays one h1 per
-                  breakpoint. Same class and text, so the desktop
-                  rendering is unchanged. */}
-              <h1 data-route-title className="c-title c-title--left">
-                {SPONSOR_HERO.heading}
-              </h1>
+              {/* h2 under the phone h1 (P7b): both variants prerender
+                  in one document, so the desktop title renders the same
+                  words one level down to keep a single h1. Same class
+                  and text, so the desktop rendering is unchanged. */}
+              <h2 className="c-title c-title--left">{SPONSOR_HERO.heading}</h2>
             </div>
             <Image src={SPONSOR_HERO.flourishKey} alt="" decorative slot="card" />
           </div>

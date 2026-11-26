@@ -908,15 +908,6 @@
   color: var(--color-text-strong);
 }
 
-/* Games heading with the rabbit spot art beside it (PlayHub
- * SectionHead), text left and art right. */
-.c-gameshead {
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  gap: var(--space-200);
-}
-
 .c-game__text {
   font-size: var(--text-body-sm-size);
   line-height: var(--text-body-sm-leading);
