@@ -35,6 +35,16 @@
     border: var(--shell-topbar-border) solid ButtonText;
   }
 
+  /* P5 primitives: ring-framed mats, the stacked rail end card, hero art
+   * frames, and step discs keep a system boundary when fills flatten. */
+  .hues-plate-frame--tile,
+  .hues-plate-frame--frame,
+  .hues-rail-end--stack,
+  .hues-phone-hero__art,
+  .hues-step-numeral {
+    border: var(--shell-topbar-border) solid ButtonText;
+  }
+
   .hues-tab__disc[data-glow] {
     filter: none;
   }

@@ -45,3 +45,104 @@
 .hues-icon {
   flex: none;
 }
+
+/* P5 visual primitives: photo bands at production's fixed slot heights,
+ * and the spot-art placement/sizing wrapper. */
+
+/* Photo bands: fixed-height cover slots with the production scrims. The
+ * slot carries no radius: phone bands run full-bleed and desktop frames
+ * belong to the route composition. Captions overlay the lower edge at
+ * the production insets; caption type stays with the route copy. */
+
+.hues-photo-band {
+  position: relative;
+  margin: 0;
+}
+
+.hues-photo-band__slot {
+  position: relative;
+  overflow: hidden;
+}
+
+.hues-photo-band--dusk .hues-photo-band__slot {
+  height: var(--photoband-dusk-phone);
+}
+
+.hues-photo-band--meet-dusty .hues-photo-band__slot {
+  height: var(--photoband-dusty-phone);
+}
+
+.hues-photo-band__slot .hues-image {
+  height: 100%;
+}
+
+.hues-photo-band__scrim {
+  position: absolute;
+  inset: 0;
+}
+
+.hues-photo-band--dusk .hues-photo-band__scrim {
+  background: var(--photoband-overlay-dusk);
+}
+
+.hues-photo-band--meet-dusty .hues-photo-band__scrim {
+  background: var(--photoband-overlay-deep);
+}
+
+.hues-photo-band__caption {
+  position: absolute;
+  right: var(--photoband-caption-x-phone);
+  bottom: var(--photoband-caption-bottom-phone);
+  left: var(--photoband-caption-x-phone);
+  margin: 0;
+}
+
+@media (min-width: 768px) {
+  .hues-photo-band--dusk .hues-photo-band__slot {
+    height: var(--photoband-dusk-desktop);
+  }
+
+  .hues-photo-band--meet-dusty .hues-photo-band__slot {
+    height: var(--photoband-dusty-desktop);
+  }
+
+  .hues-photo-band__caption {
+    right: var(--photoband-caption-x-desktop);
+    bottom: var(--photoband-caption-bottom-desktop);
+    left: var(--photoband-caption-x-desktop);
+  }
+}
+
+/* Spot art: decorative watercolor at one of four widths, beside a heading
+ * in a flex row or centred above one. The image wrapper runs transparent
+ * so the art floats on whatever ground the route sets. */
+
+.hues-spot-art {
+  display: inline-block;
+  flex: none;
+}
+
+.hues-spot-art--xs {
+  width: var(--spot-xs);
+}
+
+.hues-spot-art--sm {
+  width: var(--spot-sm);
+}
+
+.hues-spot-art--md {
+  width: var(--spot-md);
+}
+
+.hues-spot-art--lg {
+  width: var(--spot-lg);
+}
+
+.hues-spot-art--above {
+  display: block;
+  margin-inline: auto;
+}
+
+.hues-spot-art .hues-image {
+  background-color: transparent;
+}

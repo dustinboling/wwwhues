@@ -1,0 +1,492 @@
+{
+  "comp": {
+    "container": {
+      "outer-max": {
+        "$value": "1280px",
+        "$type": "dimension",
+        "$description": "Desktop outer measure (ContainerOuter max-w-7xl).",
+        "$extensions": { "hues": { "source": "Plan P5 (production src/components/Container.tsx)" } }
+      },
+      "inner-max": {
+        "$value": "1024px",
+        "$type": "dimension",
+        "$description": "Desktop inner measure at lg (ContainerInner lg:max-w-5xl).",
+        "$extensions": { "hues": { "source": "Plan P5 (production src/components/Container.tsx)" } }
+      },
+      "inner-max-compact": {
+        "$value": "672px",
+        "$type": "dimension",
+        "$description": "Desktop inner measure below lg (ContainerInner max-w-2xl).",
+        "$extensions": { "hues": { "source": "Plan P5 (production src/components/Container.tsx)" } }
+      },
+      "phone-max": {
+        "$value": "none",
+        "$type": "other",
+        "$description": "Phone content measure: the Print Edition is full-bleed (no content max-width anywhere under src/app/m).",
+        "$extensions": { "hues": { "source": "Plan P5 (production src/app/m/** carries no content max-width)" } }
+      },
+      "phone-gutter": {
+        "$value": "20px",
+        "$type": "dimension",
+        "$description": "Phone page gutter (px-5 sections throughout /m).",
+        "$extensions": { "hues": { "source": "Plan P5 (production src/app/m/page.tsx sections)" } }
+      },
+      "hero-gutter": {
+        "$value": "24px",
+        "$type": "dimension",
+        "$description": "Phone hero gutter (px-6 hero bands).",
+        "$extensions": { "hues": { "source": "Plan P5 (production src/app/m/how-u-cut-works/page.tsx hero)" } }
+      }
+    },
+    "packet": {
+      "radius-sm": {
+        "$value": "22px",
+        "$type": "dimension",
+        "$description": "Smallest stitched-packet radius (phone framed figures).",
+        "$extensions": { "hues": { "source": "Plan P5 (production src/app/m/page.tsx rounded-[22px])" } }
+      },
+      "radius-md": {
+        "$value": "24px",
+        "$type": "dimension",
+        "$description": "Rail-card stitched-packet radius (phone season rail).",
+        "$extensions": { "hues": { "source": "Plan P5 (production src/app/m/page.tsx rail cards rounded-[24px])" } }
+      },
+      "radius-lg": {
+        "$value": "26px",
+        "$type": "dimension",
+        "$description": "Status-packet stitched radius (phone packets).",
+        "$extensions": { "hues": { "source": "Plan P5 (production src/app/m/page.tsx status packet rounded-[26px])" } }
+      },
+      "radius-xl": {
+        "$value": "28px",
+        "$type": "dimension",
+        "$description": "Default stitched-packet radius (desktop rounded-[1.75rem]; phone Gather/Sponsor/Music packets).",
+        "$extensions": { "hues": { "source": "Plan P5 (production src/app/page.tsx d-packet rounded-[1.75rem])" } }
+      }
+    },
+    "plate": {
+      "tile-radius": {
+        "$value": "18px",
+        "$type": "dimension",
+        "$description": "Dahlia-strip tile outer radius.",
+        "$extensions": { "hues": { "source": "Plan P5 (production src/app/page.tsx strip tiles rounded-[18px])" } }
+      },
+      "tile-pad": {
+        "$value": "6px",
+        "$type": "dimension",
+        "$description": "Dahlia-strip tile paper mat (p-1.5).",
+        "$extensions": { "hues": { "source": "Plan P5 (production src/app/page.tsx strip tiles p-1.5)" } }
+      },
+      "tile-inner": {
+        "$value": "13px",
+        "$type": "dimension",
+        "$description": "Dahlia-strip tile inner photo radius.",
+        "$extensions": { "hues": { "source": "Plan P5 (production src/app/page.tsx strip tiles rounded-[13px])" } }
+      },
+      "tile-shadow": {
+        "$value": "0 10px 26px rgba(46, 68, 56, 0.10)",
+        "$type": "other",
+        "$description": "Dahlia-strip tile elevation (also the dahlia rail end card).",
+        "$extensions": { "hues": { "source": "Plan P5 (production src/app/m/page.tsx dahlia rail)" } }
+      },
+      "tile-ring": {
+        "$value": "color-mix(in srgb, {ref.color.gold-2} 40%, transparent)",
+        "$type": "color",
+        "$description": "Dahlia-strip tile gold ring at 40 percent.",
+        "$extensions": { "hues": { "source": "Plan P5 (production ring-[#b08d37]/40)" } }
+      },
+      "frame-radius": {
+        "$value": "22px",
+        "$type": "dimension",
+        "$description": "Framed-figure outer radius (phone Procession frame).",
+        "$extensions": { "hues": { "source": "Plan P5 (production src/app/m/page.tsx Procession rounded-[22px])" } }
+      },
+      "frame-pad": {
+        "$value": "8px",
+        "$type": "dimension",
+        "$description": "Framed-figure paper mat (p-2).",
+        "$extensions": { "hues": { "source": "Plan P5 (production src/app/m/page.tsx Procession p-2)" } }
+      },
+      "frame-inner": {
+        "$value": "16px",
+        "$type": "dimension",
+        "$description": "Framed-figure inner art radius.",
+        "$extensions": { "hues": { "source": "Plan P5 (production src/app/m/page.tsx Procession rounded-[16px])" } }
+      },
+      "frame-shadow": {
+        "$value": "0 16px 40px rgba(46, 68, 56, 0.13)",
+        "$type": "other",
+        "$description": "Framed-figure elevation.",
+        "$extensions": { "hues": { "source": "Plan P5 (production src/app/m/page.tsx Procession shadow)" } }
+      },
+      "frame-ring": {
+        "$value": "color-mix(in srgb, {ref.color.gold-2} 50%, transparent)",
+        "$type": "color",
+        "$description": "Framed-figure gold ring at 50 percent.",
+        "$extensions": { "hues": { "source": "Plan P5 (production ring-[#b08d37]/50)" } }
+      },
+      "plate-radius": {
+        "$value": "32px",
+        "$type": "dimension",
+        "$description": "Hero-plate outer radius (desktop hero plate rounded-[2rem]).",
+        "$extensions": { "hues": { "source": "Plan P5 (production src/app/page.tsx hero plate rounded-[2rem])" } }
+      },
+      "plate-pad": {
+        "$value": "12px",
+        "$type": "dimension",
+        "$description": "Hero-plate stitched mat (p-3 over the d-packet).",
+        "$extensions": { "hues": { "source": "Plan P5 (production src/app/page.tsx hero plate p-3)" } }
+      },
+      "plate-inner": {
+        "$value": "25.6px",
+        "$type": "dimension",
+        "$description": "Hero-plate inner art radius (rounded-[1.6rem]).",
+        "$extensions": { "hues": { "source": "Plan P5 (production src/app/page.tsx hero art rounded-[1.6rem])" } }
+      },
+      "caption-size": {
+        "$value": "10.5px",
+        "$type": "dimension",
+        "$description": "Below-art caption size (tracked gold caps); emits rem per the text-size rule.",
+        "$extensions": { "hues": { "source": "Plan P5 (production src/app/m/page.tsx Procession figcaption text-[10.5px])" } }
+      },
+      "caption-pad-top": {
+        "$value": "10px",
+        "$type": "dimension",
+        "$description": "Below-art caption top pad (pt-2.5).",
+        "$extensions": { "hues": { "source": "Plan P5 (production src/app/m/page.tsx Procession figcaption pt-2.5)" } }
+      },
+      "caption-pad-bottom": {
+        "$value": "6px",
+        "$type": "dimension",
+        "$description": "Below-art caption bottom pad (pb-1.5).",
+        "$extensions": { "hues": { "source": "Plan P5 (production src/app/m/page.tsx Procession figcaption pb-1.5)" } }
+      },
+      "chip-size": {
+        "$value": "10px",
+        "$type": "dimension",
+        "$description": "On-plate caption chip size (tracked caps); emits rem per the text-size rule.",
+        "$extensions": { "hues": { "source": "Plan P5 (production src/app/page.tsx hero chip text-[10px])" } }
+      },
+      "chip-pad-y": {
+        "$value": "6px",
+        "$type": "dimension",
+        "$description": "On-plate caption chip vertical pad (py-1.5).",
+        "$extensions": { "hues": { "source": "Plan P5 (production src/app/page.tsx hero chip py-1.5)" } }
+      },
+      "chip-bg": {
+        "$value": "color-mix(in srgb, {ref.color.paper-1} 90%, transparent)",
+        "$type": "color",
+        "$description": "On-plate caption chip wash (paper at 90 percent).",
+        "$extensions": { "hues": { "source": "Plan P5 (production bg-[#f7f1de]/90)" } }
+      },
+      "chip-blur": {
+        "$value": "4px",
+        "$type": "dimension",
+        "$description": "On-plate caption chip backdrop blur (backdrop-blur-sm).",
+        "$extensions": { "hues": { "source": "Plan P5 (production backdrop-blur-sm)" } }
+      },
+      "chip-offset": {
+        "$value": "28px",
+        "$type": "dimension",
+        "$description": "On-plate caption chip top/left offset on desktop (sm:top-7/sm:left-7; staging desktop renders at 768px and up, inside production's sm window).",
+        "$extensions": { "hues": { "source": "Plan P5 (production src/app/page.tsx hero chip top-6 left-6 sm:top-7 sm:left-7)" } }
+      }
+    },
+    "photoband": {
+      "dusk-phone": {
+        "$value": "430px",
+        "$type": "dimension",
+        "$description": "Dusk band slot height on phone (full-bleed).",
+        "$extensions": { "hues": { "source": "Plan P5 (production src/app/m/page.tsx h-[430px])" } }
+      },
+      "dusk-desktop": {
+        "$value": "430px",
+        "$type": "dimension",
+        "$description": "Dusk band slot height on desktop (sm:h-[430px]; the 380px base window shows the phone composition on staging).",
+        "$extensions": { "hues": { "source": "Plan P5 (production src/app/page.tsx h-[380px] sm:h-[430px])" } }
+      },
+      "dusty-phone": {
+        "$value": "230px",
+        "$type": "dimension",
+        "$description": "Meet Dusty band slot height on phone.",
+        "$extensions": { "hues": { "source": "Plan P5 (production src/app/m/page.tsx h-[230px])" } }
+      },
+      "dusty-desktop": {
+        "$value": "300px",
+        "$type": "dimension",
+        "$description": "Meet Dusty band slot height on desktop (sm:h-[300px]; the 260px base window shows the phone composition on staging).",
+        "$extensions": { "hues": { "source": "Plan P5 (production src/app/page.tsx h-[260px] sm:h-[300px])" } }
+      },
+      "caption-x-phone": {
+        "$value": "20px",
+        "$type": "dimension",
+        "$description": "Dusk caption side inset on phone (left-5/right-5).",
+        "$extensions": { "hues": { "source": "Plan P5 (production src/app/m/page.tsx dusk caption)" } }
+      },
+      "caption-bottom-phone": {
+        "$value": "24px",
+        "$type": "dimension",
+        "$description": "Dusk caption bottom inset on phone (bottom-6).",
+        "$extensions": { "hues": { "source": "Plan P5 (production src/app/m/page.tsx dusk caption)" } }
+      },
+      "caption-x-desktop": {
+        "$value": "40px",
+        "$type": "dimension",
+        "$description": "Dusk caption side inset on desktop (sm:left-10/sm:right-10; staging desktop renders at 768px and up, inside production's sm window).",
+        "$extensions": { "hues": { "source": "Plan P5 (production src/app/page.tsx dusk caption left-8 sm:left-10)" } }
+      },
+      "caption-bottom-desktop": {
+        "$value": "28px",
+        "$type": "dimension",
+        "$description": "Dusk caption bottom inset on desktop (bottom-7).",
+        "$extensions": { "hues": { "source": "Plan P5 (production src/app/page.tsx dusk caption bottom-7)" } }
+      },
+      "overlay-dusk": {
+        "$value": "linear-gradient(to top, color-mix(in srgb, {ref.color.deep} 85%, transparent) 0%, transparent 50%, color-mix(in srgb, {ref.color.deep} 20%, transparent) 100%)",
+        "$type": "other",
+        "$description": "Dusk scrim (from deep/85 via transparent to deep/20).",
+        "$extensions": { "hues": { "source": "Plan P5 (production bg-gradient-to-t from-[#23362b]/85 via-transparent to-[#23362b]/20)" } }
+      },
+      "overlay-deep": {
+        "$value": "linear-gradient(to top, {ref.color.deep} 0%, transparent 50%, transparent 100%)",
+        "$type": "other",
+        "$description": "Meet Dusty scrim into the deep card (from deep via transparent).",
+        "$extensions": { "hues": { "source": "Plan P5 (production bg-gradient-to-t from-[#23362b] via-transparent)" } }
+      }
+    },
+    "rail": {
+      "gap-tight": {
+        "$value": "12px",
+        "$type": "dimension",
+        "$description": "Swipe-rail tight gap (dahlia photo rail gap-3).",
+        "$extensions": { "hues": { "source": "Plan P5 (production src/app/m/page.tsx dahlia rail gap-3)" } }
+      },
+      "gap-roomy": {
+        "$value": "16px",
+        "$type": "dimension",
+        "$description": "Swipe-rail roomy gap (season card rail gap-4).",
+        "$extensions": { "hues": { "source": "Plan P5 (production src/app/m/page.tsx season rail gap-4)" } }
+      },
+      "end-narrow": {
+        "$value": "104px",
+        "$type": "dimension",
+        "$description": "Stacked end-card width (dahlia rail end card).",
+        "$extensions": { "hues": { "source": "Plan P5 (production src/app/m/page.tsx w-[104px])" } }
+      },
+      "end-wide": {
+        "$value": "118px",
+        "$type": "dimension",
+        "$description": "Centred end-card width (season rail end card).",
+        "$extensions": { "hues": { "source": "Plan P5 (production src/app/m/page.tsx w-[118px])" } }
+      },
+      "end-radius-center": {
+        "$value": "24px",
+        "$type": "dimension",
+        "$description": "Centred end-card radius (matches its sibling cards).",
+        "$extensions": { "hues": { "source": "Plan P5 (production src/app/m/page.tsx end card rounded-[24px])" } }
+      },
+      "end-radius-stack": {
+        "$value": "18px",
+        "$type": "dimension",
+        "$description": "Stacked end-card radius (matches its sibling tiles).",
+        "$extensions": { "hues": { "source": "Plan P5 (production src/app/m/page.tsx end card rounded-[18px])" } }
+      },
+      "end-title": {
+        "$value": "13px",
+        "$type": "dimension",
+        "$description": "Centred end-card title size; emits rem per the text-size rule.",
+        "$extensions": { "hues": { "source": "Plan P5 (production src/app/m/page.tsx text-[13px])" } }
+      },
+      "end-heading": {
+        "$value": "14.5px",
+        "$type": "dimension",
+        "$description": "Stacked end-card heading size; emits rem per the text-size rule.",
+        "$extensions": { "hues": { "source": "Plan P5 (production src/app/m/page.tsx text-[14.5px])" } }
+      },
+      "end-kicker": {
+        "$value": "10.5px",
+        "$type": "dimension",
+        "$description": "Stacked end-card kicker size (tracked gold caps); emits rem per the text-size rule.",
+        "$extensions": { "hues": { "source": "Plan P5 (production src/app/m/page.tsx text-[10.5px])" } }
+      },
+      "end-arrow": {
+        "$value": "24px",
+        "$type": "dimension",
+        "$description": "Centred end-card arrow size (text-2xl); emits rem per the text-size rule.",
+        "$extensions": { "hues": { "source": "Plan P5 (production src/app/m/page.tsx text-2xl)" } }
+      },
+      "end-arrow-stack": {
+        "$value": "20px",
+        "$type": "dimension",
+        "$description": "Stacked end-card arrow size (text-xl); emits rem per the text-size rule.",
+        "$extensions": { "hues": { "source": "Plan P5 (production src/app/m/page.tsx text-xl)" } }
+      }
+    },
+    "hero": {
+      "ink": {
+        "$value": "{ref.color.white}",
+        "$type": "color",
+        "$description": "Hero band title ink (production heroes set text-white).",
+        "$extensions": { "hues": { "source": "Plan P5 (production phone hero bands text-white)" } }
+      },
+      "intro-ink": {
+        "$value": "color-mix(in srgb, {ref.color.white} 85%, transparent)",
+        "$type": "color",
+        "$description": "Hero intro ink at 85 percent.",
+        "$extensions": { "hues": { "source": "Plan P5 (production text-white/85)" } }
+      },
+      "intro-soft-ink": {
+        "$value": "color-mix(in srgb, {ref.color.white} 80%, transparent)",
+        "$type": "color",
+        "$description": "Hero soft intro ink at 80 percent (Music).",
+        "$extensions": { "hues": { "source": "Plan P5 (production src/app/m/music/page.tsx text-white/80)" } }
+      },
+      "pad-top": {
+        "$value": "112px",
+        "$type": "dimension",
+        "$description": "Hero band top pad clearing the fixed phone bar (pt-28).",
+        "$extensions": { "hues": { "source": "Plan P5 (production src/app/m/how-u-cut-works/page.tsx hero pt-28)" } }
+      },
+      "pad-bottom": {
+        "$value": "40px",
+        "$type": "dimension",
+        "$description": "Hero band bottom pad (pb-10).",
+        "$extensions": { "hues": { "source": "Plan P5 (production src/app/m/how-u-cut-works/page.tsx hero pb-10)" } }
+      },
+      "pad-bottom-photo": {
+        "$value": "36px",
+        "$type": "dimension",
+        "$description": "Photo-hero title plate bottom pad (pb-9).",
+        "$extensions": { "hues": { "source": "Plan P5 (production src/app/m/visit/page.tsx title plate pb-9)" } }
+      },
+      "eyebrow-size": {
+        "$value": "11px",
+        "$type": "dimension",
+        "$description": "Hero eyebrow size (gold tracked caps); emits rem per the text-size rule.",
+        "$extensions": { "hues": { "source": "Plan P5 (production hero eyebrow text-[11px])" } }
+      },
+      "title-size": {
+        "$value": "32px",
+        "$type": "dimension",
+        "$description": "Hero title size (Fraunces 560); emits rem per the text-size rule.",
+        "$extensions": { "hues": { "source": "Plan P5 (production hero h1 text-[32px])" } }
+      },
+      "intro-size": {
+        "$value": "15px",
+        "$type": "dimension",
+        "$description": "Hero intro size; emits rem per the text-size rule.",
+        "$extensions": { "hues": { "source": "Plan P5 (production src/app/m/how-u-cut-works/page.tsx text-[15px])" } }
+      },
+      "intro-soft-size": {
+        "$value": "14px",
+        "$type": "dimension",
+        "$description": "Hero soft intro size (Music); emits rem per the text-size rule.",
+        "$extensions": { "hues": { "source": "Plan P5 (production src/app/m/music/page.tsx text-sm)" } }
+      },
+      "art-gap": {
+        "$value": "24px",
+        "$type": "dimension",
+        "$description": "In-band art offset below the intro (mt-6).",
+        "$extensions": { "hues": { "source": "Plan P5 (production src/app/m/music/page.tsx mt-6)" } }
+      },
+      "art-radius-gold": {
+        "$value": "18px",
+        "$type": "dimension",
+        "$description": "In-band gold-frame art radius (Music).",
+        "$extensions": { "hues": { "source": "Plan P5 (production src/app/m/music/page.tsx rounded-[18px])" } }
+      },
+      "art-ring-gold": {
+        "$value": "color-mix(in srgb, {ref.color.gold-2} 60%, transparent)",
+        "$type": "color",
+        "$description": "In-band gold-frame art ring at 60 percent (Music).",
+        "$extensions": { "hues": { "source": "Plan P5 (production ring-[#b08d37]/60)" } }
+      },
+      "art-radius-frost": {
+        "$value": "24px",
+        "$type": "dimension",
+        "$description": "In-band frost-frame art radius (Season hub).",
+        "$extensions": { "hues": { "source": "Plan P5 (production src/app/m/season/page.tsx rounded-[24px])" } }
+      },
+      "art-height-frost": {
+        "$value": "190px",
+        "$type": "dimension",
+        "$description": "In-band frost-frame art slot height (Season hub).",
+        "$extensions": { "hues": { "source": "Plan P5 (production src/app/m/season/page.tsx h-[190px])" } }
+      },
+      "art-shadow-frost": {
+        "$value": "0 14px 36px rgba(0, 0, 0, 0.25)",
+        "$type": "other",
+        "$description": "In-band frost-frame art elevation. Neutral black is the production value (an intentional exception to the ink-shadow house rule).",
+        "$extensions": { "hues": { "source": "Plan P5 (production src/app/m/season/page.tsx shadow-[0_14px_36px_rgba(0,0,0,0.25)])" } }
+      },
+      "art-ring-frost": {
+        "$value": "color-mix(in srgb, {ref.color.white} 25%, transparent)",
+        "$type": "color",
+        "$description": "In-band frost-frame art ring (white at 25 percent).",
+        "$extensions": { "hues": { "source": "Plan P5 (production ring-white/25)" } }
+      },
+      "photo-standard": {
+        "$value": "280px",
+        "$type": "dimension",
+        "$description": "Photo-hero slot height, standard (Visit).",
+        "$extensions": { "hues": { "source": "Plan P5 (production src/app/m/visit/page.tsx h-[280px])" } }
+      },
+      "photo-tall": {
+        "$value": "300px",
+        "$type": "dimension",
+        "$description": "Photo-hero slot height, tall (Dahlias).",
+        "$extensions": { "hues": { "source": "Plan P5 (production src/app/m/dahlias/page.tsx h-[300px])" } }
+      },
+      "overlap-standard": {
+        "$value": "56px",
+        "$type": "dimension",
+        "$description": "Photo-hero title-plate overlap, standard (Visit -mt-14).",
+        "$extensions": { "hues": { "source": "Plan P5 (production src/app/m/visit/page.tsx -mt-14)" } }
+      },
+      "overlap-tall": {
+        "$value": "64px",
+        "$type": "dimension",
+        "$description": "Photo-hero title-plate overlap, tall (Dahlias -mt-16).",
+        "$extensions": { "hues": { "source": "Plan P5 (production src/app/m/dahlias/page.tsx -mt-16)" } }
+      },
+      "overlay-visit": {
+        "$value": "linear-gradient(to top, {ref.color.deep} 0%, transparent 50%, color-mix(in srgb, {ref.color.dusk} 40%, transparent) 100%)",
+        "$type": "other",
+        "$description": "Visit photo-hero scrim (from deep via transparent to dusk/40).",
+        "$extensions": { "hues": { "source": "Plan P5 (production bg-gradient-to-t from-[#23362b] via-transparent to-[#12241a]/40)" } }
+      },
+      "overlay-dahlia": {
+        "$value": "linear-gradient(to top, {ref.color.deep} 0%, color-mix(in srgb, {ref.color.deep} 10%, transparent) 50%, color-mix(in srgb, {ref.color.dusk} 40%, transparent) 100%)",
+        "$type": "other",
+        "$description": "Dahlias photo-hero scrim (from deep via deep/10 to dusk/40).",
+        "$extensions": { "hues": { "source": "Plan P5 (production bg-gradient-to-t from-[#23362b] via-[#23362b]/10 to-[#12241a]/40)" } }
+      }
+    },
+    "spot": {
+      "xs": {
+        "$value": "48px",
+        "$type": "dimension",
+        "$description": "Extra-small spot art width (peach beside the dahlia heading, w-12).",
+        "$extensions": { "hues": { "source": "Plan P5 (production src/app/m/page.tsx w-12)" } }
+      },
+      "sm": {
+        "$value": "80px",
+        "$type": "dimension",
+        "$description": "Small spot art width (spring cluster beside the Right Now heading, w-20).",
+        "$extensions": { "hues": { "source": "Plan P5 (production src/app/m/page.tsx w-20)" } }
+      },
+      "md": {
+        "$value": "176px",
+        "$type": "dimension",
+        "$description": "Medium spot art width (rainbow above the season glance, w-44).",
+        "$extensions": { "hues": { "source": "Plan P5 (production src/app/m/season/page.tsx w-44)" } }
+      },
+      "lg": {
+        "$value": "208px",
+        "$type": "dimension",
+        "$description": "Large spot art width (rainbow/stones centred art, w-52).",
+        "$extensions": { "hues": { "source": "Plan P5 (production src/app/m/page.tsx w-52)" } }
+      }
+    }
+  }
+}

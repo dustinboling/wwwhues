@@ -14,7 +14,8 @@ stack, no carousel, no second button set.
 - Actions: `Button` (primary, secondary, quiet, destructive, icon-round),
   `AccountButton`, `BackPill`, `FilterChip` (+ `SingleFilterGroup`),
   `SegmentedControl`, `Accordion`, `Pagination`, `FooterLink`, `SheetRow`.
-- Content: `PacketCard` (locked stitch), `ContentCard`, `FactCard`,
+- Content: `PacketCard` (locked stitch), `PlateFrame`, `CardRail` (+
+  `RailEndCard`), `PhoneHero`, `StepNumeral`, `ContentCard`, `FactCard`,
   `StatusCard`, `FlowerCard`, `CultivarCard`, `GameCard`,
   `SponsorItemCard`, `EventCard`, `TrackRow`, `EmptyState` (six variants),
   `ErrorRegion` (+ page-404), `PerforationDivider`, `GoldRule`.
@@ -23,8 +24,8 @@ stack, no carousel, no second button set.
 - Feedback: `Skeleton` (block, card, row, list), `NewItemsPill`,
   `StaleLabel`, `UpdatedWash`, `DataTable`, `SignupCard`, `LiveRegion`,
   `Spinner`.
-- Media: `Image` (the §1d contract), `Link` (real anchors,
-  client-routing aware), `Icon` (24-grid formalized set).
+- Media: `Image` (the §1d contract), `PhotoBand`, `SpotArt`, `Link`
+  (real anchors, client-routing aware), `Icon` (24-grid formalized set).
 
 New-component PRs require a Mina-seat (or Hue-delegated) design ack.
 

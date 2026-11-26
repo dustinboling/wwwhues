@@ -50,7 +50,15 @@ export type { RowLinkProps } from './actions/RowLinks';
 
 // Content
 export { PacketCard } from './content/PacketCard';
-export type { PacketCardProps } from './content/PacketCard';
+export type { PacketCardProps, PacketCardRadius } from './content/PacketCard';
+export { PlateFrame } from './content/PlateFrame';
+export type { PlateFrameProps, PlateFrameSize } from './content/PlateFrame';
+export { CardRail, RailEndCard } from './content/CardRail';
+export type { CardRailProps, RailEndCardProps, RailEndCardVariant } from './content/CardRail';
+export { PhoneHero } from './content/PhoneHero';
+export type { PhoneHeroPhoto, PhoneHeroProps } from './content/PhoneHero';
+export { StepNumeral } from './content/StepNumeral';
+export type { StepNumeralProps } from './content/StepNumeral';
 export { ContentCard } from './content/ContentCard';
 export type { ContentCardProps } from './content/ContentCard';
 export { FactCard } from './content/FactCard';
@@ -108,6 +116,10 @@ export { Spinner } from './feedback/Spinner';
 // Media
 export { Image, heroPreloadLink } from './media/Image';
 export type { ImageProps } from './media/Image';
+export { PhotoBand } from './media/PhotoBand';
+export type { PhotoBandKind, PhotoBandProps } from './media/PhotoBand';
+export { SpotArt } from './media/SpotArt';
+export type { SpotArtProps, SpotArtSize } from './media/SpotArt';
 export { Link } from './media/Link';
 export type { LinkProps } from './media/Link';
 export { Icon } from './media/Icon';
