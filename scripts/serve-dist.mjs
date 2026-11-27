@@ -17,6 +17,7 @@ import { createServer } from 'node:http'
 import { readFileSync, existsSync, statSync } from 'node:fs'
 import { join, dirname, normalize } from 'node:path'
 import { fileURLToPath } from 'node:url'
+import { setupDoneForBoard } from './parity/setup-signal.mjs'
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..')
 const client = join(root, 'dist', 'client')
@@ -80,11 +81,21 @@ const MIME = {
 
 function snapshotData(name) {
   const raw = readFileSync(join(root, 'content', 'snapshots', `${name}.json`), 'utf8')
-  return JSON.stringify(JSON.parse(raw).data)
+  return JSON.parse(raw).data
 }
 
-const playState = snapshotData('play')
-const volunteerState = snapshotData('volunteers')
+const playSnapshot = snapshotData('play')
+const volunteerSnapshot = snapshotData('volunteers')
+const playState = JSON.stringify(playSnapshot)
+const volunteerState = JSON.stringify(volunteerSnapshot)
+// Signed-out admin state, mirroring the parity stand-in API: the same
+// snapshot-derived setup signal production reads (setup-signal.mjs), so
+// each admin pair compares the same state on both sides.
+const playAdmin = JSON.stringify({ setupDone: setupDoneForBoard('play', playSnapshot), authed: false })
+const volunteerAdmin = JSON.stringify({
+  setupDone: setupDoneForBoard('volunteers', volunteerSnapshot),
+  authed: false,
+})
 
 function send(res, status, contentType, body, extra = {}) {
   res.writeHead(status, { ...extra, 'Content-Type': contentType, 'Content-Length': Buffer.byteLength(body) })
@@ -119,11 +130,12 @@ const server = createServer((req, res) => {
     send(res, 401, 'application/json; charset=utf-8', JSON.stringify({ error: 'Not signed in.' }), security)
     return
   }
-  if (req.method === 'GET' && (pathname === '/api/play/admin' || pathname === '/api/volunteer/admin')) {
-    // Fresh-worker state, mirroring the parity stand-in API (whose
-    // /auth/status reports setup not done): both admin screens show
-    // first-time setup — the same state on both sides of the pair.
-    send(res, 200, 'application/json; charset=utf-8', JSON.stringify({ setupDone: false, authed: false }))
+  if (req.method === 'GET' && pathname === '/api/play/admin') {
+    send(res, 200, 'application/json; charset=utf-8', playAdmin)
+    return
+  }
+  if (req.method === 'GET' && pathname === '/api/volunteer/admin') {
+    send(res, 200, 'application/json; charset=utf-8', volunteerAdmin)
     return
   }
   if (pathname === '/api' || pathname.startsWith('/api/')) {

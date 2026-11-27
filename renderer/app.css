@@ -89,6 +89,49 @@ body {
   }
 }
 
+/* Route chrome modes (P10d): production's admin pages have no /m
+ * edition, and production shows no phone tab bar on them. The AdminShell
+ * bar keeps the desktop h1 plus the sign-out account slot at every
+ * width; below 768px the bar's wordmark + title stay away and the page
+ * body carries the h1 between the eyebrow and the intro
+ * (c-admin__title), matching production's heading outline and text
+ * order. Production's admin forms carry no "(required)" markers, so the
+ * shared field marker stays away on both admin routes at every width —
+ * the required attributes themselves are untouched. */
+.hues-shell--chrome-admin .hues-field__required,
+.hues-shell--chrome-bare .hues-field__required,
+.c-admin__title {
+  display: none;
+}
+
+@media (max-width: 767px) {
+  .hues-shell--chrome-admin .hues-tabbar,
+  .hues-shell--chrome-admin .hues-admin-shell__wordmark,
+  .hues-shell--chrome-admin .hues-admin-shell__bar .hues-admin-shell__title,
+  .hues-shell--chrome-bare .hues-tabbar,
+  .hues-shell--chrome-bare .hues-admin-shell__wordmark,
+  .hues-shell--chrome-bare .hues-admin-shell__bar .hues-admin-shell__title,
+  .hues-shell--chrome-bare .hues-topbar,
+  .hues-shell--chrome-bare .hues-site-header,
+  .hues-shell--chrome-bare .hues-site-footer--phone,
+  .hues-shell--chrome-bare .hues-site-footer--desktop {
+    display: none;
+  }
+
+  .hues-shell--chrome-admin .c-admin__title,
+  .hues-shell--chrome-bare .c-admin__title {
+    display: block;
+    margin: var(--space-100) 0;
+  }
+
+  /* Bare chrome drops the fixed TopBar like chrome-desktop does: with
+   * no bar above, the phone main-column clearance would hang as dead
+   * space. */
+  .hues-shell--chrome-bare .hues-shell__main {
+    padding-top: 0;
+  }
+}
+
 /* Phone anchor clearance (P4): fragment jumps and focus land below the
  * fixed TopBar, matching the main-column offset in shell.css. */
 @media (max-width: 767px) {

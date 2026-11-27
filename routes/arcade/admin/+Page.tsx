@@ -47,6 +47,19 @@ function Wordmark(): JSX.Element {
   return <span>Hues Arcade</span>
 }
 
+// Production renders the way back below the admin client in every
+// state (src/app/play/admin/page.tsx) — including the signed-out
+// setup and sign-in forms the parity harness compares.
+function BackLink(): JSX.Element {
+  return (
+    <p className="c-admin__back">
+      <Link href="/arcade" context="nav">
+        {ARCADE_ADMIN_BACK}
+      </Link>
+    </p>
+  )
+}
+
 function AuthForm({
   mode,
   onDone,
@@ -86,14 +99,20 @@ function AuthForm({
     onDone()
   }
 
+  // Auth copy is production's verbatim (src/app/play/admin/
+  // AdminClient.tsx): the parity harness compares extracted text runs.
+  // Production's setup form carries the length rule inside the label,
+  // and its sign-in form is just the heading, the password field, and
+  // the button — no intro paragraph.
   return (
     <div className="hues-packet-card">
-      <h2>{mode === 'setup' ? 'First visit? Set up your admin' : 'Welcome back'}</h2>
-      <p>
-        {mode === 'setup'
-          ? 'You only do this once. Enter the one-time setup code Hue gave you, then choose a password.'
-          : 'Sign in to look after the Arcade. Forgot the password? Ask Hue to reset it.'}
-      </p>
+      <h2>{mode === 'setup' ? 'First-time setup' : 'Sign in'}</h2>
+      {mode === 'setup' && (
+        <p>
+          Enter the one-time setup code you were given, and choose the admin password. The code
+          only works once.
+        </p>
+      )}
       <form onSubmit={submit} className="c-admin__form">
         {mode === 'setup' && (
           <>
@@ -106,19 +125,20 @@ function AuthForm({
           </>
         )}
         <TextField
-          label="Password"
+          label={mode === 'setup' ? 'New password (8+ characters)' : 'Admin password'}
           type="password"
           autoComplete={mode === 'setup' ? 'new-password' : 'current-password'}
-          note={mode === 'setup' ? '8+ characters.' : undefined}
+          minLength={mode === 'setup' ? 8 : undefined}
           value={password}
           onChange={(event) => setPassword(event.target.value)}
           required
         />
         {mode === 'setup' && (
           <TextField
-            label="Confirm password"
+            label="Password again"
             type="password"
             autoComplete="new-password"
+            minLength={8}
             value={confirm}
             onChange={(event) => setConfirm(event.target.value)}
             required
@@ -130,7 +150,7 @@ function AuthForm({
           </p>
         )}
         <Button type="submit" loading={busy}>
-          {mode === 'setup' ? 'Set up' : 'Sign in'}
+          {mode === 'setup' ? 'Set password' : 'Sign in'}
         </Button>
       </form>
     </div>
@@ -405,6 +425,10 @@ export default function Page(): JSX.Element {
       }
     >
       <p className="c-eyebrow">{ARCADE_ADMIN_EYEBROW}</p>
+      {/* Phone h1 (P10d): production's h1 sits between the eyebrow and
+          the intro, while the AdminShell bar carries the desktop h1.
+          CSS shows exactly one per width — see the volunteer admin. */}
+      <h1 className="hues-admin-shell__title c-admin__title">{ARCADE_ADMIN_HEADING}</h1>
       <p>{ARCADE_ADMIN_INTRO}</p>
 
       {state === null ? (
@@ -413,13 +437,19 @@ export default function Page(): JSX.Element {
         ) : (
           <div aria-busy="true" className="c-admin__center">
             <Spinner />
-            <p role="status">Getting the board ready…</p>
+            <p role="status">Loading…</p>
           </div>
         )
       ) : !state.setupDone ? (
-        <AuthForm mode="setup" onDone={() => void refresh()} />
+        <>
+          <AuthForm mode="setup" onDone={() => void refresh()} />
+          <BackLink />
+        </>
       ) : !state.authed ? (
-        <AuthForm mode="login" onDone={() => void refresh()} />
+        <>
+          <AuthForm mode="login" onDone={() => void refresh()} />
+          <BackLink />
+        </>
       ) : (
         <div>
           <div className="c-admin__utility">
@@ -728,11 +758,7 @@ export default function Page(): JSX.Element {
             </div>
           )}
 
-          <p className="c-admin__back">
-            <Link href="/arcade" context="nav">
-              {ARCADE_ADMIN_BACK}
-            </Link>
-          </p>
+          <BackLink />
         </div>
       )}
 
