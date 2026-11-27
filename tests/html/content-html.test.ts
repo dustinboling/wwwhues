@@ -1135,6 +1135,17 @@ describe('prerendered /dahlias HTML — primary content', () => {
     // renders the compact /m plates instead, pinned below).
     expect(html.match(/dahlia in bloom at Hues Floral Park/g)).toHaveLength(70)
     expect(html.match(/dahlias-card__nophoto/g)).toHaveLength(76)
+    // P10b: the desktop card names the cultivar once in the extracted
+    // text — the plate's printed name is artwork (aria-hidden, as
+    // production keeps it) and the body name is the single text name;
+    // production's card has no description slot.
+    expect(html.match(/dahlias-card__name"/g)).toHaveLength(111)
+    const plates = [...html.matchAll(/<span[^>]*dahlias-card__noname[^>]*>/g)]
+    expect(plates).toHaveLength(76)
+    for (const plate of plates) {
+      expect(plate[0]).toContain('aria-hidden="true"')
+    }
+    expect(html).not.toContain('dahlias-card__text')
   })
 
   it('carries the phone /m composition: tall hero, compact tiles, letter nav', () => {

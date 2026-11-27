@@ -199,12 +199,6 @@
   color: var(--color-text);
 }
 
-.dahlias-card__text {
-  font-size: var(--text-body-size);
-  line-height: var(--text-body-leading);
-  color: var(--color-text-muted);
-}
-
 .dahlias-card__link {
   font-size: var(--text-caption-size);
   font-weight: var(--text-h3-weight);
