@@ -50,15 +50,17 @@ function CultivarCard({ cultivar }: { cultivar: DahliaCultivar }): JSX.Element {
       ) : (
         <span className="dahlias-card__plate">
           <Image src={NO_PHOTO_ART_KEY} alt="" decorative slot="card" ratio="4/3" />
-          <span className="dahlias-card__noname">{cultivar.name}</span>
+          {/* Printed plate name: visible artwork, aria-hidden like
+              production — the body name below is the card's single text
+              name (P10b). */}
+          <span className="dahlias-card__noname" aria-hidden="true">
+            {cultivar.name}
+          </span>
           <span className="dahlias-card__nophoto">No photo yet</span>
         </span>
       )}
       <span className="dahlias-card__body">
         <span className="dahlias-card__name">{cultivar.name}</span>
-        {cultivar.description !== '' && (
-          <span className="dahlias-card__text">{cultivar.description}</span>
-        )}
         <Link
           href={cultivar.link.href}
           context="prose"
