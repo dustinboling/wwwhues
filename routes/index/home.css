@@ -973,16 +973,23 @@
  * vertically and the eyebrow orders first, so the visual order is
  * eyebrow, title, text, CTA while the title stays first in the DOM.
  * Titles and CTAs follow production's display/underline treatments per
- * breakpoint. */
+ * breakpoint. The link is a flex column and the card its flex fill —
+ * never height:100% on either: percentage heights contribute nothing to
+ * the grid row's intrinsic size, so the row sized to the shorter card
+ * while the taller card's content painted past its link's bottom, over
+ * the Volunteer band (shell/home field report: 34px of Gather card over
+ * the band at 390px). With content-based heights the row sizes to the
+ * taller card, every card's painted box ends exactly at its link's
+ * bottom, and the band keeps its clean 12px gap. */
 
 .home-gpcardlink {
-  display: block;
-  height: 100%;
+  display: flex;
+  flex-direction: column;
   color: inherit;
 }
 
 .home-gpcardlink > .hues-packet-card {
-  height: 100%;
+  flex: 1 1 auto;
 }
 
 .home-gpcard {
