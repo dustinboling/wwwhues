@@ -33,8 +33,10 @@ import {
   FOOTER_BUSINESS_NAME,
   FOOTER_CITY,
   FOOTER_ENTRANCE,
+  FOOTER_PHONE_COLOPHON,
   FOOTER_PHONE_CONTACT,
   FOOTER_PHONE_DISPLAY,
+  FOOTER_PHONE_FULL_SITE,
   FOOTER_PHONE_LEAD,
   FOOTER_PHONE_LINKS,
   FOOTER_PHONE_SIGNOFF,
@@ -221,17 +223,11 @@ function ShellInner({ children }: { children: ReactNode }): JSX.Element {
           />
         </>
       }
-      navigation={
-        <TabBar
-          tabs={art.tabs}
-          currentPath={urlPathname}
-          discArt={art.discArt}
-          plateArt={art.plateArt}
-          musicPlaying={player.playing}
-          onMoreTab={() => setMoreOpen(true)}
-          moreOpen={moreOpen}
-        />
-      }
+      // The tab bar lives after the footers in DOM order (P10a): the
+      // Print Edition shell (src/app/m/Shell2.tsx) renders <TabBar />
+      // after <main>, so production's extracted phone text ends with the
+      // tab labels. The bar is position:fixed, so the DOM move changes
+      // no pixel; on desktop it is display:none either way.
       footer={
         <>
           <SiteFooter
@@ -255,8 +251,14 @@ function ShellInner({ children }: { children: ReactNode }): JSX.Element {
                     </Link>
                   </li>
                 ))}
+                <li className="hues-site-footer__full-site">
+                  <Link href={FOOTER_PHONE_FULL_SITE.href} context="nav">
+                    {FOOTER_PHONE_FULL_SITE.label}
+                  </Link>
+                </li>
               </ul>
             }
+            closing={<p className="hues-visually-hidden">{FOOTER_PHONE_COLOPHON}</p>}
           />
           <SiteFooter
             variant="desktop"
@@ -313,6 +315,15 @@ function ShellInner({ children }: { children: ReactNode }): JSX.Element {
                 © {new Date().getFullYear()} {FOOTER_BUSINESS_NAME}. All rights reserved.
               </>
             }
+          />
+          <TabBar
+            tabs={art.tabs}
+            currentPath={urlPathname}
+            discArt={art.discArt}
+            plateArt={art.plateArt}
+            musicPlaying={player.playing}
+            onMoreTab={() => setMoreOpen(true)}
+            moreOpen={moreOpen}
           />
         </>
       }

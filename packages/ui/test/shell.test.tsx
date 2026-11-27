@@ -187,6 +187,51 @@ describe('SiteFooter', () => {
     expect(rule).toBeDefined();
     expect(rule).toContain('var(--shell-tabbar-reservation)');
   });
+
+  it('phone renders the parity closing bare after the link row (P10a)', () => {
+    const { container } = render(
+      <SiteFooter
+        variant="phone"
+        logo={<span>Logo</span>}
+        signoff="Hues Floral Park, A little world apart"
+        sitemap={
+          <ul>
+            <li>
+              <a href="/volunteer">Volunteer</a>
+            </li>
+            <li className="hues-site-footer__full-site">
+              <a href="/?full=1">Full website</a>
+            </li>
+          </ul>
+        }
+        closing={<p className="hues-visually-hidden">The print edition</p>}
+      />,
+    );
+    const order = container.innerHTML;
+    const nav = order.indexOf('aria-label="Footer"');
+    const fullSite = order.indexOf('Full website');
+    const closing = order.indexOf('The print edition');
+    expect(nav).toBeGreaterThanOrEqual(0);
+    expect(fullSite).toBeGreaterThan(nav);
+    expect(closing).toBeGreaterThan(fullSite);
+    // Bare, with no kit wrapper: a hidden closing must take no space.
+    expect(screen.getByText('The print edition').parentElement?.tagName).toBe('FOOTER');
+  });
+
+  it('parity full-site link hides at rest and rejoins the row on focus (P10a)', () => {
+    const sheet = readFileSync(
+      join(fileURLToPath(new NodeURL('.', import.meta.url)), '..', 'src', 'styles', 'shell.css'),
+      'utf8',
+    );
+    const hidden = sheet.match(/\.hues-site-footer__full-site\s*\{[^}]*\}/)?.[0];
+    expect(hidden).toBeDefined();
+    expect(hidden).toContain('position: absolute');
+    expect(hidden).toContain('clip-path: inset(50%)');
+    const revealed = sheet.match(/\.hues-site-footer__full-site:focus-within\s*\{[^}]*\}/)?.[0];
+    expect(revealed).toBeDefined();
+    expect(revealed).toContain('position: static');
+    expect(revealed).toContain('clip-path: none');
+  });
 });
 
 describe('TabBar', () => {

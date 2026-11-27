@@ -343,8 +343,9 @@
 
 /* Footer compositions (P4): desktop is the rounded deep-green card
  * ported from the production footer; phone is the compact Print Edition
- * ending ported from the /m home footer (minus "Full website" and "The
- * print edition" per Q5). The app shows exactly one per breakpoint, like
+ * ending ported from the /m home footer ("Full website" and "The print
+ * edition" dropped visibly per Q5, kept in the DOM visually hidden for
+ * text parity, P10a). The app shows exactly one per breakpoint, like
  * the TopBar/SiteHeader pair. Link ground colours live in actions.css;
  * the rules below carry layout, type, and the production accents at
  * higher specificity so they win at any bundle order. */
@@ -630,6 +631,28 @@
   font-size: var(--text-label-size);
   font-weight: var(--weight-semibold);
   color: var(--color-text);
+}
+
+/* Phone parity closing (P10a): production's /m link row ends with "Full
+ * website" (Q5 dropped it visibly; it stays in the DOM visually hidden
+ * so the extracted chrome text matches production exactly). Out of flow
+ * at rest, so the visible row is untouched; on focus it rejoins the row
+ * like a skip link, so keyboard users never tab into an invisible link
+ * (the shell focus double signal draws the ring). */
+.hues-site-footer--phone .hues-site-footer__links .hues-site-footer__full-site {
+  position: absolute;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.hues-site-footer--phone .hues-site-footer__links .hues-site-footer__full-site:focus-within {
+  position: static;
+  overflow: visible;
+  clip-path: none;
+  white-space: normal;
 }
 
 /* Game header */
