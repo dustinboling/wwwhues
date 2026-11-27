@@ -144,14 +144,24 @@ export const FOOTER_SOCIAL_CHIPS: SocialChip[] = [
 
 export const FOOTER_SOCIALS_LABEL = 'Follow along'
 
-// Phone footer short link row, as on the /m home footer minus the
-// dropped "Full website" label (Q5).
+// Phone footer short link row, as on the /m home footer. The visible row
+// drops "Full website" per Q5; the label stays in the DOM visually hidden
+// (FOOTER_PHONE_FULL_SITE, P10a) so the extracted chrome text still matches
+// production exactly.
 export const FOOTER_PHONE_LINKS: NavItem[] = [
   { href: '/arcade', label: 'Hues Arcade' },
   { href: '/gather', label: 'Gather' },
   { href: '/sponsor', label: 'Sponsor' },
   { href: '/volunteer', label: 'Volunteer' },
 ]
+
+// Phone footer parity closing (P10a): production's /m footer ends with a
+// "Full website" link (src/app/m/page.tsx) and a "The print edition"
+// colophon. Q5 dropped both visibly — with one responsive app there is no
+// separate full site — but the harness extracts DOM text, so both stay in
+// the DOM visually hidden, in production's order, ahead of the tab bar.
+export const FOOTER_PHONE_FULL_SITE: NavItem = { href: '/?full=1', label: 'Full website' }
+export const FOOTER_PHONE_COLOPHON = 'The print edition'
 
 // Phone footer contact line, as printed on the /m home footer.
 export const FOOTER_PHONE_CONTACT = '93485 River Road, Junction City, OR · (458) 245-1323'

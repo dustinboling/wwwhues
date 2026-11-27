@@ -22,6 +22,13 @@ export interface SiteFooterProps {
   socials?: ReactNode;
   /** Link inventory: full sitemap on desktop, short row on phone. */
   sitemap: ReactNode;
+  /**
+   * Phone closing line after the link row (P10a: production's /m
+   * footer ends with "The print edition"; the app passes it visually
+   * hidden for text parity). Rendered bare, with no wrapper, so a
+   * hidden closing takes no space. Unused on desktop.
+   */
+  closing?: ReactNode;
   /** Desktop address block, phone single contact line. */
   address?: ReactNode;
   /** Desktop copyright line; unused on phone. */
@@ -33,9 +40,10 @@ export interface SiteFooterProps {
 
 /**
  * Shell footer contract, in two compositions ported from production
- * (desktop: src/components/Footer.tsx; phone: src/app/m/page.tsx, minus
- * "Full website" and "The print edition" per Q5). Neither composition
- * carries headings — the footer closes the page, it never outlines it.
+ * (desktop: src/components/Footer.tsx; phone: src/app/m/page.tsx — the
+ * Q5-dropped "Full website" and "The print edition" stay in the DOM
+ * visually hidden for text parity, P10a). Neither composition carries
+ * headings — the footer closes the page, it never outlines it.
  */
 export function SiteFooter({
   variant,
@@ -45,6 +53,7 @@ export function SiteFooter({
   socialsLabel,
   socials,
   sitemap,
+  closing,
   address,
   copyright,
   art,
@@ -60,6 +69,7 @@ export function SiteFooter({
         <nav aria-label="Footer" className="hues-site-footer__links">
           {sitemap}
         </nav>
+        {closing}
       </footer>
     );
   }
