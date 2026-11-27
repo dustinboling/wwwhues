@@ -48,6 +48,47 @@ body {
   }
 }
 
+/* Route chrome modes (P10c): production has no /m/nursery, so phones
+ * get the desktop page — desktop header and footer included. On
+ * /nursery below 768px the shell shows the desktop pair instead of
+ * the phone pair, matching production's responsive presentation;
+ * the tab bar stays (fixed, app navigation). On /about below 768px
+ * the phone telling carries the story's own tagline footer, so the
+ * shell's phone footer stays away. display:none keeps each
+ * breakpoint at exactly one banner and one contentinfo landmark. */
+@media (max-width: 767px) {
+  .hues-shell--chrome-desktop .hues-topbar,
+  .hues-shell--chrome-desktop .hues-site-footer--phone,
+  .hues-shell--chrome-story .hues-site-footer--phone {
+    display: none;
+  }
+
+  .hues-shell--chrome-desktop .hues-site-header,
+  .hues-shell--chrome-desktop .hues-site-footer--desktop {
+    display: block;
+  }
+
+  /* The desktop header is sticky (in flow): with the fixed TopBar
+   * away, the phone main-column clearance would hang as dead space. */
+  .hues-shell--chrome-desktop .hues-shell__main {
+    padding-top: 0;
+  }
+
+  /* Production's own responsive gates, ported 1:1
+   * (src/components/Header.tsx): the lockup hides below 420px and
+   * the Plan pill below 768px, so at phone widths the header reads
+   * exactly as production's — logo, account, Menu. */
+  .hues-shell--chrome-desktop .hues-site-header__plan {
+    display: none;
+  }
+}
+
+@media (max-width: 419px) {
+  .hues-shell--chrome-desktop .hues-site-header__lockup {
+    display: none;
+  }
+}
+
 /* Phone anchor clearance (P4): fragment jumps and focus land below the
  * fixed TopBar, matching the main-column offset in shell.css. */
 @media (max-width: 767px) {

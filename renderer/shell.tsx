@@ -112,6 +112,19 @@ function RouteAnnouncer(): null {
   return null
 }
 
+// Route chrome modes (P10c): most routes wear the unified shell —
+// TopBar + phone footer below 768px, SiteHeader + desktop footer
+// above. Two routes match production's own chrome instead: /nursery
+// has no /m page, so phones get production's desktop header and
+// footer; /about's phone telling carries the story's own tagline
+// footer, so the shell's phone footer stays away. Prerender-safe:
+// urlPathname is known at build time.
+function chromeClassFor(pathname: string): string | undefined {
+  if (pathname === '/nursery') return 'hues-shell--chrome-desktop'
+  if (pathname === '/about') return 'hues-shell--chrome-story'
+  return undefined
+}
+
 function tabArt(): { tabs: TabDefinition[]; discArt: string; plateArt: string } {
   return {
     tabs: HUES_TABS.map((tab) => ({
@@ -201,6 +214,7 @@ function ShellInner({ children }: { children: ReactNode }): JSX.Element {
   return (
     <AppShell
       theme="park"
+      className={chromeClassFor(urlPathname)}
       // A waiting worker surfaces as the quiet UpdateNotice pill — Apply
       // at route boundaries, never forced, never mid-form (Mina §2.7).
       // The player wins: the notice waits while audio plays.

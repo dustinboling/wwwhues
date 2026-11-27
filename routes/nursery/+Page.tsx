@@ -11,8 +11,10 @@ import '../../renderer/content.css'
 export default function Page(): JSX.Element {
   return (
     <div className="c-page">
+      {/* P10c: no eyebrow — production's SimpleLayout header carries
+          the rule, title, and intro only, and the invented line broke
+          the parity text runs at the header/page junction. */}
       <header className="c-packet hues-packet-card">
-        <p className="c-eyebrow">Hues Floral Park · Junction City, Oregon</p>
         <h1 data-route-title className="c-title c-title--left">
           {NURSERY_HEADING}
         </h1>
