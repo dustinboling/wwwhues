@@ -76,12 +76,15 @@
  * the Plan pill in paper on the deep fill at the production phone size
  * (13px semibold, tighter padding than the desktop pill). Both beat the
  * later .hues-link color by specificity; the desktop header's dress is
- * untouched. */
+ * untouched. The plan selector carries .hues-link so the tighter phone
+ * padding also beats the .hues-link.hues-button--primary shape compound
+ * in actions.css (later sheet, same two-class weight without it) — the
+ * pill radius still comes from that compound. */
 .hues-topbar__inner .hues-topbar__logo {
   color: var(--color-text);
 }
 
-.hues-topbar__cluster .hues-topbar__plan {
+.hues-topbar__cluster .hues-link.hues-topbar__plan {
   color: var(--button-primary-text);
   padding: var(--space-100) var(--space-200);
   font-size: var(--text-label-size);
