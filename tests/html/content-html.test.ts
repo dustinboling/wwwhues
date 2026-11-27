@@ -146,7 +146,13 @@ const ROUTES: RouteContract[] = [
     twitterDescription:
       'Meet Dusty Hues and the story behind Hues Floral Park, a u-pick flower farm and garden park in Junction City, Oregon.',
     heroKey: null,
-    contentKeys: ['hues/people/dusty-portrait.webp'],
+    contentKeys: [
+      'hues/people/dusty-portrait.webp',
+      'hues/park/flower-beds-day.jpg',
+      'hues/m-art/rabbit.webp',
+    ],
+    // P10c: phone story h1 + desktop title h1 (production's wording each).
+    h1Count: 2,
   },
   {
     dir: 'how-u-cut-works',
@@ -610,7 +616,8 @@ describe('prerendered /about HTML — primary content', () => {
       expect(text).toContain(firstSentence)
     }
     expect(html).toContain('made people feel <em>that</em> way')
-    expect(html).toContain('something you’re <em>inside</em> of')
+    // P10c: production's straight apostrophe (text is entity-decoded).
+    expect(text).toContain("something you're <em>inside</em> of")
     expect(text).toContain('Walt Disney believed that details matter')
     expect(text).toContain('why they feel so good being there')
     expect(html).toContain('<em>that</em>')
@@ -625,6 +632,46 @@ describe('prerendered /about HTML — primary content', () => {
     // The shell links /visit too — the pill's own words pin the story link.
     expect(text).toContain('Plan your visit')
     expect(html).toContain('Plan your visit</a>')
+  })
+
+  it('carries the phone telling from production /m/story in order', () => {
+    const { html, text } = page('about')
+    // The phone h1 is production /m's wording (lowercase farmer and
+    // creator); the desktop h1 above keeps desktop's.
+    expect(text).toContain('<h1 data-route-title="true" class="about-m__title">')
+    expect(text).toContain('I’m Dusty. The farmer and creator of Hues.')
+    expect(text).toContain('“Hues didn’t start as a business plan. It started as a feeling.”')
+    expect(text).toContain('Jungle Cruise skipper')
+    expect(text).toContain('U-pick flower farm and garden park on River Road')
+    expect(text).toContain('called home since 2014')
+    expect(text).toContain('“The flowers matter. But the experience comes first.”')
+    expect(text).toContain('Thanks for being part of it.')
+    expect(text).toContain('— Dusty')
+    expect(text).toContain('Hues Floral Park, A little world apart')
+    expect(html).toContain('alt="Dusty, farmer and creator of Hues Floral Park"')
+    expect(html).toContain('alt="Flower beds at Hues Floral Park"')
+    // Production's section order, hero to tagline footer.
+    let from = 0
+    for (const marker of [
+      'about-m__hero',
+      'about-m__card',
+      'about-m__pullquote',
+      'about-m__paras',
+      'about-m__bandart',
+      'about-m__overlay',
+      'about-m__thanks',
+      'about-m__signoff',
+      'about-m__pill',
+      'about-m__foot',
+      'about-m__tagline',
+    ]) {
+      const at = html.indexOf(marker, from)
+      expect(at, `missing story section in order: ${marker}`).toBeGreaterThanOrEqual(0)
+      from = at + marker.length
+    }
+    // The story carries its own tagline footer, so the shell's phone
+    // footer stays away on this route (story-chrome mode).
+    expect(html).toContain('hues-shell--chrome-story')
   })
 })
 
@@ -749,6 +796,17 @@ describe('prerendered /nursery HTML — primary content', () => {
     expect(text).toContain('See what’s in season')
     expect(html).toContain('href="/dahlias"')
     expect(text).toContain('Meet the dahlias')
+  })
+
+  it('matches production copy and desktop chrome at phone widths', () => {
+    const { html, text } = page('nursery')
+    // P10c: production's straight apostrophe (text is entity-decoded).
+    expect(text).toContain("Hues' cut flower nursery is the place")
+    // Production's header carries no eyebrow — the invented line broke
+    // the parity text runs at the header/page junction.
+    expect(html).not.toContain('Hues Floral Park · Junction City, Oregon')
+    // No /m page exists: phones get the desktop header and footer.
+    expect(html).toContain('hues-shell--chrome-desktop')
   })
 })
 

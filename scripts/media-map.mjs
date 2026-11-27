@@ -47,7 +47,8 @@ export const MEDIA_BASE_URL = MEDIA_ORIGIN
  * - hues/park/*: production floral-park imports
  *   (src/app/floral-park/page.tsx: bedsImage → lawn, vistaImage →
  *   sunflower-field, seatingImage → circle-seating, parkImage →
- *   visitors-evening, same alt text).
+ *   visitors-evening, same alt text) plus the story beds band
+ *   (src/app/m/story/page.tsx bedsImg, same alt text).
  * - hues/people/dusty-portrait.webp: production about portrait
  *   (src/app/about/page.tsx: @/images/dusty.jpeg).
  * - hues/og/*: production per-route OG images (one page module
@@ -70,6 +71,7 @@ export const MEDIA_OVERRIDES = {
   'hues/park/dahlia-beds-sunflower-field.jpg': 'src/images/photos/park/P1000184-park-dahlias-lawn.jpg',
   'hues/park/circle-seating-2025.webp': 'src/images/photos/park/park-circle-seating-2025.jpeg',
   'hues/park/visitors-evening-dahlia-beds.jpeg': 'src/images/hues-floral-park-evening-girls.jpeg',
+  'hues/park/flower-beds-day.jpg': 'src/images/hues-floral-park.jpeg',
   'hues/people/dusty-portrait.webp': 'src/images/dusty.jpeg',
   'hues/og/arcade.jpg': 'public/m-og/og-arcade.jpg',
   'hues/og/dahlias.jpg': 'public/m-og/og-dahlias.jpg',

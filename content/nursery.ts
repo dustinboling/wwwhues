@@ -15,7 +15,8 @@ export const NURSERY_TWITTER_DESCRIPTION =
 export const NURSERY_HEADING = 'The Flower Nursery. Cut Flower Starts for Your Own Garden.'
 
 export const NURSERY_INTRO =
-  'Hues’ cut flower nursery is the place to find the best varieties of cut flower starts ready to plant in your own garden at home.'
+  // P10c: production's straight apostrophe (src/app/nursery/page.tsx).
+  "Hues' cut flower nursery is the place to find the best varieties of cut flower starts ready to plant in your own garden at home."
 
 export const NURSERY_COMING_SOON = {
   eyebrow: 'Coming soon',
