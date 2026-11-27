@@ -4,9 +4,6 @@
     "d-404": [
       "text-runs"
     ],
-    "d-about": [
-      "text-runs"
-    ],
     "d-account": [
       "height-ratio",
       "text-runs"
@@ -29,9 +26,6 @@
     "d-home": [
       "text-runs",
       "heading-outline"
-    ],
-    "d-nursery": [
-      "text-runs"
     ],
     "d-season-fall": [
       "text-runs"
@@ -91,10 +85,6 @@
       "text-runs",
       "heading-outline"
     ],
-    "m-nursery": [
-      "height-ratio",
-      "text-runs"
-    ],
     "m-privacy": [
       "height-ratio",
       "text-runs"
@@ -110,11 +100,6 @@
     "m-sponsor": [
       "height-ratio",
       "text-runs"
-    ],
-    "m-story": [
-      "height-ratio",
-      "text-runs",
-      "heading-outline"
     ],
     "m-terms": [
       "height-ratio",

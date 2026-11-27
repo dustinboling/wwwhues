@@ -37,6 +37,21 @@
   box-shadow: 0 0 0 calc(var(--shell-focus-ring-width) + var(--shell-focus-offset-width)) var(--color-focus-offset-deep);
 }
 
+/*
+ * Route-title landing (focusRouteTarget): the SPA moves programmatic focus
+ * to the route h1 (tabindex -1, never in Tab order) so screen readers start
+ * at the title. That landing must never paint a ring — the field browser
+ * matched :focus-visible on the programmatic focus, so a
+ * :focus:not(:focus-visible) guard is not sufficient. Scoped to the
+ * route-title target itself; every interactive :focus-visible ring above
+ * stays intact.
+ */
+.hues-shell h1[data-route-title]:focus,
+.hues-shell h1[data-route-title]:focus-visible {
+  outline: none;
+  box-shadow: none;
+}
+
 /* Tabular lining figures wherever numbers align or update in place. */
 .hues-tnum {
   font-variant-numeric: tabular-nums lining-nums;
