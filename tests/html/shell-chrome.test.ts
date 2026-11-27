@@ -133,3 +133,63 @@ describe('shell chrome DOM text order (P10a)', () => {
     expect(css).toMatch(/\.hues-site-footer--desktop\s*\{\s*display:\s*block;\s*\}/)
   })
 })
+
+describe('admin phone chrome (P10d)', () => {
+  // Production's admin pages have no /m edition and show no phone tab
+  // bar: /volunteer/admin wears the desktop header + footer without the
+  // tab bar, /play/admin is a bare shell (Layout isBareShell). The admin
+  // pages are client-rendered (ssr:false), so pin the route mapping and
+  // the CSS rules in the source; lead-side parity compares the render.
+  it('maps the admin routes to their production chrome modes', () => {
+    const shell = readSourceFile('renderer/shell.tsx')
+    expect(shell).toContain(
+      "if (pathname === '/volunteer/admin') return 'hues-shell--chrome-desktop hues-shell--chrome-admin'",
+    )
+    expect(shell).toContain("if (pathname === '/arcade/admin') return 'hues-shell--chrome-bare'")
+  })
+
+  it('hides the tab bar and the bar title on admin routes below 768px', () => {
+    const css = readSourceFile('renderer/app.css')
+    for (const mode of ['chrome-admin', 'chrome-bare']) {
+      expect(css).toContain(`.hues-shell--${mode} .hues-tabbar`)
+      expect(css).toContain(`.hues-shell--${mode} .hues-admin-shell__wordmark`)
+      expect(css).toContain(`.hues-shell--${mode} .hues-admin-shell__bar .hues-admin-shell__title`)
+    }
+    // Bare chrome hides the whole shell frame at phone width.
+    for (const frame of ['hues-topbar', 'hues-site-header', 'hues-site-footer--phone', 'hues-site-footer--desktop']) {
+      expect(css).toContain(`.hues-shell--chrome-bare .${frame}`)
+    }
+  })
+
+  it('shows exactly one admin h1 per width, between eyebrow and intro on phone', () => {
+    const css = readSourceFile('renderer/app.css')
+    // Phone body title hidden by default (desktop keeps the bar h1)…
+    expect(css).toMatch(/\.c-admin__title\s*\{\s*display:\s*none;\s*\}/)
+    // …and shown below 768px on both admin routes.
+    expect(css).toContain('.hues-shell--chrome-admin .c-admin__title')
+    expect(css).toContain('.hues-shell--chrome-bare .c-admin__title')
+    // The bar title hide keeps the account slot: sign-out must stay
+    // reachable on phones (the arcade dashboard has no other sign-out).
+    expect(css).not.toContain('.hues-admin-shell__account')
+    // DOM order in both pages: eyebrow, phone h1, intro.
+    for (const route of ['routes/volunteer/admin/+Page.tsx', 'routes/arcade/admin/+Page.tsx']) {
+      const page = readSourceFile(route)
+      const eyebrow = page.indexOf('c-eyebrow')
+      const title = page.indexOf('c-admin__title')
+      const intro = page.indexOf('_INTRO}')
+      expect(eyebrow, `${route}: missing eyebrow`).toBeGreaterThanOrEqual(0)
+      expect(title, `${route}: missing phone h1`).toBeGreaterThanOrEqual(0)
+      expect(intro, `${route}: missing intro`).toBeGreaterThanOrEqual(0)
+      expect(eyebrow).toBeLessThan(title)
+      expect(title).toBeLessThan(intro)
+    }
+  })
+
+  it('keeps the shared (required) marker off the admin forms', () => {
+    // Production's admin forms carry no required markers; the marker
+    // text would break the parity text runs at every label.
+    const css = readSourceFile('renderer/app.css')
+    expect(css).toContain('.hues-shell--chrome-admin .hues-field__required')
+    expect(css).toContain('.hues-shell--chrome-bare .hues-field__required')
+  })
+})

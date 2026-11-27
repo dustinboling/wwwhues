@@ -112,16 +112,23 @@ function RouteAnnouncer(): null {
   return null
 }
 
-// Route chrome modes (P10c): most routes wear the unified shell —
-// TopBar + phone footer below 768px, SiteHeader + desktop footer
-// above. Two routes match production's own chrome instead: /nursery
+// Route chrome modes (P10c, P10d): most routes wear the unified shell
+// — TopBar + phone footer below 768px, SiteHeader + desktop footer
+// above. Four routes match production's own chrome instead: /nursery
 // has no /m page, so phones get production's desktop header and
 // footer; /about's phone telling carries the story's own tagline
-// footer, so the shell's phone footer stays away. Prerender-safe:
+// footer, so the shell's phone footer stays away. The admin pages
+// likewise have no /m edition and production shows no phone tab bar
+// on them: /volunteer/admin wears the desktop header + footer without
+// the tab bar (chrome-desktop plus the admin hides), while /play/admin
+// is a bare shell in production (Layout isBareShell), so /arcade/admin
+// hides the whole shell frame below 768px. Prerender-safe:
 // urlPathname is known at build time.
 function chromeClassFor(pathname: string): string | undefined {
   if (pathname === '/nursery') return 'hues-shell--chrome-desktop'
   if (pathname === '/about') return 'hues-shell--chrome-story'
+  if (pathname === '/volunteer/admin') return 'hues-shell--chrome-desktop hues-shell--chrome-admin'
+  if (pathname === '/arcade/admin') return 'hues-shell--chrome-bare'
   return undefined
 }
 

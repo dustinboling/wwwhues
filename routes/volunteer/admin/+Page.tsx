@@ -86,10 +86,18 @@ function SetupView({ onDone }: { onDone: () => void }): JSX.Element {
     onDone()
   }
 
+  // Setup copy is production's verbatim (src/app/volunteer/admin/
+  // AuthScreens.tsx): the parity harness compares extracted text runs.
   return (
     <div className="hues-packet-card">
       <h2>First visit? Set up your admin</h2>
-      <p>You only do this once. Enter the one-time setup code Hue gave you, then choose a password.</p>
+      <div className="c-admin__lede">
+        <p>You only do this once. Two quick steps:</p>
+        <ol>
+          <li>Enter the one-time setup code Hue gave you.</li>
+          <li>Choose a password — you'll use it to sign in from here on. You're the only one who will know it.</li>
+        </ol>
+      </div>
       <form onSubmit={submit} className="c-admin__form">
         <TextField
           label="Setup code"
@@ -99,16 +107,16 @@ function SetupView({ onDone }: { onDone: () => void }): JSX.Element {
           required
         />
         <TextField
-          label="Password"
+          label="Choose a password"
           type="password"
           autoComplete="new-password"
-          note="At least 8 characters. You’re the only one who will know it."
+          note="8 characters or more."
           value={password}
           onChange={(event) => setPassword(event.target.value)}
           required
         />
         <TextField
-          label="Confirm password"
+          label="Type it again"
           type="password"
           autoComplete="new-password"
           value={confirm}
@@ -121,7 +129,7 @@ function SetupView({ onDone }: { onDone: () => void }): JSX.Element {
           </p>
         )}
         <Button type="submit" loading={busy}>
-          Set up
+          Set up and sign in
         </Button>
       </form>
     </div>
@@ -135,6 +143,10 @@ function LoginView({ onDone }: { onDone: () => void }): JSX.Element {
 
   async function submit(event: FormEvent): Promise<void> {
     event.preventDefault()
+    if (password === '') {
+      setError('Enter your password.')
+      return
+    }
     setBusy(true)
     const res = await postAdmin(ENDPOINT, { action: 'login', password })
     setBusy(false)
@@ -145,13 +157,15 @@ function LoginView({ onDone }: { onDone: () => void }): JSX.Element {
     onDone()
   }
 
+  // Sign-in copy is production's verbatim (src/app/volunteer/admin/
+  // AuthScreens.tsx): the parity harness compares extracted text runs.
   return (
     <div className="hues-packet-card">
       <h2>Welcome back</h2>
-      <p>Sign in to look after the volunteer board. Forgot the password? Ask Hue to reset it.</p>
+      <p>Sign in to see who's coming and look after the task board.</p>
       <form onSubmit={submit} className="c-admin__form">
         <TextField
-          label="Password"
+          label="Admin password"
           type="password"
           autoComplete="current-password"
           value={password}
@@ -167,6 +181,7 @@ function LoginView({ onDone }: { onDone: () => void }): JSX.Element {
           Sign in
         </Button>
       </form>
+      <p className="c-admin__hint">Forgot your password? Hue can reset it for you — just ask, and you'll set a new one here.</p>
     </div>
   )
 }
@@ -694,6 +709,12 @@ export default function Page(): JSX.Element {
       }
     >
       <p className="c-eyebrow">{VOLUNTEER_ADMIN_EYEBROW}</p>
+      {/* Phone h1 (P10d): production's h1 sits between the eyebrow and
+          the intro, while the AdminShell bar carries the desktop h1.
+          CSS shows exactly one per width, so the heading outline and
+          the extracted text order match production at phone width
+          with no desktop change. */}
+      <h1 className="hues-admin-shell__title c-admin__title">{VOLUNTEER_ADMIN_HEADING}</h1>
       <p>{VOLUNTEER_ADMIN_INTRO}</p>
       {state === null ? (
         loadError !== '' ? (

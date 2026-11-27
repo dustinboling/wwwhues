@@ -18,7 +18,7 @@ export const VOLUNTEER_ADMIN_EYEBROW = 'Hues Floral Park · Volunteers'
 export const VOLUNTEER_ADMIN_HEADING = 'Volunteer admin'
 
 export const VOLUNTEER_ADMIN_INTRO =
-  'What’s coming up, who’s signed up, and the tasks themselves — all in one place.'
+  "What's coming up, who's signed up, and the tasks themselves — all in one place."
 
 export interface VolunteerSignup {
   id: string
