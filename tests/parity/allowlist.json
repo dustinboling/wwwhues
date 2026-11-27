@@ -2,7 +2,6 @@
   "_comment": "Parity failures as of the P9d lead-side update, 2026-11-26 (pair id -> failed check ids). A pair on the allowlist may fail; a pair off it may not. Later packages remove the pairs they fix and may never add one (enforced by scripts/parity/run.mjs). History: P4P removed 7 shell-fixed pairs. P6: home heights fixed. P7: phone wave 1 improved; d-volunteer added as intentional B6 divergence (closes at cutover only). P8: m-season-spring passed; five desktop heading regressions recorded. P9 update: d-music, d-season-spring and m-how-u-cut-works passed fully; P9b closed headings on d-season-summer/fall, d-dahlias, d-arcade; hub text-runs closed. P9d update (fresh build:app first): d-visit and d-how-u-cut-works PASS fully (removed) \u2014 9/46 outright; d-sponsor heading closed (height+text remain). d-account and m-volunteer-admin heights are data-dependent (production oscillates with snapshot state) and stay listed.",
   "pairs": {
     "d-404": [
-      "height-ratio",
       "text-runs"
     ],
     "d-about": [
@@ -49,8 +48,7 @@
       "heading-outline"
     ],
     "d-working-on": [
-      "height-ratio",
-      "text-runs"
+      "height-ratio"
     ],
     "m-404": [
       "height-ratio",
@@ -62,8 +60,7 @@
     ],
     "m-arcade": [
       "height-ratio",
-      "text-runs",
-      "heading-outline"
+      "text-runs"
     ],
     "m-arcade-admin": [
       "height-ratio",
@@ -102,9 +99,6 @@
       "height-ratio",
       "text-runs"
     ],
-    "m-season-fall": [
-      "text-runs"
-    ],
     "m-season-hub": [
       "height-ratio",
       "text-runs"
@@ -127,14 +121,12 @@
       "text-runs"
     ],
     "m-visit": [
-      "height-ratio",
-      "text-runs",
-      "heading-outline"
+      "heading-outline",
+      "height-ratio"
     ],
     "m-volunteer": [
       "height-ratio",
-      "text-runs",
-      "heading-outline"
+      "text-runs"
     ],
     "m-volunteer-admin": [
       "height-ratio",
