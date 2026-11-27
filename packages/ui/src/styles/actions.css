@@ -98,21 +98,32 @@
   pointer-events: none;
 }
 
-/* Anchor-rendered controls (P3 cascade fix, P4F shape extension): Link
- * always emits .hues-link, and media.css bundles after this sheet, so
- * at equal specificity the link rules win over every control rule above
- * — not just colour (.hues-link sets border-radius: radius-xs, and the
- * deployed bundle has carried link padding too), which turned the
- * account round into a padded rounded square on staging (P4F field
- * report). The colour compounds restore control colours on anchors; the
- * shape compounds below restate each round control's own
- * padding/radius/background/border so its silhouette wins at any bundle
+/* Anchor-rendered controls (P3 cascade fix, P4F shape extension,
+ * shell/home pill follow-up): Link always emits .hues-link, and
+ * media.css bundles after this sheet, so at equal specificity the link
+ * rules win over every control rule above — not just colour
+ * (.hues-link sets border-radius: radius-xs, and the deployed bundle
+ * has carried link padding too), which turned the account round into a
+ * padded rounded square on staging (P4F field report) and the phone
+ * Plan pill into a 4px rounded rectangle (shell/home field report).
+ * The compounds below restate each control's own
+ * padding/radius/background/border/colour (values copied from the
+ * control rule, never new values) so its silhouette wins at any bundle
  * order. Native <button> elements never carry .hues-link and are
  * unaffected. (Precedent: the phone top bar dress in shell.css.) Choice:
  * compound selectors, not cascade layers — the package has no layer
- * infrastructure, and compounds keep the fix local to this sheet. */
+ * infrastructure, and compounds keep the fix local to this sheet.
+ * Context dresses that deliberately re-cut a button's padding (the
+ * phone top bar plan, the visit pills) beat these compounds — the
+ * top-bar dress by higher specificity inside this bundle, route dresses
+ * by later bundle order — so restated padding here never flattens
+ * them. */
 .hues-link.hues-button--primary {
   color: var(--button-primary-text);
+  padding: var(--button-padding-y) var(--button-padding-x);
+  background-color: var(--button-primary-bg);
+  border: var(--shell-topbar-border) solid var(--button-primary-ring);
+  border-radius: var(--button-radius);
 }
 
 .hues-link.hues-button--primary:active {
@@ -121,6 +132,10 @@
 
 .hues-link.hues-button--secondary {
   color: var(--button-secondary-text);
+  padding: var(--button-padding-y) var(--button-padding-x);
+  background-color: var(--button-secondary-bg);
+  border: var(--shell-topbar-border) solid var(--button-secondary-ring);
+  border-radius: var(--button-radius);
 }
 
 .hues-link.hues-button--secondary:active {
@@ -129,14 +144,25 @@
 
 .hues-link.hues-button--quiet {
   color: var(--button-quiet-text);
+  padding-right: var(--space-100);
+  padding-left: var(--space-100);
+  background-color: transparent;
+  border: 0;
+  border-radius: var(--button-radius);
 }
 
 .hues-link.hues-button--destructive {
   color: var(--button-destructive-text);
+  padding: var(--button-padding-y) var(--button-padding-x);
+  background-color: transparent;
+  border: 0;
+  border-radius: var(--button-radius);
 }
 
 .hues-link.hues-button--destructive.hues-button--filled {
   color: var(--button-destructive-fill-text);
+  background-color: var(--color-destructive);
+  border-radius: var(--button-radius);
 }
 
 /* P4F shape compounds: each restates its control's own dress (values
