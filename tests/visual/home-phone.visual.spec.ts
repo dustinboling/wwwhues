@@ -21,6 +21,24 @@ async function topOf(page: Page, selector: string): Promise<number> {
   return box?.y ?? -1
 }
 
+interface Box {
+  top: number
+  bottom: number
+  width: number
+  height: number
+}
+
+async function boxOf(page: Page, selector: string): Promise<Box> {
+  const box = await page.locator(selector).first().boundingBox()
+  expect(box, `${selector} has a box`).not.toBeNull()
+  return {
+    top: box?.y ?? -1,
+    bottom: (box?.y ?? -1) + (box?.height ?? -1),
+    width: box?.width ?? -1,
+    height: box?.height ?? -1,
+  }
+}
+
 test.describe('home opening', () => {
   test('phone renders the /m opening in order', async ({ page }, testInfo) => {
     test.skip(testInfo.project.name !== 'mobile', 'phone composition only')
@@ -55,6 +73,62 @@ test.describe('home opening', () => {
     await expect(hero.getByRole('heading', { level: 1 })).toContainText(
       'A U-Pick Flower Farm Near Eugene, Oregon',
     )
+  })
+
+  test('phone opening pins production geometry', async ({ page }, testInfo) => {
+    test.skip(testInfo.project.name !== 'mobile', 'phone composition only')
+    await page.goto('/')
+    await stabilize(page)
+    // Dustin 2026-11-27: staging stacked the shell's 65px clearance on
+    // top of the ported 96px masthead clearance, landing the lockup 65px
+    // low (tagline 284, figure 371). Production positions at 390×844
+    // unscrolled: tagline 219, figure 306, painting 334×223, caption
+    // bottom 568 — pinned ±2px.
+    const tagline = await boxOf(page, '.home-masthead__tagline')
+    expect(Math.abs(tagline.top - 219), `tagline top (${tagline.top}) lands at 219`).toBeLessThanOrEqual(2)
+    const figure = await boxOf(page, '.home-procession')
+    expect(Math.abs(figure.top - 306), `figure top (${figure.top}) lands at 306`).toBeLessThanOrEqual(2)
+    const painting = await boxOf(page, '.home-procession .hues-image')
+    expect(
+      Math.abs(painting.width - 334),
+      `painting width (${painting.width}) lands at 334`,
+    ).toBeLessThanOrEqual(2)
+    expect(
+      Math.abs(painting.height - 223),
+      `painting height (${painting.height}) lands at 223`,
+    ).toBeLessThanOrEqual(2)
+    const caption = await boxOf(page, '.home-procession__caption')
+    expect(
+      Math.abs(caption.bottom - 568),
+      `caption bottom (${caption.bottom}) lands at 568`,
+    ).toBeLessThanOrEqual(2)
+  })
+
+  test('desktop composition is unchanged', async ({ page }, testInfo) => {
+    test.skip(testInfo.project.name !== 'desktop', 'desktop composition only')
+    await page.goto('/')
+    await stabilize(page)
+    // The phone clearance fix is scoped below 768px: desktop keeps the
+    // H1 hero block with the framed plate and the overlapping status
+    // packet, and the .home column carries no phone offset.
+    await expect(page.locator('.home-hero')).toBeVisible()
+    await expect(page.locator('.home-masthead')).toBeHidden()
+    await expect(page.locator('.home-procession')).toBeHidden()
+    const offsets = await page
+      .locator('.home')
+      .first()
+      .evaluate((el) => ({
+        marginTop: getComputedStyle(el).marginTop,
+        paddingLeft: getComputedStyle(el).paddingLeft,
+      }))
+    expect(offsets.marginTop, 'desktop .home carries no phone offset').toBe('0px')
+    expect(offsets.paddingLeft, 'desktop .home gutter stays 32px').toBe('32px')
+    const plate = await boxOf(page, '.home-hero__plate')
+    const status = await boxOf(page, '.home-status')
+    expect(
+      status.top,
+      `status top (${status.top}) overlaps the plate bottom (${plate.bottom})`,
+    ).toBeLessThan(plate.bottom)
   })
 
   test('phone header carries the script logo and the paper plan pill', async ({
