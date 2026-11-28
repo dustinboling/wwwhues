@@ -2,14 +2,14 @@ import { readFileSync } from 'node:fs'
 import { describe, expect, it } from 'vitest'
 
 // Button border-box contract (Dustin 2026-11-27, /volunteer at 390px):
-// full-width .hues-button controls computed content-box, so width:100%
-// plus padding+border painted past their cards. The base rule now sets
-// border-box — one declaration, inherited by every variant including
-// the anchor-rendered compounds — and the fixed-size rounds grow their
-// width/height by both ring widths so their painted boxes stay
-// pixel-identical. Static guards on the kit source (no browser needed):
-// the contract exists, PR #99's compound padding/radius values are
-// untouched, and no global reset snuck in.
+// full-width anchor-rendered .hues-button controls computed content-box,
+// so width:100% plus padding+border painted past their cards. The base
+// rule now sets border-box — one declaration, inherited by every variant
+// including the anchor-rendered compounds — while the fixed-size rounds
+// stay on the bare token (native <button> is border-box by UA default,
+// so their painted boxes were already exact). Static guards on the kit
+// source (no browser needed): the contract exists, PR #99's compound
+// padding/radius values are untouched, and no global reset snuck in.
 
 const ROOT = new URL('../..', import.meta.url)
 
@@ -77,22 +77,24 @@ describe('button border-box contract', () => {
     expect(block).toContain(radius)
   })
 
-  it('compensates the icon round so its painted box does not shift', () => {
-    // The ring used to paint outside the 40px token (42px outer); the
-    // size now names the border box, so token plus both ring widths
-    // keeps the painted round pixel-identical — including the player
-    // and game-header rounds, whose own width rules tie with this one
-    // at single-class specificity and lose to it on bundle order
-    // (overlays/shell bundle before actions), so they resolve here.
+  it('keeps the icon round on the bare token so its painted box does not shift', () => {
+    // Every icon-round in the tree is a native <button> (player
+    // next/stop, game-header sound, sheet/dialog close, notice
+    // dismiss), and native buttons are border-box by UA default —
+    // so the ring always painted inside the 40px token, and the
+    // border-box contract above changes nothing: the token goes on
+    // naming the border box exactly. (Adding the ring widths here
+    // grew each round 2px and broke the mini-player baseline; no
+    // anchor renders icon-round, so no content-box anchor needs
+    // growth.) The player and game-header rounds' own width rules
+    // tie with this one at single-class specificity and lose to it
+    // on bundle order (overlays/shell bundle before actions), so
+    // they resolve here too.
     const iconRound = ruleBlock(ACTIONS, '.hues-button--icon-round')
-    expect(iconRound).toContain(
-      'width: calc(var(--button-icon-round-size) + var(--shell-topbar-border) * 2);',
-    )
-    expect(iconRound).toContain(
-      'height: calc(var(--button-icon-round-size) + var(--shell-topbar-border) * 2);',
-    )
+    expect(iconRound).toContain('width: var(--button-icon-round-size);')
+    expect(iconRound).toContain('height: var(--button-icon-round-size);')
     // Those earlier width rules keep their bare tokens: no calc may
-    // shadow the compensation above.
+    // shadow the size above.
     expect(ruleBlock(OVERLAYS, '.hues-player__stop')).toContain(
       'width: var(--player-control-size);',
     )

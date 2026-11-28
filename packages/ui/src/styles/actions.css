@@ -88,12 +88,16 @@
 }
 
 .hues-button--icon-round {
-  /* Painted box preserved under the border-box contract above: the ring
-   * used to paint outside the 40px token (42px outer). The size now
-   * names the border box, so the token plus both ring widths keeps the
-   * painted round pixel-identical. */
-  width: calc(var(--button-icon-round-size) + var(--shell-topbar-border) * 2);
-  height: calc(var(--button-icon-round-size) + var(--shell-topbar-border) * 2);
+  /* No compensation under the border-box contract above: every
+   * icon-round in the tree is a native <button> (player next/stop,
+   * game-header sound, sheet/dialog close, notice dismiss), and
+   * native buttons are border-box by UA default — so the ring
+   * already painted inside the 40px token, and the token goes on
+   * naming the border box pixel-identical. (A calc adding the ring
+   * widths grew each round 2px and broke the mini-player baseline;
+   * no anchor renders icon-round, so nothing needs that growth.) */
+  width: var(--button-icon-round-size);
+  height: var(--button-icon-round-size);
   padding: 0;
   background-color: var(--color-surface);
   color: var(--color-text);
