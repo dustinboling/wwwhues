@@ -179,15 +179,22 @@ export const FOOTER_PHONE_LEAD = 'Text or call: '
 export const FOOTER_PHONE_DISPLAY = '+1 (458) 245-1323'
 
 // More sheet rows (Nadia §3): account first, then the sheet order with
-// Sponsor directly above Volunteer. The share row lands with the share
-// affordance in a later slice.
-export const MORE_SHEET_ROWS: NavItem[] = [
+// Sponsor directly above Volunteer. The glosses are production copy,
+// verbatim from src/app/m/TabBar.tsx MORE_LINKS (the port dropped them;
+// Dustin 2026-11-27): account stays gloss-free, the other five carry
+// their one-line note. The share row lands with the share affordance in
+// a later slice.
+export interface MoreSheetRow extends NavItem {
+  note?: string
+}
+
+export const MORE_SHEET_ROWS: MoreSheetRow[] = [
   { href: '/account', label: 'My Hues Account' },
-  { href: '/dahlias', label: 'Dahlias' },
-  { href: '/gather', label: 'Gather' },
-  { href: '/about', label: 'Our Story' },
-  { href: '/sponsor', label: 'Sponsor' },
-  { href: '/volunteer', label: 'Volunteer' },
+  { href: '/dahlias', label: 'Dahlias', note: 'The collection, A to Z' },
+  { href: '/gather', label: 'Gather', note: 'Project days and RSVPs' },
+  { href: '/about', label: 'Our Story', note: 'How the park came to be' },
+  { href: '/sponsor', label: 'Sponsor', note: 'A bed, a tree, a bench — your name in the park' },
+  { href: '/volunteer', label: 'Volunteer', note: 'Lend a hand in the beds' },
 ]
 
 // Media-domain artwork keys for the shell (plan §1d). The R2 bucket

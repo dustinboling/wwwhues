@@ -134,6 +134,96 @@ describe('shell chrome DOM text order (P10a)', () => {
   })
 })
 
+describe('More sheet items with glosses (phone)', () => {
+  // Production's More sheet (src/app/m/TabBar.tsx MORE_LINKS) gives five
+  // rows a one-line gloss; the port dropped them (Dustin 2026-11-27).
+  // The sheet is client-rendered — open state starts closed, so the
+  // prerender carries no hues-sheet-root (see the idle-chrome assertion
+  // above) — so pin the rows, their order, the verbatim glosses, and the
+  // gloss wiring in the source. The sheet opens only from the tab bar's
+  // More disclosure, which is phone-only (display:none at ≥768px, pinned
+  // above), so these rows are the phone-width menu.
+  const ROWS: Array<{ href: string; label: string; note: string | null }> = [
+    { href: '/account', label: 'My Hues Account', note: null },
+    { href: '/dahlias', label: 'Dahlias', note: 'The collection, A to Z' },
+    { href: '/gather', label: 'Gather', note: 'Project days and RSVPs' },
+    { href: '/about', label: 'Our Story', note: 'How the park came to be' },
+    { href: '/sponsor', label: 'Sponsor', note: 'A bed, a tree, a bench — your name in the park' },
+    { href: '/volunteer', label: 'Volunteer', note: 'Lend a hand in the beds' },
+  ]
+
+  function moreRowsBlock(): string {
+    const site = readSourceFile('content/site.ts')
+    const start = site.indexOf('export const MORE_SHEET_ROWS')
+    expect(start, 'missing MORE_SHEET_ROWS in content/site.ts').toBeGreaterThanOrEqual(0)
+    const open = site.indexOf('[', start)
+    // The array literal closes on its own line; the type annotation's
+    // `[]` sits before the opener, so search from the opener.
+    const end = site.indexOf('\n]', open)
+    expect(end, 'unterminated MORE_SHEET_ROWS').toBeGreaterThanOrEqual(0)
+    return site.slice(open, end)
+  }
+
+  it('lists the six rows in production order with the same destinations', () => {
+    const block = moreRowsBlock()
+    expectOrdered(
+      block,
+      ROWS.map((row) => row.href),
+    )
+    expectOrdered(
+      block,
+      ROWS.map((row) => row.label),
+    )
+  })
+
+  it('carries production’s five glosses verbatim, account gloss-free', () => {
+    const block = moreRowsBlock()
+    // Each label directly followed by its gloss, in sheet order: items
+    // WITH their glosses, not labels alone.
+    const needles: string[] = []
+    for (const row of ROWS) {
+      needles.push(row.label)
+      if (row.note !== null) needles.push(row.note)
+    }
+    expectOrdered(block, needles)
+    // My Hues Account stays gloss-free and first, as production.
+    const accountEntry = block.slice(block.indexOf('My Hues Account'), block.indexOf('Dahlias'))
+    expect(accountEntry).not.toContain('note')
+    // Verbatim against production's own source (em dashes included).
+    const production = readSourceFile('src/app/m/TabBar.tsx')
+    for (const row of ROWS.filter((row) => row.note !== null)) {
+      expect(production, `production gloss drifted: ${row.label}`).toContain(row.note as string)
+    }
+  })
+
+  it('wires each gloss into the sheet row’s right-aligned note', () => {
+    const shell = readSourceFile('renderer/shell.tsx')
+    expect(shell).toContain('note={item.note}')
+    // SheetRow renders label + right-aligned note, production's layout.
+    const rows = readSourceFile('packages/ui/src/actions/RowLinks.tsx')
+    expect(rows).toContain('rowClass="hues-sheet-row"')
+    expect(rows).toContain('${rowClass}__label')
+    expect(rows).toContain('${rowClass}__note')
+    const css = readSourceFile('packages/ui/src/styles/actions.css')
+    const noteRule = css.match(/\.hues-sheet-row__note\s*\{[^}]*\}/)?.[0]
+    expect(noteRule, 'missing hues-sheet-row__note rule').toBeDefined()
+    expect(noteRule).toContain('text-align: right')
+  })
+
+  it('opens only from the phone tab bar and closes via a × button', () => {
+    const shell = readSourceFile('renderer/shell.tsx')
+    expect(shell).toContain('onMoreTab={() => setMoreOpen(true)}')
+    expect(shell).toContain('<Sheet open={moreOpen}')
+    // Production's sheet shows a × close button; staging's Sheet close
+    // is the round × icon button with the same accessible name.
+    const sheet = readSourceFile('packages/ui/src/shell/Sheet.tsx')
+    expect(sheet).toContain('aria-label="Close"')
+    expect(sheet).toContain('icon="close"')
+    const icons = readSourceFile('packages/ui/src/media/Icon.tsx')
+    expect(icons).toContain("close: 'm7 7 10 10M17 7 7 17'")
+  })
+})
+
 describe('admin phone chrome (P10d)', () => {
   // Production's admin pages have no /m edition and show no phone tab
   // bar: /volunteer/admin wears the desktop header + footer without the
