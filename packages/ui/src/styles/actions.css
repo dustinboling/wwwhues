@@ -1,6 +1,14 @@
 /* Actions and navigation. */
 
 .hues-button {
+  /* Border-box contract (Dustin 2026-11-27, /volunteer at 390px): the
+   * full-width call buttons computed content-box, so width:100% resolved
+   * to the card's content width and padding+border painted ~42px past
+   * it. Border-box keeps a width:100% button's painted box exactly on
+   * its container's content box, at every variant and every bundle
+   * order — the later .hues-link rules set no box-sizing, so this wins
+   * unopposed. Padding, radius, and colors are untouched (PR #99). */
+  box-sizing: border-box;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -80,6 +88,14 @@
 }
 
 .hues-button--icon-round {
+  /* No compensation under the border-box contract above: every
+   * icon-round in the tree is a native <button> (player next/stop,
+   * game-header sound, sheet/dialog close, notice dismiss), and
+   * native buttons are border-box by UA default — so the ring
+   * already painted inside the 40px token, and the token goes on
+   * naming the border box pixel-identical. (A calc adding the ring
+   * widths grew each round 2px and broke the mini-player baseline;
+   * no anchor renders icon-round, so nothing needs that growth.) */
   width: var(--button-icon-round-size);
   height: var(--button-icon-round-size);
   padding: 0;
