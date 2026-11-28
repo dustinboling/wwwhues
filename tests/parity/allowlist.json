@@ -56,11 +56,6 @@
       "height-ratio",
       "text-runs"
     ],
-    "m-arcade-admin": [
-      "height-ratio",
-      "text-runs",
-      "heading-outline"
-    ],
     "m-dahlias": [
       "text-runs"
     ],
@@ -112,11 +107,6 @@
     "m-volunteer": [
       "height-ratio",
       "text-runs"
-    ],
-    "m-volunteer-admin": [
-      "height-ratio",
-      "text-runs",
-      "heading-outline"
     ],
     "m-working-on": [
       "height-ratio",
