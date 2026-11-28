@@ -19,6 +19,22 @@
   }
 }
 
+/* Phone home clearance: production's /m masthead starts at page top 0
+ * carrying its own 96px header clearance (pt-24) under the fixed bar,
+ * while the shell already offsets the main column by
+ * --shell-top-clearance (65px). Stacking both pushed the lockup 65px
+ * too low (tagline 284, figure 371 at 390×844 — Dustin 2026-11-27).
+ * Phone home only: pull the column back up by exactly the shell
+ * reservation, so the internal 96px (32px page gutter + 64px masthead)
+ * lands the lockup at production's position (tagline 219, figure 306).
+ * The shell clearance itself is untouched: other routes build against
+ * it (B5 was the opposite failure). */
+@media (max-width: 767px) {
+  .home {
+    margin-top: calc(var(--shell-top-clearance) * -1);
+  }
+}
+
 .home-eyebrow {
   margin: 0;
   font-family: var(--text-overline-face);
@@ -115,6 +131,23 @@
   letter-spacing: 0.26em;
   text-transform: uppercase;
   color: var(--color-accent-ink);
+}
+
+/* Phone figure gutter: production's figure section uses 20px sides
+ * (px-5 → 350px figure, 334×223 painting at 390px) while the .home
+ * phone gutter is 16px (358px figure, 340px painting). Phone home
+ * only: recover production's 20px per side with the 4px token step of
+ * figure margin. Production's ring takes no layout space while the
+ * ported 1px border does, so the border rides as an outline instead —
+ * same width, style, and color, drawn over the exact pixels the border
+ * vacated. Figure 350, mat 8px, painting 334×223, caption untouched. */
+@media (max-width: 767px) {
+  .home-procession {
+    margin-inline: var(--space-050);
+    border-width: 0;
+    outline: var(--shell-topbar-border) solid
+      color-mix(in srgb, var(--color-accent) 50%, transparent);
+  }
 }
 
 @media (min-width: 768px) {
