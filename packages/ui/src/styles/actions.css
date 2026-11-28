@@ -1,6 +1,14 @@
 /* Actions and navigation. */
 
 .hues-button {
+  /* Border-box contract (Dustin 2026-11-27, /volunteer at 390px): the
+   * full-width call buttons computed content-box, so width:100% resolved
+   * to the card's content width and padding+border painted ~42px past
+   * it. Border-box keeps a width:100% button's painted box exactly on
+   * its container's content box, at every variant and every bundle
+   * order — the later .hues-link rules set no box-sizing, so this wins
+   * unopposed. Padding, radius, and colors are untouched (PR #99). */
+  box-sizing: border-box;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -80,8 +88,12 @@
 }
 
 .hues-button--icon-round {
-  width: var(--button-icon-round-size);
-  height: var(--button-icon-round-size);
+  /* Painted box preserved under the border-box contract above: the ring
+   * used to paint outside the 40px token (42px outer). The size now
+   * names the border box, so the token plus both ring widths keeps the
+   * painted round pixel-identical. */
+  width: calc(var(--button-icon-round-size) + var(--shell-topbar-border) * 2);
+  height: calc(var(--button-icon-round-size) + var(--shell-topbar-border) * 2);
   padding: 0;
   background-color: var(--color-surface);
   color: var(--color-text);
