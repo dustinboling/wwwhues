@@ -374,7 +374,7 @@ function ShellInner({ children }: { children: ReactNode }): JSX.Element {
             <ul>
               {MORE_SHEET_ROWS.map((item) => (
                 <li key={item.href}>
-                  <SheetRow href={item.href} current={item.href === urlPathname}>
+                  <SheetRow href={item.href} current={item.href === urlPathname} note={item.note}>
                     {item.label}
                   </SheetRow>
                 </li>
